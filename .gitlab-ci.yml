@@ -1,0 +1,51 @@
+before_script:
+  - NAME=`git log -1 --pretty=format:"%cn"`
+  - EMAIL=`git log -1 --pretty=format:"%ce"`
+  - export USER=${EMAIL%@*}
+  - REPO=$(basename $(pwd))
+  - export PAIR=${REPO##project-}
+  - export BINDIR=/cs207/bin
+  - export OUTDIR=/cs207/PROJECTS/$PAIR
+  - export DATE=`date "+%Y-%m-%d %a %T"`
+  - if [ ! -e $OUTDIR ]; then mkdir $OUTDIR ; fi
+  - echo "$DATE,$PAIR,$NAME,$USER,$CI_BUILD_REF" >> /cs207/PROJECTS/logfile.log
+
+
+project_task1_submit:
+  only:
+    - submit-task1
+  script:
+    - echo "$DATE,$PAIR,task1,$NAME,$USER,$CI_BUILD_REF" >> $OUTDIR/logfile.log
+    - $BINDIR/task1.sh $OUTDIR
+
+
+project_task2_submit:
+  only:
+    - submit-task2
+  script:
+    - echo "$DATE,$PAIR,task2,$NAME,$USER,$CI_BUILD_REF" >> $OUTDIR/logfile.log
+    - $BINDIR/task2.sh $OUTDIR
+
+
+project_task3_submit:
+  only:
+    - submit-task3
+  script:
+    - echo "$DATE,$PAIR,task3,$NAME,$USER,$CI_BUILD_REF" >> $OUTDIR/logfile.log
+    - $BINDIR/task3.sh $OUTDIR
+
+
+project_task4_submit:
+  only:
+    - submit-task4
+  script:
+    - echo "$DATE,$PAIR,task4,$NAME,$USER,$CI_BUILD_REF" >> $OUTDIR/logfile.log
+    - $BINDIR/task4.sh $OUTDIR
+
+project_final_submit:
+  only:
+    - submit-final
+  script:
+    - echo "$DATE,$PAIR,final,$NAME,$USER,$CI_BUILD_REF" >> $OUTDIR/logfile.log
+    - $BINDIR/final.sh $OUTDIR
+

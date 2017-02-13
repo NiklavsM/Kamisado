@@ -1,0 +1,65 @@
+1.  Most of you managed to follow the instructions for setting up
+gitlab.  To help with marking I need you need to reconfigure your git
+email using the university email address which contains your user
+name, and also add your real name.  For example:
+
+     git config --global user.email "kwb13215@strath.ac.uk" 
+     git config --global user.name "Your Name" 
+
+Please USE YOUR OWN USER NAME and your OWN REAL NAME.  
+
+Failure to follow this instruction means your work won't be marked at
+all.  At least one of you managed to configure git with "your.email"
+as the email address.  This unknown person will be scoring zero for
+prac0.
+
+1a.  Many of you experienced problems trying to do Prac0 on a Windows
+machine.  My suggestion:  don't use a Windows machine.  It's quite
+likely that  nothing will work, and no one will be able to help you
+when it doesn't work.  Use Linux, or some other version of Unix.
+
+1b.  Some of these instructions require you and your partner to do
+things in a certain order.  Doing things this way will make your life
+easier.  Not doing this may result in things not working, and you
+having to discover workarounds by yourself.
+
+2.  You will have been added to a new Gitlab project for The Project.
+I'm going to assume you are accessing Gitlab over https, but if you
+are using ssh then make the appropriate changes to these instructions
+below.
+
+3.  Your project will have a name like cs207-2015/project-XX where XX
+is a number.  First of all cd to a suitable directory somewhere in your file
+space, then clone the project (it will be empty)
+
+       git clone https://gitlab.cis.strath.ac.uk/cs207-2015/project-XX.git
+
+Change to the directory created.
+
+       cd project-XX
+
+4.  Just like in Prac 0 there is a template with some stuff you need
+to get started.  If you want to, you can set up a remote like in Prac
+0, but the simplest thing is just to pull the template:
+
+       git pull https://gitlab.cis.strath.ac.uk/kwb13215/cs207-project-template.git
+
+Hopefully you will only need to do this once!
+
+5.  Edit the file README.md to add your name and email address (not
+your partner's) 
+
+6.  Commit and push your changes back to origin
+
+    git commit -a -m'Added my details to README'
+    git push
+
+7.  Get your partner to do the same!
+
+8.  You are now ready to work on Task 1.  You will find a file
+instructions/task1.txt in the project.  I suggest you also read the
+instructions for the other tasks.
+
+
+
+

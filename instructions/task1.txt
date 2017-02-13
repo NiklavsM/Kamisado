@@ -1,0 +1,31 @@
+CS207 SEMESTER 2 PROJECT
+===
+
+Instructions for Task 1
+---
+
+The details of Task 1 are on the course webpage.  These instructions
+are only to explain how to submit the task once you have completed it.
+
+For Task 1 you must produce a PDF of the requirements.  It must be
+called "requirements.pdf" and it must be placed in the directory
+"docs/reqs/" which has been helpfully created for you.
+
+As you have practiced in Prac 0 you will submit this file using
+gitlab, via a special branch in the repository.  Once you have
+completed the work, make sure to commit everything and push it to the
+server.  E.g.
+        
+        git commit -a -m"Final changes to requirements doc"
+        git push
+        
+Remember to add the file "requirements.pdf" otherwise it won't be
+included in the commit!  If you're happy with the work, you can submit
+it by creating and pushing the branch "submit-task1"
+        
+        git checkout -b submit-task1
+        git push origin submit-task1
+        git checkout master
+
+(I'm assuming you are working on the master branch -- if not
+substitute the branch you are working on for master)
