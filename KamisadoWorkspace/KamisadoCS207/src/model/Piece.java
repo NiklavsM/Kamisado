@@ -3,6 +3,21 @@ package model;
 public enum Piece {
 
 	PlayerBlackOrange(),
-	PlayerWhiteGreen();
+	PlayerBlackBlue(),
+	PlayerBlackCyan(),
+	PlayerBlackPink(),
+	PlayerBlackYellow(),
+	PlayerBlackRed(),
+	PlayerBlackGreen(),
+	PlayerBlackBrown(),
+	
+	PlayerWhiteOrange(),
+	PlayerWhiteBlue(),
+	PlayerWhiteCyan(),
+	PlayerWhitePink(),
+	PlayerWhiteYellow(),
+	PlayerWhiteRed(),
+	PlayerWhiteGreen(),
+	PlayerWhiteBrown();
 	
 }

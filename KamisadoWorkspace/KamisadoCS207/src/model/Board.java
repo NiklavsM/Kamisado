@@ -32,11 +32,14 @@ public class Board {
 	}
 	
 	public void initialisePiecePositions(){
-		for(int i = 0; i < boardSize; i++){
-			for(int j = 0; j < boardSize; j++){
-				
-			}
-		}
+		pieces[0][0] = Piece.PlayerBlackOrange;
+		pieces[1][0] = Piece.PlayerBlackBlue;
+		pieces[2][0] = Piece.PlayerBlackCyan;
+		pieces[3][0] = Piece.PlayerBlackPink;
+		pieces[4][0] = Piece.PlayerBlackCyan;
+		pieces[5][0] = Piece.PlayerBlackCyan;
+		pieces[6][0] = Piece.PlayerBlackCyan;
+		pieces[7][0] = Piece.PlayerBlackCyan;
 	}
 	
 	public Board make(Position startPosition, Position endPosition){
