@@ -1,5 +1,13 @@
 package view;
 
-public interface BoardView {
+import model.Board;
 
+public interface BoardView{
+
+	
+	Board board = new Board();
+	
+	public void displayBoard();
+	
+	
 }

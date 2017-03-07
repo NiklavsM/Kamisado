@@ -1,6 +1,7 @@
 package player;
 
 import model.Board;
+import model.Position;
 
 public abstract class Player {
 
@@ -8,8 +9,8 @@ public abstract class Player {
 		
 	}
 	
-	public void getMove(Board board){
-		
+	public Position getMove(Board board){
+		return null;
 	}
 	
 	public void interupt(){
