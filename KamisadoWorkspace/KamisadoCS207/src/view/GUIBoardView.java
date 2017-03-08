@@ -50,25 +50,31 @@ public class GUIBoardView extends JPanel implements BoardView{
 		return returnImage;
 	}
 	
-	public void displaySelectable(ArrayList<Position> positions){
-		System.out.println("clearing");
+	public void pieceMoved(Position start, Position end){
+		Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
+
+		System.out.println("endx: " + end.getX() + " endy: " + end.getY());
+		buttons[end.getX()][end.getY()].setIcon(pieceIcon);
+		System.out.println(buttons[end.getX()][end.getY()].getIcon());
+		buttons[start.getX()][start.getY()].setIcon(DEFAULT);
+	}
+	
+	public void removeSelectable(){
 		for(Position pos:selectedPositions){
 			buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
 		}
-		System.out.println("displaying");
+	}
+	
+	public void displaySelectable(ArrayList<Position> positions){
+		removeSelectable();
 		selectedPositions = (ArrayList<Position>) positions.clone();
 		for(Position pos:positions){
 			buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
-			buttons[pos.getX()][pos.getY()].repaint();
 		}
-		this.repaint();
 	}
 	
 	private void setupButton(int x, int y, JButton newButton){
-		//newButton.add(new JLabel("      "));
 		newButton.setBounds(x*50, (7-y)*50, 50, 50);
-		//newButton.changeImage();
-		
 		newButton.addMouseListener(new MouseListener(){
 
 			@Override

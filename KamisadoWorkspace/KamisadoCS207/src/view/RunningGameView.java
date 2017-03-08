@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
+import model.Move;
 import model.Position;
 
 public class RunningGameView extends JFrame implements Observer{
@@ -65,8 +65,15 @@ public class RunningGameView extends JFrame implements Observer{
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("have been updated");
-		gameBoard.displaySelectable((ArrayList<Position>) arg);
+		//System.out.println("got here1");
+		if(arg instanceof ArrayList<?>){
+			//System.out.println("have been updated");
+			gameBoard.displaySelectable((ArrayList<Position>) arg);
+		}else if(arg instanceof Move){
+			System.out.println("got Move");
+			gameBoard.removeSelectable();
+			//System.out.println("endx: " + ((Move) arg).getEndPos().getX() + " endy: "+ ((Move) arg).getEndPos().getY());
+			gameBoard.pieceMoved(((Move) arg).getStartPos(), ((Move) arg).getEndPos());			
+		}	
 	}
-
 }

@@ -11,16 +11,23 @@ public class Controller {
 
 	private GameDriver game;
 	private RunningGameView main;
+	private boolean firstMovePlayed;
 	
 	public Controller(){
+		firstMovePlayed = false;
 		main = new RunningGameView(this);
 		main.setVisible(true);
 		playSinglePlayer();
 	}
 	
 	public void buttonClicked(int x, int y){ 
-		if(game.playerFirstMove(x, y)){
-			//game.playGame();
+		if(!firstMovePlayed){
+			if(game.playerFirstMove(x, y)){
+				firstMovePlayed = true;
+			}
+			
+		}else{
+			game.playTurn(x, y);
 		}
 	}
 	

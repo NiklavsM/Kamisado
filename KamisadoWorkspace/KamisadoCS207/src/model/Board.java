@@ -1,9 +1,8 @@
 package model;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
-public class Board {
+public class Board{
 
 	private Piece[][] pieces;
 	private Color[][] boardColours;
@@ -14,6 +13,12 @@ public class Board {
 		pieces = new Piece[boardSize][boardSize];
 		setBoardColours();
 		initialisePiecePositions();
+	}
+	
+	public Board(Board board){
+		
+		this.pieces = board.pieces;
+		this.boardColours = board.boardColours;
 	}
 	
 	public void setBoardColours() {
@@ -35,14 +40,12 @@ public class Board {
 			{ c, p, or, bl, gr, br, y, r },
 			{ bl, or, p, c, r, y, br, gr },				
 			{ or, r, gr, p, y, bl, c, br }
-		    };
-		    
-		System.out.println(boardColours[0][7].toString());
-									   
+		    };								   
 	}
 	
 	public void initialisePiecePositions(){
 		pieces[0][7] = Piece.TeamBlackOrange;
+	
 		pieces[1][7] = Piece.TeamBlackBlue;
 		pieces[2][7] = Piece.TeamBlackCyan;
 		pieces[3][7] = Piece.TeamBlackPink;
@@ -59,15 +62,25 @@ public class Board {
 		pieces[2][0] = Piece.TeamWhiteRed;
 		pieces[1][0] = Piece.TeamWhiteGreen;
 		pieces[0][0] = Piece.TeamWhiteBrown;
+		
+		for(int j = 0; j < 2; j++){
+			for(int i = 0; i < 8; i++){
+				if(pieces[i][j*7] != null){
+					//System.out.println("Setting piece X: "+ i + " Y: " + j*7 + " To " + boardColours[i][j*7].toString());
+					pieces[i][j*7].setColour(boardColours[i][j*7]);
+					//System.out.println("piece Colour " + pieces[i][j*7].getColour().toString());
+				}
+				
+			}
+		}
 	}
 	
 	public Board make(Position startPosition, Position endPosition){
-		Board freshBoard = null;
-		try {
-			freshBoard = (Board) this.clone();
-			freshBoard.move(startPosition, endPosition);
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+		
+		Board freshBoard = new Board(this);
+		boolean b = freshBoard.move(startPosition, endPosition);
+		if(b){
+			return null;
 		}
 		
 		return freshBoard;
@@ -108,6 +121,17 @@ public class Board {
 
 	public Color findColor(Position position){
 		return boardColours[position.getX()][position.getY()];
+	}
+	
+	public Position findPiece(Piece piece){
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if(pieces[i][j].equals(piece)){
+					return new Position(i,j);
+				}
+			}
+		}
+		return null;
 	}
 	
 	public Piece findPieceAtLoc(int x, int y){

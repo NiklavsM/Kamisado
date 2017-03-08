@@ -24,7 +24,7 @@ public class GameDriver extends Observable{
 		WhiteToMove = true;
 		this.history = new ArrayList<>();
 		this.currentState = new State();
-		currentState.addObserver(observerToState);
+		this.addObserver(observerToState);
 		//this.saveManager = new SaveManager();
 		play();
 	}
@@ -45,41 +45,38 @@ public class GameDriver extends Observable{
 	}
 	
 	public boolean playerFirstMove(int x, int y){
-		Position placeCLicked = new Position(x,y);
-		if(placeCLicked.getY() == 0){
-			currentState.calcValidMoves(WhiteToMove, placeCLicked);
+		Position placeClicked = new Position(x,y);
+		if(placeClicked.getY() == 0){
+			currentState.calcValidMoves(WhiteToMove, placeClicked);
+			this.setChanged();
+			this.notifyObservers(currentState.getValidMoves());
 			return false;
 		}else{
-			State state = currentState.make(placeCLicked);
-			if(state == null){
-				return false;
-			}else{
-				history.add(currentState);
-				currentState = state;
-				return true;
-			}
+			return actionOnClick(placeClicked);
 		}
 	}
 	
-	public void playTurn(){
-		nextTurn();
-		Position placeToMove;
-		boolean acceptedMove = true;
-		while(!acceptedMove){
-			if(WhiteToMove){
-				placeToMove = playerWhite.getMove(currentState.getBoard());
-			}else{
-				placeToMove = playerBlack.getMove(currentState.getBoard());
-			}
-			
-//			Board board = currentState.make(placeToMove);
-//			if(board != null){
-//				history.add(currentState);
-//				currentState = new State(board);
-//				acceptedMove = true;
-//			}
+	public boolean actionOnClick(Position placeClicked){
+		System.out.println("heard click");
+		State state = currentState.make(placeClicked);
+		System.out.println("made move at board and state level");
+		if(state == null){
+			System.out.println("is not valid move or games over X: " + placeClicked.getX() + " Y: " + placeClicked.getY());
+			return false;
+		}else{
+			System.out.println("is valid move");
+			history.add(currentState);
+			currentState = state;
+			this.setChanged();
+			this.notifyObservers(currentState.getPreviousMove());
+			nextTurn();
+			return true;
 		}
-		
+	}
+	
+	public void playTurn(int x, int y){
+		Position placeClicked = new Position(x,y);
+		actionOnClick(placeClicked);
 	}
 	
 	public void nextTurn(){
@@ -87,6 +84,15 @@ public class GameDriver extends Observable{
 			WhiteToMove = false;
 		}else{
 			WhiteToMove = true;
+		}
+		Position posToMove = currentState.calcPieceToMove(WhiteToMove);
+		System.out.println("pos : " + posToMove);
+		ArrayList<Position> movesCanMake = currentState.calcValidMoves(WhiteToMove, posToMove);
+		if(movesCanMake.size() == 0){
+			nextTurn();
+		}else{
+			this.setChanged();
+			this.notifyObservers(movesCanMake);
 		}
 	}
 }
