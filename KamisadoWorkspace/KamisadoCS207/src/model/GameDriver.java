@@ -89,5 +89,4 @@ public class GameDriver extends Observable{
 			WhiteToMove = true;
 		}
 	}
-	
 }
