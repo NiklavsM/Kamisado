@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,30 +14,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
-import model.GameDriver;
+import model.Position;
 
-public class RunningGameView extends JFrame{
+public class RunningGameView extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JButton selected;
 	private GUIBoardView gameBoard;
 	private Controller controller;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RunningGameView frame = new RunningGameView(new Controller());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -73,6 +61,12 @@ public class RunningGameView extends JFrame{
 	
 	public GUIBoardView getGameBoard(){
 		return gameBoard;
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("have been updated");
+		gameBoard.displaySelectable((ArrayList<Position>) arg);
 	}
 
 }

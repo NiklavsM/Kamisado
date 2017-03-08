@@ -36,7 +36,8 @@ public class Board {
 			{ bl, or, p, c, r, y, br, gr },				
 			{ or, r, gr, p, y, bl, c, br }
 		    };
-
+		    
+		System.out.println(boardColours[0][7].toString());
 									   
 	}
 	
@@ -106,11 +107,11 @@ public class Board {
 	}
 
 	public Color findColor(Position position){
-		return boardColours[7-position.getX()][position.getY()];
+		return boardColours[position.getX()][position.getY()];
 	}
 	
 	public Piece findPieceAtLoc(int x, int y){
-		return pieces[x][7-y];
+		return pieces[x][y];
 	}
 	
 	public Piece[][] getPieces() {

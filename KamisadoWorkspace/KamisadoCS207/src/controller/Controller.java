@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.EventQueue;
+
 import model.GameDriver;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
@@ -12,6 +14,7 @@ public class Controller {
 	
 	public Controller(){
 		main = new RunningGameView(this);
+		main.setVisible(true);
 		playSinglePlayer();
 	}
 	
@@ -26,10 +29,22 @@ public class Controller {
 	}
 	
 	public void playSinglePlayer(){
-		game = new GameDriver(new GUIPlayer(), new EasyAIPlayer(), main.getGameBoard());
+		game = new GameDriver(new GUIPlayer(), new EasyAIPlayer(), main);
 	}
 	
 	public void playTwoPlayer(){
 		
+	}
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Controller cont = new Controller();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

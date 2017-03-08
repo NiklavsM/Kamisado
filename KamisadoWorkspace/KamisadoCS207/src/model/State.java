@@ -43,13 +43,15 @@ public class State extends Observable{
 		//System.out.println("chose player" + playerWhite);
 		if(playerWhite){
 			//System.out.println("chose player");
-			optionsLeftDown(startx, starty);
-			optionsMiddleDown(startx, starty);
-			optionsRightDown(startx, starty);
-		}else{
 			optionsLeftUp(startx, starty);
 			optionsMiddleUp(startx, starty);
 			optionsRightUp(startx, starty);
+		}else{
+			
+			optionsLeftDown(startx, starty);
+			optionsMiddleDown(startx, starty);
+			optionsRightDown(startx, starty);
+			
 			//System.out.println("chose black");
 			
 		}
@@ -60,54 +62,54 @@ public class State extends Observable{
 		this.notifyObservers(validMoves);
 	}
 	
-	private void optionsLeftUp(int x, int y) {
+	private void optionsLeftDown(int x, int y) {
 	//	System.out.println("1");
 		int numberOfOptionsLeft = x;
 		options(numberOfOptionsLeft, x, y, -1, -1);
 	}
 
-	private void optionsMiddleUp(int x, int y) {
-//		int numOfOptionsMiddle = y - 1;
-//		options(numOfOptionsMiddle, x, y, 0, -1);
-		System.out.println("got here middle up");
-		y--;
-		for (; y >= boardLowerLimit; y--) {
-			if (!isSuccessfulValidMove(x, y)) {
-				break;
-			}
-		}
+	private void optionsMiddleDown(int x, int y) {
+		int numOfOptionsMiddle = y;
+		options(numOfOptionsMiddle, x, y, 0, -1);
+//		System.out.println("got here middle up");
+//		y--;
+//		for (; y >= boardLowerLimit; y--) {
+//			if (!isSuccessfulValidMove(x, y)) {
+//				break;
+//			}
+//		}
 	}
 
-	private void optionsRightUp(int x, int y) {
-//		int numOfOptionsRight = 7 - x;
-//		options(numOfOptionsRight, x, y, 1, 1);
-		x++;
-		for (; x <= 7; x++) {
-			y--;
-			if (x >= boardLowerLimit && y >= boardLowerLimit) {
-				if (!isSuccessfulValidMove(x, y)) {
-					break;
-				}
-			}
-		}
+	private void optionsRightDown(int x, int y) {
+		int numOfOptionsRight = 7 - x;
+		options(numOfOptionsRight, x, y, 1, -1);
+//		x++;
+//		for (; x <= 7; x++) {
+//			y--;
+//			if (x >= boardLowerLimit && y >= boardLowerLimit) {
+//				if (!isSuccessfulValidMove(x, y)) {
+//					break;
+//				}
+//			}
+//		}
 	}
 	
 	private void options(int options, int x, int y, int incrementx, int incrementy){
 		for(int j = 0; j < options; j++){
 			x = x + incrementx;
 			y = y + incrementy;
-			if ((x >= boardLowerLimit && x <= boardUpperLimit) && (y >= boardUpperLimit && y <= boardUpperLimit)) {
+			if ((x >= boardLowerLimit && x <= boardUpperLimit) && (y >= boardLowerLimit && y <= boardUpperLimit)) {
 				if (pieces[x][y] == null) {
+					System.out.println("X: " + x + " Y: " + y);
 					validMoves.add(new Position(x, y));
-					break;
 				}
 			}
 		}
 	}
 	
-	private void optionsLeftDown(int x, int y) {
+	private void optionsLeftUp(int x, int y) {
 		int numOfOptionsLeft = x;
-		
+		System.out.println("Left: ");
 		options(numOfOptionsLeft, x, y, -1, 1);
 //		int p = 7-x;
 //		for (int i = 0; i < p; i++) {
@@ -121,20 +123,22 @@ public class State extends Observable{
 //		}
 	}
 
-	private void optionsMiddleDown(int x, int y) {
-//		int numOfOptionsMiddle = (7-y)-1;
-//		options(numOfOptionsMiddle, x, y, 0, 1);
+	private void optionsMiddleUp(int x, int y) {
+		int numOfOptionsMiddle = (7-y);
+		System.out.println("Middle: ");
+		options(numOfOptionsMiddle, x, y, 0, 1);
 		
-		y++;
-		for (; y <= boardUpperLimit; y++) {
-			if (!isSuccessfulValidMove(x, y)) {
-				break;
-			}
-		}
+//		y++;
+//		for (; y <= boardUpperLimit; y++) {
+//			if (!isSuccessfulValidMove(x, y)) {
+//				break;
+//			}
+//		}
 	}
 
-	private void optionsRightDown(int x, int y) {
+	private void optionsRightUp(int x, int y) {
 		int numOfOptionsRight = 7-x;
+		System.out.println("Right: ");
 		options(numOfOptionsRight, x, y, 1, 1);
 		
 //		x++;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,9 +17,9 @@ import controller.Controller;
 import model.Piece;
 import model.Position;
 
-public class GUIBoardView extends JPanel implements BoardView, Observer{
+public class GUIBoardView extends JPanel implements BoardView{
 
-	private final ImageIcon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
+	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
 	private JButton[][] buttons;
 	private GridBagConstraints gbcon;
@@ -44,40 +45,35 @@ public class GUIBoardView extends JPanel implements BoardView, Observer{
 			if(p != null && p.equals(piece)){
 				//System.out.println(getClass().getResource("/images/"+ p.toString() + ".png"));
 				returnImage = new ImageIcon(getClass().getResource("/images/"+ p.toString() + ".png")); 
-				
 			}
 		}
 		return returnImage;
 	}
 	
 	public void displaySelectable(ArrayList<Position> positions){
+		System.out.println("clearing");
 		for(Position pos:selectedPositions){
 			buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
 		}
-		ImageIcon returnImage = null;
-		selectedPositions = positions;
+		System.out.println("displaying");
+		selectedPositions = (ArrayList<Position>) positions.clone();
 		for(Position pos:positions){
-			System.out.println("selected");
-			returnImage = new ImageIcon(getClass().getResource("/images/TeamBlack-Cyan.png")); 
-			buttons[pos.getX()][pos.getY()].setIcon(returnImage);
-			System.out.println(buttons[pos.getX()][pos.getY()].getIcon().toString());
+			buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
 			buttons[pos.getX()][pos.getY()].repaint();
-			buttons[pos.getX()][pos.getY()].revalidate();
 		}
 		this.repaint();
-		this.revalidate();
 	}
 	
 	private void setupButton(int x, int y, JButton newButton){
 		//newButton.add(new JLabel("      "));
-		newButton.setBounds(x*50, y*50, 50, 50);
+		newButton.setBounds(x*50, (7-y)*50, 50, 50);
 		//newButton.changeImage();
 		
 		newButton.addMouseListener(new MouseListener(){
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-						controller.buttonClicked(x, 7-y);		
+						controller.buttonClicked(x, y);		
 			}
 
 			@Override
@@ -107,37 +103,30 @@ public class GUIBoardView extends JPanel implements BoardView, Observer{
 		});
 		
 	}
-	private void setUpGridConstraints(int i, int k){
-		gbcon.fill = GridBagConstraints.VERTICAL;
-		gbcon.ipady = 25;
-		gbcon.gridx = 105 * i;
-		gbcon.gridy = 105 * k;
-		gbcon.gridheight = 50;
-		gbcon.gridwidth = 50;
-	}
+	//private void setUpGridConstraints(int i, int k){
+//		gbcon.fill = GridBagConstraints.VERTICAL;
+//		gbcon.ipady = 25;
+//		gbcon.gridx = 105 * i;
+//		gbcon.gridy = 105 * k;
+//		gbcon.gridheight = 50;
+//		gbcon.gridwidth = 50;
+	//}
 
 	@Override
 	public void displayBoard() {
-		for (int i = 0; i < 8; i++) {
-			for (int k = 0; k < 8; k++) {
-				buttons[i][k] = new JButton();
-				buttons[i][k].setBackground(board.getBoardColours()[7-i][k]);
-				ImageIcon image = imageChooser(board.findPieceAtLoc(i, k));
+		for (int y = 7; y >= 0; y--) {
+			for (int x = 0; x <= 7; x++) {
+				buttons[x][y] = new JButton();
+				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
+				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
 				if(image != null){
-					buttons[i][k].setIcon(image);
-					System.out.println(buttons[i][k].getIcon().toString());
+					buttons[x][y].setIcon(image);
+					//System.out.println(buttons[x][y].getIcon().toString());
 				}
-				setupButton(i,k,buttons[i][k]);
-				setUpGridConstraints(i,k);
-				this.add(buttons[i][k],gbcon);
+				setupButton(x,y,buttons[x][y]);
+				//setUpGridConstraints(x,y);
+				this.add(buttons[x][y],gbcon);
 			}
 		}
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		System.out.println("have been updated");
-		displaySelectable((ArrayList<Position>) arg);
-	}
-
 }
