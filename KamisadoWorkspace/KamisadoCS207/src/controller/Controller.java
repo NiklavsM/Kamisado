@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import model.GameDriver;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
+import player.Player;
 import view.RunningGameView;
 
 public class Controller {
@@ -12,46 +13,71 @@ public class Controller {
 	private GameDriver game;
 	private RunningGameView main;
 	private boolean firstMovePlayed;
+        private Player playerWhite;
+        private Player playerBlack;
+        
 	
 	public Controller(){
+            initialisePlayers();
 		firstMovePlayed = false;
-		main = new RunningGameView(this);
+                main = new RunningGameView(this);
 		main.setVisible(true);
-		playSinglePlayer();
+		main.addObserver(playerWhite);
+                main.addObserver(playerBlack);
+                //playSinglePlayer(false);
+                playTwoPlayer();
+                
 	}
-	
-	public void buttonClicked(int x, int y){ 
-		if(!firstMovePlayed){
-			if(game.playerFirstMove(x, y)){
-				firstMovePlayed = true;
-			}
-			
-		}else{
-			game.playTurn(x, y);
-		}
-	}
+        
+        public void initialisePlayers(){
+            playerWhite = new GUIPlayer("White", false, this);
+            playerBlack = new GUIPlayer("Black", true, this);
+        }
 	
 	public void refreshIcons(){
 		
 	}
 	
-	public void playSinglePlayer(){
-		game = new GameDriver(new GUIPlayer(), new EasyAIPlayer(), main);
+	public void playSinglePlayer(boolean userToMoveFirst){
+            
+            if(userToMoveFirst){
+                playerBlack = new EasyAIPlayer("Black", false);
+                game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+            }else{
+                playerBlack = new EasyAIPlayer("Black", true);
+               game = new GameDriver(playerWhite,playerBlack, main, playerBlack); 
+            }
+            playerBlack.addObserver(game);
+            main.getGameBoard().addObserver(game);
+            game.playGame();
+            
 	}
 	
 	public void playTwoPlayer(){
-		
+	    game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+            main.getGameBoard().addObserver(game);
+            game.playGame();
+           
 	}
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+                        @Override
 			public void run() {
 				try {
 					Controller cont = new Controller();
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		});
 	}
+
+//    public void displayValidMoves(ArrayList<Position> validMoves) {
+//        main.displaycSelectable(validMoves);
+//    }
+
+//    public Position waitForClick() {
+//        System.out.println("waiting for click from main");
+//        return main.waitForClick();
+//    }
 }

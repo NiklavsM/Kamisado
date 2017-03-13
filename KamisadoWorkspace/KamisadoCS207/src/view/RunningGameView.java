@@ -14,34 +14,41 @@ import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
 import model.Move;
+import model.MyObservable;
+import model.MyObserver;
 import model.Position;
+import player.Player;
 
-public class RunningGameView extends JFrame implements Observer{
+public class RunningGameView extends JFrame implements MyObserver{
 
 	private JPanel contentPane;
 	private JButton selected;
 	private GUIBoardView gameBoard;
 	private Controller controller;
+        private int currentx;
+        private int currenty;
 
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public RunningGameView(Controller newController) {
 		controller = newController;
-		gameBoard = new GUIBoardView(newController);	
+                gameBoard = new GUIBoardView(newController);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(gameBoard);
-		contentPane.addKeyListener(new KeyListener() {
+                currentx = 0;
+                currenty = 0;
+                selected = gameBoard.getButton(currentx,currenty);
+                selected.setSelected(true);
+                selected.setBorderPainted(true);
+		gameBoard.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_UP){
-				}
+				
 			}
 			
 			@Override
@@ -52,8 +59,46 @@ public class RunningGameView extends JFrame implements Observer{
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
+                            switch (e.getKeyCode()) {
+                                case KeyEvent.VK_UP:
+                                    if(currenty < 7){
+                                        selected.setBorderPainted(false);
+                                        selected = gameBoard.getButton(currentx, currenty++);
+                                        selected.setSelected(true);
+                                        selected.setBorderPainted(true);
+                                    }
+                                    break;
+                                case KeyEvent.VK_DOWN:
+                                    if(currenty > 0){
+                                        selected.setBorderPainted(false);
+                                        selected = gameBoard.getButton(currentx, currenty--);
+                                        selected.setSelected(true);
+                                        selected.setBorderPainted(true);
+                                    }
+                                    break;
+                                case KeyEvent.VK_RIGHT:
+                                    if(currentx < 7){
+                                        selected.setBorderPainted(false);
+                                        selected = gameBoard.getButton(currentx++, currenty); 
+                                        selected.setSelected(true);
+                                        selected.setBorderPainted(true);
+                                    }
+                                    break;
+                                case KeyEvent.VK_LEFT:
+                                    if(currentx > 0){
+                                        selected.setBorderPainted(false);
+                                        selected = gameBoard.getButton(currentx--, currenty);
+                                        selected.setSelected(true);
+                                        selected.setBorderPainted(true);
+                                    }
+                                    break;
+                                case KeyEvent.VK_ENTER:
+                                    selected.doClick();
+                                    break;
+                                default:
+                                    System.out.println("Not arrow");
+                                    break;
+                            }
 			}
 		});
 		setContentPane(contentPane);
@@ -62,9 +107,9 @@ public class RunningGameView extends JFrame implements Observer{
 	public GUIBoardView getGameBoard(){
 		return gameBoard;
 	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
+
+        @Override
+	public void update(MyObservable o, Object arg) {
 		//System.out.println("got here1");
 		if(arg instanceof ArrayList<?>){
 			//System.out.println("have been updated");
@@ -74,6 +119,32 @@ public class RunningGameView extends JFrame implements Observer{
 			gameBoard.removeSelectable();
 			//System.out.println("endx: " + ((Move) arg).getEndPos().getX() + " endy: "+ ((Move) arg).getEndPos().getY());
 			gameBoard.pieceMoved(((Move) arg).getStartPos(), ((Move) arg).getEndPos());			
-		}	
+		}else if(arg instanceof String){
+                    switch ((String)arg) {
+                        case "White":
+                            System.out.println("White Wins!");
+                            break;
+                        case "Black":
+                            System.out.println("Black Wins!");
+                            break;
+                        case "Draw":
+                            System.out.println("Draw!");
+                    }
+                        gameBoard.disableButtons();
+                }
 	}
+
+    public void displaycSelectable(ArrayList<Position> validMoves) {
+        gameBoard.removeSelectable();
+        gameBoard.displaySelectable(validMoves);
+    }
+
+//    public Position waitForClick() {
+//        System.out.println("waiting for click from gameBoard");
+//        return gameBoard.respondToClick();
+//    }
+
+    public void addObserver(Player player) {
+        gameBoard.addObserver((MyObserver)player);
+    }
 }

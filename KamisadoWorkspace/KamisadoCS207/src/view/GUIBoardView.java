@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
@@ -12,31 +13,37 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import controller.Controller;
+import model.MyObservable;
 import model.Piece;
 import model.Position;
 
-public class GUIBoardView extends JPanel implements BoardView{
+public class GUIBoardView extends JPanel implements BoardView, MyObservable{
 
 	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
-	private JButton[][] buttons;
+	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
+        private JButton[][] buttons;
 	private GridBagConstraints gbcon;
 	private ArrayList<Position> selectedPositions;
 	private Controller controller;
-	/**
-	 * Create the panel.
-	 */
+        private JButton previousLocation;
+	
+        
+        
 	public GUIBoardView(Controller controller) {
+            
 		this.controller = controller;
 		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
 		gbcon = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
-		
-		setLayout(null);
 		displayBoard();
+		setLayout(null);
+		
 	}
 	
 	public ImageIcon imageChooser(Piece piece){
@@ -51,17 +58,28 @@ public class GUIBoardView extends JPanel implements BoardView{
 	}
 	
 	public void pieceMoved(Position start, Position end){
+            //removeSelectable();
+                if(previousLocation != null){
+                    previousLocation.setIcon(DEFAULT);
+                }
 		Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
-
+                previousLocation = buttons[start.getX()][start.getY()];
 		System.out.println("endx: " + end.getX() + " endy: " + end.getY());
-		buttons[end.getX()][end.getY()].setIcon(pieceIcon);
-		System.out.println(buttons[end.getX()][end.getY()].getIcon());
-		buttons[start.getX()][start.getY()].setIcon(DEFAULT);
+                int endx = end.getX();
+                int endy = end.getY();
+                System.out.println("endx: " + endx + " endy: " + endy);
+		buttons[endx][endy].setIcon(pieceIcon);
+		System.out.println(buttons[endx][endy].getIcon());
+                previousLocation.setIcon(GREY);
+                //buttons[start.getX()][start.getY()].setIcon(pieceIcon);
 	}
 	
 	public void removeSelectable(){
+            System.out.println("removing selected");
 		for(Position pos:selectedPositions){
-			buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
+                    if(buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)){
+                        buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
+                    }
 		}
 	}
 	
@@ -79,7 +97,7 @@ public class GUIBoardView extends JPanel implements BoardView{
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-						controller.buttonClicked(x, y);		
+                            tellAll(new Position(x,y));
 			}
 
 			@Override
@@ -117,22 +135,47 @@ public class GUIBoardView extends JPanel implements BoardView{
 //		gbcon.gridheight = 50;
 //		gbcon.gridwidth = 50;
 	//}
-
-	@Override
 	public void displayBoard() {
-		for (int y = 7; y >= 0; y--) {
-			for (int x = 0; x <= 7; x++) {
-				buttons[x][y] = new JButton();
-				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
-				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
-				if(image != null){
-					buttons[x][y].setIcon(image);
-					//System.out.println(buttons[x][y].getIcon().toString());
-				}
-				setupButton(x,y,buttons[x][y]);
-				//setUpGridConstraints(x,y);
-				this.add(buttons[x][y],gbcon);
-			}
-		}
+            Border thickBorder = new LineBorder(Color.WHITE, 5);
+            System.out.println("displayBoard");
+            
+            for (int y = 7; y >= 0; y--) {
+                    for (int x = 0; x <= 7; x++) {
+                            buttons[x][y] = new JButton();
+                            buttons[x][y].setBackground(board.getBoardColours()[x][y]);
+                            ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
+                            if(image != null){
+                                    buttons[x][y].setIcon(image);
+                                    //System.out.println(buttons[x][y].getIcon().toString());
+                            }else{
+                                    buttons[x][y].setIcon(DEFAULT);
+                            }
+//                            buttons[x][y].setBorder(thickBorder);
+//                            buttons[x][y].setBorderPainted(false);
+//                            buttons[x][y].setFocusable(true);
+                            setupButton(x,y,buttons[x][y]);
+                            //setUpGridConstraints(x,y);
+                            this.add(buttons[x][y],gbcon);
+                    }
+            }
 	}
+        
+        public JButton getButton(int x, int y){
+            return buttons[x][y];
+        }
+
+    void disableButtons() {
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                buttons[i][j].setEnabled(false);
+            }
+        }
+    }
+
+//    public Position respondToClick() {
+//        if(selectedPosition == null){
+//            return new Position(0,0);
+//        }
+//        return selectedPosition;
+//    }
 }

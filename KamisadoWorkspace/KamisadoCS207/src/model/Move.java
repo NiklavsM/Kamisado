@@ -7,8 +7,8 @@ public class Move {
 	private Position endPos;
 	
 	public Move(Position startPos, Position endPos){
-		this.startPos = startPos;
-		this.endPos = endPos;
+            this.startPos = startPos;
+            this.endPos = endPos;
 	}
 	
 	

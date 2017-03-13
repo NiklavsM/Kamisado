@@ -22,9 +22,9 @@ public enum Piece {
 	TeamWhiteGreen("TeamWhite-Green", "White"),
 	TeamWhiteBrown("TeamWhite-Brown",  "White");
 
-	private String value;
+	private final String value;
 	private Color colour;
-	private String team;
+	private final String team;
 	
 	private Piece(String value, String team){
 		this.value = value;
