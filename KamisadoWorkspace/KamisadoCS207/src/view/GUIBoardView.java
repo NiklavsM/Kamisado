@@ -59,18 +59,18 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable{
 	
 	public void pieceMoved(Position start, Position end){
             //removeSelectable();
-                if(previousLocation != null){
-                    previousLocation.setIcon(DEFAULT);
-                }
+        if(previousLocation != null){
+            previousLocation.setIcon(DEFAULT);
+        }
 		Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
-                previousLocation = buttons[start.getX()][start.getY()];
+        previousLocation = buttons[start.getX()][start.getY()];
 		System.out.println("endx: " + end.getX() + " endy: " + end.getY());
-                int endx = end.getX();
-                int endy = end.getY();
-                System.out.println("endx: " + endx + " endy: " + endy);
+        int endx = end.getX();
+        int endy = end.getY();
+        System.out.println("endx: " + endx + " endy: " + endy);
 		buttons[endx][endy].setIcon(pieceIcon);
 		System.out.println(buttons[endx][endy].getIcon());
-                previousLocation.setIcon(GREY);
+        previousLocation.setIcon(GREY);
                 //buttons[start.getX()][start.getY()].setIcon(pieceIcon);
 	}
 	

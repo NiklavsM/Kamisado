@@ -2,20 +2,23 @@ package model;
 
 import java.util.Timer;
 
-public class SpeedGameDriver extends GameDriver{
+import player.Player;
+
+public class SpeedGameDriver extends GameDriver implements MyObserver{
 	
 	private Timer timer;
+	private int timerLimit;
 	
-	public SpeedGameDriver(){
-		super(playerBlack, playerBlack, currentState);
+	public SpeedGameDriver(Player white, Player black, MyObserver observerToState, Player playerToStart, int timerLimit){
+		super(white, black, observerToState, playerToStart);
+		this.timerLimit = timerLimit;
 	}
 	
 	public void onTimeOut(){
 		
 	}
 	
-	public void setTimeLimit(){
-		
+	@Override
+	public void update(MyObservable o, Object arg){
 	}
-
 }
