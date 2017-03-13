@@ -22,7 +22,7 @@ import player.Player;
 public class RunningGameView extends JFrame implements MyObserver, KeyListener {
 
 	private JPanel contentPane;
-	
+
 	private GUIBoardView gameBoard;
 	private Controller controller;
 
@@ -35,7 +35,7 @@ public class RunningGameView extends JFrame implements MyObserver, KeyListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(gameBoard);
-		
+
 		setContentPane(contentPane);
 	}
 
@@ -86,18 +86,18 @@ public class RunningGameView extends JFrame implements MyObserver, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

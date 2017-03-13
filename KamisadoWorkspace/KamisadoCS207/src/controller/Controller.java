@@ -13,56 +13,55 @@ public class Controller {
 	private GameDriver game;
 	private RunningGameView main;
 	private boolean firstMovePlayed;
-        private Player playerWhite;
-        private Player playerBlack;
-        
-	
-	public Controller(){
-            initialisePlayers();
+	private Player playerWhite;
+	private Player playerBlack;
+
+	public Controller() {
+		initialisePlayers();
 		firstMovePlayed = false;
-                main = new RunningGameView(this);
+		main = new RunningGameView(this);
 		main.setVisible(true);
 		main.addObserver(playerWhite);
-                main.addObserver(playerBlack);
-                //playSinglePlayer(false);
-                playTwoPlayer();
-                
+		main.addObserver(playerBlack);
+		// playSinglePlayer(false);
+		playTwoPlayer();
+
 	}
-        
-        public void initialisePlayers(){
-            playerWhite = new GUIPlayer("White", false, this);
-            playerBlack = new GUIPlayer("Black", true, this);
-        }
-	
-	public void refreshIcons(){
-		
+
+	public void initialisePlayers() {
+		playerWhite = new GUIPlayer("White", false, this);
+		playerBlack = new GUIPlayer("Black", true, this);
 	}
-	
-	public void playSinglePlayer(boolean userToMoveFirst){
-            
-            if(userToMoveFirst){
-                playerBlack = new EasyAIPlayer("Black", false);
-                game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
-            }else{
-                playerBlack = new EasyAIPlayer("Black", true);
-               game = new GameDriver(playerWhite,playerBlack, main, playerBlack); 
-            }
-            playerBlack.addObserver(game);
-            main.getGameBoard().addObserver(game);
-            game.playGame();
-            
+
+	public void refreshIcons() {
+
 	}
-	
-	public void playTwoPlayer(){
-	    game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
-            main.getGameBoard().addObserver(game);
-            game.playGame();
-           
+
+	public void playSinglePlayer(boolean userToMoveFirst) {
+
+		if (userToMoveFirst) {
+			playerBlack = new EasyAIPlayer("Black", false);
+			game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+		} else {
+			playerBlack = new EasyAIPlayer("Black", true);
+			game = new GameDriver(playerWhite, playerBlack, main, playerBlack);
+		}
+		playerBlack.addObserver(game);
+		main.getGameBoard().addObserver(game);
+		game.playGame();
+
 	}
-	
+
+	public void playTwoPlayer() {
+		game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+		main.getGameBoard().addObserver(game);
+		game.playGame();
+
+	}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-                        @Override
+			@Override
 			public void run() {
 				try {
 					Controller cont = new Controller();
@@ -72,12 +71,12 @@ public class Controller {
 		});
 	}
 
-//    public void displayValidMoves(ArrayList<Position> validMoves) {
-//        main.displaycSelectable(validMoves);
-//    }
+	// public void displayValidMoves(ArrayList<Position> validMoves) {
+	// main.displaycSelectable(validMoves);
+	// }
 
-//    public Position waitForClick() {
-//        System.out.println("waiting for click from main");
-//        return main.waitForClick();
-//    }
+	// public Position waitForClick() {
+	// System.out.println("waiting for click from main");
+	// return main.waitForClick();
+	// }
 }

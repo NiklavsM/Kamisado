@@ -36,7 +36,8 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 	private int currenty;
 
 	public GUIBoardView(Controller controller) {
-
+		this.addKeyListener(this);
+		this.setFocusable(true);
 		this.controller = controller;
 		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
@@ -186,7 +187,7 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 		case KeyEvent.VK_UP:
 			if (currenty < 7) {
 				selected.setBorderPainted(false);
-				selected = gameBoard.getButton(currentx, ++currenty);
+				selected = buttons[currentx][++currenty];
 				selected.setSelected(true);
 				selected.setBorderPainted(true);
 			}
@@ -194,7 +195,7 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 		case KeyEvent.VK_DOWN:
 			if (currenty > 0) {
 				selected.setBorderPainted(false);
-				selected = gameBoard.getButton(currentx, --currenty);
+				selected = buttons[currentx][--currenty];
 				selected.setSelected(true);
 				selected.setBorderPainted(true);
 			}
@@ -202,7 +203,7 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 		case KeyEvent.VK_RIGHT:
 			if (currentx < 7) {
 				selected.setBorderPainted(false);
-				selected = gameBoard.getButton(++currentx, currenty);
+				selected = buttons[++currentx][currenty];
 				selected.setSelected(true);
 				selected.setBorderPainted(true);
 			}
@@ -210,13 +211,13 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 		case KeyEvent.VK_LEFT:
 			if (currentx > 0) {
 				selected.setBorderPainted(false);
-				selected = gameBoard.getButton(--currentx, currenty);
+				selected = buttons[--currentx][currenty];
 				selected.setSelected(true);
 				selected.setBorderPainted(true);
 			}
 			break;
 		case KeyEvent.VK_ENTER:
-			selected.doClick();
+			tellAll(new Position(currentx, currenty));
 			break;
 		default:
 			System.out.println("Not arrow");
