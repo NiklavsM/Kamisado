@@ -104,6 +104,9 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				currentx = x;
+				currenty = y;
+				changedSelected(currentx, currenty);
 				tellAll(new Position(x, y));
 			}
 
@@ -160,7 +163,7 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 				}
 				buttons[x][y].setBorder(thickBorder);
 				buttons[x][y].setBorderPainted(false);
-				buttons[x][y].setFocusable(true);
+				buttons[x][y].setFocusable(false);
 				setupButton(x, y, buttons[x][y]);
 				// setUpGridConstraints(x,y);
 				this.add(buttons[x][y], gbcon);
@@ -179,6 +182,13 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 			}
 		}
 	}
+	
+	private void changedSelected(int currentx, int currenty) {
+		selected.setBorderPainted(false);
+		selected = buttons[currentx][currenty];
+		selected.setSelected(true);
+		selected.setBorderPainted(true);
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -186,34 +196,22 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			if (currenty < 7) {
-				selected.setBorderPainted(false);
-				selected = buttons[currentx][++currenty];
-				selected.setSelected(true);
-				selected.setBorderPainted(true);
+				changedSelected(currentx, ++currenty);
 			}
 			break;
 		case KeyEvent.VK_DOWN:
 			if (currenty > 0) {
-				selected.setBorderPainted(false);
-				selected = buttons[currentx][--currenty];
-				selected.setSelected(true);
-				selected.setBorderPainted(true);
+				changedSelected(currentx, --currenty);
 			}
 			break;
 		case KeyEvent.VK_RIGHT:
 			if (currentx < 7) {
-				selected.setBorderPainted(false);
-				selected = buttons[++currentx][currenty];
-				selected.setSelected(true);
-				selected.setBorderPainted(true);
+				changedSelected(++currentx, currenty);
 			}
 			break;
 		case KeyEvent.VK_LEFT:
 			if (currentx > 0) {
-				selected.setBorderPainted(false);
-				selected = buttons[--currentx][currenty];
-				selected.setSelected(true);
-				selected.setBorderPainted(true);
+				changedSelected(--currentx, currenty);
 			}
 			break;
 		case KeyEvent.VK_ENTER:
@@ -224,6 +222,8 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 			break;
 		}
 	}
+
+	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
