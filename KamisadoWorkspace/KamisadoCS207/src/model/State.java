@@ -185,4 +185,11 @@ public class State {
 	public Player getPlayerToMove() {
 		return PlayerToMove;
 	}
+	public Player getPlayerWhite() {
+		return playerWhite;
+	}
+
+	public Player getPlayerBlack() {
+		return playerBlack;
+	}
 }
