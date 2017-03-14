@@ -11,7 +11,7 @@ import view.GUIBoardView;
 public class GameDriver implements MyObservable, MyObserver {
 
 	private ArrayList<State> history;
-	private State currentState;
+	public State currentState;
 	private boolean firstMove = true;
 	private boolean gameOver = false;
 
@@ -53,7 +53,7 @@ public class GameDriver implements MyObservable, MyObserver {
 		if (placeClicked.getY() == PlayerToMove.getHomeRow()) {
 			currentState.calcValidMoves(placeClicked);
 			System.out.println("printing validMoves");
-			for(Position pos : currentState.getValidMoves()){
+			for (Position pos : currentState.getValidMoves()) {
 				System.out.println("X: " + pos.getX() + " Y: " + pos.getY());
 			}
 			// playerFirstMove();
@@ -79,9 +79,7 @@ public class GameDriver implements MyObservable, MyObserver {
 	}
 
 	public boolean playTurn(Position placeClicked) {
-		if (!actionOnClick(placeClicked)) {
-			return false;
-		} else if (currentState.isGameOver()) {
+		if (currentState.isGameOver()) {
 			Player winningPlayer = currentState.getPlayerToMove();
 			this.tellAll(winningPlayer.getPlayerTeam());
 			return true;
@@ -90,6 +88,13 @@ public class GameDriver implements MyObservable, MyObserver {
 		}
 		// Position placeClicked = new Position(x,y);
 		// actionOnClick(placeClicked);
+	}
+
+	public boolean tryToMove(Position placeClicked) {
+		if (actionOnClick(placeClicked)) {
+			return true;
+		} else
+			return false;
 	}
 
 	public boolean nextTurn(int numOfNoGoes) {
@@ -126,8 +131,10 @@ public class GameDriver implements MyObservable, MyObserver {
 						firstMove = false;
 					}
 				} else {
-					if (playTurn((Position) arg)) {
-						gameOver = true;
+					if (tryToMove((Position) arg)) {
+						if (playTurn((Position) arg)) {
+							gameOver = true;
+						}
 					}
 				}
 				generateMove();

@@ -1,10 +1,8 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Font;
 
 import javax.swing.JLabel;
-import javax.swing.Timer;
 
 import model.MyObservable;
 import model.MyObserver;
@@ -13,6 +11,7 @@ public class GameTimer extends JLabel implements MyObserver {
 
 	public GameTimer() {
 		this.setText("Time remaining: ");
+		this.setFont(new Font("sherif", Font.BOLD, 16));
 	}
 
 	@Override

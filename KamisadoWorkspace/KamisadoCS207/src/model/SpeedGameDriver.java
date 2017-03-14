@@ -24,12 +24,15 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	public void onTimeOut() {
 		gameOver = true;
+		Player winningPlayer = currentState.getPlayerToMove();
+		this.tellAll(winningPlayer.getPlayerTeam());
 		timer.stop();
 		System.out.println("GameOver");
 	}
 
 	public void turnBegin() {
 		time = timerLimit;
+		tellAll(time);
 		if (timer != null) {
 			timer.stop();
 		}
@@ -39,8 +42,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 			public void actionPerformed(ActionEvent e) {
 
 				System.out.println("time" + time);
-				tellAll(time);
-				if (--time < 0) {
+				tellAll(--time);
+				System.out.println("time" + time);
+				if (time <= 0) {
 					onTimeOut();
 				}
 			}
@@ -53,16 +57,21 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 			System.out.println("update gamedriver");
 			if (!gameOver) {
 				if (firstMove) {
+					turnBegin();
 					if (playerFirstMove((Position) arg)) {
 						nextTurn(0);
 						firstMove = false;
-						turnBegin();
 					}
 				} else {
-					if (playTurn((Position) arg)) {
-						gameOver = true;
+					if (tryToMove((Position) arg)) {
+						if (playTurn((Position) arg)) {
+							timer.stop();
+							gameOver = true;
+						} else {
+							turnBegin();
+						}
 					}
-					turnBegin();
+
 				}
 				generateMove();
 			}
