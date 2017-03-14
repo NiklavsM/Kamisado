@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -22,11 +20,12 @@ import player.Player;
 public class RunningGameView extends JFrame implements MyObserver, KeyListener {
 
 	private JPanel contentPane;
-
 	private GUIBoardView gameBoard;
 	private Controller controller;
+	private GameTimer timer;
 
 	public RunningGameView(Controller newController) {
+		timer = new GameTimer();
 		controller = newController;
 		gameBoard = new GUIBoardView(newController);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,13 +33,17 @@ public class RunningGameView extends JFrame implements MyObserver, KeyListener {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(gameBoard);
+		contentPane.add(timer, BorderLayout.SOUTH);
+		contentPane.add(gameBoard, BorderLayout.CENTER);
 
 		setContentPane(contentPane);
 	}
 
 	public GUIBoardView getGameBoard() {
 		return gameBoard;
+	}
+	public GameTimer getGameTimer(){
+		return timer;
 	}
 
 	@Override

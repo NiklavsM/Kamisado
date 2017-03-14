@@ -64,7 +64,6 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 					}
 					turnBegin();
 				}
-
 				generateMove();
 			}
 

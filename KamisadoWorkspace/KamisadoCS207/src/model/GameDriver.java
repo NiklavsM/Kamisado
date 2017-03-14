@@ -8,133 +8,131 @@ import player.GUIPlayer;
 import player.Player;
 import view.GUIBoardView;
 
-public class GameDriver implements MyObservable, MyObserver{
-	private Player playerWhite;
-	private Player playerBlack;
-	private Player PlayerToMove;
-	
+public class GameDriver implements MyObservable, MyObserver {
+
 	private ArrayList<State> history;
 	private State currentState;
-        private boolean firstMove = true;
-        private boolean gameOver = false;
-	
-//	private SaveManager saveManager;
-//	private MatchReport matchReport;
-	
+	private boolean firstMove = true;
+	private boolean gameOver = false;
+
+	// private SaveManager saveManager;
+	// private MatchReport matchReport;
+
 	public GameDriver(Player playerWhite, Player playerBlack, MyObserver observerToState, Player playerToStart) {
-		this.playerWhite = playerWhite;
-		this.playerBlack = playerBlack;
-		PlayerToMove = playerToStart;
+		// this.playerWhite = playerWhite;
+		// this.playerBlack = playerBlack;
+		// PlayerToMove = playerToStart;
 		this.history = new ArrayList<>();
-		this.currentState = new State();
+		this.currentState = new State(playerWhite, playerBlack, playerToStart);
 		this.addObserver(observerToState);
-		//this.saveManager = new SaveManager();
+		// this.saveManager = new SaveManager();
 	}
 
-	public GameDriver(Player playerWhite, Player playerBlack, ArrayList<State> history, State currentState, Player playerToStart) {
-		this.playerWhite = playerWhite;
-		this.playerBlack = playerBlack;
-		PlayerToMove = playerToStart;
+	public GameDriver(Player playerWhite, Player playerBlack, ArrayList<State> history, State currentState,
+			Player playerToStart) {
+		// this.playerWhite = playerWhite;
+		// this.playerBlack = playerBlack;
+		// PlayerToMove = playerToStart;
 		this.history = history;
 		this.currentState = currentState;
-		//this.saveManager = new SaveManager();
+		// this.saveManager = new SaveManager();
 	}
-        
-        public void playGame(){
-           generateMove();
-        }
-        
-        private void generateMove(){
-            PlayerToMove.getMove(currentState);
-        }
-	
-	private boolean playerFirstMove(Position placeClicked){
-                System.out.println("asking player for move");
-                if(placeClicked.getY() == PlayerToMove.getHomeRow()){
-			currentState.calcValidMoves(PlayerToMove.getPlayerTeam(), placeClicked);
-                        
-                        //playerFirstMove();
+
+	public void playGame() {
+		generateMove();
+	}
+
+	public void generateMove() {
+		Player PlayerToMove = currentState.getPlayerToMove();
+		PlayerToMove.getMove(currentState);
+	}
+
+	public boolean playerFirstMove(Position placeClicked) {
+		Player PlayerToMove = currentState.getPlayerToMove();
+		System.out.println("asking player for move");
+		if (placeClicked.getY() == PlayerToMove.getHomeRow()) {
+			currentState.calcValidMoves(placeClicked);
+			System.out.println("printing validMoves");
+			for(Position pos : currentState.getValidMoves()){
+				System.out.println("X: " + pos.getX() + " Y: " + pos.getY());
+			}
+			// playerFirstMove();
 			this.tellAll(currentState.getValidMoves());
 			return false;
-		}else{
+		} else {
 			return actionOnClick(placeClicked);
 		}
 	}
-	
-	private boolean actionOnClick(Position placeClicked){
+
+	private boolean actionOnClick(Position placeClicked) {
 		State state = currentState.make(placeClicked);
-		if(state == null){
+		if (state == null) {
 			System.out.println("is not valid move X: " + placeClicked.getX() + " Y: " + placeClicked.getY());
 			return false;
-		}else{
+		} else {
 			history.add(currentState);
 			currentState = state;
 			this.tellAll(currentState.getPreviousMove());
 			return true;
 		}
-            //return true;
+		// return true;
 	}
-	
-	private boolean playTurn(Position placeClicked){
-            if(!actionOnClick(placeClicked)){
-                return false;
-            }else if(currentState.isGameOver()){
-                this.tellAll(PlayerToMove.getPlayerTeam());
-                return true;
-            }else{
-                return nextTurn(0);
-            }
-//		Position placeClicked = new Position(x,y);
-//		actionOnClick(placeClicked);
-	}
-	
-	private boolean nextTurn(int numOfNoGoes){
-		if(PlayerToMove.equals(playerWhite)){
-			PlayerToMove = playerBlack;
-		}else{
-			PlayerToMove = playerWhite;
+
+	public boolean playTurn(Position placeClicked) {
+		if (!actionOnClick(placeClicked)) {
+			return false;
+		} else if (currentState.isGameOver()) {
+			Player winningPlayer = currentState.getPlayerToMove();
+			this.tellAll(winningPlayer.getPlayerTeam());
+			return true;
+		} else {
+			return nextTurn(0);
 		}
-		Position posToMove = currentState.calcPieceToMove(PlayerToMove.getPlayerTeam());
-		ArrayList<Position> movesCanMake = currentState.calcValidMoves(PlayerToMove.getPlayerTeam(), posToMove);
-		if(movesCanMake.isEmpty()){
-                        if(numOfNoGoes >= 3){
-                           this.tellAll("Draw"); 
-                           return true;
-                        }else{
-                            nextTurn(++numOfNoGoes);
-                        }
-		}else{
+		// Position placeClicked = new Position(x,y);
+		// actionOnClick(placeClicked);
+	}
+
+	public boolean nextTurn(int numOfNoGoes) {
+		Position posToMove = currentState.calcPieceToMove();
+		ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
+		if (movesCanMake.isEmpty()) {
+			if (numOfNoGoes >= 3) {
+				this.tellAll("Draw");
+				return true;
+			} else {
+				nextTurn(++numOfNoGoes);
+			}
+		} else {
 			this.tellAll(movesCanMake);
 		}
-                return false;
+		return false;
 	}
-//
-//    @Override
-//    public void update(MyObservable o, Object arg) {
-//        if(o instanceof GUIBoardView){
-//            
-//        }
-//    }
+	//
+	// @Override
+	// public void update(MyObservable o, Object arg) {
+	// if(o instanceof GUIBoardView){
+	//
+	// }
+	// }
 
-    @Override
-    public void update(MyObservable o, Object arg) {
-        if(arg instanceof Position){
-            System.out.println("update gamedriver");
-            if(!gameOver){
-                 if(firstMove){
-                    if(playerFirstMove((Position)arg)){
-                        nextTurn(0);
-                        firstMove = false;
-                    }
-                }else{
-                    if(playTurn((Position)arg)){
-                        gameOver = true;
-                    }
-                } 
-                generateMove();
-            }
-           
-        
-        }
-    }
+	@Override
+	public void update(MyObservable o, Object arg) {
+		if (arg instanceof Position) {
+			System.out.println("update gamedriver");
+			if (!gameOver) {
+				if (firstMove) {
+					if (playerFirstMove((Position) arg)) {
+						nextTurn(0);
+						firstMove = false;
+					}
+				} else {
+					if (playTurn((Position) arg)) {
+						gameOver = true;
+					}
+				}
+				generateMove();
+			}
+
+		}
+	}
 }

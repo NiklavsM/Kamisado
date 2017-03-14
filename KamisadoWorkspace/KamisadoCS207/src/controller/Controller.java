@@ -3,6 +3,7 @@ package controller;
 import java.awt.EventQueue;
 
 import model.GameDriver;
+import model.SpeedGameDriver;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
 import player.Player;
@@ -23,7 +24,7 @@ public class Controller {
 		main.setVisible(true);
 		main.addObserver(playerWhite);
 		main.addObserver(playerBlack);
-		// playSinglePlayer(false);
+		//playSinglePlayer(true);
 		playTwoPlayer();
 
 	}
@@ -53,8 +54,9 @@ public class Controller {
 	}
 
 	public void playTwoPlayer() {
-		game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+		game = new SpeedGameDriver(playerWhite, playerBlack, main, playerWhite, 10);
 		main.getGameBoard().addObserver(game);
+		game.addObserver(main.getGameTimer());
 		game.playGame();
 
 	}
