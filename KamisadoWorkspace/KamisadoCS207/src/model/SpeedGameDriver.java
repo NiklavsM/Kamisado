@@ -15,9 +15,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	private boolean firstMove = true;
 	private boolean gameOver = false;
 
-	public SpeedGameDriver(Player white, Player black, MyObserver observerToState, Player playerToStart,
+	public SpeedGameDriver(Player white, Player black, Player playerToStart,
 			int timerLimit) {
-		super(white, black, observerToState, playerToStart);
+		super(white, black, playerToStart);
 		this.timerLimit = timerLimit;
 		System.out.println("SEIT");
 	}

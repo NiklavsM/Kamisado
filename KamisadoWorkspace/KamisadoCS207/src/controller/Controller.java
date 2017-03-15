@@ -17,25 +17,17 @@ public class Controller implements Serializable{
 	private GameDriver game;
 	private RunningGameView main;
 	MenuFrame menuFrame;
-	private boolean firstMovePlayed;
 	private Player playerWhite;
 	private Player playerBlack;
 
-	public Controller() {
-		
-		firstMovePlayed = false;
+	public Controller() {		
 		menuFrame = new MenuFrame(this);
 		menuFrame.setVisible(true);
-		main = menuFrame.getRunningGameView();
-		//main.setVisible(true);
-		
-		
-
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
-		playerWhite = new GUIPlayer("White",whiteName, false, this);
-		playerBlack = new GUIPlayer("Black",blackName, true, this);
+		playerWhite = new GUIPlayer("White",whiteName, true, this);
+		playerBlack = new GUIPlayer("Black",blackName, false, this);
 	}
 
 	public void playSinglePlayer(boolean userToMoveFirst,boolean isSpeedGame,boolean isEasyAI, String whiteName, String blackName) {
@@ -48,9 +40,9 @@ public class Controller implements Serializable{
 				playerBlack = new HardAIPlayer("Black",blackName, false);
 			}
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, main, playerWhite, 10);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, 10);
 			} else {
-				game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
 			playerBlack.addObserver(game);
 		}else{
@@ -61,12 +53,13 @@ public class Controller implements Serializable{
 			}
 			playerBlack = new GUIPlayer("Black",blackName, false, this);
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, main, playerWhite,10);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite,10);
 			} else {
-				game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
 			playerWhite.addObserver(game);
 		}
+		main = new RunningGameView(whiteName, blackName, this);
 		main.getGameBoard().addObserver(game);
 		menuFrame.addPanel(main);
 		game.addObserver(main);
@@ -78,10 +71,11 @@ public class Controller implements Serializable{
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName) {
 		initialisePlayers(whiteName,blackName);
 		if(isSpeedGame){
-			game = new SpeedGameDriver(playerWhite, playerBlack, main, playerWhite, 10);
+			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, 10);
 		}else{
-			game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
+			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
+		main = new RunningGameView(whiteName, blackName, this);
 		main.getGameBoard().addObserver(game);
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
@@ -106,13 +100,4 @@ public class Controller implements Serializable{
 			}
 		});
 	}
-
-	// public void displayValidMoves(ArrayList<Position> validMoves) {
-	// main.displaycSelectable(validMoves);
-	// }
-
-	// public Position waitForClick() {
-	// System.out.println("waiting for click from main");
-	// return main.waitForClick();
-	// }
 }

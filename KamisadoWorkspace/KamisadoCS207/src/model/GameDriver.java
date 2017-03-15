@@ -15,13 +15,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	// private SaveManager saveManager;
 	// private MatchReport matchReport;
 
-	public GameDriver(Player playerWhite, Player playerBlack, MyObserver observerToState, Player playerToStart) {
+	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart) {
 		// this.playerWhite = playerWhite;
 		// this.playerBlack = playerBlack;
 		// PlayerToMove = playerToStart;
 		this.history = new ArrayList<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart);
-		this.addObserver(observerToState);
 		// this.saveManager = new SaveManager();
 	}
 

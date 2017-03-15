@@ -29,33 +29,7 @@ public class MenuFrame extends JFrame {
 	private LoadGamePanel loadPanel;
 	private RunningGameView gameView;
 
-//	private JMenuBar menuBar;
-//	private JMenu main;
-//	private JMenuItem home;
-//	private JMenuItem newgame;
-//	private JMenuItem loadgame;
-//	private JMenuItem stats;
-//	private JMenuItem exit;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuFrame frame = new MenuFrame(new Controller());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public MenuFrame(Controller controller) {
 		menuBar();
 		gameView = new RunningGameView("Test1", "Test2", controller);
@@ -64,6 +38,8 @@ public class MenuFrame extends JFrame {
 		loadPanel = new LoadGamePanel();
 		options = new GameOptionsPanel(controller);
 		homePanel = new JPanel();
+		
+		
 		JLabel homeLabel = new JLabel();
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
 		homeLabel.setIcon(homeImage);
