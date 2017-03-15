@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SaveManeger {
-	String filename = "/home/niklavs/Desktop/address.bin";
+	String filename = "address.bin";
 	public SaveManeger() {
 
 	}

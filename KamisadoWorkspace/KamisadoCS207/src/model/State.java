@@ -1,10 +1,12 @@
 package model;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
+
 import player.Player;
 
-public final class State {
+public final class State implements Serializable {
 
 	private final int boardUpperLimit = 7;
 	private final int boardLowerLimit = 0;

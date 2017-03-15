@@ -1,14 +1,11 @@
 package player;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-import controller.Controller;
-import model.Board;
 import model.MyObservable;
-import model.Position;
 import model.State;
 
-public abstract class Player implements MyObservable{
+public abstract class Player implements MyObservable, Serializable{
 
     private String playerTeam;
     private int homeRow;

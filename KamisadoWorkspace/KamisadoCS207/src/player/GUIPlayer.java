@@ -1,16 +1,14 @@
 package player;
 
-import java.awt.Color;
-import java.util.ArrayList;
+import java.io.Serializable;
 
 import controller.Controller;
-import model.Board;
 import model.MyObservable;
 import model.MyObserver;
 import model.Position;
 import model.State;
 
-public class GUIPlayer extends Player implements MyObserver{
+public class GUIPlayer extends Player implements MyObserver, Serializable{
 
     
         private Controller controller;

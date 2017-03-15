@@ -1,8 +1,9 @@
 package model;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public final class Board {
+public final class Board implements Serializable {
 	private static final Color or = new Color(250, 190, 50);// orange
 	private static final Color bl = new Color(14, 104, 243);// blue
 	private static final Color br = new Color(148, 104, 39);// Brown

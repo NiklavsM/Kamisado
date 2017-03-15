@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.EventQueue;
+import java.io.Serializable;
 
 import model.GameDriver;
 import model.SpeedGameDriver;
@@ -9,7 +10,7 @@ import player.GUIPlayer;
 import player.Player;
 import view.RunningGameView;
 
-public class Controller {
+public class Controller implements Serializable{
 
 	private GameDriver game;
 	private RunningGameView main;
@@ -59,6 +60,9 @@ public class Controller {
 		game.addObserver(main.getGameTimer());
 		game.playGame();
 
+	}
+	public GameDriver getGame() {
+		return game;
 	}
 
 	public static void main(String[] args) {

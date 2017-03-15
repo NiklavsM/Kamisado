@@ -1,6 +1,8 @@
 package model;
 
-public class Move{
+import java.io.Serializable;
+
+public class Move implements Serializable{
 
 	
 	private Position startPos;

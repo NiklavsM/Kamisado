@@ -1,8 +1,9 @@
 package model;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public enum Piece {
+public enum Piece implements Serializable {
 
 	TeamBlackOrange("TeamBlackOrange","Black"),
 	TeamBlackBlue("TeamBlackBlue","Black"),

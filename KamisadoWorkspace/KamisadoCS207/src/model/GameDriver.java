@@ -1,14 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import player.GUIPlayer;
 
 import player.Player;
-import view.GUIBoardView;
 
-public class GameDriver implements MyObservable, MyObserver {
+public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	private ArrayList<State> history;
 	public State currentState;
@@ -37,6 +34,22 @@ public class GameDriver implements MyObservable, MyObserver {
 		this.currentState = currentState;
 		// this.saveManager = new SaveManager();
 	}
+	public void save(){
+        System.out.println("OPINAAS");
+        SaveManeger s = new SaveManeger();
+        s.save(currentState);
+    }
+    public void load(){
+        System.out.println("OPINAAS2");
+        SaveManeger s = new SaveManeger();
+        currentState = s.load();
+        System.out.println("turn"+ currentState.getPlayerToMove().getPlayerTeam());
+        this.tellAll(currentState.getValidMoves());
+        //this.tellAll(currentState.getPreviousMove());
+        Position posToMove = currentState.calcPieceToMove();
+        ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
+        this.tellAll(movesCanMake);
+    }
 
 	public void playGame() {
 		generateMove();
