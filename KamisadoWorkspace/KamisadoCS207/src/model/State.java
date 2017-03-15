@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import player.Player;
 
-public class State {
+public final class State {
 
 	private final int boardUpperLimit = 7;
 	private final int boardLowerLimit = 0;
@@ -17,6 +17,7 @@ public class State {
 	private Player playerWhite;
 	private Player playerBlack;
 	private Player PlayerToMove;
+	private Position pieceToMove;
 
 	public State(Player playerWhite, Player playerBlack, Player playerToMove) {
 		this.playerWhite = playerWhite;
@@ -27,24 +28,33 @@ public class State {
 		colourToMove = Color.BLACK;
 		validMoves = new ArrayList<>();
 		previousMove = null;
+		pieceToMove = null;
 	}
-
-	public State(Board board) {
-		validMoves = new ArrayList<>();
-		currentBoard = board;
-		pieces = currentBoard.getPieces();
-	}
+//
+//	public State(Board board) {
+//		validMoves = new ArrayList<>();
+//		currentBoard = board;
+//		pieces = currentBoard.getPieces();
+//	}
 
 	public State(State state, Board board) {
-		this.validMoves = state.validMoves;
 		this.startingPosition = state.startingPosition;
 		this.colourToMove = state.colourToMove;
-		this.currentBoard = board;
+		this.currentBoard = new Board(board);
 		this.previousMove = state.previousMove;
-		this.pieces = state.pieces;
+		this.pieces = currentBoard.getPieces();
 		this.playerWhite = state.playerWhite;
 		this.playerBlack = state.playerBlack;
 		this.PlayerToMove = state.PlayerToMove;
+		this.pieceToMove = state.pieceToMove;
+		if(state.validMoves != null) {
+	        this.validMoves = new ArrayList<Position>();
+	        for(int index = 0; index < state.validMoves.size(); index++) {
+	        	if(state.validMoves.get(index) != null){
+        			this.validMoves.add(new Position(state.validMoves.get(index)));
+        		}
+	        }
+	    }
 	}
 
 	public Position calcPieceToMove() {
@@ -53,8 +63,10 @@ public class State {
 				if (pieces[i][j] != null) {
 					if (pieces[i][j].getColour().equals(colourToMove)
 							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
-						colourToMove = currentBoard.findColor(new Position(i, j));
-						return new Position(i, j);
+						pieceToMove = new Position(i,j);
+						colourToMove = currentBoard.findColor(pieceToMove);
+						// calcValidMoves(new Position(i, j));
+						return pieceToMove;
 					}
 				}
 			}
@@ -127,17 +139,29 @@ public class State {
 		if (legal(endPosition)) {
 			colourToMove = currentBoard.findColor(endPosition);
 
-			previousMove = new Move(startingPosition, endPosition);
-
-			Board newBoard = currentBoard.make(startingPosition, endPosition);
+			Board newBoard = new Board(currentBoard);
+			newBoard.move(startingPosition, endPosition);
 			if (newBoard != null) {
+//				System.out.println();
+//				System.out.println("{" + currentBoard.getPieces()[startingPosition.getX()][startingPosition.getY()]);
+//				System.out.println(newBoard.getPieces()[startingPosition.getX()][startingPosition.getY()]);
+//				
+//				System.out.println(currentBoard.getPieces()[endPosition.getX()][endPosition.getY()]);
+//				System.out.println(newBoard.getPieces()[endPosition.getX()][endPosition.getY()] + "}");
+				// if (newBoard.findPieceAtLoc(endPosition.getX(),
+				// endPosition.getY()) != null) {
+				//
+				// }
 				
 				State newState = new State(this, newBoard);
+				newState.setPreviousMove(new Move(startingPosition, endPosition,
+						newBoard.findPieceAtLoc(endPosition.getX(), endPosition.getY())));
 				newState.flipPlayerToMove();
 				return newState;
 			}
-
+			System.out.println("kinda legal");
 		}
+		System.out.println("NOT LEGAL");
 		return null;
 	}
 
@@ -149,8 +173,12 @@ public class State {
 		}
 		return false;
 	}
-	
-	public void flipPlayerToMove(){
+
+	public Piece findPiece(Position position) {
+		return pieces[position.getX()][position.getY()];
+	}
+
+	public void flipPlayerToMove() {
 		if (PlayerToMove.equals(playerWhite)) {
 			PlayerToMove = playerBlack;
 		} else {
@@ -170,6 +198,10 @@ public class State {
 		return previousMove;
 	}
 
+	public void setPreviousMove(Move previousMove) {
+		this.previousMove = previousMove;
+	}
+
 	public boolean isGameOver() {
 		return currentBoard.gameOver(previousMove.getEndPos().getY());
 	}
@@ -185,6 +217,19 @@ public class State {
 	public Player getPlayerToMove() {
 		return PlayerToMove;
 	}
+
+	public Board getCurrentBoard() {
+		return currentBoard;
+	}
+
+	public Piece[][] getPieces() {
+		return pieces;
+	}
+
+	public Position getStartingPosition() {
+		return startingPosition;
+	}
+
 	public Player getPlayerWhite() {
 		return playerWhite;
 	}
@@ -192,4 +237,17 @@ public class State {
 	public Player getPlayerBlack() {
 		return playerBlack;
 	}
+
+	public void setColourToMove(Color colour) {
+		colourToMove = colour;
+	}
+
+	public void setValidMoves(ArrayList<Position> arrayList) {
+		validMoves = arrayList;
+	}
+
+	public Position getPieceToMove() {
+		return pieceToMove;
+	}
+
 }

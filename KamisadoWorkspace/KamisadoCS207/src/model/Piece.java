@@ -4,23 +4,23 @@ import java.awt.Color;
 
 public enum Piece {
 
-	TeamBlackOrange("TeamBlack-Orange","Black"),
-	TeamBlackBlue("TeamBlack-Blue","Black"),
-	TeamBlackCyan("TeamBlack-Cyan", "Black"),
-	TeamBlackPink("TeamBlack-Pink","Black"),
-	TeamBlackYellow("TeamBlack-Yellow", "Black"),
-	TeamBlackRed("TeamBlack-Red","Black"),
-	TeamBlackGreen("TeamBlack-Green", "Black"),
-	TeamBlackBrown("TeamBlack-Brown",  "Black"),
+	TeamBlackOrange("TeamBlackOrange","Black"),
+	TeamBlackBlue("TeamBlackBlue","Black"),
+	TeamBlackCyan("TeamBlackCyan", "Black"),
+	TeamBlackPink("TeamBlackPink","Black"),
+	TeamBlackYellow("TeamBlackYellow", "Black"),
+	TeamBlackRed("TeamBlackRed","Black"),
+	TeamBlackGreen("TeamBlackGreen", "Black"),
+	TeamBlackBrown("TeamBlackBrown",  "Black"),
 	
-	TeamWhiteOrange("TeamWhite-Orange", "White"),
-	TeamWhiteBlue("TeamWhite-Blue","White"),
-	TeamWhiteCyan("TeamWhite-Cyan", "White"),
-	TeamWhitePink("TeamWhite-Pink",  "White"),
-	TeamWhiteYellow("TeamWhite-Yellow",   "White"),
-	TeamWhiteRed("TeamWhite-Red", "White"),
-	TeamWhiteGreen("TeamWhite-Green", "White"),
-	TeamWhiteBrown("TeamWhite-Brown",  "White");
+	TeamWhiteOrange("TeamWhiteOrange", "White"),
+	TeamWhiteBlue("TeamWhiteBlue","White"),
+	TeamWhiteCyan("TeamWhiteCyan", "White"),
+	TeamWhitePink("TeamWhitePink",  "White"),
+	TeamWhiteYellow("TeamWhiteYellow",   "White"),
+	TeamWhiteRed("TeamWhiteRed", "White"),
+	TeamWhiteGreen("TeamWhiteGreen", "White"),
+	TeamWhiteBrown("TeamWhiteBrown",  "White");
 
 	private final String value;
 	private Color colour;

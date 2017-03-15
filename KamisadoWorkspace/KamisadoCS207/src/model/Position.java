@@ -10,6 +10,11 @@ public class Position {
 		this.y = y;
 	}
 	
+	public Position(Position position) {
+		this.x = position.x;
+		this.y = position.y;
+	}
+
 	public int getX(){
 		return x;
 	}
@@ -18,5 +23,9 @@ public class Position {
 		return y;
 	}
 	
+	@Override
+	public String toString(){
+		return new String("POS X: " + x + " Y: " + y);
+	}
 	
 }

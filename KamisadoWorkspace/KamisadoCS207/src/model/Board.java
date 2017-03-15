@@ -2,29 +2,52 @@ package model;
 
 import java.awt.Color;
 
-public class Board {
-	private final Color or = new Color(250, 190, 50);// orange
-	private final Color bl = new Color(14, 104, 243);// blue
-	private final Color br = new Color(148, 104, 39);// Brown
-	private final Color r = new Color(249, 69, 24);// red
-	private final Color c = new Color(95, 207, 235);// cyan
-	private final Color gr = new Color(108, 216, 68);// green
-	private final Color y = new Color(245, 245, 26);// yellow
-	private final Color p = new Color(239, 86, 208);// pink
+public final class Board {
+	private static final Color or = new Color(250, 190, 50);// orange
+	private static final Color bl = new Color(14, 104, 243);// blue
+	private static final Color br = new Color(148, 104, 39);// Brown
+	private static final Color r = new Color(249, 69, 24);// red
+	private static final Color c = new Color(95, 207, 235);// cyan
+	private static final Color gr = new Color(108, 216, 68);// green
+	private static final Color y = new Color(245, 245, 26);// yellow
+	private static final Color p = new Color(239, 86, 208);// pink
 	private Piece[][] pieces;
-	private Color[][] boardColours;
-	private final int boardSize = 8;
+	private static Color[][] boardColours;
+	private static final int boardSize = 8;
 
 	public Board() {
 		pieces = new Piece[boardSize][boardSize];
 		setBoardColours();
 		initialisePiecePositions();
 	}
-
-	public Board(Board board) {
-		this.pieces = board.pieces;
-		this.boardColours = board.boardColours;
+	
+	public Board(Piece[][] pieces){
+		this.pieces = pieces;
 	}
+
+	public Board(Board other) {
+//	    if(other.a != null) {
+//	        this.a = new A(other.a);
+//	    }
+	    if(other.pieces != null) {
+	        this.pieces = new Piece[boardSize][boardSize];
+	        for(int index = 0; index < boardSize; index++) {
+	        	for(int j = 0; j < boardSize; j++){
+	        		if(other.pieces[index][j] != null){
+	        			this.pieces[index][j] = Piece.valueOf(other.pieces[index][j].toString());
+	        		}else{
+	        			this.pieces[index][j] = null;
+	        		}
+	        		
+	        	}
+	            
+	        }
+	    }
+	}
+	
+//	public Board(Board board) {
+//		this(board.getPieces());
+//	}
 
 	private void setBoardColours() {
 
@@ -61,6 +84,8 @@ public class Board {
 			}
 		}
 	}
+	
+	
 
 	public Board make(Position startPosition, Position endPosition) {
 		Board freshBoard = new Board(this);
@@ -68,7 +93,7 @@ public class Board {
 		return freshBoard;
 	}
 
-	private void move(Position startPosition, Position endPosition) {
+	public void move(Position startPosition, Position endPosition) {
 		int endx = endPosition.getX();
 		int endy = endPosition.getY();
 		pieces[endx][endy] = removePiece(startPosition.getX(), startPosition.getY());
