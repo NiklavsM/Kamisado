@@ -28,7 +28,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
 	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
 	private JButton[][] buttons;
-	private GridBagConstraints gbcon;
 	private ArrayList<Position> selectedPositions;
 	private Controller controller;
 	private JButton previousLocation;
@@ -44,7 +43,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		this.controller = controller;
 		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
-		gbcon = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		displayBoard();
 		setLayout(null);
@@ -59,8 +57,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		ImageIcon returnImage = null;
 		for (Piece p : Piece.values()) {
 			if (p != null && p.equals(piece)) {
-				// System.out.println(getClass().getResource("/images/"+
-				// p.toString() + ".png"));
 				returnImage = new ImageIcon(getClass().getResource("/images/" + p.toString() + ".png"));
 			}
 		}
@@ -169,7 +165,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				buttons[x][y].setFocusable(false);
 				setupButton(x, y, buttons[x][y]);
 				// setUpGridConstraints(x,y);
-				this.add(buttons[x][y], gbcon);
+				this.add(buttons[x][y]);
 			}
 		}
 	}

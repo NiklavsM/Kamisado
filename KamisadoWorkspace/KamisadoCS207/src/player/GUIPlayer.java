@@ -14,8 +14,8 @@ public class GUIPlayer extends Player implements MyObserver, Serializable{
         private Controller controller;
         private Position buttonClicked;
 	
-	public GUIPlayer(String playerTeam, boolean goingFist, Controller controller){
-		super(playerTeam, goingFist);
+	public GUIPlayer(String playerTeam,String playerName, boolean goingFist, Controller controller){
+		super(playerTeam,playerName, goingFist);
                 this.controller = controller;
                 buttonClicked = new Position(0,0);
 	}

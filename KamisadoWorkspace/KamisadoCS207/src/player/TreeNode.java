@@ -11,21 +11,22 @@ public class TreeNode {
 
 	private ArrayList<TreeNode> children;
 	private ArrayList<Move> moves;
+	private Move move;
 	private State boardState;
-	private int score;
 	private Position location;
 	private int player;
 	private int depth;
 	private ArrayList<Position> validMoves;
 
 	public TreeNode(int depth, State boardState, int player, Position pieceToMove) {
-		this.score = 0;
+		//this.score = 0;
 		children = new ArrayList<>();
 		this.boardState = new State(boardState, boardState.getBoard());
 		location = new Position(-2, -2);
 		moves = new ArrayList<>();
 		this.player = player;
-
+		this.move = boardState.getPreviousMove();
+		move.setScore(0);
 		this.depth = depth;
 
 		this.boardState.calcValidMoves(pieceToMove);
@@ -33,12 +34,13 @@ public class TreeNode {
 
 	}
 
-	public TreeNode(int depth, int score, State boardState, Position locationMovedTo, int player,
+	public TreeNode(int depth, State boardState, Move locationMovedTo, int player,
 			ArrayList<Move> moves) {
-		this.score = score;
+		//this.score = score;
+		this.move = locationMovedTo;
 		children = new ArrayList<>();
 		this.boardState = new State(boardState, boardState.getBoard());
-		location = locationMovedTo;
+		location = move.getEndPos();
 		this.player = player;
 
 		this.moves = new ArrayList<>();
@@ -57,7 +59,7 @@ public class TreeNode {
 		TreeNode childNode = null;
 		if (depth == 0) {
 
-		} else if ((player == 1 && location.getY() == 7) || (player == 0 && location.getY() == 0)) {
+		} else if ((player == 0 && location.getY() == 7) || (player == 1 && location.getY() == 0)) {
 			System.out.println();
 			System.out.println("Winner: " + player + " X: " + location.getX() + " Y:" + location.getY());
 			System.out.println();
@@ -72,7 +74,7 @@ public class TreeNode {
 				moves.add(move);
 
 				if (pos.getY() <= 7 && pos.getY() >= 0) {
-					childNode = new TreeNode((depth - 1), score, new State(state, state.getBoard()), pos, (1 - player),
+					childNode = new TreeNode((depth - 1), new State(state, state.getBoard()), move, (1 - player),
 							moves);
 					children.add(childNode);
 					moves.remove(moves.size() - 1);
@@ -82,10 +84,11 @@ public class TreeNode {
 			State board = new State(boardState, boardState.getBoard());
 
 			Position pos = board.getPieceToMove();
-			moves.add(new Move(pos, pos, board.findPiece(pos)));
+			Move thisMove = new Move(pos, pos, board.findPiece(pos));
+			moves.add(thisMove);
 			board.flipPlayerToMove();
 			if (pos.getY() <= 7 && pos.getY() >= 0) {
-				childNode = new TreeNode(depth - 1, score, new State(board, board.getBoard()), pos, (1 - player),
+				childNode = new TreeNode(depth - 1, new State(board, board.getBoard()), thisMove, (1 - player),
 						moves);
 				children.add(childNode);
 			}
@@ -96,14 +99,17 @@ public class TreeNode {
 	}
 
 	public boolean calcScore() {
+		int score = move.getScore();
 		if (location.getY() == -1) {
 			return true;
 		}
 		if (location.getY() == 7) {
 			score = 100000;
+			move.setScore(score);
 			return false;
 		} else if (location.getY() == 0) {
 			score = -100000;
+			move.setScore(score);
 			return false;
 		}
 		if (player == 1) {
@@ -133,6 +139,7 @@ public class TreeNode {
 				}
 			}
 		}
+		move.setScore(score);
 		return true;
 
 	}
@@ -146,7 +153,11 @@ public class TreeNode {
 	}
 
 	public int getScore() {
-		return score;
+		return move.getScore();
+	}
+
+	public Move getMove() {
+		return move;
 	}
 
 }

@@ -13,8 +13,8 @@ import model.State;
 public class EasyAIPlayer extends Player implements MyObservable{
 
     private int timesVisited = 0;
-    public EasyAIPlayer(String playerTeam, boolean goingFist){
-        super(playerTeam, goingFist);
+    public EasyAIPlayer(String playerTeam, String playerName, boolean goingFist){
+        super(playerTeam,playerName, goingFist);
     }
     
     @Override

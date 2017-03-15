@@ -7,17 +7,19 @@ import model.State;
 
 public abstract class Player implements MyObservable, Serializable{
 
+	private String playerName;
     private String playerTeam;
     private int homeRow;
     private boolean goingFirst;
 
-    public Player(String playerTeam, boolean goingFirst){
+    public Player(String playerTeam, String playerName, boolean goingFirst){
         this.playerTeam = playerTeam;
         if(playerTeam.equals("White")){
             homeRow = 0;
         }else{
             homeRow = 7;
         }
+        this.playerName = playerName;
         this.goingFirst = goingFirst;
     }
 
