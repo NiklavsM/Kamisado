@@ -38,7 +38,7 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 		teamLabel.add(new JLabel(whiteName), BorderLayout.SOUTH);
         this.setLayout(new BorderLayout());
        // this.setBorder(new EmptyBorder(5, 5, 5, 5));
-        //this.add(timer, BorderLayout.NORTH);
+        this.add(timer, BorderLayout.NORTH);
         
 		this.add(teamLabel, BorderLayout.EAST);
 		this.add(inGameOptions, BorderLayout.SOUTH);

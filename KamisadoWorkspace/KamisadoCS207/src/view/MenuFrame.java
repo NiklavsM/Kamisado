@@ -29,13 +29,13 @@ public class MenuFrame extends JFrame {
 	private LoadGamePanel loadPanel;
 	private RunningGameView gameView;
 
-	private JMenuBar menuBar;
-	private JMenu main;
-	private JMenuItem home;
-	private JMenuItem newgame;
-	private JMenuItem loadgame;
-	private JMenuItem stats;
-	private JMenuItem exit;
+//	private JMenuBar menuBar;
+//	private JMenu main;
+//	private JMenuItem home;
+//	private JMenuItem newgame;
+//	private JMenuItem loadgame;
+//	private JMenuItem stats;
+//	private JMenuItem exit;
 
 	/**
 	 * Launch the application.
@@ -84,11 +84,11 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void menuBar() {
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFocusable(false);
-		main = new JMenu("Menu");
+		JMenu main = new JMenu("Menu");
 
-		home = new JMenuItem("Home");
+		JMenuItem home = new JMenuItem("Home");
 		home.setMnemonic(KeyEvent.VK_H);
 		home.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.ALT_MASK));
 
@@ -101,7 +101,7 @@ public class MenuFrame extends JFrame {
 			}
 		});
 
-		newgame = new JMenuItem("New Game");
+		JMenuItem newgame = new JMenuItem("New Game");
 		newgame.setMnemonic(KeyEvent.VK_N);
 		newgame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
 
@@ -114,7 +114,7 @@ public class MenuFrame extends JFrame {
 			}
 		});
 
-		loadgame = new JMenuItem("Load Game");
+		JMenuItem loadgame = new JMenuItem("Load Game");
 		loadgame.setMnemonic(KeyEvent.VK_L);
 		loadgame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.ALT_MASK));
 
@@ -127,7 +127,7 @@ public class MenuFrame extends JFrame {
 			}
 		});
 
-		stats = new JMenuItem("Stats");
+		JMenuItem stats = new JMenuItem("Stats");
 		stats.setMnemonic(KeyEvent.VK_S);
 		stats.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
 
@@ -140,7 +140,7 @@ public class MenuFrame extends JFrame {
 			}
 		});
 
-		exit = new JMenuItem("Exit");
+		JMenuItem exit = new JMenuItem("Exit");
 		exit.setMnemonic(KeyEvent.VK_X);
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.ALT_MASK));
 

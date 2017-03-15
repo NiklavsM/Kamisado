@@ -28,8 +28,7 @@ public class Controller implements Serializable{
 		menuFrame.setVisible(true);
 		main = menuFrame.getRunningGameView();
 		//main.setVisible(true);
-		main.addObserver(playerWhite);
-		main.addObserver(playerBlack);
+		
 		
 
 	}
@@ -70,6 +69,9 @@ public class Controller implements Serializable{
 		}
 		main.getGameBoard().addObserver(game);
 		menuFrame.addPanel(main);
+		game.addObserver(main);
+		main.addObserver(playerWhite);
+		main.addObserver(playerBlack);
 		game.playGame();
 	}
 
@@ -82,7 +84,10 @@ public class Controller implements Serializable{
 		}
 		main.getGameBoard().addObserver(game);
 		game.addObserver(main.getGameTimer());
+		game.addObserver(main);
 		menuFrame.addPanel(main);
+		main.addObserver(playerWhite);
+		main.addObserver(playerBlack);
 		game.playGame();
 
 	}
