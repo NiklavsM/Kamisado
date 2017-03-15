@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
+import model.Board;
 import model.Move;
 import model.MyObservable;
 import model.MyObserver;
@@ -134,6 +135,8 @@ public class RunningGameView extends JFrame implements MyObserver, KeyListener {
 				System.out.println("Draw!");
 			}
 			gameBoard.disableButtons();
+		} else if (arg instanceof Board) {
+			gameBoard.redrawBoard((Board) arg);
 		}
 	}
 

@@ -17,11 +17,12 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import controller.Controller;
+import model.Board;
 import model.MyObservable;
 import model.Piece;
 import model.Position;
 
-public class GUIBoardView extends JPanel implements BoardView, MyObservable, KeyListener {
+public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
@@ -34,8 +35,10 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 	private JButton selected;
 	private int currentx;
 	private int currenty;
+	private Board board;
 
 	public GUIBoardView(Controller controller) {
+		board = new Board();
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.controller = controller;
@@ -167,6 +170,30 @@ public class GUIBoardView extends JPanel implements BoardView, MyObservable, Key
 				setupButton(x, y, buttons[x][y]);
 				// setUpGridConstraints(x,y);
 				this.add(buttons[x][y], gbcon);
+			}
+		}
+	}
+	
+	public void redrawBoard(Board board) {
+		this.board = board;
+		Border thickBorder = new LineBorder(Color.WHITE, 5);
+		System.out.println("displayBoard");
+
+		for (int y = 7; y >= 0; y--) {
+			for (int x = 0; x <= 7; x++) {
+				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
+				if (image != null) {
+					buttons[x][y].setIcon(image);
+					// System.out.println(buttons[x][y].getIcon().toString());
+				} else {
+					buttons[x][y].setIcon(DEFAULT);
+				}
+				buttons[x][y].setBorder(thickBorder);
+				buttons[x][y].setBorderPainted(false);
+				buttons[x][y].setFocusable(false);
+				//setupButton(x, y, buttons[x][y]);
+				// setUpGridConstraints(x,y);
+				//this.add(buttons[x][y], gbcon);
 			}
 		}
 	}

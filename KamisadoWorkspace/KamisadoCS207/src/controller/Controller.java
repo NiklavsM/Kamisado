@@ -55,7 +55,7 @@ public class Controller implements Serializable{
 	}
 
 	public void playTwoPlayer() {
-		game = new SpeedGameDriver(playerWhite, playerBlack, main, playerWhite, 10);
+		game = new GameDriver(playerWhite, playerBlack, main, playerWhite);
 		main.getGameBoard().addObserver(game);
 		game.addObserver(main.getGameTimer());
 		game.playGame();

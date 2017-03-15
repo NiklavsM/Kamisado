@@ -48,6 +48,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
         //this.tellAll(currentState.getPreviousMove());
         Position posToMove = currentState.calcPieceToMove();
         ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
+        this.tellAll(currentState.getBoard());
         this.tellAll(movesCanMake);
     }
 
