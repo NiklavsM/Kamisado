@@ -42,7 +42,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//controller.SaveGame("");
+				controller.getGame().saveGame();
 			}
 		});
 		//btnSave.setFocusable(false);

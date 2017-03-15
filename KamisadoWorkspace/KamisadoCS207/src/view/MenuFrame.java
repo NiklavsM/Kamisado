@@ -28,9 +28,11 @@ public class MenuFrame extends JFrame {
 	private StatPanel statPanel;
 	private LoadGamePanel loadPanel;
 	private RunningGameView gameView;
+	private Controller controller;
 
 
 	public MenuFrame(Controller controller) {
+		this.controller = controller;
 		menuBar();
 		gameView = new RunningGameView("Test1", "Test2", controller);
 		contentPane = new JPanel(new CardLayout());
@@ -53,7 +55,7 @@ public class MenuFrame extends JFrame {
 		contentPane.add(gameView, "Game View");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
-		c1.show(contentPane, "Home");
+		c1.show(contentPane, "New Game");
 		setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 200, 530, 530);
@@ -97,9 +99,10 @@ public class MenuFrame extends JFrame {
 		loadgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				CardLayout c1 = (CardLayout) contentPane.getLayout();
-				c1.show(contentPane, "Load Game");
-				loadPanel.requestFocus();
+				controller.getGame().loadGame();
+//				CardLayout c1 = (CardLayout) contentPane.getLayout();
+//				c1.show(contentPane, "Load Game");
+//				loadPanel.requestFocus();
 			}
 		});
 

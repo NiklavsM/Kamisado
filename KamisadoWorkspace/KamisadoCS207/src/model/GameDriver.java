@@ -33,12 +33,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		this.currentState = currentState;
 		// this.saveManager = new SaveManager();
 	}
-	public void save(){
+	public void saveGame(){
         System.out.println("OPINAAS");
         SaveManeger s = new SaveManeger();
         s.save(currentState);
     }
-    public void load(){
+    public void loadGame(){
         System.out.println("OPINAAS2");
         SaveManeger s = new SaveManeger();
         currentState = s.load();
