@@ -28,6 +28,8 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 
 	public RunningGameView(String whiteName, String blackName,Controller newController) {
 		timer = new GameTimer();
+		timer.setVisible(true);
+		timer.setText("  ");
         gameBoard = new GUIBoardView(newController);
         inGameOptions = new InGameOptions(newController);
        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
