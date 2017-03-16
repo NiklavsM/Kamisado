@@ -1,9 +1,9 @@
 package view;
 import java.awt.CardLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,9 +16,6 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
-import model.State;
-import player.GUIPlayer;
-import player.Player;
 
 public class MenuFrame extends JFrame {
 
@@ -126,7 +123,7 @@ public class MenuFrame extends JFrame {
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				contentPane.get.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+				dispatchFrame();
 			}
 		});
 
@@ -138,6 +135,10 @@ public class MenuFrame extends JFrame {
 		main.add(stats);
 		main.add(exit);
 		this.setJMenuBar(menuBar);
+	}
+	
+	public void dispatchFrame(){
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public void addPanel(RunningGameView panel) {
