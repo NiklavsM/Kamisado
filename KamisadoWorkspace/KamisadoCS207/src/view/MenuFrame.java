@@ -144,6 +144,7 @@ public class MenuFrame extends JFrame {
 
 	public void addPanel(RunningGameView panel) {
 		contentPane.remove(gameView);
+		gameView = null;
 		gameView = panel;
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
 		contentPane.add(gameView, "Game View");

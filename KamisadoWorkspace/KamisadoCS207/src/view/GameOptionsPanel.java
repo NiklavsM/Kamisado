@@ -32,6 +32,8 @@ public class GameOptionsPanel extends JPanel {
 	JRadioButton rdbtnHard;
 	JRadioButton rdbtnSingleplayer;
 	JRadioButton rdbtnTwoPlayer;
+	JTextField timerTime;
+	JLabel timeLabel;
 
 	/**
 	 * Create the panel.
@@ -71,13 +73,15 @@ public class GameOptionsPanel extends JPanel {
 		aiDiff.add(rdbtnEasy);
 		aiDiff.add(rdbtnHard);
 
-		JLabel BestOf = new JLabel("Best of:");
-		BestOf.setBounds(48, 177, 97, 23);
-		add(BestOf);
+		
+		timeLabel = new JLabel("Seconds:");
+		timeLabel.setBounds(48, 177, 97, 23);
+		add(timeLabel);
 
-		JComboBox<String> comboBox = new JComboBox<>(new String[] { "1", "3", "5", "7" });
-		comboBox.setBounds(48, 208, 82, 20);
-		add(comboBox);
+		timerTime = new JTextField("10");
+		timerTime.setBounds(48, 208, 82, 20);
+		add(timerTime);
+		
 
 		rdbtnSingleplayer = new JRadioButton("Single Player");
 		rdbtnSingleplayer.setBounds(48, 52, 109, 23);
@@ -131,13 +135,34 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(txtEnterPName.getText().length() <= 12 && txtEnterPName_1.getText().length() <=12){
-					if (rdbtnSingleplayer.isSelected()) {
-						thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
-					} else if (rdbtnTwoPlayer.isSelected()) {
-						thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
+					if(chckbxSpeedMode.isSelected()){
+						int time;
+						try{
+							time = Integer.parseInt(timerTime.getText());
+							System.out.println(time);
+						}catch(NumberFormatException exception){
+							showDialog("Please Enter a Number From 5 To 20!");
+							return;
+						}
+						if (time < 5 || time > 20) {
+							showDialog("Please Enter a Number From 5 To 20!");
+						} else if (rdbtnSingleplayer.isSelected()) {
+							thisController.playSinglePlayer(true, chckbxSpeedMode.isSelected(), rdbtnEasy.isSelected(),
+									txtEnterPName_1.getText(), txtEnterPName.getText(), time);
+						} else if (rdbtnTwoPlayer.isSelected()) {
+							thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(),
+									txtEnterPName.getText(), time);
+						}
+						
+					}else{
+						if (rdbtnSingleplayer.isSelected()) {
+							thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(),0);
+						} else if (rdbtnTwoPlayer.isSelected()) {
+							thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(), 0);
+						}
 					}
 				}else{
-					namesTooLong();
+					showDialog("Player Names are too long, Please limit to 12 characters!");
 				}
 				
 			}
@@ -145,7 +170,7 @@ public class GameOptionsPanel extends JPanel {
 		add(btnPlay);
 	}
 	
-	public void namesTooLong(){
-		JOptionPane.showMessageDialog(this, "Player Names are too long, Please limit to 12 characters.");
+	public void showDialog(String message){
+		JOptionPane.showMessageDialog(this, message);
 	}
 }

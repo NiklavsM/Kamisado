@@ -30,7 +30,7 @@ public class Controller implements Serializable{
 		playerBlack = new GUIPlayer("Black",blackName, false, this);
 	}
 
-	public void playSinglePlayer(boolean userToMoveFirst,boolean isSpeedGame,boolean isEasyAI, String whiteName, String blackName) {
+	public void playSinglePlayer(boolean userToMoveFirst,boolean isSpeedGame,boolean isEasyAI, String whiteName, String blackName, int timerTime) {
 		main = new RunningGameView(whiteName, blackName, this);
 		if(userToMoveFirst){
 			playerWhite = new GUIPlayer("White",whiteName, true, this);
@@ -41,7 +41,7 @@ public class Controller implements Serializable{
 				playerBlack = new HardAIPlayer("Black",blackName, false);
 			}
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, 10);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
@@ -55,7 +55,7 @@ public class Controller implements Serializable{
 			}
 			playerBlack = new GUIPlayer("Black",blackName, false, this);
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite,10);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite,timerTime);
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
@@ -71,10 +71,10 @@ public class Controller implements Serializable{
 		game.playGame();
 	}
 
-	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName) {
+	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
 		initialisePlayers(whiteName,blackName);
 		if(isSpeedGame){
-			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, 10);
+			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 		}else{
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}

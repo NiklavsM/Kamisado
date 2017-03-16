@@ -107,7 +107,6 @@ public class TreeNode {
 	public void calcScore() {
 		int score = move.getScore();
 		int locationY = move.getEndPos().getY();
-		int startY = move.getStartPos().getY();
 		if (locationY == 7) {
 			score = 1000000000;
 			move.setScore(score);

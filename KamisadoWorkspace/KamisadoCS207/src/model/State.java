@@ -151,7 +151,6 @@ public final class State implements Serializable {
 				return newState;
 			}
 		}
-		System.out.println("NOT LEGAL");
 		return null;
 	}
 
