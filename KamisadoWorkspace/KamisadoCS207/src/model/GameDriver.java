@@ -2,42 +2,64 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import player.Player;
 
 public class GameDriver implements MyObservable, MyObserver, Serializable {
 
-	private ArrayList<State> history;
+	private Stack<State> history;
 	public State currentState;
 	private boolean firstMove = true;
 	private boolean gameOver = false;
 
 	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart) {
-		this.history = new ArrayList<>();
+		// this.playerWhite = playerWhite;
+		// this.playerBlack = playerBlack;
+		// PlayerToMove = playerToStart;
+		this.history = new Stack<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart);
+		// this.saveManager = new SaveManager();
 	}
-//	public GameDriver(Player playerWhite, Player playerBlack, ArrayList<State> history, State currentState,
-//			Player playerToStart) {
-//		this.history = history;
-//		this.currentState = currentState;
-//	}
-	public void saveGame(){
-        System.out.println("OPINAAS");
-        SaveManager s = new SaveManager();
-        s.save(currentState);
-    }
-    public void loadGame(){
-        System.out.println("OPINAAS2");
-        SaveManager s = new SaveManager();
-        currentState = s.load();
-        System.out.println("turn"+ currentState.getPlayerToMove().getPlayerTeam());
-        this.tellAll(currentState.getValidMoves());
-        //this.tellAll(currentState.getPreviousMove());
-        Position posToMove = currentState.calcPieceToMove();
-        ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
-        this.tellAll(currentState.getBoard());
-        this.tellAll(movesCanMake);
-    }
+
+	public GameDriver(Player playerWhite, Player playerBlack, Stack<State> history, State currentState,
+			Player playerToStart) {
+		// this.playerWhite = playerWhite;
+		// this.playerBlack = playerBlack;
+		// PlayerToMove = playerToStart;
+		this.history = history;
+		this.currentState = currentState;
+		// this.saveManager = new SaveManager();
+	}
+
+	public void saveGame() {
+		System.out.println("OPINAAS");
+		SaveManager s = new SaveManager();
+		s.save(currentState);
+	}
+
+	public void loadGame() {
+		System.out.println("OPINAAS2");
+		SaveManager s = new SaveManager();
+		currentState = s.load();
+		System.out.println("turn" + currentState.getPlayerToMove().getPlayerTeam());
+		//this.tellAll(currentState.getValidMoves());
+		//this.tellAll(currentState.getPreviousMove());
+		//Position posToMove = currentState.calcPieceToMove();
+		ArrayList<Position> movesCanMake = currentState.calcValidMoves(currentState.getStartingPosition());
+		this.tellAll(currentState.getBoard());
+		this.tellAll(movesCanMake);
+	}
+
+	public void undo() {
+		if (!history.empty()) {
+			currentState = history.pop();
+			ArrayList<Position> movesCanMake = currentState.calcValidMoves(currentState.getStartingPosition());
+			this.tellAll(currentState.getBoard());
+			this.tellAll(movesCanMake);
+
+		}
+	}
 
 	public void playGame() {
 		generateMove();

@@ -54,7 +54,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//controller.undo();
+				controller.getGame().undo();
 			}
 		});
 		//btnUndo.setFocusable(false);

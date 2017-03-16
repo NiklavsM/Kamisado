@@ -65,6 +65,8 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	public void pieceMoved(Position start, Position end) {
 		if (previousLocation != null) {
+		// removeSelectable();
+		if (previousLocation != null && previousLocation.getIcon().equals(GREY)) {
 			previousLocation.setIcon(DEFAULT);
 		}
 		Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
