@@ -16,24 +16,21 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	private boolean firstMove = true;
 	private boolean gameOver = false;
 
-	public SpeedGameDriver(Player white, Player black, Player playerToStart,
-			int timerLimit) {
+	public SpeedGameDriver(Player white, Player black, Player playerToStart, int timerLimit) {
 		super(white, black, playerToStart);
 		this.timerLimit = timerLimit;
-		System.out.println("SEIT");
 	}
 
 	public void onTimeOut() {
 		gameOver = true;
 		Player winningPlayer;
-		if(currentState.getPlayerToMove().equals(currentState.getPlayerWhite())){
+		if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {
 			winningPlayer = currentState.getPlayerBlack();
-		}else{
+		} else {
 			winningPlayer = currentState.getPlayerWhite();
-		}		
+		}
 		this.tellAll(winningPlayer.getPlayerTeam());
 		timer.stop();
-		System.out.println("GameOver");
 	}
 
 	public void turnBegin() {
@@ -46,10 +43,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				System.out.println("time" + time);
 				tellAll(--time);
-				System.out.println("time" + time);
 				if (time <= 0) {
 					onTimeOut();
 				}
@@ -61,21 +55,20 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	@Override
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof Position) {
-			System.out.println("update gamedriver");
 			if (!gameOver) {
 				if (firstMove) {
-					if (playerFirstMove((Position) arg)) {
-						
-					}else if(tryToMove((Position) arg)){
-						firstMove = false;
-						nextTurn(0);
-						turnBegin();
+					if (!playerFirstMove((Position) arg)) {
+						if (tryToMove((Position) arg)) {
+							firstMove = false;
+							nextTurn(0);
+							turnBegin();
+						}
 					}
-				}else if(tryToMove((Position) arg)){
+				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
 						timer.stop();
 						gameOver = true;
-					}else{
+					} else {
 						turnBegin();
 					}
 				}

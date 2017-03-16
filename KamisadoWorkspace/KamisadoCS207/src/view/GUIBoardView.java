@@ -77,7 +77,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public void removeSelectable() {
-		System.out.println("removing selected");
 		for (Position pos : selectedPositions) {
 			if (buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)) {
 				buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
@@ -133,7 +132,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	public void displayInitialBoard() {
 		Border thickBorder = new LineBorder(Color.WHITE, 5);
-		System.out.println("displayBoard");
 
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
@@ -157,7 +155,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	public void redrawBoard(Board board) {
 		this.board = board;
-		System.out.println("redrawBoard");
 
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
@@ -192,7 +189,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("got here");
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			if (currenty < 7) {
