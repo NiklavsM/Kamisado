@@ -30,7 +30,6 @@ public class GUIPlayer extends Player implements MyObserver, Serializable{
 
     @Override
     public void update(MyObservable o, Object arg) {
-        System.out.println("update Player");
         if(arg instanceof Position){
             buttonClicked = (Position) arg;
         }
