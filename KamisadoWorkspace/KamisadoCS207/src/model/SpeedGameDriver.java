@@ -2,12 +2,13 @@ package model;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.Timer;
 
 import player.Player;
 
-public class SpeedGameDriver extends GameDriver implements MyObserver, MyObservable {
+public class SpeedGameDriver extends GameDriver implements MyObserver, MyObservable, Serializable {
 
 	private Timer timer;
 	private int timerLimit;
