@@ -49,10 +49,10 @@ public class GameOptionsPanel extends JPanel {
 		separator.setBounds(32, 108, 168, 22);
 		add(separator);
 
-		white = new JLabel("Player White");
+		white = new JLabel("Player Black");
 		white.setBounds(217, 152, 109, 22);
 		add(white);
-		black = new JLabel("Player Black");
+		black = new JLabel("Player White");
 		black.setBounds(217, 177, 109, 23);
 		add(black);
 		JLabel lblAiDifficulty = new JLabel("AI Difficulty:");
@@ -130,9 +130,9 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnSingleplayer.isSelected()) {
-					thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName.getText(), txtEnterPName_1.getText());
+					thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
 				} else if (rdbtnTwoPlayer.isSelected()) {
-					thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName.getText(), txtEnterPName_1.getText());
+					thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
 				}
 			}
 		});
