@@ -42,7 +42,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.getGame().saveGame();
+				//controller.getGame().saveGame();
 			}
 		});
 		//btnSave.setFocusable(false);
@@ -54,7 +54,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.getGame().undo();
+				//controller.getGame().undo();
 			}
 		});
 		//btnUndo.setFocusable(false);

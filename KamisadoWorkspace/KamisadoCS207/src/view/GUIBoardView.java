@@ -214,7 +214,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			tellAll(new Position(currentx, currenty));
 			break;
 		default:
-			System.out.println("Not arrow");
 			break;
 		}
 	}
