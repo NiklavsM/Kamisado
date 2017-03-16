@@ -3,6 +3,7 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
@@ -144,7 +145,6 @@ public class MenuFrame extends JFrame {
 	public void addPanel(RunningGameView panel) {
 		contentPane.remove(gameView);
 		gameView = panel;
-		// gameView.requestFocus();
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
 		contentPane.add(gameView, "Game View");
 		c1.show(contentPane, "Game View");

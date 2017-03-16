@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -108,13 +109,13 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnHard.setEnabled(true);
 		
 		txtEnterPName = new JTextField();
-		txtEnterPName.setText("P1");
+		txtEnterPName.setText("Player Black");
 		txtEnterPName.setBounds(346, 153, 97, 20);
 		add(txtEnterPName);
 		txtEnterPName.setColumns(10);
 
 		txtEnterPName_1 = new JTextField();
-		txtEnterPName_1.setText("P2");
+		txtEnterPName_1.setText("Player White");
 		txtEnterPName_1.setBounds(345, 178, 98, 20);
 		add(txtEnterPName_1);
 		txtEnterPName_1.setColumns(10);
@@ -129,13 +130,22 @@ public class GameOptionsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (rdbtnSingleplayer.isSelected()) {
-					thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
-				} else if (rdbtnTwoPlayer.isSelected()) {
-					thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
+				if(txtEnterPName.getText().length() <= 12 && txtEnterPName_1.getText().length() <=12){
+					if (rdbtnSingleplayer.isSelected()) {
+						thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
+					} else if (rdbtnTwoPlayer.isSelected()) {
+						thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText());
+					}
+				}else{
+					namesTooLong();
 				}
+				
 			}
 		});
 		add(btnPlay);
+	}
+	
+	public void namesTooLong(){
+		JOptionPane.showMessageDialog(this, "Player Names are too long, Please limit to 12 characters.");
 	}
 }

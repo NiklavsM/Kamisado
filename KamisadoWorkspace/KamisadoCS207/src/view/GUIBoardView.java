@@ -192,7 +192,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("got here");
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			if (currenty < 7) {

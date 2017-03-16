@@ -18,17 +18,19 @@ import model.Position;
 import model.State;
 import player.Player;
 
-public class RunningGameView extends JPanel implements MyObserver, KeyListener {
+public class RunningGameView extends JPanel implements MyObserver {
 
 	private JPanel teamLabel;
 	private GUIBoardView gameBoard;
 	private InGameOptions inGameOptions;
 	private GameTimer timer;
+	private JLabel winnerLabel;
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		timer = new GameTimer();
 		timer.setText("  ");
 		timer.setVisible(true);
+		timer.setFocusable(false);
 		
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
@@ -47,7 +49,10 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 		teamLabel = new JPanel();
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(new JLabel(blackName), BorderLayout.NORTH);
+		winnerLabel = new JLabel("");
+		teamLabel.add(winnerLabel, BorderLayout.CENTER);
 		teamLabel.add(new JLabel(whiteName), BorderLayout.SOUTH);
+		teamLabel.setFocusable(false);
 	}
 	
 	public GUIBoardView getGameBoard() {
@@ -72,13 +77,16 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 		else if (arg instanceof String) {
 			switch ((String) arg) {
 			case "White":
-				System.out.println("White Wins!");
+				winnerLabel.setText("White Wins!");
+				//System.out.println("White Wins!");
 				break;
 			case "Black":
-				System.out.println("Black Wins!");
+				winnerLabel.setText("Black Wins!");
+				//System.out.println("Black Wins!");
 				break;
 			case "Draw":
-				System.out.println("Draw!");
+				winnerLabel.setText("Draw!");
+				//System.out.println("Draw!");
 			}
 			gameBoard.disableButtons();
 		} else if (arg instanceof Board) {
@@ -93,17 +101,5 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 
 	public void addObserver(Player player) {
 		gameBoard.addObserver((MyObserver) player);
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
 	}
 }
