@@ -23,51 +23,53 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 	private JPanel teamLabel;
 	private GUIBoardView gameBoard;
 	private InGameOptions inGameOptions;
-	//private JPanel contentPane;
 	private GameTimer timer;
 
-	public RunningGameView(String whiteName, String blackName,Controller newController) {
+	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		timer = new GameTimer();
-		timer.setVisible(true);
 		timer.setText("  ");
-        gameBoard = new GUIBoardView(newController);
-        inGameOptions = new InGameOptions(newController);
-       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 522, 482);
-        teamLabel = new JPanel();
-        teamLabel.setLayout(new BorderLayout());
-		teamLabel.add(new JLabel(blackName), BorderLayout.NORTH);
-		teamLabel.add(new JLabel(whiteName), BorderLayout.SOUTH);
-        this.setLayout(new BorderLayout());
-       // this.setBorder(new EmptyBorder(5, 5, 5, 5));
-        this.add(timer, BorderLayout.NORTH);
-        
+		timer.setVisible(true);
+		
+		gameBoard = new GUIBoardView(newController);
+		inGameOptions = new InGameOptions(newController);
+
+		setUpTeamLabels(whiteName, blackName);
+
+		this.setLayout(new BorderLayout());
+		this.add(timer, BorderLayout.NORTH);
 		this.add(teamLabel, BorderLayout.EAST);
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
-        //setContentPane(contentPane);
+		this.setBounds(100, 100, 522, 482);
 	}
 
+	public void setUpTeamLabels(String whiteName, String blackName){
+		teamLabel = new JPanel();
+		teamLabel.setLayout(new BorderLayout());
+		teamLabel.add(new JLabel(blackName), BorderLayout.NORTH);
+		teamLabel.add(new JLabel(whiteName), BorderLayout.SOUTH);
+	}
+	
 	public GUIBoardView getGameBoard() {
 		return gameBoard;
 	}
-	public GameTimer getGameTimer(){
+
+	public GameTimer getGameTimer() {
 		return timer;
 	}
 
 	@Override
 	public void update(MyObservable o, Object arg) {
-		// System.out.println("got here1");
 		if (arg instanceof ArrayList<?>) {
-			// System.out.println("have been updated");
 			gameBoard.displaySelectable((ArrayList<Position>) arg);
-		} else if (arg instanceof Move) {
-			System.out.println("got Move");
-			gameBoard.removeSelectable();
-			// System.out.println("endx: " + ((Move) arg).getEndPos().getX() + "
-			// endy: "+ ((Move) arg).getEndPos().getY());
-			gameBoard.pieceMoved(((Move) arg).getStartPos(), ((Move) arg).getEndPos());
-		} else if (arg instanceof String) {
+		} 
+//			else if (arg instanceof Move) {
+//			System.out.println("got Move");
+//			gameBoard.removeSelectable();
+//
+//			gameBoard.pieceMoved(((Move) arg).getStartPos(), ((Move) arg).getEndPos());
+//		} 
+		else if (arg instanceof String) {
 			switch ((String) arg) {
 			case "White":
 				System.out.println("White Wins!");
@@ -89,33 +91,19 @@ public class RunningGameView extends JPanel implements MyObserver, KeyListener {
 		gameBoard.displaySelectable(validMoves);
 	}
 
-	// public Position waitForClick() {
-	// System.out.println("waiting for click from gameBoard");
-	// return gameBoard.respondToClick();
-	// }
-
 	public void addObserver(Player player) {
 		gameBoard.addObserver((MyObserver) player);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
-	
-//	public void changeCurrentState(State newState){
-//		gameBoard.displayBoard(newState);
-//	}
 }

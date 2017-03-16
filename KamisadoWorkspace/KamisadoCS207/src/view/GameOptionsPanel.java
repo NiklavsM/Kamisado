@@ -130,27 +130,9 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnSingleplayer.isSelected()) {
-					if (rdbtnEasy.isSelected()) {
-						if(chckbxSpeedMode.isSelected()){
-							thisController.playSinglePlayer(true,true,true, txtEnterPName.getText(), txtEnterPName_1.getText());
-						}
-						else{
-							thisController.playSinglePlayer(true,false,true, txtEnterPName.getText(), txtEnterPName_1.getText());
-						}
-					} else {
-						if(chckbxSpeedMode.isSelected()){
-							thisController.playSinglePlayer(true, true, false, txtEnterPName.getText(), txtEnterPName_1.getText());
-						}
-						else{
-							thisController.playSinglePlayer(true, false, false, txtEnterPName.getText(), txtEnterPName_1.getText());
-						}
-					}
+					thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName.getText(), txtEnterPName_1.getText());
 				} else if (rdbtnTwoPlayer.isSelected()) {
-					if(chckbxSpeedMode.isSelected()){
-						thisController.playTwoPlayer(true, txtEnterPName.getText(), txtEnterPName_1.getText());
-					}else{
-						thisController.playTwoPlayer(false, txtEnterPName.getText(), txtEnterPName_1.getText());
-					}
+					thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName.getText(), txtEnterPName_1.getText());
 				}
 			}
 		});

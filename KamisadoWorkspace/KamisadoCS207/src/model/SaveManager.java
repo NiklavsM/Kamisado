@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 
 import javax.swing.JFileChooser;
 
-public class SaveManeger {
+public class SaveManager {
 
 	public void save(State state) {
 		File file = new File("/home/me/Desktop");

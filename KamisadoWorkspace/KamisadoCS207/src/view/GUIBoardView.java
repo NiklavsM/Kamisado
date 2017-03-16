@@ -29,7 +29,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
 	private JButton[][] buttons;
 	private ArrayList<Position> selectedPositions;
-	private Controller controller;
 	private JButton previousLocation;
 	private JButton selected;
 	private int currentx;
@@ -38,14 +37,15 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	public GUIBoardView(Controller controller) {
 		board = new Board();
-		this.addKeyListener(this);
-		this.setFocusable(true);
-		this.controller = controller;
 		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
-		this.setLayout(new GridBagLayout());
-		displayBoard();
-		setLayout(null);
+		
+		this.addKeyListener(this);
+		this.setFocusable(true);
+		this.setLayout(null);
+		
+		displayInitialBoard();
+		
 		currentx = 0;
 		currenty = 0;
 		selected = buttons[currentx][currenty];
@@ -64,20 +64,13 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public void pieceMoved(Position start, Position end) {
-		// removeSelectable();
 		if (previousLocation != null) {
 			previousLocation.setIcon(DEFAULT);
 		}
 		Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
 		previousLocation = buttons[start.getX()][start.getY()];
-		System.out.println("endx: " + end.getX() + " endy: " + end.getY());
-		int endx = end.getX();
-		int endy = end.getY();
-		System.out.println("endx: " + endx + " endy: " + endy);
-		buttons[endx][endy].setIcon(pieceIcon);
-		System.out.println(buttons[endx][endy].getIcon());
+		buttons[end.getX()][end.getY()].setIcon(pieceIcon);
 		previousLocation.setIcon(GREY);
-		// buttons[start.getX()][start.getY()].setIcon(pieceIcon);
 	}
 
 	public void removeSelectable() {
@@ -132,20 +125,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				// TODO Auto-generated method stub
 
 			}
-
 		});
-
 	}
 
-	// private void setUpGridConstraints(int i, int k){
-	// gbcon.fill = GridBagConstraints.VERTICAL;
-	// gbcon.ipady = 25;
-	// gbcon.gridx = 105 * i;
-	// gbcon.gridy = 105 * k;
-	// gbcon.gridheight = 50;
-	// gbcon.gridwidth = 50;
-	// }
-	public void displayBoard() {
+	public void displayInitialBoard() {
 		Border thickBorder = new LineBorder(Color.WHITE, 5);
 		System.out.println("displayBoard");
 
@@ -156,7 +139,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(image);
-					// System.out.println(buttons[x][y].getIcon().toString());
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
 				}
@@ -164,32 +146,24 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				buttons[x][y].setBorderPainted(false);
 				buttons[x][y].setFocusable(false);
 				setupButton(x, y, buttons[x][y]);
-				// setUpGridConstraints(x,y);
+
 				this.add(buttons[x][y]);
 			}
 		}
 	}
-	
+
 	public void redrawBoard(Board board) {
 		this.board = board;
-		Border thickBorder = new LineBorder(Color.WHITE, 5);
-		System.out.println("displayBoard");
+		System.out.println("redrawBoard");
 
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
 				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(image);
-					// System.out.println(buttons[x][y].getIcon().toString());
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
 				}
-				buttons[x][y].setBorder(thickBorder);
-				buttons[x][y].setBorderPainted(false);
-				buttons[x][y].setFocusable(false);
-				//setupButton(x, y, buttons[x][y]);
-				// setUpGridConstraints(x,y);
-				//this.add(buttons[x][y], gbcon);
 			}
 		}
 	}
@@ -205,7 +179,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			}
 		}
 	}
-	
+
 	private void changedSelected(int currentx, int currenty) {
 		selected.setBorderPainted(false);
 		selected = buttons[currentx][currenty];
@@ -237,7 +211,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				changedSelected(--currentx, currenty);
 			}
 			break;
-		case KeyEvent.VK_ENTER:
+		case KeyEvent.VK_SPACE:
 			tellAll(new Position(currentx, currenty));
 			break;
 		default:
@@ -245,8 +219,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			break;
 		}
 	}
-
-	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -259,11 +231,4 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
-	// public Position respondToClick() {
-	// if(selectedPosition == null){
-	// return new Position(0,0);
-	// }
-	// return selectedPosition;
-	// }
 }

@@ -31,6 +31,7 @@ public class Controller implements Serializable{
 	}
 
 	public void playSinglePlayer(boolean userToMoveFirst,boolean isSpeedGame,boolean isEasyAI, String whiteName, String blackName) {
+		main = new RunningGameView(whiteName, blackName, this);
 		if(userToMoveFirst){
 			playerWhite = new GUIPlayer("White",whiteName, true, this);
 			
@@ -44,6 +45,7 @@ public class Controller implements Serializable{
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
+			main.addObserver(playerWhite);
 			playerBlack.addObserver(game);
 		}else{
 			if(isEasyAI){
@@ -58,13 +60,14 @@ public class Controller implements Serializable{
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
 			playerWhite.addObserver(game);
+			
+			main.addObserver(playerBlack);
 		}
-		main = new RunningGameView(whiteName, blackName, this);
+		
 		main.getGameBoard().addObserver(game);
 		menuFrame.addPanel(main);
 		game.addObserver(main);
-		main.addObserver(playerWhite);
-		main.addObserver(playerBlack);
+		
 		game.playGame();
 	}
 

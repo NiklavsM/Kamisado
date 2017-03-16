@@ -60,6 +60,7 @@ public final class State implements Serializable {
 	}
 
 	public Position calcPieceToMove() {
+		flipPlayerToMove();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (pieces[i][j] != null) {
@@ -143,25 +144,12 @@ public final class State implements Serializable {
 
 			Board newBoard = new Board(currentBoard);
 			newBoard.move(startingPosition, endPosition);
-			if (newBoard != null) {
-//				System.out.println();
-//				System.out.println("{" + currentBoard.getPieces()[startingPosition.getX()][startingPosition.getY()]);
-//				System.out.println(newBoard.getPieces()[startingPosition.getX()][startingPosition.getY()]);
-//				
-//				System.out.println(currentBoard.getPieces()[endPosition.getX()][endPosition.getY()]);
-//				System.out.println(newBoard.getPieces()[endPosition.getX()][endPosition.getY()] + "}");
-				// if (newBoard.findPieceAtLoc(endPosition.getX(),
-				// endPosition.getY()) != null) {
-				//
-				// }
-				
+			if (newBoard != null) {				
 				State newState = new State(this, newBoard);
 				newState.setPreviousMove(new Move(startingPosition, endPosition,
 						newBoard.findPieceAtLoc(endPosition.getX(), endPosition.getY())));
-				newState.flipPlayerToMove();
 				return newState;
 			}
-			System.out.println("kinda legal");
 		}
 		System.out.println("NOT LEGAL");
 		return null;
