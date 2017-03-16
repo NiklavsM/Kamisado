@@ -73,6 +73,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		previousLocation = buttons[start.getX()][start.getY()];
 		buttons[end.getX()][end.getY()].setIcon(pieceIcon);
 		previousLocation.setIcon(GREY);
+		}
 	}
 
 	public void removeSelectable() {

@@ -79,13 +79,15 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 //				System.out.println("X: " + pos.getX() + " Y: " + pos.getY());
 //			}
 			this.tellAll(currentState.getValidMoves());
-			return false;
-		} else {
-			return tryToMove(placeClicked);
+			return true;
 		}
+		return false;
+//			else {
+//			return tryToMove(placeClicked);
+//		}
 	}
 
-	private boolean tryToMove(Position placeClicked) {
+	public boolean tryToMove(Position placeClicked) {
 		State state = currentState.make(placeClicked);
 		if (state == null) {
 			System.out.println("is not valid move X: " + placeClicked.getX() + " Y: " + placeClicked.getY());
@@ -99,9 +101,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public boolean playTurn(Position placeClicked) {
-		if(!tryToMove(placeClicked)){
-			return false;
-		}else if (currentState.isGameOver()) {
+		if (currentState.isGameOver()) {
 			Player winningPlayer = currentState.getPlayerToMove();
 			this.tellAll(winningPlayer.getPlayerTeam());
 			return true;
@@ -140,11 +140,15 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			if (!gameOver) {
 				if (firstMove) {
 					if (playerFirstMove((Position) arg)) {
-						nextTurn(0);
+						
+					}else if(tryToMove((Position) arg)){
 						firstMove = false;
+						nextTurn(0);
 					}
-				} else if (playTurn((Position) arg)) {
-					gameOver = true;
+				} else if(tryToMove((Position) arg)){
+					if (playTurn((Position) arg)) {
+						gameOver = true;
+					}
 				}
 				generateMove();
 			}
