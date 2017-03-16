@@ -57,30 +57,29 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		timer.start();
 	}
 
+	@Override
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof Position) {
 			System.out.println("update gamedriver");
 			if (!gameOver) {
 				if (firstMove) {
-					turnBegin();
 					if (playerFirstMove((Position) arg)) {
-						nextTurn(0);
+						
+					}else if(tryToMove((Position) arg)){
 						firstMove = false;
+						nextTurn(0);
+						turnBegin();
 					}
-				} else {
-					if (tryToMove((Position) arg)) {
-						if (playTurn((Position) arg)) {
-							timer.stop();
-							gameOver = true;
-						} else {
-							turnBegin();
-						}
+				}else if(tryToMove((Position) arg)){
+					if (playTurn((Position) arg)) {
+						timer.stop();
+						gameOver = true;
+					}else{
+						turnBegin();
 					}
-
 				}
 				generateMove();
 			}
-
 		}
 	}
 }
