@@ -57,6 +57,7 @@ public class MenuFrame extends JFrame {
 		setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 200, 530, 530);
+		setResizable(false);
 	}
 
 	public void menuBar() {

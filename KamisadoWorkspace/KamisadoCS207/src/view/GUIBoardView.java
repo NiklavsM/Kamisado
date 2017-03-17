@@ -172,10 +172,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		return buttons[x][y];
 	}
 
-	public void disableButtons() {
+	public void setButtonsEnabled(boolean enabled) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				buttons[i][j].setEnabled(false);
+				buttons[i][j].setEnabled(enabled);
 			}
 		}
 	}

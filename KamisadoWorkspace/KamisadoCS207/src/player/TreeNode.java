@@ -86,9 +86,9 @@ public class TreeNode {
 				moves.remove(moves.size() - 1);
 			}
 			if (playerToMove == 0) {
-				previousMove.setScore(maxScore(children));
+				previousMove.setScore(maxScore(children)-1);
 			} else {
-				previousMove.setScore(minScore(children));
+				previousMove.setScore(minScore(children)+1);
 			}
 		} else {
 			// if player misses a go

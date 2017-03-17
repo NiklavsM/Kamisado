@@ -67,14 +67,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof ArrayList<?>) {
 			gameBoard.displaySelectable((ArrayList<Position>) arg);
-		} 
-//			else if (arg instanceof Move) {
-//			System.out.println("got Move");
-//			gameBoard.removeSelectable();
-//
-//			gameBoard.pieceMoved(((Move) arg).getStartPos(), ((Move) arg).getEndPos());
-//		} 
-		else if (arg instanceof String) {
+		}else if (arg instanceof String) {
 			switch ((String) arg) {
 			case "White":
 				winnerLabel.setText("White Wins!");
@@ -88,7 +81,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 				winnerLabel.setText("Draw!");
 				//System.out.println("Draw!");
 			}
-			gameBoard.disableButtons();
+			gameBoard.setButtonsEnabled(false);
 		} else if (arg instanceof Board) {
 			gameBoard.redrawBoard((Board) arg);
 		}
