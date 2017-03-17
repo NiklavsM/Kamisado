@@ -13,10 +13,11 @@ public class HardAIPlayer extends Player implements MyObservable{
     }
     @Override
     public void getMove(State state){
-    	moveTree = new TreeNode(4, state, 0, state.getPieceToMove());
-    	Move move = moveTree.generateChildren();
+    	moveTree = new TreeNode(5, state, 0);
+    	Move move = moveTree.getBestChild();
     	move.print();
-    	System.out.println(move.getScore());
     	tellAll(move.getEndPos());
     }
+    
+    
 }

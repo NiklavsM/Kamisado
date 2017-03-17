@@ -125,6 +125,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
 						gameOver = true;
+						return;
 					}
 				}
 				generateMove();

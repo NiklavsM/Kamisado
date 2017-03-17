@@ -68,6 +68,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 					if (playTurn((Position) arg)) {
 						timer.stop();
 						gameOver = true;
+						return;
 					} else {
 						turnBegin();
 					}
