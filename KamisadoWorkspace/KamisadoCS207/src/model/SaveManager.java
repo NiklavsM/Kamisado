@@ -21,21 +21,13 @@ public class SaveManager {
 		if (fileAdded == JFileChooser.APPROVE_OPTION) {
 			try {
 				FileWriter fileCreater = new FileWriter(fileChooser.getSelectedFile() + ".bin");
+				ObjectOutputStream stateObj = new ObjectOutputStream(
+						new FileOutputStream(fileChooser.getSelectedFile().getPath() + ".bin"));
+				stateObj.writeObject(state);
+				stateObj.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}
-		try {
-			ObjectOutputStream stateObj = new ObjectOutputStream(
-					new FileOutputStream(fileChooser.getSelectedFile().getPath() + ".bin"));
-			stateObj.writeObject(state);
-			stateObj.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("No file found");
-		} catch (IOException s) {
-			s.printStackTrace();
-			System.out.println("IO problem1");
 		}
 
 	}
@@ -48,21 +40,22 @@ public class SaveManager {
 		int result = fileChooser.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
+			try {
+				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
+				state = (State) newStateO.readObject();
+				newStateO.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.out.println("No file found");
+			} catch (IOException s) {
+				s.printStackTrace();
+				System.out.println("IO problem2");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
-			state = (State) newStateO.readObject();
-			newStateO.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("No file found");
-		} catch (IOException s) {
-			s.printStackTrace();
-			System.out.println("IO problem2");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return state;
 	}
 
