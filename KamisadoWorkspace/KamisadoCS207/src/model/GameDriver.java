@@ -39,8 +39,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public void loadGame() {
 		SaveManager s = new SaveManager();
 		currentState = s.load();
-		this.tellAll(currentState.getBoard());
-		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+		if (s != null) {
+			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+		}
 	}
 
 	public void undo() {
