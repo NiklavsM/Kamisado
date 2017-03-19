@@ -131,6 +131,7 @@ public class MenuFrame extends JFrame {
 
 		main.setMnemonic(KeyEvent.VK_M);
 		menuBar.add(main);
+		menuBar.add(new JLabel("Alt-M"));
 		main.add(home);
 		main.add(newgame);
 		main.add(loadgame);

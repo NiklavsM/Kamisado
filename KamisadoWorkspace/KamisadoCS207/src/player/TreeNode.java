@@ -54,7 +54,7 @@ public class TreeNode {
 
 	public Move getBestChild() {
 		this.generateChildren();
-		if(children.size() == 0){
+		if (children.size() == 0) {
 			return previousMove;
 		}
 		return maxMove(children);
@@ -71,7 +71,7 @@ public class TreeNode {
 			// player has won
 			previousMove.setScore(-1000000000);
 			return;
-		}else if(playerToMove == 1 && posOfPreviousMove.getY() == 0){
+		} else if (playerToMove == 1 && posOfPreviousMove.getY() == 0) {
 			previousMove.setScore(1000000000);
 			return;
 		}
@@ -86,9 +86,9 @@ public class TreeNode {
 				moves.remove(moves.size() - 1);
 			}
 			if (playerToMove == 0) {
-				previousMove.setScore(maxScore(children)-1);
+				previousMove.setScore(maxScore(children) - 1);
 			} else {
-				previousMove.setScore(minScore(children)+1);
+				previousMove.setScore(minScore(children) + 1);
 			}
 		} else {
 			// if player misses a go
@@ -108,20 +108,19 @@ public class TreeNode {
 		if (playerToMove == 0) {
 			if (validMovesForThisPlayer.size() == 0) {
 				score += 200;
-			}else{
+			} else {
 				score -= validMovesForThisPlayer.size() * 10;
 				for (Position position : validMovesForThisPlayer) {
 					if (position.getY() == 0) {
 						score -= 200;
 					}
 				}
-			}	
-			
-			
+			}
+
 		} else {
 			if (validMovesForThisPlayer.size() == 0) {
 				score -= 200;
-			}else{
+			} else {
 				score += validMovesForThisPlayer.size() * 10;
 				for (Position position : validMovesForThisPlayer) {
 					if (position.getY() == 7) {
