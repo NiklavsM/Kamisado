@@ -54,9 +54,9 @@ public class SaveManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return state;
 		}
-		
-		return state;
+		return null;
 	}
 
 }

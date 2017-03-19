@@ -51,6 +51,30 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		});
 		timer.start();
 	}
+	public void undo() {
+		if (!history.empty()) {
+			turnBegin();
+			gameOver = false;
+			currentState = history.pop();
+			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+
+		}
+	}
+	public void reset() {
+		boolean valid = false;
+		while (!history.empty()) {
+			currentState = history.pop();
+			valid = true;
+		}
+		if(valid){
+			turnBegin();
+			gameOver = false;
+			firstMove = true;
+			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+		}
+	}
 
 	@Override
 	public void update(MyObservable o, Object arg) {

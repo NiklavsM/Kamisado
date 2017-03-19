@@ -164,6 +164,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
 				}
+				buttons[x][y].setEnabled(true);
 			}
 		}
 	}

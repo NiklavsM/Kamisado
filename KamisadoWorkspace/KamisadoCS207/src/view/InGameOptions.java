@@ -59,6 +59,17 @@ public class InGameOptions extends JPanel{
 		});
 		//btnUndo.setFocusable(false);
 		add(btnUndo, BorderLayout.CENTER);
+		JButton btnReset = new JButton("Reset");
+		btnReset.setBackground(Color.LIGHT_GRAY);
+		btnReset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//controller.getGame().reset();
+			}
+		});
+		//btnUndo.setFocusable(false);
+		add(btnReset, BorderLayout.WEST);
 
 	}
 }

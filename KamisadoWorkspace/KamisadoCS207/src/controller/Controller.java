@@ -65,6 +65,7 @@ public class Controller implements Serializable{
 		}
 		
 		main.getGameBoard().addObserver(game);
+		game.addObserver(main.getGameTimer());
 		menuFrame.addPanel(main);
 		game.addObserver(main);
 		

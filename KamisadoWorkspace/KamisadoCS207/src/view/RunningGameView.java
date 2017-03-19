@@ -28,7 +28,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		timer = new GameTimer();
-		timer.setText("  ");
+		timer.setText(" ");
 		timer.setVisible(true);
 		timer.setFocusable(false);
 		

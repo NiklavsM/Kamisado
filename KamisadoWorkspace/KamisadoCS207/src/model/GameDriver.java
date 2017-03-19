@@ -8,7 +8,7 @@ import player.Player;
 
 public class GameDriver implements MyObservable, MyObserver, Serializable {
 
-	private Stack<State> history;
+	public Stack<State> history;
 	public State currentState;
 	private boolean firstMove = true;
 	private boolean gameOver = false;
@@ -39,7 +39,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public void loadGame() {
 		SaveManager s = new SaveManager();
 		currentState = s.load();
-		if (s != null) {
+		if (currentState != null) {
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
@@ -47,11 +47,25 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void undo() {
 		if (!history.empty()) {
+			gameOver = false;
 			currentState = history.pop();
-			ArrayList<Position> movesCanMake = currentState.calcValidMoves(currentState.getStartingPosition());
 			this.tellAll(currentState.getBoard());
-			this.tellAll(movesCanMake);
+			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 
+		}
+	}
+
+	public void reset() {
+		boolean valid = false;
+		while (!history.empty()) {
+			currentState = history.pop();
+			valid = true;
+		}
+		if(valid){
+			gameOver = false;
+			firstMove = true;
+			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
 	}
 
