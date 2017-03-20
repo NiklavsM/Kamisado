@@ -111,19 +111,24 @@ public class Controller implements Serializable {
 		SaveManager s = new SaveManager();
 		State stateToLoad = s.load();
 		if (game == null) {
-			if (stateToLoad.getTime() > 0) {
-				game = new GameDriver(stateToLoad);
-			} else {
-				game = new SpeedGameDriver(stateToLoad);
+			if (stateToLoad != null) {
+				if (stateToLoad.getTime() > 0) {
+					game = new SpeedGameDriver(stateToLoad);
+				} else {
+					game = new GameDriver(stateToLoad);
+				}
+				main.displayGame(game.getCurrentState());
+				main.getGameBoard().addObserver(game);
+				game.addObserver(main.getGameTimer());
+				game.addObserver(main);
+				menuFrame.ShowGameViewPanel();
+				game.changeCurrentState(stateToLoad);
+				game.playGame();
 			}
-			main.getGameBoard().addObserver(game);
-			game.addObserver(main.getGameTimer());
-			game.addObserver(main);
+		} else {
 			game.changeCurrentState(stateToLoad);
-			main.displayGame(game.getCurrentState());
-			game.playGame();
-		} else
-			game.changeCurrentState(stateToLoad);
+		}
+
 	}
 
 	public static void main(String[] args) {

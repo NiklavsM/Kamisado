@@ -11,23 +11,32 @@ import player.Player;
 
 public class SpeedGameDriver extends GameDriver implements MyObserver, MyObservable, Serializable {
 
-	private Timer timer;
 	private int timerLimit;
-	private int time;
-	private boolean firstMove = true;
-	private boolean gameOver = false;
+	private Timer timer = new Timer(1000, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			currentState.setTime(currentState.getTime()-1);
+			tellAll(currentState.getTime());
+			if (currentState.getTime() <= 0) {
+				onTimeOut();
+			}
+		}
+	});
 
 	public SpeedGameDriver(Player white, Player black, Player playerToStart, int timerLimit) {
 		super(white, black, playerToStart);
 		this.timerLimit = timerLimit;
 		currentState.setTime(timerLimit);
+		timer.start();
 	}
 	public SpeedGameDriver(State currentState) {
 		super(currentState);
+		this.timerLimit = currentState.getTimerLimit();
+		timer.start();
 	}
 
 	public void onTimeOut() {
-		gameOver = true;
+		currentState.setGameOver(true);
 		Player winningPlayer;
 		if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {
 			winningPlayer = currentState.getPlayerBlack();
@@ -39,29 +48,13 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	public void turnBegin() {
-		time = timerLimit;
 		currentState.setTime(timerLimit);
-		tellAll(currentState.getTime());
-		if (timer != null) {
-			timer.stop();
-		}
-
-		timer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				currentState.setTime(currentState.getTime()-1);
-				tellAll(currentState.getTime());
-				if (currentState.getTime() <= 0) {
-					onTimeOut();
-				}
-			}
-		});
-		timer.start();
+		tellAll(currentState.getTime());		
+		timer.restart();
 	}
 	public void undo() {
 		if (!history.empty()) {
 			turnBegin();
-			gameOver = false;
 			currentState = history.pop();
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
@@ -76,16 +69,15 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		}
 		if(valid){
 			turnBegin();
-			gameOver = false;
-			firstMove = true;
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
 	}
 	public void saveGame() {
 		timer.stop();
-		currentState.setTime(time);
 		SaveManager s = new SaveManager();
+		System.out.println("TIME" + currentState.getTime());
+		currentState.setTimerLimit(timerLimit);
 		s.save(currentState);
 		timer.start();
 	}
@@ -93,11 +85,11 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	@Override
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof Position) {
-			if (!gameOver) {
-				if (firstMove) {
+			if (!currentState.isGameOver()) {
+				if (currentState.isFirstMove()) {
 					if (!playerFirstMove((Position) arg)) {
 						if (tryToMove((Position) arg)) {
-							firstMove = false;
+							currentState.setFirstMove(false);
 							nextTurn(0);
 							turnBegin();
 						}
@@ -105,7 +97,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
 						timer.stop();
-						gameOver = true;
+						currentState.setGameOver(true);
 						return;
 					} else {
 						turnBegin();

@@ -21,6 +21,10 @@ public final class State implements Serializable {
 	private Player PlayerToMove;
 	private Position pieceToMove;
 	private int time = -1;
+	private int timerLimit = -1;
+	private boolean firstMove = false;
+	private boolean gameOver = false;
+
 
 	public State(Player playerWhite, Player playerBlack, Player playerToMove) {
 		this.playerWhite = playerWhite;
@@ -192,7 +196,7 @@ public final class State implements Serializable {
 		this.previousMove = previousMove;
 	}
 
-	public boolean isGameOver() {
+	public boolean wasWinningMove() {
 		return currentBoard.gameOver(previousMove.getEndPos().getY());
 	}
 
@@ -245,6 +249,26 @@ public final class State implements Serializable {
 	public int getTime() {
 		return time;
 	}
+	public boolean isFirstMove() {
+		return firstMove;
+	}
 
+	public void setFirstMove(boolean firstMove) {
+		this.firstMove = firstMove;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+	public boolean isGameOver() {
+		return gameOver;
+	}
+	public int getTimerLimit() {
+		return timerLimit;
+	}
+
+	public void setTimerLimit(int timerLimit) {
+		this.timerLimit = timerLimit;
+	}
 
 }

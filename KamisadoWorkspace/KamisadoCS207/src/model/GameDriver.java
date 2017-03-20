@@ -10,12 +10,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public Stack<State> history;
 	public State currentState;
-	private boolean firstMove = true;
-	private boolean gameOver = false;
 
 	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart) {
 		this.history = new Stack<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart);
+		currentState.setFirstMove(true);
 	}
 
 	public GameDriver(State currentState) {
@@ -29,19 +28,16 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public void changeCurrentState(State currentState) {
-		this.currentState = currentState;
+			this.currentState = currentState;
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
-			gameOver = false;
 	}
 
 	public void undo() {
 		if (!history.empty()) {
-			gameOver = false;
 			currentState = history.pop();
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
-
 		}
 	}
 
@@ -52,8 +48,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			valid = true;
 		}
 		if(valid){
-			gameOver = false;
-			firstMove = true;
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
@@ -92,7 +86,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public boolean playTurn(Position placeClicked) {
-		if (currentState.isGameOver()) {
+		if (currentState.wasWinningMove()) {
 			Player winningPlayer = currentState.getPlayerToMove();
 			this.tellAll(winningPlayer.getPlayerTeam());
 			return true;
@@ -124,17 +118,17 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	@Override
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof Position) {
-			if (!gameOver) {
-				if (firstMove) {
+			if (!currentState.isGameOver()) {
+				if (currentState.isFirstMove()) {
 					if (!playerFirstMove((Position) arg)) {
 						if (tryToMove((Position) arg)) {
-							firstMove = false;
+							currentState.setFirstMove(false);
 							nextTurn(0);
 						}
 					}
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
-						gameOver = true;
+						currentState.setGameOver(true);
 						return;
 					}
 				}

@@ -88,7 +88,7 @@ public class GameOptionsPanel extends JPanel {
 		timeLabel.setBounds(48, 177, 97, 23);
 		add(timeLabel);
 
-		timerTime = new JTextField("10");
+		timerTime = new JTextField("20");
 		timerTime.setBounds(48, 208, 82, 20);
 		add(timerTime);
 		
