@@ -8,7 +8,7 @@ import model.State;
 public abstract class Player implements MyObservable, Serializable{
 
 	private String playerName;
-    private String playerTeam;
+	private String playerTeam;
     private int homeRow;
     private boolean goingFirst;
 
@@ -41,4 +41,7 @@ public abstract class Player implements MyObservable, Serializable{
     public int getHomeRow() {
         return homeRow;
     }
+    public String getPlayerName() {
+		return playerName;
+	}
 }

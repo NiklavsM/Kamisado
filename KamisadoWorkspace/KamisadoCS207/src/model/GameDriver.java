@@ -14,20 +14,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	private boolean gameOver = false;
 
 	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart) {
-		// this.playerWhite = playerWhite;
-		// this.playerBlack = playerBlack;
-		// PlayerToMove = playerToStart;
 		this.history = new Stack<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart);
-		// this.saveManager = new SaveManager();
 	}
 
-	public GameDriver(Player playerWhite, Player playerBlack, Stack<State> history, State currentState,
-			Player playerToStart) {
-		// this.playerWhite = playerWhite;
-		// this.playerBlack = playerBlack;
-		// PlayerToMove = playerToStart;
-		this.history = history;
+	public GameDriver(State currentState) {
+		this.history = new Stack<>();
 		this.currentState = currentState;
 	}
 
@@ -36,13 +28,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		s.save(currentState);
 	}
 
-	public void loadGame() {
-		SaveManager s = new SaveManager();
-		currentState = s.load();
-		if (currentState != null) {
+	public void changeCurrentState(State currentState) {
+		this.currentState = currentState;
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
-		}
+			gameOver = false;
 	}
 
 	public void undo() {
