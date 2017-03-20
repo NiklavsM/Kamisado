@@ -14,7 +14,7 @@ import player.Player;
 import view.MenuFrame;
 import view.RunningGameView;
 
-public class Controller implements Serializable{
+public class Controller implements Serializable {
 
 	private GameDriver game;
 	private RunningGameView main;
@@ -22,74 +22,74 @@ public class Controller implements Serializable{
 	private Player playerWhite;
 	private Player playerBlack;
 
-	public Controller() {		
+	public Controller() {
 		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
 		menuFrame = new MenuFrame(this, main);
 		menuFrame.setVisible(true);
-		
+
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
-		playerWhite = new GUIPlayer("White",whiteName, true, this);
-		playerBlack = new GUIPlayer("Black",blackName, false, this);
+		playerWhite = new GUIPlayer("White", whiteName, true, this);
+		playerBlack = new GUIPlayer("Black", blackName, false, this);
 	}
 
-	public void playSinglePlayer(boolean userToMoveFirst,boolean isSpeedGame,boolean isEasyAI, String whiteName, String blackName, int timerTime) {
+	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
+			String blackName, int timerTime) {
 		main.getGameBoard().removeObserver(game);
-		if(main == null){
+		if (main == null) {
 			main = new RunningGameView(whiteName, blackName, this);
 		}
-		if(userToMoveFirst){
-			playerWhite = new GUIPlayer("White",whiteName, true, this);
-			
-			if(isEasyAI){
-				playerBlack = new EasyAIPlayer("Black",blackName, false);
-			}else{
-				playerBlack = new HardAIPlayer("Black",blackName, false);
+		if (userToMoveFirst) {
+			playerWhite = new GUIPlayer("White", whiteName, true, this);
+
+			if (isEasyAI) {
+				playerBlack = new EasyAIPlayer("Black", blackName, false);
+			} else {
+				playerBlack = new HardAIPlayer("Black", blackName, false);
 			}
 			if (isSpeedGame) {
 				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
-			
+
 			playerBlack.addObserver(game);
-		}else{
-			if(isEasyAI){
-				playerWhite = new EasyAIPlayer("White",whiteName, true);
-			}else{
-				playerWhite = new HardAIPlayer("White",whiteName, true);
+		} else {
+			if (isEasyAI) {
+				playerWhite = new EasyAIPlayer("White", whiteName, true);
+			} else {
+				playerWhite = new HardAIPlayer("White", whiteName, true);
 			}
-			playerBlack = new GUIPlayer("Black",blackName, false, this);
+			playerBlack = new GUIPlayer("Black", blackName, false, this);
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite,timerTime);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
 			playerWhite.addObserver(game);
-			
-			
+
 		}
 		main.displayGame(game.getCurrentState());
 		main.getGameBoard().addObserver(game);
-		
+
 		game.addObserver(main.getGameTimer());
 		menuFrame.ShowGameViewPanel();
 		game.addObserver(main);
-		//main.addObserver(playerWhite);
-		//main.addObserver(playerBlack);
+		// main.addObserver(playerWhite);
+		// main.addObserver(playerBlack);
 		game.playGame();
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
 		main.getGameBoard().removeObserver(game);
-		initialisePlayers(whiteName,blackName);
-		if(main == null){
+		initialisePlayers(whiteName, blackName);
+		if (main == null) {
 			main = new RunningGameView(whiteName, blackName, this);
 		}
-		if(isSpeedGame){
+		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
-		}else{
+		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
 		main.displayGame(game.getCurrentState());
@@ -97,27 +97,33 @@ public class Controller implements Serializable{
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
-//		playerWhite.addObserver(main);
-//		playerBlack.addObserver(main);
+		// playerWhite.addObserver(main);
+		// playerBlack.addObserver(main);
 		game.playGame();
 
 	}
+
 	public GameDriver getGame() {
 		return game;
 	}
-	public void loadGame(){
+
+	public void loadGame() {
 		SaveManager s = new SaveManager();
 		State stateToLoad = s.load();
-		if(game == null){
-			game = new GameDriver(stateToLoad);
-			main = new RunningGameView(stateToLoad.getPlayerWhite().getPlayerName(), stateToLoad.getPlayerBlack().getPlayerName(), this);
+		if (game == null) {
+			if (stateToLoad.getTime() > 0) {
+				game = new GameDriver(stateToLoad);
+			} else {
+				game = new SpeedGameDriver(stateToLoad);
+			}
 			main.getGameBoard().addObserver(game);
 			game.addObserver(main.getGameTimer());
-			menuFrame.addPanel(main);
-			game.addObserver(main);		
+			game.addObserver(main);
 			game.changeCurrentState(stateToLoad);
+			main.displayGame(game.getCurrentState());
 			game.playGame();
-		}else game.changeCurrentState(stateToLoad);
+		} else
+			game.changeCurrentState(stateToLoad);
 	}
 
 	public static void main(String[] args) {

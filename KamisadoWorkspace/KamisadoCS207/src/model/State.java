@@ -20,6 +20,7 @@ public final class State implements Serializable {
 	private Player playerBlack;
 	private Player PlayerToMove;
 	private Position pieceToMove;
+	private int time = -1;
 
 	public State(Player playerWhite, Player playerBlack, Player playerToMove) {
 		this.playerWhite = playerWhite;
@@ -238,5 +239,12 @@ public final class State implements Serializable {
 	public Position getPieceToMove() {
 		return pieceToMove;
 	}
+	public void setTime(int time) {
+		this.time = time;
+	}
+	public int getTime() {
+		return time;
+	}
+
 
 }

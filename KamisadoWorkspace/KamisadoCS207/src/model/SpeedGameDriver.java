@@ -3,6 +3,7 @@ package model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.Stack;
 
 import javax.swing.Timer;
 
@@ -19,6 +20,10 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	public SpeedGameDriver(Player white, Player black, Player playerToStart, int timerLimit) {
 		super(white, black, playerToStart);
 		this.timerLimit = timerLimit;
+		currentState.setTime(timerLimit);
+	}
+	public SpeedGameDriver(State currentState) {
+		super(currentState);
 	}
 
 	public void onTimeOut() {
@@ -35,7 +40,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	public void turnBegin() {
 		time = timerLimit;
-		tellAll(time);
+		currentState.setTime(timerLimit);
+		tellAll(currentState.getTime());
 		if (timer != null) {
 			timer.stop();
 		}
@@ -43,8 +49,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tellAll(--time);
-				if (time <= 0) {
+				currentState.setTime(currentState.getTime()-1);
+				tellAll(currentState.getTime());
+				if (currentState.getTime() <= 0) {
 					onTimeOut();
 				}
 			}
@@ -74,6 +81,13 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
+	}
+	public void saveGame() {
+		timer.stop();
+		currentState.setTime(time);
+		SaveManager s = new SaveManager();
+		s.save(currentState);
+		timer.start();
 	}
 
 	@Override
