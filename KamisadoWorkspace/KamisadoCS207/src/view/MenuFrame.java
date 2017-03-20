@@ -29,10 +29,10 @@ public class MenuFrame extends JFrame {
 	private Controller controller;
 
 
-	public MenuFrame(Controller controller) {
+	public MenuFrame(Controller controller, RunningGameView gameView) {
 		this.controller = controller;
 		menuBar();
-		gameView = new RunningGameView("Test1", "Test2", controller);
+		this.gameView = gameView;
 		contentPane = new JPanel(new CardLayout());
 		statPanel = new StatPanel();
 		loadPanel = new LoadGamePanel();
@@ -50,7 +50,7 @@ public class MenuFrame extends JFrame {
 		contentPane.add(options, "New Game");
 		contentPane.add(loadPanel, "Load Game");
 		contentPane.add(statPanel, "Stats");
-		contentPane.add(gameView, "Game View");
+		contentPane.add(this.gameView, "Game View");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
 		c1.show(contentPane, "New Game");
@@ -144,12 +144,8 @@ public class MenuFrame extends JFrame {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
-	public void addPanel(RunningGameView panel) {
-		contentPane.remove(gameView);
-		gameView = null;
-		gameView = panel;
+	public void ShowGameViewPanel() {
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
-		contentPane.add(gameView, "Game View");
 		c1.show(contentPane, "Game View");
 		gameView.requestFocus();
 	}

@@ -21,8 +21,10 @@ public class Controller implements Serializable{
 	private Player playerBlack;
 
 	public Controller() {		
-		menuFrame = new MenuFrame(this);
+		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
+		menuFrame = new MenuFrame(this, main);
 		menuFrame.setVisible(true);
+		
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
@@ -31,7 +33,10 @@ public class Controller implements Serializable{
 	}
 
 	public void playSinglePlayer(boolean userToMoveFirst,boolean isSpeedGame,boolean isEasyAI, String whiteName, String blackName, int timerTime) {
-		main = new RunningGameView(whiteName, blackName, this);
+		main.getGameBoard().removeObserver(game);
+		if(main == null){
+			main = new RunningGameView(whiteName, blackName, this);
+		}
 		if(userToMoveFirst){
 			playerWhite = new GUIPlayer("White",whiteName, true, this);
 			
@@ -45,7 +50,7 @@ public class Controller implements Serializable{
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
-			main.addObserver(playerWhite);
+			
 			playerBlack.addObserver(game);
 		}else{
 			if(isEasyAI){
@@ -61,31 +66,37 @@ public class Controller implements Serializable{
 			}
 			playerWhite.addObserver(game);
 			
-			main.addObserver(playerBlack);
+			
 		}
-		
+		main.displayGame(game.getCurrentState());
 		main.getGameBoard().addObserver(game);
-		game.addObserver(main.getGameTimer());
-		menuFrame.addPanel(main);
-		game.addObserver(main);
 		
+		game.addObserver(main.getGameTimer());
+		menuFrame.ShowGameViewPanel();
+		game.addObserver(main);
+		//main.addObserver(playerWhite);
+		//main.addObserver(playerBlack);
 		game.playGame();
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
+		main.getGameBoard().removeObserver(game);
 		initialisePlayers(whiteName,blackName);
+		if(main == null){
+			main = new RunningGameView(whiteName, blackName, this);
+		}
 		if(isSpeedGame){
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 		}else{
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
-		main = new RunningGameView(whiteName, blackName, this);
+		main.displayGame(game.getCurrentState());
 		main.getGameBoard().addObserver(game);
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
-		menuFrame.addPanel(main);
-		main.addObserver(playerWhite);
-		main.addObserver(playerBlack);
+		menuFrame.ShowGameViewPanel();
+//		playerWhite.addObserver(main);
+//		playerBlack.addObserver(main);
 		game.playGame();
 
 	}

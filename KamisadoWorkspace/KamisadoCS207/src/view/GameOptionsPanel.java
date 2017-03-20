@@ -32,6 +32,8 @@ public class GameOptionsPanel extends JPanel {
 	JRadioButton rdbtnHard;
 	JRadioButton rdbtnSingleplayer;
 	JRadioButton rdbtnTwoPlayer;
+	JRadioButton whiteAiPlayer;
+	JRadioButton blackAiPlayer;
 	JTextField timerTime;
 	JLabel timeLabel;
 
@@ -52,16 +54,24 @@ public class GameOptionsPanel extends JPanel {
 		separator.setBounds(32, 108, 168, 22);
 		add(separator);
 
-		white = new JLabel("Player Black");
-		white.setBounds(217, 152, 109, 22);
-		add(white);
-		black = new JLabel("Player White");
-		black.setBounds(217, 177, 109, 23);
+		black = new JLabel("Player Black");
+		black.setBounds(217, 152, 109, 22);
 		add(black);
+		white = new JLabel("Player White");
+		white.setBounds(217, 177, 109, 23);
+		add(white);
 		JLabel lblAiDifficulty = new JLabel("AI Difficulty:");
 		lblAiDifficulty.setBounds(217, 35, 101, 14);
 		add(lblAiDifficulty);
 
+		whiteAiPlayer = new JRadioButton();
+		whiteAiPlayer.setBounds(450, 153, 20, 20);
+		add(whiteAiPlayer);
+
+		blackAiPlayer = new JRadioButton();
+		blackAiPlayer.setBounds(450, 178, 20, 20);
+		add(blackAiPlayer);
+		
 		rdbtnEasy = new JRadioButton("Easy");
 		rdbtnEasy.setBounds(217, 57, 109, 23);
 		add(rdbtnEasy);

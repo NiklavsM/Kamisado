@@ -98,10 +98,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				currentx = x;
-				currenty = y;
-				changedSelected(currentx, currenty);
-				tellAll(new Position(x, y));
+//				currentx = x;
+//				currenty = y;
+//				changedSelected(currentx, currenty);
+//				tellAll(new Position(x, y));
 			}
 
 			@Override
@@ -118,8 +118,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
+				currentx = x;
+				currenty = y;
+				changedSelected(currentx, currenty);
+				tellAll(new Position(x, y));
 			}
 
 			@Override

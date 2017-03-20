@@ -23,4 +23,10 @@ public interface MyObservable {
     default void addObserver(MyObserver o){
         observers.add(o);
     }
+    
+    default void removeObserver(MyObserver o){
+    	if(observers.contains(o)){
+    		observers.remove(o);
+    	}
+    }
 }

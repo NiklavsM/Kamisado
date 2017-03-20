@@ -126,6 +126,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		return false;
 	}
+	
+	public State getCurrentState(){
+		return currentState;
+	}
 
 	@Override
 	public void update(MyObservable o, Object arg) {

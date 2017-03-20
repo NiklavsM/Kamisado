@@ -25,6 +25,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private InGameOptions inGameOptions;
 	private GameTimer timer;
 	private JLabel winnerLabel;
+	private JLabel teamWhite;
+	private JLabel teamBlack;
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		timer = new GameTimer();
@@ -44,14 +46,23 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.add(gameBoard, BorderLayout.CENTER);
 		this.setBounds(100, 100, 522, 482);
 	}
+	
+	public void displayGame(State state){
+		teamBlack.setText(state.getPlayerBlack().getPlayerName());
+		teamWhite.setText(state.getPlayerWhite().getPlayerName());
+		winnerLabel.setText("");
+		gameBoard.redrawBoard(state.getBoard());
+	}
 
 	public void setUpTeamLabels(String whiteName, String blackName){
 		teamLabel = new JPanel();
+		teamWhite = new JLabel(whiteName);
+		teamBlack = new JLabel(blackName);
 		teamLabel.setLayout(new BorderLayout());
-		teamLabel.add(new JLabel(blackName), BorderLayout.NORTH);
+		teamLabel.add(teamBlack, BorderLayout.NORTH);
 		winnerLabel = new JLabel("");
 		teamLabel.add(winnerLabel, BorderLayout.CENTER);
-		teamLabel.add(new JLabel(whiteName), BorderLayout.SOUTH);
+		teamLabel.add(teamWhite, BorderLayout.SOUTH);
 		teamLabel.setFocusable(false);
 	}
 	

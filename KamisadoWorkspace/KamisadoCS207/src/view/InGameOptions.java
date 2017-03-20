@@ -28,7 +28,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.Quit();
+				//controller.Quit();
 			}
 		});
 		//btnQuit.setFocusable(false);
