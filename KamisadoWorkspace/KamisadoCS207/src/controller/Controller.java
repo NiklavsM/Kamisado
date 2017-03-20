@@ -4,7 +4,9 @@ import java.awt.EventQueue;
 import java.io.Serializable;
 
 import model.GameDriver;
+import model.SaveManager;
 import model.SpeedGameDriver;
+import model.State;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
 import player.HardAIPlayer;
@@ -91,6 +93,20 @@ public class Controller implements Serializable{
 	}
 	public GameDriver getGame() {
 		return game;
+	}
+	public void loadGame(){
+		SaveManager s = new SaveManager();
+		State stateToLoad = s.load();
+		if(game == null){
+			game = new GameDriver(stateToLoad);
+			main = new RunningGameView(stateToLoad.getPlayerWhite().getPlayerName(), stateToLoad.getPlayerBlack().getPlayerName(), this);
+			main.getGameBoard().addObserver(game);
+			game.addObserver(main.getGameTimer());
+			menuFrame.addPanel(main);
+			game.addObserver(main);		
+			game.changeCurrentState(stateToLoad);
+			game.playGame();
+		}else game.changeCurrentState(stateToLoad);
 	}
 
 	public static void main(String[] args) {

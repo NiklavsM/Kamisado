@@ -98,7 +98,7 @@ public class MenuFrame extends JFrame {
 		loadgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				controller.getGame().loadGame();
+				controller.loadGame();
 //				CardLayout c1 = (CardLayout) contentPane.getLayout();
 //				c1.show(contentPane, "Load Game");
 //				loadPanel.requestFocus();
