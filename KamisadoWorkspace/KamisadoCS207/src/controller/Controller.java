@@ -116,6 +116,7 @@ public class Controller implements Serializable {
 			} else {
 				game = new SpeedGameDriver(stateToLoad);
 			}
+			
 			main.getGameBoard().addObserver(game);
 			game.addObserver(main.getGameTimer());
 			game.addObserver(main);
