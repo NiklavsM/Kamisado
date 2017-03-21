@@ -56,7 +56,6 @@ public class Controller implements Serializable {
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
-
 			playerBlack.addObserver(game);
 		} else {
 			if (isEasyAI) {
