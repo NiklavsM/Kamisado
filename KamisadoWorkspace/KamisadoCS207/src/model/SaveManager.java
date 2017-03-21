@@ -47,11 +47,11 @@ public class SaveManager {
 				newStateO.close();
 				return state;
 			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "File not right", "File not right",
+				JOptionPane.showMessageDialog(null, "File not found", "File not found",
                         JOptionPane.ERROR_MESSAGE);
 				return null;
 			} catch (IOException s) {
-				JOptionPane.showMessageDialog(null, "File not right", "File not right",
+				JOptionPane.showMessageDialog(null, "File not right IO", "File not right IO",
                         JOptionPane.ERROR_MESSAGE);
 				return null;
 			} catch (ClassNotFoundException e) {

@@ -97,6 +97,8 @@ public class MenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controller.killGame();
+				CardLayout c1 = (CardLayout) contentPane.getLayout();
+				c1.show(contentPane, "New Game");
 				gameView.setWinnerLabel("");
 				gameView.setTimerLabel(" ");
 				controller.loadGame();

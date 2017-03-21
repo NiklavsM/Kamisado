@@ -50,7 +50,6 @@ public class Controller implements Serializable {
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
-
 			playerBlack.addObserver(game);
 		} else {
 			if (isEasyAI) {
@@ -92,7 +91,8 @@ public class Controller implements Serializable {
 		return game;
 	}
 	public void killGame() {
-		if(game !=null){
+
+		if (game != null){
 			main.getGameBoard().removeObserver(game);
 			game.removeObserver(main);
 			game.removeObserver(main.getGameTimer());
@@ -101,7 +101,7 @@ public class Controller implements Serializable {
 		}
 	}
 
-	public void loadGame() {
+	public boolean loadGame() {
 		SaveManager s = new SaveManager();
 		State stateToLoad = s.load();
 		if (stateToLoad != null) {
@@ -118,7 +118,9 @@ public class Controller implements Serializable {
 				game.changeCurrentState(stateToLoad);
 				game.playGame();
 				menuFrame.ShowGameViewPanel();
+				return true;
 		}
+		return false;
 
 	}
 
