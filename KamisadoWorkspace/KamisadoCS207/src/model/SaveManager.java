@@ -40,8 +40,9 @@ public class SaveManager {
 		fileChooser.setCurrentDirectory(file);
 		int result = fileChooser.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
 			try {
-				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream("/home/me/Desktop"));
+				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
 				state = (State) newStateO.readObject();
 				newStateO.close();
 				return state;
