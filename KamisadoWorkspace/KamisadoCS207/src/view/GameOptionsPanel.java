@@ -241,7 +241,7 @@ public class GameOptionsPanel extends JPanel {
 		add(blackAiPlayer);
 		aiStartCol.add(blackAiPlayer);
 		
-		whiteAiPlayer.doClick();
+		blackAiPlayer.doClick();
 	}
 
 	private void setUpPlayerTxtField(){
