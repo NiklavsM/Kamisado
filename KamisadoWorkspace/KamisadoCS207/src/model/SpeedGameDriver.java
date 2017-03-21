@@ -58,6 +58,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 			currentState = history.pop();
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+			turnBegin();
 
 		}
 	}
@@ -81,6 +82,12 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		s.save(currentState);
 		timer.start();
 	}
+	public void changeCurrentState(State currentState) {
+		this.currentState = currentState;
+		this.tellAll(currentState.getBoard());
+		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+		timer.start();
+}
 
 	@Override
 	public void update(MyObservable o, Object arg) {
