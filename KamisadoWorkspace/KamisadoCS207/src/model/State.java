@@ -10,6 +10,9 @@ public final class State implements Serializable {
 
 	private final int boardUpperLimit = 7;
 	private final int boardLowerLimit = 0;
+	
+	
+	
 	private Board currentBoard;
 	private ArrayList<Position> validMoves;
 	private Piece[][] pieces;

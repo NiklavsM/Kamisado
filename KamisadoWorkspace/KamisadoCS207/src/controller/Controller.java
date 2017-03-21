@@ -125,6 +125,7 @@ public class Controller implements Serializable {
 				game.changeCurrentState(stateToLoad);
 				game.playGame();
 			}
+
 		} else {
 			game.changeCurrentState(stateToLoad);
 		}
