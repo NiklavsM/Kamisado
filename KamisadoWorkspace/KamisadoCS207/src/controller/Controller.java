@@ -36,13 +36,6 @@ public class Controller implements Serializable {
 
 	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
 			String blackName, int timerTime) {
-		if (game != null) {
-			main.getGameBoard().removeObserver(game);
-			game.removeObserver(main);
-			game.removeObserver(main.getGameTimer());
-			game.setState(null);
-			game = null;
-		}
 		if (userToMoveFirst) {
 			playerWhite = new GUIPlayer("White", whiteName, true, this);
 
@@ -80,13 +73,6 @@ public class Controller implements Serializable {
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
-		if (game != null) {
-			main.getGameBoard().removeObserver(game);
-			game.removeObserver(main);
-			game.removeObserver(main.getGameTimer());
-			game.setState(null);
-			game = null;
-		}
 		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
@@ -103,6 +89,13 @@ public class Controller implements Serializable {
 
 	public GameDriver getGame() {
 		return game;
+	}
+	public void killGame() {
+		main.getGameBoard().removeObserver(game);
+		game.removeObserver(main);
+		game.removeObserver(main.getGameTimer());
+		game.setState(null);
+		game = null;
 	}
 
 	public void loadGame() {

@@ -81,6 +81,7 @@ public class MenuFrame extends JFrame {
 		newgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				controller.killGame();
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "New Game");
 				options.requestFocus();
