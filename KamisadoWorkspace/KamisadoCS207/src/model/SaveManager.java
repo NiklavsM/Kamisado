@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class SaveManager {
 
@@ -45,14 +46,17 @@ public class SaveManager {
 				state = (State) newStateO.readObject();
 				newStateO.close();
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				System.out.println("No file found");
+				JOptionPane.showMessageDialog(null, "File not found", "File not found",
+                        JOptionPane.ERROR_MESSAGE);
+				return null;
 			} catch (IOException s) {
-				s.printStackTrace();
-				System.out.println("IO problem2");
+				JOptionPane.showMessageDialog(null, "File not right", "File not right",
+                        JOptionPane.ERROR_MESSAGE);
+				return null;
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Class not right", "Class not right",
+                        JOptionPane.ERROR_MESSAGE);
+				return null;
 			}
 			return state;
 		}
