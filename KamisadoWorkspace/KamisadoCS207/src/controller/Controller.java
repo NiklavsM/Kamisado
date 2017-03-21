@@ -66,6 +66,7 @@ public class Controller implements Serializable {
 			}
 			playerWhite.addObserver(game);
 		}
+		main.getGameBoard().addObserver(game);
 		main.displayGame(game.getCurrentState());
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();

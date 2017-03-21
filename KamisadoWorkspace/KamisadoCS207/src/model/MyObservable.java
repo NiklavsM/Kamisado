@@ -12,25 +12,12 @@ import java.util.ArrayList;
  * @author ben
  */
 public interface MyObservable {
-	ArrayList<MyObserver> observers = new ArrayList<>();
 
-	default void tellAll(Object arg) {
-		for (MyObserver obs : observers) {
-			obs.update(this, arg);
-		}
-	}
+	void tellAll(Object arg);
 
-	default void addObserver(MyObserver o) {
-		observers.add(o);
-	}
+	void addObserver(MyObserver o);
 
-	default void removeObserver(MyObserver o) {
-		if (observers.contains(o)) {
-			observers.remove(o);
-		}
-	}
+	void removeObserver(MyObserver o);
 
-	default ArrayList<MyObserver> getObservers() {
-		return observers;
-	}
+	ArrayList<MyObserver> getObservers();
 }

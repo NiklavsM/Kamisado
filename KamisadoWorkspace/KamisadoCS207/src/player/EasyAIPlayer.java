@@ -10,7 +10,7 @@ import model.MyObservable;
 import model.Position;
 import model.State;
 
-public class EasyAIPlayer extends Player implements MyObservable{
+public class EasyAIPlayer extends Player{
 
     private int timesVisited = 0;
     public EasyAIPlayer(String playerTeam, String playerName, boolean goingFist){

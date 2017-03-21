@@ -10,6 +10,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public Stack<State> history;
 	public State currentState;
+	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
 
 	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart) {
 		this.history = new Stack<>();
@@ -139,5 +140,29 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void setState(State state) {
 		currentState = state;
+	}
+	
+	@Override
+	public void tellAll(Object arg) {
+		for(MyObserver obs : observers){
+			obs.update(this, arg);
+		}
+	}
+
+	@Override
+	public void addObserver(MyObserver o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(MyObserver o) {
+		if(observers.contains(o)){
+			observers.remove(o);
+		}
+	}
+
+	@Override
+	public ArrayList<MyObserver> getObservers() {
+		return observers;
 	}
 }

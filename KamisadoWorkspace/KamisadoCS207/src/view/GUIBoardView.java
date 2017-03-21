@@ -35,6 +35,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private int currentx;
 	private int currenty;
 	private Board board;
+	ArrayList<MyObserver> observers = new ArrayList<>();
 
 	public GUIBoardView(Controller controller) {
 		board = new Board();
@@ -238,7 +239,28 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	}
 
-//	public void addObserver(MyObserver obs) {
-//		this.addObserver(obs);
-//	}
+	@Override
+	public void tellAll(Object arg) {
+		for(MyObserver obs : observers){
+			obs.update(this, arg);
+		}
+	}
+
+	@Override
+	public void addObserver(MyObserver o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(MyObserver o) {
+		if(observers.contains(o)){
+			observers.remove(o);
+		}
+	}
+
+	@Override
+	public ArrayList<MyObserver> getObservers() {
+		return observers;
+	}
+
 }

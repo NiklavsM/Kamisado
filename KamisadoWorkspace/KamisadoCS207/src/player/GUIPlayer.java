@@ -8,7 +8,7 @@ import model.MyObserver;
 import model.Position;
 import model.State;
 
-public class GUIPlayer extends Player implements MyObserver, Serializable {
+public class GUIPlayer extends Player implements MyObservable, Serializable {
 
 	private Controller controller;
 	private Position buttonClicked;
@@ -26,13 +26,4 @@ public class GUIPlayer extends Player implements MyObserver, Serializable {
 	public void setPosition(Position positionClicked) {
 		buttonClicked = positionClicked;
 	}
-
-	@Override
-	public void update(MyObservable o, Object arg) {
-		// System.out.println("update Player");
-		if (arg instanceof Position) {
-			buttonClicked = (Position) arg;
-		}
-	}
-
 }
