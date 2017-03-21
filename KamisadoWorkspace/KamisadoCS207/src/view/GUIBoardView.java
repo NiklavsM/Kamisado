@@ -121,7 +121,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				int i = 1;
 				for (MyObserver obs : getObservers()) {
 					if (obs instanceof GameDriver) {
-						// System.out.println("game " + i);
+						 System.out.println("game " + i);
 					}
 					i++;
 				}
@@ -237,7 +237,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	}
 
-	public void addObserver(MyObserver obs) {
-		this.addObserver(obs);
-	}
+//	public void addObserver(MyObserver obs) {
+//		this.addObserver(obs);
+//	}
 }

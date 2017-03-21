@@ -71,7 +71,6 @@ public class Controller implements Serializable {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
 			playerWhite.addObserver(game);
-
 		}
 		main.displayGame(game.getCurrentState());
 		game.addObserver(main.getGameTimer());
@@ -94,6 +93,7 @@ public class Controller implements Serializable {
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
+		main.getGameBoard().addObserver(game);
 		main.displayGame(game.getCurrentState());
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);

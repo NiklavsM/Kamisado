@@ -107,8 +107,8 @@ public class GameOptionsPanel extends JPanel {
 		chckbxSpeedMode = new JCheckBox("Speed Mode");
 		timerTime = new JTextField("20");
 		timeLabel = new JLabel("Seconds:");
-		whiteAiPlayer = new JRadioButton();
-		blackAiPlayer = new JRadioButton();
+		whiteAiPlayer = new JRadioButton("...");
+		blackAiPlayer = new JRadioButton("...");
 		black = new JLabel("Player Black");
 		white = new JLabel("Player White");
 		txtEnterPName = new JTextField();
@@ -117,48 +117,41 @@ public class GameOptionsPanel extends JPanel {
 	}
 	
 	private void setUpGameTypeSelect(){
-		
-		
-		
 		JLabel lblGameType = new JLabel("Game Type");
 		lblGameType.setBounds(48, 23, 81, 14);
 		add(lblGameType);
 		
-		
 		rdbtnSingleplayer.setBounds(48, 52, 109, 23);
-		rdbtnSingleplayer.addActionListener(new ActionListener() {
+		rdbtnSingleplayer.addItemListener(new ItemListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				rdbtnEasy.setEnabled(true);
-				rdbtnHard.setEnabled(true);
-				rdbtnEasy.setSelected(true);
-				whiteAiPlayer.setEnabled(true);
-				
-				blackAiPlayer.setEnabled(true);
-				blackAiPlayer.doClick();
-				//blackAiPlayer.setSelected(true);
-				AiSelectedField = txtEnterPName;
+			public void itemStateChanged(ItemEvent arg0) {
+				if(arg0.getStateChange() == ItemEvent.SELECTED){
+					rdbtnEasy.setEnabled(true);
+					rdbtnHard.setEnabled(true);
+					rdbtnEasy.setSelected(true);
+					whiteAiPlayer.setEnabled(true);
+					
+					blackAiPlayer.setEnabled(true);
+					blackAiPlayer.doClick();
+					//blackAiPlayer.setSelected(true);
+					AiSelectedField = txtEnterPName;
+					AiSelectedField.setEditable(false);
+				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					rdbtnEasy.setEnabled(false);
+					rdbtnHard.setEnabled(false);
+					aiDiff.clearSelection();
+					whiteAiPlayer.setEnabled(false);
+					blackAiPlayer.setEnabled(false);
+					aiStartCol.clearSelection();
+					AiSelectedField.setText("Player Two");
+					AiSelectedField.setEditable(true);
+				}
 			}
 		});
 		add(rdbtnSingleplayer);
 
-		
 		rdbtnTwoPlayer.setBounds(48, 78, 109, 23);
-		rdbtnTwoPlayer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				rdbtnEasy.setEnabled(false);
-				rdbtnHard.setEnabled(false);
-				aiDiff.clearSelection();
-				whiteAiPlayer.setEnabled(false);
-				blackAiPlayer.setEnabled(false);
-				aiStartCol.clearSelection();
-				AiSelectedField.setText("Player Two");
-				AiSelectedField.setEditable(true);
-			}
-		});
 		add(rdbtnTwoPlayer);
 
 		gameType.add(rdbtnSingleplayer);
@@ -167,33 +160,24 @@ public class GameOptionsPanel extends JPanel {
 	}
 
 	private void setUpAIdifficulty(){
-		
-		
-		
 		JLabel lblAiDifficulty = new JLabel("AI Difficulty:");
 		lblAiDifficulty.setBounds(217, 35, 101, 14);
 		add(lblAiDifficulty);
 		
-		
-		
-		
 		rdbtnEasy.setBounds(217, 57, 109, 23);
-		rdbtnEasy.addActionListener(new ActionListener() {
+		rdbtnEasy.addItemListener(new ItemListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				AiSelectedField.setText("Easy AI");
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED){
+					AiSelectedField.setText("Easy AI");
+				}else if(e.getStateChange() == ItemEvent.DESELECTED){
+					AiSelectedField.setText("Hard AI");
+				}
 			}
 		});
 		add(rdbtnEasy);
 
-		
 		rdbtnHard.setBounds(217, 87, 109, 23);
-		rdbtnHard.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AiSelectedField.setText("Hard AI");
-			}
-		});
 		add(rdbtnHard);
 
 		aiDiff.add(rdbtnEasy);
@@ -202,7 +186,7 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnEasy.setSelected(true);
 		rdbtnEasy.setEnabled(true);
 		rdbtnHard.setEnabled(true);
-		
+		rdbtnEasy.doClick();
 	}
 	
 	private void setUpSpeedMode(){
@@ -213,79 +197,65 @@ public class GameOptionsPanel extends JPanel {
 		timeLabel.setBounds(48, 177, 97, 23);
 		add(timeLabel);
 
-		
 		timerTime.setBounds(48, 208, 82, 20);
 		add(timerTime);
 	}
 	
 	private void setUpAIColour(){
-		
-		
-		
 		JLabel aiStart = new JLabel("AI Colour");
 		aiStart.setBounds(430, 130, 90, 20);
 		add(aiStart);
 		
-		
-		
-		whiteAiPlayer.setBounds(450, 178, 20, 20);
-		whiteAiPlayer.addActionListener(new ActionListener() {
-
+		whiteAiPlayer.setBounds(450, 178, 60, 20);
+		whiteAiPlayer.addItemListener(new ItemListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("got here");
-				AiSelectedField = txtEnterPName_1;
-				txtEnterPName.setText(txtEnterPName_1.getText());
-				txtEnterPName.setEditable(true);
-				if(rdbtnEasy.isSelected()){
-					txtEnterPName_1.setText("Easy AI");
-				}else{
-					txtEnterPName_1.setText("Hard AI");
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED){
+					System.out.println("got here");
+					AiSelectedField = txtEnterPName_1;
+					txtEnterPName.setText(txtEnterPName_1.getText());
+					txtEnterPName.setEditable(true);
+					if(rdbtnEasy.isSelected()){
+						txtEnterPName_1.setText("Easy AI");
+					}else{
+						txtEnterPName_1.setText("Hard AI");
+					}
+					txtEnterPName_1.setEditable(false);
+				}else if(e.getStateChange() == ItemEvent.DESELECTED){
+					AiSelectedField = txtEnterPName;
+					txtEnterPName_1.setText(txtEnterPName.getText());
+					txtEnterPName_1.setEditable(true);
+					if(rdbtnEasy.isSelected()){
+						txtEnterPName.setText("Easy AI");
+					}else{
+						txtEnterPName.setText("Hard AI");
+					}
+					txtEnterPName.setEditable(false);
 				}
-				txtEnterPName_1.setEditable(false);
 			}
 		});
 		add(whiteAiPlayer);
 		aiStartCol.add(whiteAiPlayer);
 
-		
-		blackAiPlayer.setBounds(450, 153, 20, 20);
-		blackAiPlayer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AiSelectedField = txtEnterPName;
-				txtEnterPName_1.setText(txtEnterPName.getText());
-				txtEnterPName_1.setEditable(true);
-				if(rdbtnEasy.isSelected()){
-					txtEnterPName.setText("Easy AI");
-				}else{
-					txtEnterPName.setText("Hard AI");
-				}
-				txtEnterPName.setEditable(false);
-			}
-		});
+		blackAiPlayer.setBounds(450, 153, 60, 20);
 		add(blackAiPlayer);
 		aiStartCol.add(blackAiPlayer);
 		
-		blackAiPlayer.doClick();
+		whiteAiPlayer.doClick();
 	}
 
 	private void setUpPlayerTxtField(){
-		
-		
 		black.setBounds(217, 152, 109, 22);
 		add(black);
 		
 		white.setBounds(217, 177, 109, 23);
 		add(white);
-		
-		
+
 		txtEnterPName.setText("Player Black");
 		txtEnterPName.setBounds(346, 153, 97, 20);
 		add(txtEnterPName);
 		txtEnterPName.setColumns(10);
 
-		
 		txtEnterPName_1.setText("Player White");
 		txtEnterPName_1.setBounds(345, 178, 98, 20);
 		add(txtEnterPName_1);
