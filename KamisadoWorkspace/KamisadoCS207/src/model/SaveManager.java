@@ -10,11 +10,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class SaveManager {
 
 	public void save(State state) {
-		File file = new File("/home/me/Desktop");
+		File file = new File("/home/me/Desktop");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int fileAdded = fileChooser.showSaveDialog(null);
@@ -33,28 +34,30 @@ public class SaveManager {
 	}
 
 	public State load() {
-		File file = null;
 		State state = null;
+		File file = new File("/home/me/Desktop");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(new File("/home/me/Desktop"));
+		fileChooser.setCurrentDirectory(file);
 		int result = fileChooser.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			file = fileChooser.getSelectedFile();
 			try {
-				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
+				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream("/home/me/Desktop"));
 				state = (State) newStateO.readObject();
 				newStateO.close();
+				return state;
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				System.out.println("No file found");
+				JOptionPane.showMessageDialog(null, "File not right", "File not right",
+                        JOptionPane.ERROR_MESSAGE);
+				return null;
 			} catch (IOException s) {
-				s.printStackTrace();
-				System.out.println("IO problem2");
+				JOptionPane.showMessageDialog(null, "File not right", "File not right",
+                        JOptionPane.ERROR_MESSAGE);
+				return null;
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Class not right", "Class not right",
+                        JOptionPane.ERROR_MESSAGE);
+				return null;
 			}
-			return state;
 		}
 		return null;
 	}
