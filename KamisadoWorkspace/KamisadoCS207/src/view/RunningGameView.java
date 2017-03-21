@@ -118,6 +118,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void setWinnerLabel(String message){
 		winnerLabel.setText(message);
 	}
+	public void setTimerLabel(String message){
+		timer.setText(message);
+	}
 
 //	public void addObserverToGameview(GameDriver game) {
 //		gameBoard.addObserver(game);

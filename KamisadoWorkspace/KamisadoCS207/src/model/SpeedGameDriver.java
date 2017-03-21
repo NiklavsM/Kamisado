@@ -15,10 +15,12 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	private Timer timer = new Timer(1000, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			currentState.setTime(currentState.getTime()-1);
-			tellAll(currentState.getTime());
-			if (currentState.getTime() <= 0) {
-				onTimeOut();
+			if (currentState != null) {
+				currentState.setTime(currentState.getTime() - 1);
+				tellAll(currentState.getTime());
+				if (currentState.getTime() <= 0) {
+					onTimeOut();
+				}
 			}
 		}
 	});
@@ -29,6 +31,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		currentState.setTime(timerLimit);
 		timer.start();
 	}
+
 	public SpeedGameDriver(State currentState) {
 		super(currentState);
 		this.timerLimit = currentState.getTimerLimit();
@@ -49,9 +52,10 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	public void turnBegin() {
 		currentState.setTime(timerLimit);
-		tellAll(currentState.getTime());		
+		tellAll(currentState.getTime());
 		timer.restart();
 	}
+
 	public void undo() {
 		if (!history.empty()) {
 			turnBegin();
@@ -62,18 +66,20 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 		}
 	}
+
 	public void reset() {
 		boolean valid = false;
 		while (!history.empty()) {
 			currentState = history.pop();
 			valid = true;
 		}
-		if(valid){
+		if (valid) {
 			turnBegin();
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
 	}
+
 	public void saveGame() {
 		timer.stop();
 		SaveManager s = new SaveManager();
@@ -82,12 +88,13 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		s.save(currentState);
 		timer.start();
 	}
+
 	public void changeCurrentState(State currentState) {
 		this.currentState = currentState;
 		this.tellAll(currentState.getBoard());
 		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		timer.start();
-}
+	}
 
 	@Override
 	public void update(MyObservable o, Object arg) {

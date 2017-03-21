@@ -82,6 +82,7 @@ public class MenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controller.killGame();
+				gameView.setTimerLabel(" ");
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "New Game");
 				options.requestFocus();
@@ -95,7 +96,9 @@ public class MenuFrame extends JFrame {
 		loadgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				controller.killGame();
 				gameView.setWinnerLabel("");
+				gameView.setTimerLabel(" ");
 				controller.loadGame();
 			}
 		});

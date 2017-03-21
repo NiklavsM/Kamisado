@@ -46,6 +46,7 @@ public class Controller implements Serializable {
 			}
 			if (isSpeedGame) {
 				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
+				game.addObserver(main.getGameTimer());
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
@@ -60,13 +61,13 @@ public class Controller implements Serializable {
 			playerBlack = new GUIPlayer("Black", blackName, false, this);
 			if (isSpeedGame) {
 				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
+				game.addObserver(main.getGameTimer());
 			} else {
 				game = new GameDriver(playerWhite, playerBlack, playerWhite);
 			}
 			playerWhite.addObserver(game);
 		}
 		main.displayGame(game.getCurrentState());
-		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
 		game.playGame();
@@ -76,12 +77,12 @@ public class Controller implements Serializable {
 		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
+			game.addObserver(main.getGameTimer());
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
 		main.getGameBoard().addObserver(game);
 		main.displayGame(game.getCurrentState());
-		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
 		game.playGame();
@@ -91,34 +92,33 @@ public class Controller implements Serializable {
 		return game;
 	}
 	public void killGame() {
-		main.getGameBoard().removeObserver(game);
-		game.removeObserver(main);
-		game.removeObserver(main.getGameTimer());
-		game.setState(null);
-		game = null;
+		if(game !=null){
+			main.getGameBoard().removeObserver(game);
+			game.removeObserver(main);
+			game.removeObserver(main.getGameTimer());
+			game.setState(null);
+			game = null;
+		}
 	}
 
 	public void loadGame() {
 		SaveManager s = new SaveManager();
 		State stateToLoad = s.load();
 		if (stateToLoad != null) {
-			if (game == null) {
 				if (stateToLoad.getTime() > 0) {
 					game = new SpeedGameDriver(stateToLoad);
+					game.addObserver(main.getGameTimer());
 				} else {
 					game = new GameDriver(stateToLoad);
 				}
+				main.getGameBoard().addObserver(game);
 				main.displayGame(game.getCurrentState());
 				game.addObserver(main.getGameTimer());
 				game.addObserver(main);
 				game.changeCurrentState(stateToLoad);
 				game.playGame();
-			} else {
-				game.changeCurrentState(stateToLoad);
-
-			}
+				menuFrame.ShowGameViewPanel();
 		}
-		menuFrame.ShowGameViewPanel();
 
 	}
 
