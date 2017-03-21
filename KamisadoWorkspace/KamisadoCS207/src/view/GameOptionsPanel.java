@@ -77,7 +77,7 @@ public class GameOptionsPanel extends JPanel {
 						if (time < 5 || time > 20) {
 							showDialog("Please Enter a Number From 5 To 20!");
 						} else if (rdbtnSingleplayer.isSelected()) {
-							thisController.playSinglePlayer(true, chckbxSpeedMode.isSelected(), rdbtnEasy.isSelected(),
+							thisController.playSinglePlayer(blackAiPlayer.isSelected(), chckbxSpeedMode.isSelected(), rdbtnEasy.isSelected(),
 									txtEnterPName_1.getText(), txtEnterPName.getText(), time);
 						} else if (rdbtnTwoPlayer.isSelected()) {
 							thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(),
@@ -86,7 +86,7 @@ public class GameOptionsPanel extends JPanel {
 						
 					}else{
 						if (rdbtnSingleplayer.isSelected()) {
-							thisController.playSinglePlayer(true,chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(),0);
+							thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(),0);
 						} else if (rdbtnTwoPlayer.isSelected()) {
 							thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(), 0);
 						}
