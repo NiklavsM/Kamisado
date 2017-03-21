@@ -51,6 +51,15 @@ public class TreeNode {
 		this.depth = depth;
 
 	}
+	
+
+	public Move getWorstChild() {
+		this.generateChildren();
+		if (children.size() == 0) {
+			return previousMove;
+		}
+		return minMove(children);
+	}
 
 	public Move getBestChild() {
 		this.generateChildren();
@@ -187,5 +196,6 @@ public class TreeNode {
 		}
 		return currentBest;
 	}
+
 
 }

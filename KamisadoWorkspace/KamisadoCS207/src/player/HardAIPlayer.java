@@ -12,7 +12,7 @@ import model.State;
 public class HardAIPlayer extends Player implements MyObservable{
 
 	TreeNode moveTree;
-	private int timesVisited;
+	private int timesVisited = 0;
 	private HashMap<Position, Position> bestOpeningMoves;
 	private Position firstMove;
 	
@@ -40,10 +40,18 @@ public class HardAIPlayer extends Player implements MyObservable{
                  return;
             }
         }
-    	moveTree = new TreeNode(5, state, 0);
-    	Move move = moveTree.getBestChild();
-    	move.print();
-    	tellAll(move.getEndPos());
+    	if(this.getisFirst()){
+    		moveTree = new TreeNode(5, state, 1);
+        	Move move = moveTree.getWorstChild();
+        	move.print();
+        	tellAll(move.getEndPos());
+    	}else{
+    		moveTree = new TreeNode(5, state, 0);
+        	Move move = moveTree.getBestChild();
+        	move.print();
+        	tellAll(move.getEndPos());
+    	}
+    	
     }
     
     
