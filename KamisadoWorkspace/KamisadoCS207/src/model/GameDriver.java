@@ -28,9 +28,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public void changeCurrentState(State currentState) {
-			this.currentState = currentState;
-			this.tellAll(currentState.getBoard());
-			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+		this.currentState = currentState;
+		this.tellAll(currentState.getBoard());
+		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 	}
 
 	public void undo() {
@@ -47,7 +47,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			currentState = history.pop();
 			valid = true;
 		}
-		if(valid){
+		if (valid) {
 			this.tellAll(currentState.getBoard());
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
@@ -110,8 +110,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		return false;
 	}
-	
-	public State getCurrentState(){
+
+	public State getCurrentState() {
 		return currentState;
 	}
 

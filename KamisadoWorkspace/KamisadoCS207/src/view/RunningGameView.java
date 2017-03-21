@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
 import model.Board;
+import model.GameDriver;
 import model.Move;
 import model.MyObservable;
 import model.MyObserver;
@@ -110,11 +111,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameBoard.displaySelectable(validMoves);
 	}
 
-	public void addObserver(Player player) {
-		gameBoard.addObserver((MyObserver) player);
-	}
-	
+//	public void addObserver(Player player) {
+//		gameBoard.addObserver((MyObserver) player);
+//	}
+//	
 	public void setWinnerLabel(String message){
 		winnerLabel.setText(message);
 	}
+
+//	public void addObserverToGameview(GameDriver game) {
+//		gameBoard.addObserver(game);
+//	}
 }

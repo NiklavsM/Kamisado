@@ -94,7 +94,6 @@ public class GameOptionsPanel extends JPanel {
 				}else{
 					showDialog("Player Names are too long, Please limit to 12 characters!");
 				}
-				
 			}
 		});
 		add(btnPlay);

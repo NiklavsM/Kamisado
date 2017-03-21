@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -18,9 +16,12 @@ import javax.swing.border.LineBorder;
 
 import controller.Controller;
 import model.Board;
+import model.GameDriver;
 import model.MyObservable;
+import model.MyObserver;
 import model.Piece;
 import model.Position;
+import player.Player;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
@@ -39,13 +40,13 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		board = new Board();
 		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
-		
+
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.setLayout(null);
-		
+
 		displayInitialBoard();
-		
+
 		currentx = 0;
 		currenty = 0;
 		selected = buttons[currentx][currenty];
@@ -65,14 +66,14 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	public void pieceMoved(Position start, Position end) {
 		if (previousLocation != null) {
-		// removeSelectable();
-		if (previousLocation != null && previousLocation.getIcon().equals(GREY)) {
-			previousLocation.setIcon(DEFAULT);
-		}
-		Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
-		previousLocation = buttons[start.getX()][start.getY()];
-		buttons[end.getX()][end.getY()].setIcon(pieceIcon);
-		previousLocation.setIcon(GREY);
+			// removeSelectable();
+			if (previousLocation != null && previousLocation.getIcon().equals(GREY)) {
+				previousLocation.setIcon(DEFAULT);
+			}
+			Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
+			previousLocation = buttons[start.getX()][start.getY()];
+			buttons[end.getX()][end.getY()].setIcon(pieceIcon);
+			previousLocation.setIcon(GREY);
 		}
 	}
 
@@ -98,10 +99,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-//				currentx = x;
-//				currenty = y;
-//				changedSelected(currentx, currenty);
-//				tellAll(new Position(x, y));
 			}
 
 			@Override
@@ -121,6 +118,13 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				currentx = x;
 				currenty = y;
 				changedSelected(currentx, currenty);
+				int i = 1;
+				for (MyObserver obs : getObservers()) {
+					if (obs instanceof GameDriver) {
+						// System.out.println("game " + i);
+					}
+					i++;
+				}
 				tellAll(new Position(x, y));
 			}
 
@@ -231,5 +235,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void addObserver(MyObserver obs) {
+		this.addObserver(obs);
 	}
 }

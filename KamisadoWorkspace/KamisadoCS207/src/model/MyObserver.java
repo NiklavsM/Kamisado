@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author sid
+ * @author ben
  */
-public interface MyObserver{
+public interface MyObserver {
 
-    public void update(MyObservable o, Object arg);
+	public void update(MyObservable o, Object arg);
 }

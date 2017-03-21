@@ -1,4 +1,5 @@
 package view;
+
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +28,6 @@ public class MenuFrame extends JFrame {
 	private RunningGameView gameView;
 	private Controller controller;
 
-
 	public MenuFrame(Controller controller, RunningGameView gameView) {
 		this.controller = controller;
 		menuBar();
@@ -36,8 +36,7 @@ public class MenuFrame extends JFrame {
 		statPanel = new StatPanel();
 		options = new GameOptionsPanel(controller);
 		homePanel = new JPanel();
-		
-		
+
 		JLabel homeLabel = new JLabel();
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
 		homeLabel.setIcon(homeImage);
@@ -53,7 +52,7 @@ public class MenuFrame extends JFrame {
 		c1.show(contentPane, "New Game");
 		setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 660, 680);
+		setBounds(200, 200, 660, 690);
 		setResizable(false);
 	}
 
@@ -134,8 +133,8 @@ public class MenuFrame extends JFrame {
 		main.add(exit);
 		this.setJMenuBar(menuBar);
 	}
-	
-	public void dispatchFrame(){
+
+	public void dispatchFrame() {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
@@ -145,7 +144,7 @@ public class MenuFrame extends JFrame {
 		gameView.requestFocus();
 	}
 
-	public RunningGameView getRunningGameView() {
-		return gameView;
-	}
+	// public RunningGameView getRunningGameView() {
+	// return gameView;
+	// }
 }

@@ -36,16 +36,13 @@ public class Controller implements Serializable {
 
 	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
 			String blackName, int timerTime) {
-		main.getGameBoard().removeObserver(game);
-		if(game != null){
+		if (game != null) {
+			main.getGameBoard().removeObserver(game);
 			game.removeObserver(main);
 			game.removeObserver(main.getGameTimer());
 			game.setState(null);
 			game = null;
 		}
-//		game = null;
-//		System.gc();
-		
 		if (userToMoveFirst) {
 			playerWhite = new GUIPlayer("White", whiteName, true, this);
 
@@ -76,50 +73,32 @@ public class Controller implements Serializable {
 			playerWhite.addObserver(game);
 
 		}
-		if(game.getCurrentState() == null){
-			System.out.println("state is null");
-		}
-		main.getGameBoard().addObserver(game);
 		main.displayGame(game.getCurrentState());
-		
-
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
-
 		menuFrame.ShowGameViewPanel();
-		// main.addObserver(playerWhite);
-		// main.addObserver(playerBlack);
 		game.playGame();
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
-		main.getGameBoard().removeObserver(game);
-		if(game != null){
+		if (game != null) {
+			main.getGameBoard().removeObserver(game);
 			game.removeObserver(main);
 			game.removeObserver(main.getGameTimer());
 			game.setState(null);
 			game = null;
 		}
-//		game = null;
-//		System.gc();
-		
 		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
-		main.getGameBoard().addObserver(game);
 		main.displayGame(game.getCurrentState());
-		
-		
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
-		// playerWhite.addObserver(main);
-		// playerBlack.addObserver(main);
 		game.playGame();
-
 	}
 
 	public GameDriver getGame() {
@@ -137,7 +116,6 @@ public class Controller implements Serializable {
 					game = new GameDriver(stateToLoad);
 				}
 				main.displayGame(game.getCurrentState());
-				main.getGameBoard().addObserver(game);
 				game.addObserver(main.getGameTimer());
 				game.addObserver(main);
 				game.changeCurrentState(stateToLoad);
