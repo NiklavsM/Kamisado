@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class SaveManager {
 
 	public void save(State state) {
-		File file = new File("/home/me/Desktop");
+		File file = new File("/home/me/Desktop");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int fileAdded = fileChooser.showSaveDialog(null);
@@ -34,19 +34,19 @@ public class SaveManager {
 	}
 
 	public State load() {
-		File file = null;
 		State state = null;
+		File file = new File("/home/me/Desktop");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(new File("/home/me/Desktop"));
+		fileChooser.setCurrentDirectory(file);
 		int result = fileChooser.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			file = fileChooser.getSelectedFile();
 			try {
-				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
+				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream("/home/me/Desktop"));
 				state = (State) newStateO.readObject();
 				newStateO.close();
+				return state;
 			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "File not found", "File not found",
+				JOptionPane.showMessageDialog(null, "File not right", "File not right",
                         JOptionPane.ERROR_MESSAGE);
 				return null;
 			} catch (IOException s) {
@@ -58,7 +58,6 @@ public class SaveManager {
                         JOptionPane.ERROR_MESSAGE);
 				return null;
 			}
-			return state;
 		}
 		return null;
 	}

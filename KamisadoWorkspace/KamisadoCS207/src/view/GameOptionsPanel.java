@@ -106,7 +106,7 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnEasy = new JRadioButton("Easy");
 		rdbtnHard = new JRadioButton("Hard");
 		chckbxSpeedMode = new JCheckBox("Speed Mode");
-		timerTime = new JTextField("10");
+		timerTime = new JTextField("20");
 		timeLabel = new JLabel("Seconds:");
 		whiteAiPlayer = new JRadioButton();
 		blackAiPlayer = new JRadioButton();

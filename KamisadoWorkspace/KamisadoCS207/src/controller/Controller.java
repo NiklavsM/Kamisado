@@ -74,8 +74,8 @@ public class Controller implements Serializable {
 		main.getGameBoard().addObserver(game);
 
 		game.addObserver(main.getGameTimer());
-		menuFrame.ShowGameViewPanel();
 		game.addObserver(main);
+		menuFrame.ShowGameViewPanel();
 		// main.addObserver(playerWhite);
 		// main.addObserver(playerBlack);
 		game.playGame();
@@ -110,8 +110,8 @@ public class Controller implements Serializable {
 	public void loadGame() {
 		SaveManager s = new SaveManager();
 		State stateToLoad = s.load();
-		if (game == null) {
-			if (stateToLoad != null) {
+		if (stateToLoad != null) {
+			if (game == null) {
 				if (stateToLoad.getTime() > 0) {
 					game = new SpeedGameDriver(stateToLoad);
 				} else {
@@ -124,10 +124,10 @@ public class Controller implements Serializable {
 				menuFrame.ShowGameViewPanel();
 				game.changeCurrentState(stateToLoad);
 				game.playGame();
-			}
+			} else {
+				game.changeCurrentState(stateToLoad);
 
-		} else {
-			game.changeCurrentState(stateToLoad);
+			}
 		}
 
 	}
