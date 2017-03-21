@@ -108,7 +108,6 @@ public class Controller implements Serializable {
 		if (stateToLoad != null) {
 				if (stateToLoad.getTime() > 0) {
 					game = new SpeedGameDriver(stateToLoad);
-					game.addObserver(main.getGameTimer());
 				} else {
 					game = new GameDriver(stateToLoad);
 				}
