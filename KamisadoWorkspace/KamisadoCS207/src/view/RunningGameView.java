@@ -48,10 +48,17 @@ public class RunningGameView extends JPanel implements MyObserver {
 	}
 	
 	public void displayGame(State state){
-		teamBlack.setText(state.getPlayerBlack().getPlayerName());
-		teamWhite.setText(state.getPlayerWhite().getPlayerName());
+		String blackName = state.getPlayerBlack().getPlayerName();
+		String whiteName = state.getPlayerWhite().getPlayerName();
+		teamBlack.setText(blackName);
+		teamWhite.setText(whiteName);
 		winnerLabel.setText("");
 		gameBoard.redrawBoard(state.getBoard());
+		if(blackName.equals("Easy AI") || blackName.equals("Hard AI") || whiteName.equals("Easy AI") || whiteName.equals("Hard AI")){
+			inGameOptions.showUndo(true);
+		}else{
+			inGameOptions.showUndo(false);
+		}
 	}
 
 	public void setUpTeamLabels(String whiteName, String blackName){
@@ -105,5 +112,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public void addObserver(Player player) {
 		gameBoard.addObserver((MyObserver) player);
+	}
+	
+	public void setWinnerLabel(String message){
+		winnerLabel.setText(message);
 	}
 }

@@ -37,9 +37,15 @@ public class Controller implements Serializable {
 	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
 			String blackName, int timerTime) {
 		main.getGameBoard().removeObserver(game);
-		if (main == null) {
-			main = new RunningGameView(whiteName, blackName, this);
+		if(game != null){
+			game.removeObserver(main);
+			game.removeObserver(main.getGameTimer());
+			game.setState(null);
+			game = null;
 		}
+//		game = null;
+//		System.gc();
+		
 		if (userToMoveFirst) {
 			playerWhite = new GUIPlayer("White", whiteName, true, this);
 
@@ -70,12 +76,17 @@ public class Controller implements Serializable {
 			playerWhite.addObserver(game);
 
 		}
-		main.displayGame(game.getCurrentState());
+		if(game.getCurrentState() == null){
+			System.out.println("state is null");
+		}
 		main.getGameBoard().addObserver(game);
+		main.displayGame(game.getCurrentState());
+		
 
 		game.addObserver(main.getGameTimer());
-		menuFrame.ShowGameViewPanel();
 		game.addObserver(main);
+		
+		menuFrame.ShowGameViewPanel();
 		// main.addObserver(playerWhite);
 		// main.addObserver(playerBlack);
 		game.playGame();
@@ -83,17 +94,25 @@ public class Controller implements Serializable {
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
 		main.getGameBoard().removeObserver(game);
-		initialisePlayers(whiteName, blackName);
-		if (main == null) {
-			main = new RunningGameView(whiteName, blackName, this);
+		if(game != null){
+			game.removeObserver(main);
+			game.removeObserver(main.getGameTimer());
+			game.setState(null);
+			game = null;
 		}
+//		game = null;
+//		System.gc();
+		
+		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite);
 		}
-		main.displayGame(game.getCurrentState());
 		main.getGameBoard().addObserver(game);
+		main.displayGame(game.getCurrentState());
+		
+		
 		game.addObserver(main.getGameTimer());
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
@@ -121,7 +140,6 @@ public class Controller implements Serializable {
 				main.getGameBoard().addObserver(game);
 				game.addObserver(main.getGameTimer());
 				game.addObserver(main);
-				menuFrame.ShowGameViewPanel();
 				game.changeCurrentState(stateToLoad);
 				game.playGame();
 			}
@@ -129,6 +147,7 @@ public class Controller implements Serializable {
 		} else {
 			game.changeCurrentState(stateToLoad);
 		}
+		menuFrame.ShowGameViewPanel();
 
 	}
 

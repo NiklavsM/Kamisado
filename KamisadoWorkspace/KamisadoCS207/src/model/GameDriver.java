@@ -136,4 +136,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			}
 		}
 	}
+
+	public void setState(State state) {
+		currentState = state;
+	}
 }

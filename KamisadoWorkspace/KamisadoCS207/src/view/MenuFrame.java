@@ -24,7 +24,6 @@ public class MenuFrame extends JFrame {
 	private JPanel contentPane;
 	private GameOptionsPanel options;
 	private StatPanel statPanel;
-	private LoadGamePanel loadPanel;
 	private RunningGameView gameView;
 	private Controller controller;
 
@@ -35,7 +34,6 @@ public class MenuFrame extends JFrame {
 		this.gameView = gameView;
 		contentPane = new JPanel(new CardLayout());
 		statPanel = new StatPanel();
-		loadPanel = new LoadGamePanel();
 		options = new GameOptionsPanel(controller);
 		homePanel = new JPanel();
 		
@@ -48,7 +46,6 @@ public class MenuFrame extends JFrame {
 
 		contentPane.add(homePanel, "Home");
 		contentPane.add(options, "New Game");
-		contentPane.add(loadPanel, "Load Game");
 		contentPane.add(statPanel, "Stats");
 		contentPane.add(this.gameView, "Game View");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -56,7 +53,7 @@ public class MenuFrame extends JFrame {
 		c1.show(contentPane, "New Game");
 		setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 530, 530);
+		setBounds(200, 200, 660, 680);
 		setResizable(false);
 	}
 
@@ -98,10 +95,8 @@ public class MenuFrame extends JFrame {
 		loadgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				gameView.setWinnerLabel("");
 				controller.loadGame();
-//				CardLayout c1 = (CardLayout) contentPane.getLayout();
-//				c1.show(contentPane, "Load Game");
-//				loadPanel.requestFocus();
 			}
 		});
 

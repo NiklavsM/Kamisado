@@ -93,7 +93,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	private void setupButton(int x, int y, JButton newButton) {
-		newButton.setBounds(x * 50, (7 - y) * 50, 50, 50);
+		newButton.setBounds(x * 70, (7 - y) * 70, 70, 70);
 		newButton.addMouseListener(new MouseListener() {
 
 			@Override
