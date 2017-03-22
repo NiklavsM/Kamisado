@@ -63,13 +63,10 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	public void undo() {
-		if (!history.empty()) {
+		if (history.size() >= 2) {
+			history.pop();
+			changeCurrentState(history.pop());
 			turnBegin();
-			currentState = history.pop();
-			this.tellAll(currentState.getBoard());
-			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
-			turnBegin();
-
 		}
 	}
 
