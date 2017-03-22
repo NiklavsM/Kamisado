@@ -12,29 +12,35 @@ import player.Player;
 public class SpeedGameDriver extends GameDriver implements MyObserver, MyObservable, Serializable {
 
 	private int timerLimit;
-	private Timer timer = new Timer(1000, new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (currentState != null) {
-				currentState.setTime(currentState.getTime() - 1);
-				tellAll(currentState.getTime());
-				if (currentState.getTime() <= 0) {
-					onTimeOut();
-				}
-			}
-		}
-	});
+	private Timer timer;
 
 	public SpeedGameDriver(Player white, Player black, Player playerToStart, int timerLimit) {
 		super(white, black, playerToStart);
 		this.timerLimit = timerLimit;
 		currentState.setTime(timerLimit);
-		timer.start();
+		createTimer();
 	}
 
 	public SpeedGameDriver(State currentState) {
 		super(currentState);
 		this.timerLimit = currentState.getTimerLimit();
+		createTimer();
+	}
+
+	public void createTimer() {
+		tellAll(timerLimit);
+		timer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (currentState != null) {
+					currentState.setTime(currentState.getTime() - 1);
+					tellAll(currentState.getTime());
+					if (currentState.getTime() <= 0) {
+						onTimeOut();
+					}
+				}
+			}
+		});
 		timer.start();
 	}
 
@@ -83,16 +89,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	public void saveGame() {
 		timer.stop();
 		SaveManager s = new SaveManager();
-		System.out.println("TIME" + currentState.getTime());
 		currentState.setTimerLimit(timerLimit);
 		s.save(currentState);
-		timer.start();
-	}
-
-	public void changeCurrentState(State currentState) {
-		this.currentState = currentState;
-		this.tellAll(currentState.getBoard());
-		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		timer.start();
 	}
 

@@ -11,7 +11,7 @@ public class GameTimer extends JLabel implements MyObserver {
 
 	public GameTimer() {
 		this.setVisible(false);
-		//this.setText("Time remaining: ");
+		this.setText(" ");
 		this.setFont(new Font("sherif", Font.BOLD, 16));
 	}
 
