@@ -35,10 +35,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public void undo() {
-		if (!history.empty()) {
-			currentState = history.pop();
-			this.tellAll(currentState.getBoard());
-			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
+		if (history.size() >= 2) {
+			history.pop();
+			changeCurrentState(history.pop());
 		}
 	}
 
@@ -141,10 +140,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public void setState(State state) {
 		currentState = state;
 	}
-	
+
 	@Override
 	public void tellAll(Object arg) {
-		for(MyObserver obs : observers){
+		for (MyObserver obs : observers) {
 			obs.update(this, arg);
 		}
 	}
@@ -156,7 +155,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	@Override
 	public void removeObserver(MyObserver o) {
-		if(observers.contains(o)){
+		if (observers.contains(o)) {
 			observers.remove(o);
 		}
 	}

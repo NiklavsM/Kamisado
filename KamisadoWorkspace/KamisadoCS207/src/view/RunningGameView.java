@@ -31,7 +31,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		timer = new GameTimer();
-		timer.setText("Press Tab To Navigate window");
 		timer.setVisible(true);
 		timer.setFocusable(false);
 		
