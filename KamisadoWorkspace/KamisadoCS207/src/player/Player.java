@@ -13,9 +13,10 @@ public abstract class Player implements MyObservable, Serializable{
 	private String playerTeam;
     private int homeRow;
     private boolean goingFirst;
+    private boolean isAI;
     ArrayList<MyObserver> observers = new ArrayList<>();
 
-    public Player(String playerTeam, String playerName, boolean goingFirst){
+    public Player(String playerTeam, String playerName, boolean goingFirst, boolean isAI){
         this.playerTeam = playerTeam;
         if(playerTeam.equals("White")){
             homeRow = 0;
@@ -24,6 +25,7 @@ public abstract class Player implements MyObservable, Serializable{
         }
         this.playerName = playerName;
         this.goingFirst = goingFirst;
+        this.isAI = isAI;
     }
 
     public void getMove(State state){
@@ -71,4 +73,10 @@ public abstract class Player implements MyObservable, Serializable{
 	public ArrayList<MyObserver> getObservers() {
 		return observers;
 	}
+
+	public boolean isAI() {
+		return isAI;
+	}
+	
+	
 }

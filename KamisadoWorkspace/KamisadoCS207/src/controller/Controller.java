@@ -108,12 +108,18 @@ public class Controller implements Serializable {
 		if (stateToLoad != null) {
 				if (stateToLoad.getTime() > 0) {
 					game = new SpeedGameDriver(stateToLoad);
+					game.addObserver(main.getGameTimer());
 				} else {
 					game = new GameDriver(stateToLoad);
 				}
+				if(stateToLoad.getPlayerBlack().isAI()){
+					stateToLoad.getPlayerBlack().addObserver(game);
+				}else if(stateToLoad.getPlayerWhite().isAI()){
+					stateToLoad.getPlayerWhite().addObserver(game);
+				}
+				
 				main.getGameBoard().addObserver(game);
 				main.displayGame(game.getCurrentState());
-				game.addObserver(main.getGameTimer());
 				game.addObserver(main);
 				game.changeCurrentState(stateToLoad);
 				game.playGame();
@@ -121,7 +127,6 @@ public class Controller implements Serializable {
 				return true;
 		}
 		return false;
-
 	}
 
 	public static void main(String[] args) {

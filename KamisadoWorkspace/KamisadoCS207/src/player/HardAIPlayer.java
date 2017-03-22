@@ -16,7 +16,7 @@ public class HardAIPlayer extends Player implements MyObservable{
 	private Position firstMove;
 	
     public HardAIPlayer(String playerTeam,String playerName, boolean goingFist) {
-        super(playerTeam,playerName, goingFist);
+        super(playerTeam,playerName, goingFist, true);
         bestOpeningMoves = new HashMap<>();
         initialiseBestMoves();
     }

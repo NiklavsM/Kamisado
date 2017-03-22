@@ -14,7 +14,7 @@ public class EasyAIPlayer extends Player{
 
     private int timesVisited = 0;
     public EasyAIPlayer(String playerTeam, String playerName, boolean goingFist){
-        super(playerTeam,playerName, goingFist);
+        super(playerTeam,playerName, goingFist, true);
     }
     
     @Override

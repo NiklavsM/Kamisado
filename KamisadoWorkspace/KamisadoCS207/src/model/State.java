@@ -152,10 +152,11 @@ public final class State implements Serializable {
 
 			Board newBoard = new Board(currentBoard);
 			newBoard.move(startingPosition, endPosition);
-			if (newBoard != null) {				
+			if (newBoard != null) {		
+				
 				State newState = new State(this, newBoard);
 				newState.setPreviousMove(new Move(startingPosition, endPosition,
-						newBoard.findPieceAtLoc(endPosition.getX(), endPosition.getY())));
+				newBoard.findPieceAtLoc(endPosition.getX(), endPosition.getY())));
 				return newState;
 			}
 		}
