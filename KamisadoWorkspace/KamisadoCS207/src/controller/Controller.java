@@ -116,12 +116,15 @@ public class Controller implements Serializable {
 			} else {
 				game = new GameDriver(stateToLoad);
 			}
+<<<<<<< HEAD
 			if (stateToLoad.getPlayerBlack().isAI()) {
 				stateToLoad.getPlayerBlack().addObserver(game);
 			} else if (stateToLoad.getPlayerWhite().isAI()) {
 				stateToLoad.getPlayerWhite().addObserver(game);
 			}
 
+=======
+>>>>>>> ab848e25ae4bebeff40adaa39610118c985cfb2d
 			main.getGameBoard().addObserver(game);
 			main.displayGame(game.getCurrentState());
 			game.addObserver(main);
