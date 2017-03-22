@@ -192,6 +192,18 @@ public class GameOptionsPanel extends JPanel {
 	private void setUpSpeedMode(){
 		
 		chckbxSpeedMode.setBounds(48, 136, 97, 23);
+		chckbxSpeedMode.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED){
+					timerTime.setEditable(true);
+					timerTime.setFocusable(true);
+				}else if(e.getStateChange() == ItemEvent.DESELECTED){
+					timerTime.setEditable(false);
+					timerTime.setFocusable(false);
+				}
+			}
+		});
 		add(chckbxSpeedMode);
 		
 		timeLabel.setBounds(48, 177, 97, 23);
@@ -199,6 +211,8 @@ public class GameOptionsPanel extends JPanel {
 
 		timerTime.setBounds(48, 208, 82, 20);
 		add(timerTime);
+		chckbxSpeedMode.setSelected(true);
+		chckbxSpeedMode.setSelected(false);
 	}
 	
 	private void setUpAIColour(){
@@ -211,26 +225,29 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED){
-					System.out.println("got here");
 					AiSelectedField = txtEnterPName_1;
 					txtEnterPName.setText(txtEnterPName_1.getText());
 					txtEnterPName.setEditable(true);
+					txtEnterPName.setFocusable(true);
 					if(rdbtnEasy.isSelected()){
 						txtEnterPName_1.setText("Easy AI");
 					}else{
 						txtEnterPName_1.setText("Hard AI");
 					}
 					txtEnterPName_1.setEditable(false);
+					txtEnterPName_1.setFocusable(false);
 				}else if(e.getStateChange() == ItemEvent.DESELECTED){
 					AiSelectedField = txtEnterPName;
 					txtEnterPName_1.setText(txtEnterPName.getText());
 					txtEnterPName_1.setEditable(true);
+					txtEnterPName_1.setFocusable(true);
 					if(rdbtnEasy.isSelected()){
 						txtEnterPName.setText("Easy AI");
 					}else{
 						txtEnterPName.setText("Hard AI");
 					}
 					txtEnterPName.setEditable(false);
+					txtEnterPName.setFocusable(false);
 				}
 			}
 		});
@@ -240,8 +257,9 @@ public class GameOptionsPanel extends JPanel {
 		blackAiPlayer.setBounds(450, 153, 60, 20);
 		add(blackAiPlayer);
 		aiStartCol.add(blackAiPlayer);
-		
+		whiteAiPlayer.doClick();
 		blackAiPlayer.doClick();
+		
 	}
 
 	private void setUpPlayerTxtField(){
