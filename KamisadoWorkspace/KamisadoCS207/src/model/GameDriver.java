@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import javax.swing.JOptionPane;
+
 import player.Player;
 
 public class GameDriver implements MyObservable, MyObserver, Serializable {
@@ -75,7 +77,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public boolean tryToMove(Position placeClicked) {
 		State state = currentState.make(placeClicked);
 		if (state == null) {
-			System.out.println("is not valid move X: " + placeClicked.getX() + " Y: " + placeClicked.getY());
+			JOptionPane.showMessageDialog(null,"Not a valid move X: " + placeClicked.getX() + " Y: " + placeClicked.getY());
 			return false;
 		} else {
 			history.add(currentState);

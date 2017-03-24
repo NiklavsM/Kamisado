@@ -23,8 +23,8 @@ import javax.swing.event.ChangeListener;
 import controller.Controller;
 
 public class GameOptionsPanel extends JPanel {
-	private JTextField txtEnterPName;
-	private JTextField txtEnterPName_1;
+	private JTextField txtBlackName;
+	private JTextField txtWhiteName;
 	JCheckBox chckbxSpeedMode;
 	JLabel white;
 	JLabel black;
@@ -64,35 +64,46 @@ public class GameOptionsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(txtEnterPName.getText().length() <= 12 && txtEnterPName_1.getText().length() <=12){
-					if(chckbxSpeedMode.isSelected()){
-						int time;
-						try{
-							time = Integer.parseInt(timerTime.getText());
-							System.out.println(time);
-						}catch(NumberFormatException exception){
-							showDialog("Please Enter a Number From 5 To 20!");
-							return;
+				String playerBlack = txtBlackName.getText().trim();
+				String playerWhite = txtWhiteName.getText().trim();
+				txtBlackName.setText(playerBlack);
+				txtWhiteName.setText(playerWhite);
+				if(playerWhite.length() <= 12 && playerBlack.length() <=12){
+					if(playerWhite.length() != 0 && playerBlack.length() !=0){
+						if(!playerWhite.equals(playerBlack)){
+							if(chckbxSpeedMode.isSelected()){
+								int time;
+								try{
+									time = Integer.parseInt(timerTime.getText());
+									System.out.println(time);
+								}catch(NumberFormatException exception){
+									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
+									return;
+								}
+								if (time < 5 || time > 20) {
+									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
+								} else if (rdbtnSingleplayer.isSelected()) {
+									thisController.playSinglePlayer(blackAiPlayer.isSelected(), chckbxSpeedMode.isSelected(), rdbtnEasy.isSelected(),
+											playerWhite, playerBlack, time);
+								} else if (rdbtnTwoPlayer.isSelected()) {
+									thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite,
+											playerBlack, time);
+								}
+							}else{
+								if (rdbtnSingleplayer.isSelected()) {
+									thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,0);
+								} else if (rdbtnTwoPlayer.isSelected()) {
+									thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, 0);
+								}
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, "Player Names can't be the same, You can't play yourself!");
 						}
-						if (time < 5 || time > 20) {
-							showDialog("Please Enter a Number From 5 To 20!");
-						} else if (rdbtnSingleplayer.isSelected()) {
-							thisController.playSinglePlayer(blackAiPlayer.isSelected(), chckbxSpeedMode.isSelected(), rdbtnEasy.isSelected(),
-									txtEnterPName_1.getText(), txtEnterPName.getText(), time);
-						} else if (rdbtnTwoPlayer.isSelected()) {
-							thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(),
-									txtEnterPName.getText(), time);
-						}
-						
 					}else{
-						if (rdbtnSingleplayer.isSelected()) {
-							thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(),0);
-						} else if (rdbtnTwoPlayer.isSelected()) {
-							thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), txtEnterPName_1.getText(), txtEnterPName.getText(), 0);
-						}
+						JOptionPane.showMessageDialog(null, "Player Name can't be empty, Please Enter at least one character!");
 					}
 				}else{
-					showDialog("Player Names are too long, Please limit to 12 characters!");
+					JOptionPane.showMessageDialog(null, "Player Names are too long, Please limit to 12 characters!");
 				}
 			}
 		});
@@ -111,9 +122,9 @@ public class GameOptionsPanel extends JPanel {
 		blackAiPlayer = new JRadioButton("...");
 		black = new JLabel("Player Black");
 		white = new JLabel("Player White");
-		txtEnterPName = new JTextField();
-		txtEnterPName_1 = new JTextField();
-		AiSelectedField = txtEnterPName;
+		txtBlackName = new JTextField();
+		txtWhiteName = new JTextField();
+		AiSelectedField = txtBlackName;
 	}
 	
 	private void setUpGameTypeSelect(){
@@ -135,7 +146,7 @@ public class GameOptionsPanel extends JPanel {
 					blackAiPlayer.setEnabled(true);
 					blackAiPlayer.doClick();
 					//blackAiPlayer.setSelected(true);
-					AiSelectedField = txtEnterPName;
+					AiSelectedField = txtBlackName;
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setEditable(false);
 				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
@@ -147,7 +158,7 @@ public class GameOptionsPanel extends JPanel {
 					aiStartCol.clearSelection();
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
-					AiSelectedField.setText("Player Two");
+					AiSelectedField.setText("New user");
 				}
 			}
 		});
@@ -227,29 +238,29 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED){
-					AiSelectedField = txtEnterPName_1;
-					txtEnterPName.setText(txtEnterPName_1.getText());
-					txtEnterPName.setEditable(true);
-					txtEnterPName.setFocusable(true);
+					AiSelectedField = txtWhiteName;
+					txtBlackName.setText(txtWhiteName.getText());
+					txtBlackName.setEditable(true);
+					txtBlackName.setFocusable(true);
 					if(rdbtnEasy.isSelected()){
-						txtEnterPName_1.setText("Easy AI");
+						txtWhiteName.setText("Easy AI");
 					}else{
-						txtEnterPName_1.setText("Hard AI");
+						txtWhiteName.setText("Hard AI");
 					}
-					txtEnterPName_1.setEditable(false);
-					txtEnterPName_1.setFocusable(false);
+					txtWhiteName.setEditable(false);
+					txtWhiteName.setFocusable(false);
 				}else if(e.getStateChange() == ItemEvent.DESELECTED){
-					AiSelectedField = txtEnterPName;
-					txtEnterPName_1.setText(txtEnterPName.getText());
-					txtEnterPName_1.setEditable(true);
-					txtEnterPName_1.setFocusable(true);
+					AiSelectedField = txtBlackName;
+					txtWhiteName.setText(txtBlackName.getText());
+					txtWhiteName.setEditable(true);
+					txtWhiteName.setFocusable(true);
 					if(rdbtnEasy.isSelected()){
-						txtEnterPName.setText("Easy AI");
+						txtBlackName.setText("Easy AI");
 					}else{
-						txtEnterPName.setText("Hard AI");
+						txtBlackName.setText("Hard AI");
 					}
-					txtEnterPName.setEditable(false);
-					txtEnterPName.setFocusable(false);
+					txtBlackName.setEditable(false);
+					txtBlackName.setFocusable(false);
 				}
 			}
 		});
@@ -271,19 +282,14 @@ public class GameOptionsPanel extends JPanel {
 		white.setBounds(217, 177, 109, 23);
 		add(white);
 
-		txtEnterPName.setText("Player Black");
-		txtEnterPName.setBounds(346, 153, 97, 20);
-		add(txtEnterPName);
-		txtEnterPName.setColumns(10);
+		txtBlackName.setText("Player Black");
+		txtBlackName.setBounds(346, 153, 97, 20);
+		add(txtBlackName);
+		txtBlackName.setColumns(10);
 
-		txtEnterPName_1.setText("Player White");
-		txtEnterPName_1.setBounds(345, 178, 98, 20);
-		add(txtEnterPName_1);
-		txtEnterPName_1.setColumns(10);
-	}
-	
-	
-	public void showDialog(String message){
-		JOptionPane.showMessageDialog(this, message);
+		txtWhiteName.setText("Player White");
+		txtWhiteName.setBounds(345, 178, 98, 20);
+		add(txtWhiteName);
+		txtWhiteName.setColumns(10);
 	}
 }
