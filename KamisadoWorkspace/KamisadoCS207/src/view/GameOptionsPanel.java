@@ -136,6 +136,7 @@ public class GameOptionsPanel extends JPanel {
 					blackAiPlayer.doClick();
 					//blackAiPlayer.setSelected(true);
 					AiSelectedField = txtEnterPName;
+					AiSelectedField.setFocusable(false);
 					AiSelectedField.setEditable(false);
 				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
 					rdbtnEasy.setEnabled(false);
@@ -144,8 +145,9 @@ public class GameOptionsPanel extends JPanel {
 					whiteAiPlayer.setEnabled(false);
 					blackAiPlayer.setEnabled(false);
 					aiStartCol.clearSelection();
-					AiSelectedField.setText("Player Two");
 					AiSelectedField.setEditable(true);
+					AiSelectedField.setFocusable(true);
+					AiSelectedField.setText("Player Two");
 				}
 			}
 		});
