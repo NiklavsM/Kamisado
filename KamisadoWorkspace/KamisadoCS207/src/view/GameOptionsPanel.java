@@ -1,24 +1,21 @@
 package view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.UIManager;
 
 import controller.Controller;
 
@@ -45,6 +42,9 @@ public class GameOptionsPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public GameOptionsPanel(Controller controller) {
+		UIManager.put("Button.focus", Color.red);
+		UIManager.put("RadioButton.focus", Color.red);
+		UIManager.put("CheckBox.focus", Color.red);
 		setLayout(null);
 		Controller thisController = controller;
 		initialiseComponents();
