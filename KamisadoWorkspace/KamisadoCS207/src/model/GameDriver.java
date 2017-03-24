@@ -38,8 +38,14 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void undo() {
 		if (history.size() >= 2) {
-			history.pop();
-			changeCurrentState(history.pop());
+//			history.pop();
+			State stateToCheck = history.pop();
+			String playerToMoveName = stateToCheck.getPlayerToMove().getPlayerName();
+			while(playerToMoveName.equals("Easy AI") || playerToMoveName.equals("Hard AI")){
+				stateToCheck = history.pop();
+				playerToMoveName = stateToCheck.getPlayerToMove().getPlayerName();
+			}
+			changeCurrentState(stateToCheck);
 		}
 	}
 
@@ -77,7 +83,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public boolean tryToMove(Position placeClicked) {
 		State state = currentState.make(placeClicked);
 		if (state == null) {
-			JOptionPane.showMessageDialog(null,"Not a valid move X: " + placeClicked.getX() + " Y: " + placeClicked.getY());
+			JOptionPane.showMessageDialog(null,"Not a valid move!", "Not a valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
 			history.add(currentState);
