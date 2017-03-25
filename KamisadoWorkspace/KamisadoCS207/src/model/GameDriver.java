@@ -26,8 +26,13 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public void saveGame() {
-		SaveManager s = new SaveManager();
-		s.save(currentState);
+		if(history.empty()){
+			JOptionPane.showMessageDialog(null, "Game has not started", "Game has not started",
+                    JOptionPane.ERROR_MESSAGE);
+		}else{
+			SaveManager s = new SaveManager();
+			s.save(currentState);
+		}
 	}
 
 	public void changeCurrentState(State currentState) {

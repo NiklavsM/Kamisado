@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class SaveManager {
 
 	public void save(State state) {
-		File file = new File("/home/me/Desktop");//needs fixing
+		File file = new File("");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int fileAdded = fileChooser.showSaveDialog(null);
@@ -35,7 +35,7 @@ public class SaveManager {
 
 	public State load() {
 		State state = null;
-		File file = new File("/home/me/Desktop");//needs fixing
+		File file = new File("");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int result = fileChooser.showOpenDialog(null);

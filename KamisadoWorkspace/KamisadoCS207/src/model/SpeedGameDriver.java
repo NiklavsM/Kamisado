@@ -64,8 +64,13 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	public void undo() {
 		if (history.size() >= 2) {
-			history.pop();
-			changeCurrentState(history.pop());
+			State stateToCheck = history.pop();
+			String playerToMoveName = stateToCheck.getPlayerToMove().getPlayerName();
+			while (playerToMoveName.equals("Easy AI") || playerToMoveName.equals("Hard AI")) {
+				stateToCheck = history.pop();
+				playerToMoveName = stateToCheck.getPlayerToMove().getPlayerName();
+			}
+			changeCurrentState(stateToCheck);
 			turnBegin();
 		}
 	}
