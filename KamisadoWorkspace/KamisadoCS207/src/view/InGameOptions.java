@@ -83,8 +83,8 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setWinnerLabel("");
-				controller.getGame().reset();
+				//setWinnerLabel("");
+				//controller.getGame().reset();
 			}
 		});
 		//btnUndo.setFocusable(false);
