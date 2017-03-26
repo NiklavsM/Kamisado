@@ -26,8 +26,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public void saveGame() {
-		if(history.empty()){
-			JOptionPane.showMessageDialog(null, "Game has not started", "Game has not started",
+		if(history.empty() || currentState.isGameOver()){
+			JOptionPane.showMessageDialog(null, "Game has not started / is ended", "Game has not started / is ended",
                     JOptionPane.ERROR_MESSAGE);
 		}else{
 			SaveManager s = new SaveManager();
@@ -88,7 +88,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public boolean tryToMove(Position placeClicked) {
 		State state = currentState.make(placeClicked);
 		if (state == null) {
-			JOptionPane.showMessageDialog(null,"Not a valid move!", "Not a valid move!", JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null,"Not a valid move!", "Not a valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
 			history.add(currentState);
