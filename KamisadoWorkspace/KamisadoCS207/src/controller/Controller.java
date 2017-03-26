@@ -3,6 +3,8 @@ package controller;
 import java.awt.EventQueue;
 import java.io.Serializable;
 
+import javax.swing.JOptionPane;
+
 import model.GameDriver;
 import model.SaveManager;
 import model.SpeedGameDriver;
@@ -26,7 +28,6 @@ public class Controller implements Serializable {
 		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
 		menuFrame = new MenuFrame(this, main);
 		menuFrame.setVisible(true);
-
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
@@ -73,6 +74,7 @@ public class Controller implements Serializable {
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
 		game.playGame();
+		JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
@@ -89,6 +91,7 @@ public class Controller implements Serializable {
 		game.addObserver(main);
 		menuFrame.ShowGameViewPanel();
 		game.playGame();
+		JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public GameDriver getGame() {
@@ -129,6 +132,7 @@ public class Controller implements Serializable {
 			game.changeCurrentState(stateToLoad);
 			game.playGame();
 			menuFrame.ShowGameViewPanel();
+			JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
 			return true;
 		}
 		return false;
