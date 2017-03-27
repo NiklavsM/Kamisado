@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Stack;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import player.Player;
@@ -89,11 +90,16 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	public void saveGame() {
-		timer.stop();
-		SaveManager s = new SaveManager();
-		currentState.setTimerLimit(timerLimit);
-		s.save(currentState);
-		timer.start();
+		if (history.empty() || currentState.isGameOver()) {
+			JOptionPane.showMessageDialog(null, "Game has not started / is ended", "Game has not started / is ended",
+					JOptionPane.ERROR_MESSAGE);
+		} else {
+			timer.stop();
+			SaveManager s = new SaveManager();
+			currentState.setTimerLimit(timerLimit);
+			s.save(currentState);
+			timer.start();
+		}
 	}
 
 	@Override
