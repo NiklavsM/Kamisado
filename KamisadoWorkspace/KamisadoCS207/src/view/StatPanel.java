@@ -1,9 +1,11 @@
 package view;
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import model.MatchReport;
+import model.StatsObject;
 
 public class StatPanel extends JPanel {
 
@@ -28,8 +30,11 @@ public class StatPanel extends JPanel {
 		
 		txtrStats = new JTextArea();
 		txtrStats.setBounds(7, 56, 433, 233);
-		txtrStats.setText("Stats");
+		//txtrStats.setText("Stats");
 		add(txtrStats);
+		MatchReport m = new MatchReport();
+		StatsObject stats = m.getStats();
+		txtrStats.append(stats.getStats());
 
 	}
 

@@ -28,6 +28,21 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		s.save(currentState);
 	}
 
+	public void gameEnds(Player winner, Player looser) {
+		StatsObject stats;
+		MatchReport m = new MatchReport();
+		stats = m.getStats();
+		if (stats != null) {
+			stats.addToScores(winner, looser);
+			stats.printStatsTest();
+		} else {
+			stats = new StatsObject();
+			stats.addToScores(winner, looser);
+			stats.printStatsTest();
+		}
+		m.saveStats(stats);
+	}
+
 	public void changeCurrentState(State currentState) {
 		this.currentState = currentState;
 		this.tellAll(currentState.getBoard());
@@ -129,6 +144,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
 						currentState.setGameOver(true);
+						if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {							
+							gameEnds(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+						} else {
+							gameEnds(currentState.getPlayerBlack(), currentState.getPlayerWhite());
+						}
 						return;
 					}
 				}

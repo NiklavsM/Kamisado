@@ -22,6 +22,7 @@ public class SaveManager {
 		if (fileAdded == JFileChooser.APPROVE_OPTION) {
 			try {
 				FileWriter fileCreater = new FileWriter(fileChooser.getSelectedFile() + ".bin");
+				fileCreater.close();
 				ObjectOutputStream stateObj = new ObjectOutputStream(
 						new FileOutputStream(fileChooser.getSelectedFile().getPath() + ".bin"));
 				stateObj.writeObject(state);

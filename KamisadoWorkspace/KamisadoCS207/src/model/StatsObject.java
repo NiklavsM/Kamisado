@@ -47,5 +47,17 @@ public StatsObject(){
 			System.out.println("Losses: " + stat.getLoses());
 		}
 	}
+	public String getStats(){
+		String stats = null;
+		for(Stat stat : playerScores){
+			if(stats==null){
+			stats = "Name: " + stat.getName() + " Wins: "+  stat.getWins() + " Losses: " + stat.getLoses() +"\n";
+			}else{
+				stats = stats + "Name: " + stat.getName() + " Wins: "+  stat.getWins() + " Losses: " + stat.getLoses() +"\n";
+			}
+			
+		}
+		return stats;
+	}
 }
 
