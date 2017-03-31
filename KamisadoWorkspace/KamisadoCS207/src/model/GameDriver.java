@@ -37,15 +37,13 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void gameEnds(Player winner, Player looser) {
 		StatsObject stats;
-		MatchReport m = new MatchReport();
-		stats = m.getStats();
+		StatsManager m = new StatsManager();
+		stats = m.getStatsObject();
 		if (stats != null) {
 			stats.addToScores(winner, looser);
-			stats.printStatsTest();
 		} else {
 			stats = new StatsObject();
 			stats.addToScores(winner, looser);
-			stats.printStatsTest();
 		}
 		m.saveStats(stats);
 	}

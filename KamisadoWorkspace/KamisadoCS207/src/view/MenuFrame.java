@@ -33,7 +33,6 @@ public class MenuFrame extends JFrame {
 		menuBar();
 		this.gameView = gameView;
 		contentPane = new JPanel(new CardLayout());
-		statPanel = new StatPanel();
 		options = new GameOptionsPanel(controller);
 		homePanel = new JPanel();
 
@@ -45,7 +44,6 @@ public class MenuFrame extends JFrame {
 
 		contentPane.add(homePanel, "Home");
 		contentPane.add(options, "New Game");
-		contentPane.add(statPanel, "Stats");
 		contentPane.add(this.gameView, "Game View");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
@@ -112,6 +110,8 @@ public class MenuFrame extends JFrame {
 		stats.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				statPanel = new StatPanel();
+				contentPane.add(statPanel, "Stats");
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "Stats");
 				statPanel.requestFocus();

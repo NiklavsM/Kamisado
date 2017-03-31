@@ -7,57 +7,46 @@ import player.Player;
 
 public class StatsObject implements Serializable {
 	public ArrayList<Stat> playerScores;
-	
-public StatsObject(){
-	playerScores = new ArrayList<Stat>();
-}
-	
-	public void addToScores(Player winner, Player looser){
+
+	public StatsObject() {
+		playerScores = new ArrayList<Stat>();
+	}
+
+	public void addToScores(Player winner, Player looser) {
 		boolean winnerFound = false;
 		boolean looserFound = false;
-		for(Stat stat : playerScores){
-			if(stat.getName().equals(winner.getPlayerName())){
+		for (Stat stat : playerScores) {
+			if (stat.getName().equals(winner.getPlayerName())) {
 				stat.addWins();
 				winnerFound = true;
-				System.out.println("HERE");
-			}else if(stat.getName().equals(looser.getPlayerName())){
+			} else if (stat.getName().equals(looser.getPlayerName())) {
 				stat.addLoses();
 				looserFound = true;
-				System.out.println("HERE2");
-			}			
+			}
 		}
-		if(!winnerFound){
+		if (!winnerFound) {
 			Stat stat = new Stat(winner.getPlayerName());
 			stat.addWins();
-			playerScores.add(stat);	
-			System.out.println("HERE3");
+			playerScores.add(stat);
 		}
-		if(!looserFound){
+		if (!looserFound) {
 			Stat stat = new Stat(looser.getPlayerName());
 			stat.addLoses();
-			playerScores.add(stat);	
-			System.out.println("HERE5");
+			playerScores.add(stat);
 		}
-		
+
 	}
-	public void printStatsTest(){
-		for(Stat stat : playerScores){
-			System.out.println("Name: " + stat.getName());
-			System.out.println("Wins: " + stat.getWins());
-			System.out.println("Losses: " + stat.getLoses());
-		}
-	}
-	public String getStats(){
-		String stats = null;
-		for(Stat stat : playerScores){
-			if(stats==null){
-			stats = "Name: " + stat.getName() + " Wins: "+  stat.getWins() + " Losses: " + stat.getLoses() +"\n";
-			}else{
-				stats = stats + "Name: " + stat.getName() + " Wins: "+  stat.getWins() + " Losses: " + stat.getLoses() +"\n";
-			}
-			
+
+	public Object[][] getTableData() {
+		Object stats[][] = new String[playerScores.size()][3];
+
+		int i = 0;
+		for (Stat stat : playerScores) {
+			stats[i][0] = stat.getName();
+			stats[i][1] = Integer.toString(stat.getWins());//fix
+			stats[i][2] = Integer.toString(stat.getLoses());
+			i++;
 		}
 		return stats;
 	}
 }
-

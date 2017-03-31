@@ -118,6 +118,11 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 					if (playTurn((Position) arg)) {
 						timer.stop();
 						currentState.setGameOver(true);
+						if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {							
+							gameEnds(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+						} else {
+							gameEnds(currentState.getPlayerBlack(), currentState.getPlayerWhite());
+						}
 						return;
 					} else {
 						turnBegin();

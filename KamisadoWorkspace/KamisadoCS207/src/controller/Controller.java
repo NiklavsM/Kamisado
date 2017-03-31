@@ -145,6 +145,7 @@ public class Controller implements Serializable {
 				try {
 					Controller cont = new Controller();
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});

@@ -11,7 +11,6 @@ public class Stat implements Serializable {
 		this.name = name;
 		wins = 0;
 		loses = 0;
-
 	}
 
 	public String getName() {
