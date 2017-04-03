@@ -5,32 +5,34 @@ import java.io.Serializable;
 
 public enum Piece implements Serializable {
 
-	TeamBlackOrange("TeamBlackOrange","Black"),
-	TeamBlackBlue("TeamBlackBlue","Black"),
-	TeamBlackCyan("TeamBlackCyan", "Black"),
-	TeamBlackPink("TeamBlackPink","Black"),
-	TeamBlackYellow("TeamBlackYellow", "Black"),
-	TeamBlackRed("TeamBlackRed","Black"),
-	TeamBlackGreen("TeamBlackGreen", "Black"),
-	TeamBlackBrown("TeamBlackBrown",  "Black"),
+	TeamBlackOrange("TeamBlackOrange","Black", PieceType.Standard),
+	TeamBlackBlue("TeamBlackBlue","Black",PieceType.Standard),
+	TeamBlackCyan("TeamBlackCyan", "Black",PieceType.Standard),
+	TeamBlackPink("TeamBlackPink","Black",PieceType.Standard),
+	TeamBlackYellow("TeamBlackYellow", "Black",PieceType.Standard),
+	TeamBlackRed("TeamBlackRed","Black",PieceType.Standard),
+	TeamBlackGreen("TeamBlackGreen", "Black",PieceType.Standard),
+	TeamBlackBrown("TeamBlackBrown",  "Black",PieceType.Standard),
 	
-	TeamWhiteOrange("TeamWhiteOrange", "White"),
-	TeamWhiteBlue("TeamWhiteBlue","White"),
-	TeamWhiteCyan("TeamWhiteCyan", "White"),
-	TeamWhitePink("TeamWhitePink",  "White"),
-	TeamWhiteYellow("TeamWhiteYellow",   "White"),
-	TeamWhiteRed("TeamWhiteRed", "White"),
-	TeamWhiteGreen("TeamWhiteGreen", "White"),
-	TeamWhiteBrown("TeamWhiteBrown",  "White");
+	TeamWhiteOrange("TeamWhiteOrange", "White",PieceType.Standard),
+	TeamWhiteBlue("TeamWhiteBlue","White",PieceType.Standard),
+	TeamWhiteCyan("TeamWhiteCyan", "White",PieceType.Standard),
+	TeamWhitePink("TeamWhitePink",  "White",PieceType.Standard),
+	TeamWhiteYellow("TeamWhiteYellow",   "White",PieceType.Standard),
+	TeamWhiteRed("TeamWhiteRed", "White",PieceType.Standard),
+	TeamWhiteGreen("TeamWhiteGreen", "White",PieceType.Standard),
+	TeamWhiteBrown("TeamWhiteBrown",  "White",PieceType.Standard);
 
 	private final String value;
 	private Color colour;
 	private final String team;
+	private PieceType pieceType;
 	
-	private Piece(String value, String team){
+	private Piece(String value, String team, PieceType pieceType){
 		this.value = value;
 		this.colour = null;
 		this.team = team;
+		this.pieceType = pieceType;
 	}
 	
 	
@@ -47,6 +49,13 @@ public enum Piece implements Serializable {
 		return team;
 	}
 
+	public void setPieceType(PieceType pieceType){
+		this.pieceType = pieceType;
+	}
+	
+	public PieceType getPieceType(){
+		return this.pieceType;
+	}
 
 	@Override
 	public String toString() {
