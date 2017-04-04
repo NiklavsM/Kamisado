@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Random;
 
 public final class Board implements Serializable {
 	private static final Color or = new Color(250, 190, 50);// orange
@@ -14,79 +16,123 @@ public final class Board implements Serializable {
 	private static final Color p = new Color(239, 86, 208);// pink
 	private Piece[][] pieces;
 	private static Color[][] boardColours;
+	private static Color[] defaultColours;// could take take dfault colors from file
 	private static final int boardSize = 8;
 
 	public Board() {
+		defaultColours = new Color[] { br, gr, r, y, p, c, bl, or };
 		pieces = new Piece[boardSize][boardSize];
-		setBoardColours();
+		// setDefaultBoardColours();
+		setRandomBoardColours();
 		initialisePiecePositions();
-	}
-	
-	public Board(Piece[][] pieces){
-		this.pieces = pieces;
 	}
 
 	public Board(Board other) {
-//	    if(other.a != null) {
-//	        this.a = new A(other.a);
-//	    }
-	    if(other.pieces != null) {
-	        this.pieces = new Piece[boardSize][boardSize];
-	        for(int index = 0; index < boardSize; index++) {
-	        	for(int j = 0; j < boardSize; j++){
-	        		if(other.pieces[index][j] != null){
-	        			this.pieces[index][j] = Piece.valueOf(other.pieces[index][j].toString());
-	        		}else{
-	        			this.pieces[index][j] = null;
-	        		}
-	        		
-	        	}
-	            
-	        }
-	    }
-	}
-	
-//	public Board(Board board) {
-//		this(board.getPieces());
-//	}
+		// if(other.a != null) {
+		// this.a = new A(other.a);
+		// }
+		if (other.pieces != null) {
+			this.pieces = new Piece[boardSize][boardSize];
+			for (int index = 0; index < boardSize; index++) {
+				for (int j = 0; j < boardSize; j++) {
+					if (other.pieces[index][j] != null) {
+						this.pieces[index][j] = Piece.valueOf(other.pieces[index][j].toString());
+					} else {
+						this.pieces[index][j] = null;
+					}
 
-	private void setBoardColours() {
-
-		boardColours = new Color[][] { { br, c, bl, y, p, gr, r, or }, { gr, br, y, r, c, p, or, bl },
-				{ r, y, br, gr, bl, or, p, c }, { y, bl, c, br, or, r, gr, p }, { p, gr, r, or, br, c, bl, y },
-				{ c, p, or, bl, gr, br, y, r }, { bl, or, p, c, r, y, br, gr }, { or, r, gr, p, y, bl, c, br } };
-	}
-
-	private void initialisePiecePositions() {
-		pieces[0][7] = Piece.TeamBlackOrange;
-
-		pieces[1][7] = Piece.TeamBlackBlue;
-		pieces[2][7] = Piece.TeamBlackCyan;
-		pieces[3][7] = Piece.TeamBlackPink;
-		pieces[4][7] = Piece.TeamBlackYellow;
-		pieces[5][7] = Piece.TeamBlackRed;
-		pieces[6][7] = Piece.TeamBlackGreen;
-		pieces[7][7] = Piece.TeamBlackBrown;
-
-		pieces[7][0] = Piece.TeamWhiteOrange;
-		pieces[6][0] = Piece.TeamWhiteBlue;
-		pieces[5][0] = Piece.TeamWhiteCyan;
-		pieces[4][0] = Piece.TeamWhitePink;
-		pieces[3][0] = Piece.TeamWhiteYellow;
-		pieces[2][0] = Piece.TeamWhiteRed;
-		pieces[1][0] = Piece.TeamWhiteGreen;
-		pieces[0][0] = Piece.TeamWhiteBrown;
-
-		for (int j = 0; j < 2; j++) {
-			for (int i = 0; i < 8; i++) {
-				if (pieces[i][j * 7] != null) {
-					pieces[i][j * 7].setColour(boardColours[i][j * 7]);
 				}
+
 			}
 		}
 	}
+
+	// public Board(Board board) {
+	// this(board.getPieces());
+	// }
+
+	private void setDefaultBoardColours() {
+		setBoardColors(defaultColours);
+	}
+
+	private void setRandomBoardColours() {
+		Color[] colorsTemp = new Color[] { br, gr, r, y, p, c, bl, or };
+		Random rnd = new Random();
+		for (int i = 0; i < colorsTemp.length; i++) {
+			int index = rnd.nextInt(colorsTemp.length);
+			Color temp = colorsTemp[index];
+			colorsTemp[index] = colorsTemp[i];
+			colorsTemp[i] = temp;
+		}
+		setBoardColors(colorsTemp);
+		shiftColums();
+	}
 	
-	
+	public void shiftColums(){
+		Random rnd = new Random();
+		for (int i = 0;i<8;i++){
+			int index = rnd.nextInt(8);
+			for(int k = 0;k<8;k++){
+				Color temp = boardColours[index][k];
+				boardColours[index][k] = boardColours[i][k];
+				boardColours[i][k] = temp;			
+			}
+		}
+	}
+
+	private void setBoardColors(Color[] colors) {
+		int plusThree = 1;
+		int plusFive = 6;
+		boardColours = new Color[8][8];
+		for (int i = 0; i < 8; i++, plusThree = plusThree + 3, plusFive = plusFive + 5) {
+			boardColours[i][i] = colors[0];
+			boardColours[i][7 - i] = colors[7];
+			boardColours[i][((7 - i) + 4) % 8] = colors[3];
+			boardColours[i][(i + 4) % 8] = colors[4];
+			boardColours[i][plusThree % 8] = colors[5];
+			boardColours[i][(plusThree + 4) % 8] = colors[1];
+			boardColours[i][(plusFive) % 8] = colors[2];
+			boardColours[i][(plusFive + 4) % 8] = colors[6];
+		}
+	}
+
+	private void initialisePiecePositions() {
+
+		pieces[0][7] = Piece.TeamBlackOrange;
+		pieces[0][7].setColour(or);
+		pieces[1][7] = Piece.TeamBlackBlue;
+		pieces[1][7].setColour(bl);
+		pieces[2][7] = Piece.TeamBlackCyan;
+		pieces[2][7].setColour(c);
+		pieces[3][7] = Piece.TeamBlackPink;
+		pieces[3][7].setColour(p);
+		pieces[4][7] = Piece.TeamBlackYellow;
+		pieces[4][7].setColour(y);
+		pieces[5][7] = Piece.TeamBlackRed;
+		pieces[5][7].setColour(r);
+		pieces[6][7] = Piece.TeamBlackGreen;
+		pieces[6][7].setColour(gr);
+		pieces[7][7] = Piece.TeamBlackBrown;
+		pieces[7][7].setColour(br);
+
+		pieces[7][0] = Piece.TeamWhiteOrange;
+		pieces[7][0].setColour(or);
+		pieces[6][0] = Piece.TeamWhiteBlue;
+		pieces[6][0].setColour(bl);
+		pieces[5][0] = Piece.TeamWhiteCyan;
+		pieces[5][0].setColour(c);
+		pieces[4][0] = Piece.TeamWhitePink;
+		pieces[4][0].setColour(p);
+		pieces[3][0] = Piece.TeamWhiteYellow;
+		pieces[3][0].setColour(y);
+		pieces[2][0] = Piece.TeamWhiteRed;
+		pieces[2][0].setColour(r);
+		pieces[1][0] = Piece.TeamWhiteGreen;
+		pieces[1][0].setColour(gr);
+		pieces[0][0] = Piece.TeamWhiteBrown;
+		pieces[0][0].setColour(br);
+
+	}
 
 	public Board make(Position startPosition, Position endPosition) {
 		Board freshBoard = new Board(this);

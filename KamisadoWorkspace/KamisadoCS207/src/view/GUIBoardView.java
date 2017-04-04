@@ -74,7 +74,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
 			previousLocation = buttons[start.getX()][start.getY()];
 			buttons[end.getX()][end.getY()].setIcon(pieceIcon);
-			previousLocation.setIcon(GREY);
 		}
 	}
 
@@ -166,6 +165,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
+				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
 				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(image);
