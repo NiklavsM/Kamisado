@@ -24,6 +24,7 @@ public class GameOptionsPanel extends JPanel {
 	private JTextField txtBlackName;
 	private JTextField txtWhiteName;
 	JCheckBox chckbxSpeedMode;
+	JCheckBox chckbxRandomBoard;
 	JLabel white;
 	JLabel black;
 	JRadioButton rdbtnEasy;
@@ -52,6 +53,7 @@ public class GameOptionsPanel extends JPanel {
 		initialiseComponents();
 		setUpAIdifficulty();
 		setUpGameTypeSelect();
+		setUpRandomBoardMode();
 		setUpSpeedMode();
 		setUpPlayerTxtField();
 		setUpAIColour();
@@ -68,6 +70,7 @@ public class GameOptionsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String playerBlack = txtBlackName.getText().trim();
 				String playerWhite = txtWhiteName.getText().trim();
+				Boolean randomBoard = chckbxRandomBoard.isSelected();
 				txtBlackName.setText(playerBlack);
 				txtWhiteName.setText(playerWhite);
 				if(playerWhite.length() <= 12 && playerBlack.length() <=12){
@@ -85,10 +88,10 @@ public class GameOptionsPanel extends JPanel {
 								if (time < 5 || time > 20) {
 									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
 								} else{
-									initialiseGame(thisController, playerWhite, playerBlack, time);
+									initialiseGame(thisController, playerWhite, playerBlack, time, randomBoard);
 								}
 							}else{
-								initialiseGame(thisController, playerWhite, playerBlack, 0);
+								initialiseGame(thisController, playerWhite, playerBlack, 0, randomBoard);
 							}
 						}else{
 							JOptionPane.showMessageDialog(null, "Player Names can't be the same, You can't play yourself!");
@@ -104,11 +107,11 @@ public class GameOptionsPanel extends JPanel {
 		add(btnPlay);
 	}
 	
-	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime ){
+	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime, boolean randomBoard ){
 		if (rdbtnSingleplayer.isSelected()) {
-			thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,timerTime, (int)gameLength.getSelectedItem());
+			thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,timerTime, (int)gameLength.getSelectedItem(), randomBoard);
 		} else if (rdbtnTwoPlayer.isSelected()) {
-			thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem());
+			thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem(), randomBoard);
 		}
 	}
 	
@@ -117,6 +120,7 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnTwoPlayer = new JRadioButton("Two Player");
 		rdbtnEasy = new JRadioButton("Easy");
 		rdbtnHard = new JRadioButton("Hard");
+		chckbxRandomBoard = new JCheckBox("Random Board");
 		chckbxSpeedMode = new JCheckBox("Speed Mode");
 		timerTime = new JTextField("20");
 		timeLabel = new JLabel("Seconds:");
@@ -205,10 +209,14 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnHard.setEnabled(true);
 		rdbtnEasy.doClick();
 	}
+	private void setUpRandomBoardMode(){
+		chckbxRandomBoard.setBounds(48, 136, 130, 23);
+		add(chckbxRandomBoard);
+	}
 	
 	private void setUpSpeedMode(){
 		
-		chckbxSpeedMode.setBounds(48, 136, 97, 23);
+		chckbxSpeedMode.setBounds(48, 160, 97, 23);
 		chckbxSpeedMode.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -223,7 +231,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(chckbxSpeedMode);
 		
-		timeLabel.setBounds(48, 177, 97, 23);
+		timeLabel.setBounds(48, 182, 97, 23);
 		add(timeLabel);
 
 		timerTime.setBounds(48, 208, 82, 20);

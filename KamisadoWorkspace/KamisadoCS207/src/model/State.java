@@ -27,11 +27,11 @@ public final class State implements Serializable {
 	private boolean gameOver = false;
 
 
-	public State(Player playerWhite, Player playerBlack, Player playerToMove) {
+	public State(Player playerWhite, Player playerBlack, Player playerToMove, Boolean random) {
 		this.playerWhite = playerWhite;
 		this.playerBlack = playerBlack;
 		this.PlayerToMove = playerToMove;
-		currentBoard = new Board();
+		currentBoard = new Board(random);
 		pieces = currentBoard.getPieces();
 		colourToMove = Color.BLACK;
 		validMoves = new ArrayList<>();

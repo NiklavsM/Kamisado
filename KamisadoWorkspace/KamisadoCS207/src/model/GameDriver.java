@@ -16,9 +16,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	private int gameLength;
 	private int currentGameNum;
 
-	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength) {
+	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength, boolean random) {
 		this.history = new Stack<>();
-		this.currentState = new State(playerWhite, playerBlack, playerToStart);
+		this.currentState = new State(playerWhite, playerBlack, playerToStart, random);
 		currentState.setFirstMove(true);
 		this.gameLength = gameLength;
 		this.currentGameNum = 1;
@@ -81,7 +81,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		if(previousWinner.equals("White")){
 			playerToMove = currentState.getPlayerBlack();
 		}
-		this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove);
+		this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove,false);
 		currentState.setFirstMove(true);
 		if(n == 0){
 			//fill from the left
