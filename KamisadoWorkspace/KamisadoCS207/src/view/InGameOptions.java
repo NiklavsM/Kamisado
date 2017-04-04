@@ -1,12 +1,12 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.Controller;
@@ -18,6 +18,7 @@ public class InGameOptions extends JPanel{
 	private JButton btnSave;
 	private JButton btnUndo;
 	private JButton btnReset;
+	private JButton btnContinue;
 	/**
 	 * Create the panel.
 	 */
@@ -37,6 +38,7 @@ public class InGameOptions extends JPanel{
 		btnSave = new JButton("Save");
 		btnUndo = new JButton("Undo");
 		btnReset = new JButton("Reset");
+		btnContinue = new JButton("Continue");
 	}
 	
 	public void setUpButtons(Controller controller){
@@ -89,6 +91,32 @@ public class InGameOptions extends JPanel{
 		});
 		//btnUndo.setFocusable(false);
 		add(btnReset);
+		
+		btnContinue.setBackground(Color.LIGHT_GRAY);
+		btnContinue.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//setWinnerLabel("");
+				
+				Object[] options = {"Fill from the left", "Fill from the right"};
+				int n = JOptionPane.showOptionDialog(null,"Winner, Please select an option!","Ready for next round!",
+				    JOptionPane.YES_NO_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,
+				    null,
+				    options,
+				    options[1]);
+				if(n == -1){
+					
+				}else{
+					controller.getGame().nextRound(n);
+					btnContinue.setVisible(false);
+				}
+			}
+		});
+		//btnUndo.setFocusable(false);
+		add(btnContinue);
+		btnContinue.setVisible(false);
 	}
 	
 	public void showUndo(boolean undoAvailable){
@@ -97,5 +125,9 @@ public class InGameOptions extends JPanel{
 	
 	public void setWinnerLabel(String message){
 		((RunningGameView) this.getParent()).setWinnerLabel(message);
+	}
+
+	public void displayContinue() {
+		btnContinue.setVisible(true);
 	}
 }

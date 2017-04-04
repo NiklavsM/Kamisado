@@ -9,6 +9,7 @@ import java.awt.event.ItemListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,6 +38,7 @@ public class GameOptionsPanel extends JPanel {
 	ButtonGroup gameType = new ButtonGroup();
 	ButtonGroup aiStartCol = new ButtonGroup();
 	ButtonGroup aiDiff = new ButtonGroup();
+	JComboBox<Integer> gameLength;
 
 	/**
 	 * Create the panel.
@@ -82,19 +84,11 @@ public class GameOptionsPanel extends JPanel {
 								}
 								if (time < 5 || time > 20) {
 									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
-								} else if (rdbtnSingleplayer.isSelected()) {
-									thisController.playSinglePlayer(blackAiPlayer.isSelected(), chckbxSpeedMode.isSelected(), rdbtnEasy.isSelected(),
-											playerWhite, playerBlack, time);
-								} else if (rdbtnTwoPlayer.isSelected()) {
-									thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite,
-											playerBlack, time);
+								} else{
+									initialiseGame(thisController, playerWhite, playerBlack, time);
 								}
 							}else{
-								if (rdbtnSingleplayer.isSelected()) {
-									thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,0);
-								} else if (rdbtnTwoPlayer.isSelected()) {
-									thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, 0);
-								}
+								initialiseGame(thisController, playerWhite, playerBlack, 0);
 							}
 						}else{
 							JOptionPane.showMessageDialog(null, "Player Names can't be the same, You can't play yourself!");
@@ -108,6 +102,14 @@ public class GameOptionsPanel extends JPanel {
 			}
 		});
 		add(btnPlay);
+	}
+	
+	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime ){
+		if (rdbtnSingleplayer.isSelected()) {
+			thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,timerTime, (int)gameLength.getSelectedItem());
+		} else if (rdbtnTwoPlayer.isSelected()) {
+			thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem());
+		}
 	}
 	
 	private void initialiseComponents(){
@@ -125,6 +127,8 @@ public class GameOptionsPanel extends JPanel {
 		txtBlackName = new JTextField();
 		txtWhiteName = new JTextField();
 		AiSelectedField = txtBlackName;
+		gameLength = new JComboBox<Integer>(new Integer[]{1,3,7,15});
+		gameLength.setSelectedIndex(0);
 	}
 	
 	private void setUpGameTypeSelect(){
@@ -273,6 +277,9 @@ public class GameOptionsPanel extends JPanel {
 		whiteAiPlayer.doClick();
 		blackAiPlayer.doClick();
 		
+		gameLength.setBounds(48, 250, 82, 20);
+		
+		add(gameLength);
 	}
 
 	private void setUpPlayerTxtField(){

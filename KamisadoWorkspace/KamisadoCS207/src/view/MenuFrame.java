@@ -149,8 +149,4 @@ public class MenuFrame extends JFrame {
 		c1.show(contentPane, "Game View");
 		gameView.requestFocus();
 	}
-
-	// public RunningGameView getRunningGameView() {
-	// return gameView;
-	// }
 }

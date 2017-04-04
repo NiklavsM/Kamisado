@@ -11,8 +11,6 @@ public final class State implements Serializable {
 	private final int boardUpperLimit = 7;
 	private final int boardLowerLimit = 0;
 	
-	
-	
 	private Board currentBoard;
 	private ArrayList<Position> validMoves;
 	private Piece[][] pieces;
@@ -75,8 +73,6 @@ public final class State implements Serializable {
 					if (pieces[i][j].getColour().equals(colourToMove)
 							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
 						pieceToMove = new Position(i,j);
-						colourToMove = currentBoard.findColor(pieceToMove);
-						// calcValidMoves(new Position(i, j));
 						return pieceToMove;
 					}
 				}
@@ -87,37 +83,65 @@ public final class State implements Serializable {
 
 	public ArrayList<Position> calcValidMoves(Position position) {
 		validMoves.clear();
+		
 		startingPosition = position;
 		int startx = position.getX();
 		int starty = position.getY();
+		PieceType pieceToMoveType = pieces[startx][starty].getPieceType();
+		int distanceCanMove = pieceToMoveType.getMaxMovement();
 		if (PlayerToMove.getPlayerTeam().equals("White")) {
-			optionsLeftUp(startx, starty);
-			optionsMiddleUp(startx, starty);
-			optionsRightUp(startx, starty);
+			//left up
+			options(startx, startx, starty, -1, 1,distanceCanMove);
+			//middle up
+			options((7 - starty), startx, starty, 0, 1,distanceCanMove);
+			//right up
+			options((7 - startx), startx, starty, 1, 1,distanceCanMove);
+			
+			if(!legal(new Position(startx, starty +1))){
+				checkSumoPush(startx, starty, true);
+			}
 		} else {
-			optionsLeftDown(startx, starty);
-			optionsMiddleDown(startx, starty);
-			optionsRightDown(startx, starty);
+			//left down
+			options(startx, startx, starty, -1, -1,distanceCanMove);
+			//middle down
+			options(starty, startx, starty, 0, -1,distanceCanMove);
+			//right down
+			options((7-startx), startx, starty, 1, -1,distanceCanMove);
+			if(!legal(new Position(startx, starty -1))){
+				checkSumoPush(startx, starty, false);
+			}
 		}
 		return validMoves;
 	}
 
-	private void optionsLeftDown(int x, int y) {
-		int numberOfOptionsLeft = x;
-		options(numberOfOptionsLeft, x, y, -1, -1);
-	}
+//	private void optionsLeftDown(int x, int y, int distanceToMove, int piecesCanMove) {
+//		int numberOfOptionsLeft = x;
+//		if(numberOfOptionsLeft > distanceToMove){
+//			numberOfOptionsLeft = distanceToMove;
+//		}
+//		options(numberOfOptionsLeft, x, y, -1, -1);
+//	}
+//
+//	private void optionsMiddleDown(int x, int y, int distanceToMove, int piecesCanMove) {
+//		int numOfOptionsMiddle = y;
+//		if(numOfOptionsMiddle > distanceToMove){
+//			numOfOptionsMiddle = distanceToMove;
+//		}
+//		options(numOfOptionsMiddle, x, y, 0, -1);
+//	}
+//
+//	private void optionsRightDown(int x, int y, int distanceToMove, int piecesCanMove) {
+//		int numOfOptionsRight = 7 - x;
+//		if(numOfOptionsRight > distanceToMove){
+//			numOfOptionsRight = distanceToMove;
+//		}
+//		options(numOfOptionsRight, x, y, 1, -1);
+//	}
 
-	private void optionsMiddleDown(int x, int y) {
-		int numOfOptionsMiddle = y;
-		options(numOfOptionsMiddle, x, y, 0, -1);
-	}
-
-	private void optionsRightDown(int x, int y) {
-		int numOfOptionsRight = 7 - x;
-		options(numOfOptionsRight, x, y, 1, -1);
-	}
-
-	private void options(int options, int x, int y, int incrementx, int incrementy) {
+	private void options(int options, int x, int y, int incrementx, int incrementy, int numSpacesCanMove) {
+		if(options > numSpacesCanMove){
+			options = numSpacesCanMove;
+		}
 		for (int j = 0; j < options; j++) {
 			x = x + incrementx;
 			y = y + incrementy;
@@ -130,28 +154,74 @@ public final class State implements Serializable {
 			}
 		}
 	}
-
-	private void optionsLeftUp(int x, int y) {
-		int numOfOptionsLeft = x;
-		options(numOfOptionsLeft, x, y, -1, 1);
+	
+	private void checkSumoPush(int posX, int posY, boolean checkingUp){
+		PieceType pieceType = pieces[posX][posY].getPieceType();
+		if(!pieceType.equals(PieceType.Standard)){
+			if(checkingUp){
+				if(sumoLoopUp(posX, posY, pieceType.getPiecesItCanMove(), checkingUp)){
+					validMoves.add(new Position(posX, posY+1));
+				}
+			}else{
+				if(sumoLoopDown(posX, posY, pieceType.getPiecesItCanMove(), checkingUp)){
+					validMoves.add(new Position(posX, posY-1));
+				}
+			}	
+		}
+	}
+	
+	private boolean sumoLoopUp(int x, int y, int piecesCanMove, boolean checkingUp){
+		for(int i = 1; i <= piecesCanMove+1; i++){
+			if(y + i >= 8){
+				return false;
+			}else if(pieces[x][y+i] == null){
+				return true;
+			}else if(pieces[x][y].getPieceType().compareTo(pieces[x][y+i].getPieceType()) > 0){
+				continue;
+			}else{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	private boolean sumoLoopDown(int x, int y, int piecesCanMove, boolean checkingUp){
+		for(int i = 1; i <= piecesCanMove+1; i++){
+			if(y - i < 0){
+				return false;
+			}else if(pieces[x][y-i] == null){
+				return true;
+			}else if(pieces[x][y].getPieceType().compareTo(pieces[x][y-i].getPieceType()) > 0){
+				continue;
+			}else{
+				return false;
+			}
+		}
+		return false;
 	}
 
-	private void optionsMiddleUp(int x, int y) {
-		int numOfOptionsMiddle = (7 - y);
-		options(numOfOptionsMiddle, x, y, 0, 1);
-	}
-
-	private void optionsRightUp(int x, int y) {
-		int numOfOptionsRight = 7 - x;
-		options(numOfOptionsRight, x, y, 1, 1);
-	}
+//	private void optionsLeftUp(int x, int y, int distanceToMove, int piecesCanMove) {
+//		int numOfOptionsLeft = x;
+//		options(numOfOptionsLeft, x, y, -1, 1);
+//	}
+//
+//	private void optionsMiddleUp(int x, int y, int distanceToMove, int piecesCanMove) {
+//		int numOfOptionsMiddle = (7 - y);
+//		options(numOfOptionsMiddle, x, y, 0, 1);
+//	}
+//
+//	private void optionsRightUp(int x, int y, int distanceToMove, int piecesCanMove) {
+//		int numOfOptionsRight = 7 - x;
+//		options(numOfOptionsRight, x, y, 1, 1);
+//	}
 
 	public State make(Position endPosition) {
 		if (legal(endPosition)) {
-			colourToMove = currentBoard.findColor(endPosition);
-
+			
+			//colourToMove = currentBoard.findColor(endPosition);
 			Board newBoard = new Board(currentBoard);
 			newBoard.move(startingPosition, endPosition);
+			colourToMove = newBoard.getColourToMove();
 			if (newBoard != null) {		
 				
 				State newState = new State(this, newBoard);

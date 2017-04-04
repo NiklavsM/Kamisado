@@ -28,6 +28,7 @@ public class Controller implements Serializable {
 		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
 		menuFrame = new MenuFrame(this, main);
 		menuFrame.setVisible(true);
+		main.getGameBoard().setGlassPane(menuFrame.getGlassPane());
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
@@ -36,7 +37,7 @@ public class Controller implements Serializable {
 	}
 
 	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
-			String blackName, int timerTime) {
+			String blackName, int timerTime, int gameLength) {
 		if (userToMoveFirst) {
 			playerWhite = new GUIPlayer("White", whiteName, true, this);
 
@@ -46,11 +47,11 @@ public class Controller implements Serializable {
 				playerBlack = new HardAIPlayer("Black", blackName, false);
 			}
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime, gameLength);
 				game.addObserver(main.getGameTimer());
 				game.tellAll(timerTime);
 			} else {
-				game = new GameDriver(playerWhite, playerBlack, playerWhite);
+				game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
 			}
 			playerBlack.addObserver(game);
 		} else {
@@ -61,11 +62,11 @@ public class Controller implements Serializable {
 			}
 			playerBlack = new GUIPlayer("Black", blackName, false, this);
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime, gameLength);
 				game.addObserver(main.getGameTimer());
 				game.tellAll(timerTime);
 			} else {
-				game = new GameDriver(playerWhite, playerBlack, playerWhite);
+				game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
 			}
 			playerWhite.addObserver(game);
 		}
@@ -77,14 +78,14 @@ public class Controller implements Serializable {
 		JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime) {
+	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength) {
 		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
-			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime);
+			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime, gameLength);
 			game.addObserver(main.getGameTimer());
 			game.tellAll(timerTime);
 		} else {
-			game = new GameDriver(playerWhite, playerBlack, playerWhite);
+			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
 		}
 		main.getGameBoard().addObserver(game);
 		main.displayGame(game.getCurrentState());
@@ -150,4 +151,8 @@ public class Controller implements Serializable {
 			}
 		});
 	}
+
+	public MenuFrame getMenuFrame() {
+		return menuFrame;
+	}	
 }

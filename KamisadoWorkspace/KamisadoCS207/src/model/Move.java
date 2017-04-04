@@ -30,8 +30,8 @@ public class Move implements Serializable{
 		return score;
 	}
 
-	public String pieceMoved(){
-		return pieceMoved.toString();
+	public Piece pieceMoved(){
+		return pieceMoved;
 	}
 	public Position getStartPos() {
 		return startPos;

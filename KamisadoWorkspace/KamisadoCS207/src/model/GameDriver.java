@@ -13,11 +13,15 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public Stack<State> history;
 	public State currentState;
 	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
+	private int gameLength;
+	private int currentGameNum;
 
-	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart) {
+	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength) {
 		this.history = new Stack<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart);
 		currentState.setFirstMove(true);
+		this.gameLength = gameLength;
+		this.currentGameNum = 1;
 	}
 
 	public GameDriver(State currentState) {
@@ -65,6 +69,31 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			}
 			changeCurrentState(stateToCheck);
 		}
+	}
+	
+	public void nextRound(int n){
+		
+		currentGameNum++;
+		history = new Stack<>();
+		Player playerToMove = currentState.getPlayerWhite();
+		String previousWinner = currentState.getPreviousMove().pieceMoved().getTeam();
+		Piece[][] previousPieces = currentState.getPieces();
+		if(previousWinner.equals("White")){
+			playerToMove = currentState.getPlayerBlack();
+		}
+		this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove);
+		currentState.setFirstMove(true);
+		if(n == 0){
+			//fill from the left
+			currentState.getBoard().fillBoardLeft(previousWinner, previousPieces);
+			currentState.getBoard().fillBoardLeft(playerToMove.getPlayerTeam(), previousPieces);
+		}else{
+			//fill from the right
+			currentState.getBoard().fillBoardRight(previousWinner, previousPieces);
+			currentState.getBoard().fillBoardRight(playerToMove.getPlayerTeam(), previousPieces);
+		}
+		
+		this.tellAll(currentState.getBoard());
 	}
 
 	public void reset() {
