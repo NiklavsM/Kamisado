@@ -48,10 +48,6 @@ public final class Board implements Serializable {
 		}
 	}
 
-	// public Board(Board board) {
-	// this(board.getPieces());
-	// }
-
 	private void setDefaultBoardColours() {
 		setBoardColors(defaultColours);
 	}
