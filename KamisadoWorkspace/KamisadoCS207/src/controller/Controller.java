@@ -70,12 +70,7 @@ public class Controller implements Serializable {
 			}
 			playerWhite.addObserver(game);
 		}
-		main.getGameBoard().addObserver(game);
-		main.displayGame(game.getCurrentState());
-		game.addObserver(main);
-		menuFrame.ShowGameViewPanel();
-		game.playGame();
-		JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
+		finishGameSetup();
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength) {
@@ -87,12 +82,7 @@ public class Controller implements Serializable {
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
 		}
-		main.getGameBoard().addObserver(game);
-		main.displayGame(game.getCurrentState());
-		game.addObserver(main);
-		menuFrame.ShowGameViewPanel();
-		game.playGame();
-		JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
+		finishGameSetup();
 	}
 
 	public GameDriver getGame() {
@@ -126,17 +116,22 @@ public class Controller implements Serializable {
 			} else if (stateToLoad.getPlayerWhite().isAI()) {
 				stateToLoad.getPlayerWhite().addObserver(game);
 			}
-
-			main.getGameBoard().addObserver(game);
-			main.displayGame(game.getCurrentState());
-			game.addObserver(main);
 			game.changeCurrentState(stateToLoad);
-			game.playGame();
-			menuFrame.ShowGameViewPanel();
-			JOptionPane.showMessageDialog(null,"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves", "Instructions", JOptionPane.INFORMATION_MESSAGE);
+			finishGameSetup();
 			return true;
 		}
 		return false;
+	}
+	
+	private void finishGameSetup() {
+		main.getGameBoard().addObserver(game);
+		main.displayGame(game.getCurrentState());
+		game.addObserver(main);
+		menuFrame.ShowGameViewPanel();
+		game.playGame();
+		JOptionPane.showMessageDialog(null,
+				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",
+				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void main(String[] args) {
