@@ -53,10 +53,6 @@ public final class Board implements Serializable {
 		}
 	}
 
-	// public Board(Board board) {
-	// this(board.getPieces());
-	// }
-
 //	public boolean isRandom() {
 //		return isRandom;
 //	}

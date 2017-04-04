@@ -69,6 +69,9 @@ public class MenuFrame extends JFrame {
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "Home");
 				homePanel.requestFocus();
+				JPanel tempGlassPane = (JPanel) getGlassPane();
+				tempGlassPane.removeAll();
+				tempGlassPane.repaint();
 			}
 		});
 
@@ -84,6 +87,9 @@ public class MenuFrame extends JFrame {
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "New Game");
 				options.requestFocus();
+				JPanel tempGlassPane = (JPanel) getGlassPane();
+				tempGlassPane.removeAll();
+				tempGlassPane.repaint();
 			}
 		});
 
@@ -100,6 +106,9 @@ public class MenuFrame extends JFrame {
 				gameView.setWinnerLabel("");
 				gameView.setTimerLabel(" ");
 				controller.loadGame();
+				JPanel tempGlassPane = (JPanel) getGlassPane();
+				tempGlassPane.removeAll();
+				tempGlassPane.repaint();
 			}
 		});
 
@@ -115,6 +124,9 @@ public class MenuFrame extends JFrame {
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "Stats");
 				statPanel.requestFocus();
+				JPanel tempGlassPane = (JPanel) getGlassPane();
+				tempGlassPane.removeAll();
+				tempGlassPane.repaint();
 			}
 		});
 
@@ -148,5 +160,8 @@ public class MenuFrame extends JFrame {
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
 		c1.show(contentPane, "Game View");
 		gameView.requestFocus();
+		JPanel tempGlassPane = (JPanel) this.getGlassPane();
+		tempGlassPane.removeAll();
+		tempGlassPane.repaint();
 	}
 }

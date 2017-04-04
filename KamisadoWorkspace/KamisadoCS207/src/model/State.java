@@ -129,7 +129,11 @@ public final class State implements Serializable {
 		PieceType pieceType = pieces[posX][posY].getPieceType();
 		if(!pieceType.equals(PieceType.Standard)){
 			if(sumoLoop(posX, posY, pieceType.getPiecesItCanMove(), checkingUp)){
-				validMoves.add(new Position(posX, posY+1));
+				int increment = -1;
+				if(checkingUp){
+					increment = 1;
+				}
+				validMoves.add(new Position(posX, posY+increment));
 			}
 		}
 	}
@@ -142,6 +146,7 @@ public final class State implements Serializable {
 		int tempVal;
 		for(int i = 1; i <= piecesCanMove+1; i++){
 			tempVal = y + (i * increment);
+			System.out.println("temp: " + tempVal);
 			if(tempVal >= 8 || tempVal < 0){
 				return false;
 			}else if(pieces[x][tempVal] == null){
