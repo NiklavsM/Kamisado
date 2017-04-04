@@ -14,7 +14,7 @@ public final class Board implements Serializable {
 	private static final Color gr = new Color(108, 216, 68);// green
 	private static final Color y = new Color(245, 245, 26);// yellow
 	private static final Color p = new Color(239, 86, 208);// pink
-	private Piece[][] pieces;
+	private PieceObject[][] pieces;
 	private static Color[][] boardColours;
 	private static Color[] defaultColours;// could take take dfault colors from file
 	private static final int boardSize = 8;
@@ -22,28 +22,24 @@ public final class Board implements Serializable {
 
 	public Board() {
 		defaultColours = new Color[] { br, gr, r, y, p, c, bl, or };
-		pieces = new Piece[boardSize][boardSize];
+		pieces = new PieceObject[boardSize][boardSize];
 		setDefaultBoardColours();
 		//setRandomBoardColours();
 		initialisePiecePositions();
 	}
 
 	public Board(Board other) {
-		// if(other.a != null) {
-		// this.a = new A(other.a);
-		// }
 		if (other.pieces != null) {
-			this.pieces = new Piece[boardSize][boardSize];
+			this.pieces = new PieceObject[boardSize][boardSize];
 			for (int index = 0; index < boardSize; index++) {
 				for (int j = 0; j < boardSize; j++) {
 					if (other.pieces[index][j] != null) {
-						this.pieces[index][j] = Piece.valueOf(other.pieces[index][j].toString());
+						this.pieces[index][j] = new PieceObject(other.pieces[index][j]);
 					} else {
 						this.pieces[index][j] = null;
 					}
 
 				}
-
 			}
 		}
 	}
@@ -95,43 +91,43 @@ public final class Board implements Serializable {
 
 	private void initialisePiecePositions() {
 
-		pieces[0][7] = Piece.TeamBlackOrange;
-		pieces[0][7].setColour(or);
-		pieces[1][7] = Piece.TeamBlackBlue;
-		pieces[1][7].setColour(bl);
-		pieces[2][7] = Piece.TeamBlackCyan;
-		pieces[2][7].setColour(c);
-		pieces[3][7] = Piece.TeamBlackPink;
-		pieces[3][7].setColour(p);
-		pieces[4][7] = Piece.TeamBlackYellow;
-		pieces[4][7].setColour(y);
-		pieces[5][7] = Piece.TeamBlackRed;
-		pieces[5][7].setColour(r);
-		pieces[6][7] = Piece.TeamBlackGreen;
-		pieces[6][7].setColour(gr);
-		pieces[7][7] = Piece.TeamBlackBrown;
-		pieces[7][7].setColour(br);
+		pieces[0][7] = new PieceObject(Piece.TeamBlackOrange, PieceType.Standard);
+		pieces[0][7].getPiece().setColour(or);
+		pieces[1][7] = new PieceObject(Piece.TeamBlackBlue, PieceType.Standard);
+		pieces[1][7].getPiece().setColour(bl);
+		pieces[2][7] = new PieceObject(Piece.TeamBlackCyan, PieceType.Standard);
+		pieces[2][7].getPiece().setColour(c);
+		pieces[3][7] = new PieceObject(Piece.TeamBlackPink, PieceType.Standard);
+		pieces[3][7].getPiece().setColour(p);
+		pieces[4][7] = new PieceObject(Piece.TeamBlackYellow, PieceType.Standard);
+		pieces[4][7].getPiece().setColour(y);
+		pieces[5][7] = new PieceObject(Piece.TeamBlackRed, PieceType.Standard);
+		pieces[5][7].getPiece().setColour(r);
+		pieces[6][7] = new PieceObject(Piece.TeamBlackGreen, PieceType.Standard);
+		pieces[6][7].getPiece().setColour(gr);
+		pieces[7][7] = new PieceObject(Piece.TeamBlackBrown, PieceType.Standard);
+		pieces[7][7].getPiece().setColour(br);
 
-		pieces[7][0] = Piece.TeamWhiteOrange;
-		pieces[7][0].setColour(or);
-		pieces[6][0] = Piece.TeamWhiteBlue;
-		pieces[6][0].setColour(bl);
-		pieces[5][0] = Piece.TeamWhiteCyan;
-		pieces[5][0].setColour(c);
-		pieces[4][0] = Piece.TeamWhitePink;
-		pieces[4][0].setColour(p);
-		pieces[3][0] = Piece.TeamWhiteYellow;
-		pieces[3][0].setColour(y);
-		pieces[2][0] = Piece.TeamWhiteRed;
-		pieces[2][0].setColour(r);
-		pieces[1][0] = Piece.TeamWhiteGreen;
-		pieces[1][0].setColour(gr);
-		pieces[0][0] = Piece.TeamWhiteBrown;
-		pieces[0][0].setColour(br);
+		pieces[7][0] = new PieceObject(Piece.TeamWhiteOrange, PieceType.Standard);
+		pieces[7][0].getPiece().setColour(or);
+		pieces[6][0] = new PieceObject(Piece.TeamWhiteBlue, PieceType.Standard);
+		pieces[6][0].getPiece().setColour(bl);
+		pieces[5][0] = new PieceObject(Piece.TeamWhiteCyan, PieceType.Standard);
+		pieces[5][0].getPiece().setColour(c);
+		pieces[4][0] = new PieceObject(Piece.TeamWhitePink, PieceType.Standard);
+		pieces[4][0].getPiece().setColour(p);
+		pieces[3][0] = new PieceObject(Piece.TeamWhiteYellow, PieceType.Standard);
+		pieces[3][0].getPiece().setColour(y);
+		pieces[2][0] = new PieceObject(Piece.TeamWhiteRed, PieceType.Standard);
+		pieces[2][0].getPiece().setColour(r);
+		pieces[1][0] = new PieceObject(Piece.TeamWhiteGreen, PieceType.Standard);
+		pieces[1][0].getPiece().setColour(gr);
+		pieces[0][0] = new PieceObject(Piece.TeamWhiteBrown, PieceType.Standard);
+		pieces[0][0].getPiece().setColour(br);
 
 	}
 	
-	public void fillHomeRow(String team, Piece[][] oldPieces, boolean fillLeft){
+	public void fillHomeRow(String team, boolean fillLeft){
 		int teamHomeBase;
 		int homeRowCounter = 7;
 		int increment = -1;
@@ -147,10 +143,16 @@ public final class Board implements Serializable {
 			for(int y = 0; y < 8; y++){
 				x = permx;
 				for(int j = 0; j < 8; j++){
-					if(oldPieces[x][y] != null){
-						if(oldPieces[x][y].getTeam().equals(team)){
-							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
-							homeRowCounter += increment;
+					if(pieces[x][y] != null){
+						if(pieces[x][y].getPiece().getTeam().equals(team)){
+							if(homeRowCounter == x && teamHomeBase == y){
+								homeRowCounter += increment;
+							}else{
+								pieces[homeRowCounter][teamHomeBase] = pieces[x][y];
+								pieces[x][y] = null;
+								System.out.println("moving x:" + x + " y:" + y + " to x:" + homeRowCounter + " y:" + teamHomeBase);
+								homeRowCounter += increment;
+							}
 						}
 					}
 					x += increment;
@@ -161,10 +163,15 @@ public final class Board implements Serializable {
 			for(int y = 7; y >= 0; y--){
 				x = permx;
 				for(int j = 0; j < 8; j++){
-					if(oldPieces[x][y] != null){
-						if(oldPieces[x][y].getTeam().equals(team)){
-							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
-							homeRowCounter += increment;
+					if(pieces[x][y] != null){
+						if(pieces[x][y].getPiece().getTeam().equals(team)){
+							if(homeRowCounter == x && teamHomeBase == y){
+								homeRowCounter += increment;
+							}else{
+								pieces[homeRowCounter][teamHomeBase] = pieces[x][y];
+								pieces[x][y] = null;
+								homeRowCounter += increment;
+							}
 						}
 					}
 					x += increment;
@@ -226,8 +233,8 @@ public final class Board implements Serializable {
 		
 	}
 
-	private Piece removePiece(int x, int y) {
-		Piece pieceToRemove = pieces[x][y];
+	private PieceObject removePiece(int x, int y) {
+		PieceObject pieceToRemove = pieces[x][y];
 		pieces[x][y] = null;
 		return pieceToRemove;
 	}
@@ -269,10 +276,13 @@ public final class Board implements Serializable {
 	// }
 
 	public Piece findPieceAtLoc(int x, int y) {
-		return pieces[x][y];
+		if(pieces[x][y] != null){
+			return pieces[x][y].getPiece();
+		}
+		return null;
 	}
 
-	public Piece[][] getPieces() {
+	public PieceObject[][] getPieces() {
 		return pieces;
 	}
 

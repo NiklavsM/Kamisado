@@ -28,7 +28,7 @@ public class Controller implements Serializable {
 		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
 		menuFrame = new MenuFrame(this, main);
 		menuFrame.setVisible(true);
-		main.getGameBoard().setGlassPane(menuFrame.getGlassPane());
+		main.setGlassPane(menuFrame.getGlassPane());
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {

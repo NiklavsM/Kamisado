@@ -13,14 +13,14 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public Stack<State> history;
 	public State currentState;
 	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
-	private int gameLength;
+	private int scoreToGet;
 	private int currentGameNum;
 
-	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength) {
+	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int scoreToGet) {
 		this.history = new Stack<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart);
 		currentState.setFirstMove(true);
-		this.gameLength = gameLength;
+		this.scoreToGet = scoreToGet;
 		this.currentGameNum = 1;
 	}
 
@@ -40,6 +40,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public void gameEnds(Player winner, Player looser) {
+		
+		
 		StatsObject stats;
 		StatsManager m = new StatsManager();
 		stats = m.getStatsObject();
@@ -50,6 +52,14 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			stats.addToScores(winner, looser);
 		}
 		m.saveStats(stats);
+		
+		
+//		Piece pieceThatWon = currentState.getPreviousMove().pieceMoved();
+//		
+//		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
+//		if(winner.getScore() >= scoreToGet){
+//			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " rounds!");
+//		}
 	}
 
 	public void changeCurrentState(State currentState) {
@@ -77,22 +87,26 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerWhite();
 		String previousWinner = currentState.getPreviousMove().pieceMoved().getTeam();
-		Piece[][] previousPieces = currentState.getPieces();
+		Board previousBoard = currentState.getBoard();
 		if(previousWinner.equals("White")){
 			playerToMove = currentState.getPlayerBlack();
 		}
-		this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove);
-		currentState.setFirstMove(true);
-		if(n == 0){
-			//fill from the left
-			currentState.getBoard().fillHomeRow(previousWinner, previousPieces, true);
-			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, true);
+		if(n ==0){
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, true);
 		}else{
-			//fill from the right
-			currentState.getBoard().fillHomeRow(previousWinner, previousPieces, false);
-			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, false);
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, false);
 		}
 		
+		currentState.setFirstMove(true);
+//		if(n == 0){
+//			//fill from the left
+//			currentState.getBoard().fillHomeRow(previousWinner, );
+//			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, true);
+//		}else{
+//			//fill from the right
+//			currentState.getBoard().fillHomeRow(previousWinner, previousPieces, false);
+//			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, false);
+//		}
 		this.tellAll(currentState.getBoard());
 	}
 

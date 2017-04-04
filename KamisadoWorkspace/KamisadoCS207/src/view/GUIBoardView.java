@@ -61,6 +61,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	public ImageIcon imageChooser(Piece piece) {
 		ImageIcon returnImage = null;
+		if(piece == null){
+			return null;
+		}
 		for (Piece p : Piece.values()) {
 			if (p != null && p.equals(piece)) {
 				returnImage = new ImageIcon(getClass().getResource("/images/" + p.toString() + ".png"));

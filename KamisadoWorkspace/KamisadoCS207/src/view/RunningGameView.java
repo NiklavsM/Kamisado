@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private JLabel winnerLabel;
 	private JLabel teamWhite;
 	private JLabel teamBlack;
+	private JPanel glassPane;
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		timer = new GameTimer();
@@ -86,18 +88,23 @@ public class RunningGameView extends JPanel implements MyObserver {
 		if (arg instanceof ArrayList<?>) {
 			gameBoard.displaySelectable((ArrayList<Position>) arg);
 		}else if (arg instanceof String) {
+			glassPane.removeAll();
 			switch ((String) arg) {
 			case "White":
+				glassPane.add(new JLabel("White Wins!"));
 				winnerLabel.setText("White Wins!");
-				//System.out.println("White Wins!");
 				break;
 			case "Black":
+				glassPane.add(new JLabel("Black Wins!"));
 				winnerLabel.setText("Black Wins!");
-				//System.out.println("Black Wins!");
 				break;
 			case "Draw":
+				glassPane.add(new JLabel("Draw!"));
 				winnerLabel.setText("Draw!");
-				//System.out.println("Draw!");
+				break;
+			default:
+				
+				glassPane.add(new JLabel((String) arg));
 			}
 			inGameOptions.displayContinue();
 			//gameBoard.setButtonsEnabled(false);
@@ -111,10 +118,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameBoard.displaySelectable(validMoves);
 	}
 
-//	public void addObserver(Player player) {
-//		gameBoard.addObserver((MyObserver) player);
-//	}
-//	
 	public void setWinnerLabel(String message){
 		winnerLabel.setText(message);
 	}
@@ -122,7 +125,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 		timer.setText(message);
 	}
 
-//	public void addObserverToGameview(GameDriver game) {
-//		gameBoard.addObserver(game);
-//	}
+	public void setGlassPane(Component glassPane) {
+		this.glassPane = (JPanel) glassPane;
+		gameBoard.setGlassPane(glassPane);
+	}
 }
