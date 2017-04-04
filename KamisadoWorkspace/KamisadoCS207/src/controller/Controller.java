@@ -37,9 +37,9 @@ public class Controller implements Serializable {
 	}
 
 	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
-			String blackName, int timerTime, int gameLength) {
+			String blackName, int timerTime, int gameLength, boolean randomBoard) {
 		if (userToMoveFirst) {
-			playerWhite = new GUIPlayer("White", whiteName, true, this);
+			playerWhite = new GUIPlayer("White", whiteName, true, this);//can make smaller
 
 			if (isEasyAI) {
 				playerBlack = new EasyAIPlayer("Black", blackName, false);
@@ -47,11 +47,11 @@ public class Controller implements Serializable {
 				playerBlack = new HardAIPlayer("Black", blackName, false);
 			}
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime, gameLength);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime,randomBoard);
 				game.addObserver(main.getGameTimer());
 				game.tellAll(timerTime);
 			} else {
-				game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
+				game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength, randomBoard);
 			}
 			playerBlack.addObserver(game);
 		} else {
@@ -62,25 +62,25 @@ public class Controller implements Serializable {
 			}
 			playerBlack = new GUIPlayer("Black", blackName, false, this);
 			if (isSpeedGame) {
-				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime, gameLength);
+				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
 				game.addObserver(main.getGameTimer());
 				game.tellAll(timerTime);
 			} else {
-				game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
+				game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength,randomBoard);
 			}
 			playerWhite.addObserver(game);
 		}
 		finishGameSetup();
 	}
 
-	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength) {
+	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength, boolean randomBoard) {
 		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
-			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, timerTime, gameLength);
+			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
 			game.addObserver(main.getGameTimer());
 			game.tellAll(timerTime);
 		} else {
-			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength);
+			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength, randomBoard);
 		}
 		finishGameSetup();
 	}

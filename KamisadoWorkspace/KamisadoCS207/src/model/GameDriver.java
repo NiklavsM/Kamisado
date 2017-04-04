@@ -16,9 +16,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	private int scoreToGet;
 	private int currentGameNum;
 
-	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int scoreToGet) {
+
+	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength, boolean random) {
 		this.history = new Stack<>();
-		this.currentState = new State(playerWhite, playerBlack, playerToStart);
+		this.currentState = new State(playerWhite, playerBlack, playerToStart, random);
 		currentState.setFirstMove(true);
 		this.scoreToGet = scoreToGet;
 		this.currentGameNum = 1;
@@ -98,15 +99,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		
 		currentState.setFirstMove(true);
-//		if(n == 0){
-//			//fill from the left
-//			currentState.getBoard().fillHomeRow(previousWinner, );
-//			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, true);
-//		}else{
-//			//fill from the right
-//			currentState.getBoard().fillHomeRow(previousWinner, previousPieces, false);
-//			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, false);
-//		}
 		this.tellAll(currentState.getBoard());
 	}
 
