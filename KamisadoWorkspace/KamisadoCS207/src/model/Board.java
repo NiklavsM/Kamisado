@@ -23,8 +23,8 @@ public final class Board implements Serializable {
 	public Board() {
 		defaultColours = new Color[] { br, gr, r, y, p, c, bl, or };
 		pieces = new Piece[boardSize][boardSize];
-		// setDefaultBoardColours();
-		setRandomBoardColours();
+		setDefaultBoardColours();
+		//setRandomBoardColours();
 		initialisePiecePositions();
 	}
 
@@ -135,61 +135,43 @@ public final class Board implements Serializable {
 
 	}
 	
-	public void fillBoardLeft(String team, Piece[][] oldPieces){
-		int teamHomeBase;
-		int homeRowCounter = 0;
-		if(team.equals("White")){
-			teamHomeBase = 0;
-			for(int y = 0; y < 8; y++){
-				for(int x = 0; x < 8; x++){
-					if(oldPieces[x][y] != null){
-						if(oldPieces[x][y].getTeam().equals(team)){
-							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
-							homeRowCounter++;
-						}
-					}
-				}
-			}
-		}else{
-			teamHomeBase = 7;
-			for(int y = 7; y >= 0; y--){
-				for(int x = 0; x < 8; x++){
-					if(oldPieces[x][y] != null){
-						if(oldPieces[x][y].getTeam().equals(team)){
-							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
-							homeRowCounter++;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	public void fillBoardRight(String team, Piece[][] oldPieces){
+	public void fillHomeRow(String team, Piece[][] oldPieces, boolean fillLeft){
 		int teamHomeBase;
 		int homeRowCounter = 7;
+		int increment = -1;
+		int permx = 7;
+		if(fillLeft){
+			increment = 1;
+			homeRowCounter = 0;
+			permx = 0;
+		}
+		int x = permx;
 		if(team.equals("White")){
 			teamHomeBase = 0;
 			for(int y = 0; y < 8; y++){
-				for(int x = 7; x >= 0; x--){
+				x = permx;
+				for(int j = 0; j < 8; j++){
 					if(oldPieces[x][y] != null){
 						if(oldPieces[x][y].getTeam().equals(team)){
 							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
-							homeRowCounter--;
+							homeRowCounter += increment;
 						}
 					}
+					x += increment;
 				}
 			}
 		}else{
 			teamHomeBase = 7;
 			for(int y = 7; y >= 0; y--){
-				for(int x = 7; x >= 0; x--){
+				x = permx;
+				for(int j = 0; j < 8; j++){
 					if(oldPieces[x][y] != null){
 						if(oldPieces[x][y].getTeam().equals(team)){
 							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
-							homeRowCounter--;
+							homeRowCounter += increment;
 						}
 					}
+					x += increment;
 				}
 			}
 		}

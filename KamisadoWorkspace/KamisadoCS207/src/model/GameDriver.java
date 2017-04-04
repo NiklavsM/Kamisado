@@ -85,12 +85,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		currentState.setFirstMove(true);
 		if(n == 0){
 			//fill from the left
-			currentState.getBoard().fillBoardLeft(previousWinner, previousPieces);
-			currentState.getBoard().fillBoardLeft(playerToMove.getPlayerTeam(), previousPieces);
+			currentState.getBoard().fillHomeRow(previousWinner, previousPieces, true);
+			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, true);
 		}else{
 			//fill from the right
-			currentState.getBoard().fillBoardRight(previousWinner, previousPieces);
-			currentState.getBoard().fillBoardRight(playerToMove.getPlayerTeam(), previousPieces);
+			currentState.getBoard().fillHomeRow(previousWinner, previousPieces, false);
+			currentState.getBoard().fillHomeRow(playerToMove.getPlayerTeam(), previousPieces, false);
 		}
 		
 		this.tellAll(currentState.getBoard());
