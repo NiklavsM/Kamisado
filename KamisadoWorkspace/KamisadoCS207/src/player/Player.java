@@ -15,6 +15,7 @@ public abstract class Player implements MyObservable, Serializable{
     private boolean goingFirst;
     private boolean isAI;
     ArrayList<MyObserver> observers = new ArrayList<>();
+    private int score = 0;
 
     public Player(String playerTeam, String playerName, boolean goingFirst, boolean isAI){
         this.playerTeam = playerTeam;
@@ -76,6 +77,14 @@ public abstract class Player implements MyObservable, Serializable{
 
 	public boolean isAI() {
 		return isAI;
+	}
+	
+	public void incrementScore(int increment){
+		score += increment;
+	}
+	
+	public int getScore(){
+		return score;
 	}
 	
 	

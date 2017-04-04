@@ -99,7 +99,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 				winnerLabel.setText("Draw!");
 				//System.out.println("Draw!");
 			}
-			gameBoard.setButtonsEnabled(false);
+			inGameOptions.displayContinue();
+			//gameBoard.setButtonsEnabled(false);
 		} else if (arg instanceof Board) {
 			gameBoard.redrawBoard((Board) arg);
 		}

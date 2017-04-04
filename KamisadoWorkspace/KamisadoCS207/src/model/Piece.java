@@ -59,10 +59,20 @@ public enum Piece implements Serializable {
 
 	@Override
 	public String toString() {
-		
 		return value;
 	}
 	
-	
-	
+	public void promotePiece(){
+		switch(pieceType){
+			case Standard: pieceType = PieceType.Sumo;
+							break;
+			case Sumo: pieceType = PieceType.DoubleSumo;
+							break;
+			case DoubleSumo: pieceType = PieceType.TripleSumo;
+							break;
+			case TripleSumo: pieceType = PieceType.QuadrupleSumo;
+							break;
+			case QuadrupleSumo: //can't promote, do nothing
+		}
+	}
 }

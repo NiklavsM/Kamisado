@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.LayoutManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -21,7 +25,6 @@ import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
 import model.Position;
-import player.Player;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
@@ -36,6 +39,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private int currenty;
 	private Board board;
 	ArrayList<MyObserver> observers = new ArrayList<>();
+	private JPanel glassPane;
 
 	public GUIBoardView(Controller controller) {
 		board = new Board();
@@ -84,13 +88,20 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
 			}
 		}
+		glassPane.removeAll();
+		glassPane.repaint();
 	}
 
 	public void displaySelectable(ArrayList<Position> positions) {
 		removeSelectable();
 		selectedPositions = (ArrayList<Position>) positions.clone();
 		for (Position pos : positions) {
-			buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
+			//buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
+			JLabel label = new JLabel();
+			label.setIcon(SELECTED);
+			label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 50, 70, 70);
+			glassPane.add(label);
+			glassPane.repaint();
 		}
 	}
 
@@ -175,6 +186,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				buttons[x][y].setEnabled(true);
 			}
 		}
+		removeSelectable();
 	}
 
 	public JButton getButton(int x, int y) {
@@ -261,6 +273,12 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	@Override
 	public ArrayList<MyObserver> getObservers() {
 		return observers;
+	}
+
+	public void setGlassPane(Component glassPane) {
+		this.glassPane = (JPanel) glassPane;
+		this.glassPane.setVisible(true);
+		this.glassPane.setLayout(this.getLayout());
 	}
 
 }

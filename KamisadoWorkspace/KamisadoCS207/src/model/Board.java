@@ -15,6 +15,7 @@ public final class Board implements Serializable {
 	private Piece[][] pieces;
 	private static Color[][] boardColours;
 	private static final int boardSize = 8;
+	private Color colourToMove;
 
 	public Board() {
 		pieces = new Piece[boardSize][boardSize];
@@ -86,8 +87,66 @@ public final class Board implements Serializable {
 		}
 	}
 	
-	
+	public void fillBoardLeft(String team, Piece[][] oldPieces){
+		int teamHomeBase;
+		int homeRowCounter = 0;
+		if(team.equals("White")){
+			teamHomeBase = 0;
+			for(int y = 0; y < 8; y++){
+				for(int x = 0; x < 8; x++){
+					if(oldPieces[x][y] != null){
+						if(oldPieces[x][y].getTeam().equals(team)){
+							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
+							homeRowCounter++;
+						}
+					}
+				}
+			}
+		}else{
+			teamHomeBase = 7;
+			for(int y = 7; y >= 0; y--){
+				for(int x = 0; x < 8; x++){
+					if(oldPieces[x][y] != null){
+						if(oldPieces[x][y].getTeam().equals(team)){
+							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
+							homeRowCounter++;
+						}
+					}
+				}
+			}
+		}
+	}
 
+	public void fillBoardRight(String team, Piece[][] oldPieces){
+		int teamHomeBase;
+		int homeRowCounter = 7;
+		if(team.equals("White")){
+			teamHomeBase = 0;
+			for(int y = 0; y < 8; y++){
+				for(int x = 7; x >= 0; x--){
+					if(oldPieces[x][y] != null){
+						if(oldPieces[x][y].getTeam().equals(team)){
+							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
+							homeRowCounter--;
+						}
+					}
+				}
+			}
+		}else{
+			teamHomeBase = 7;
+			for(int y = 7; y >= 0; y--){
+				for(int x = 7; x >= 0; x--){
+					if(oldPieces[x][y] != null){
+						if(oldPieces[x][y].getTeam().equals(team)){
+							pieces[homeRowCounter][teamHomeBase] = oldPieces[x][y];
+							homeRowCounter--;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public Board make(Position startPosition, Position endPosition) {
 		Board freshBoard = new Board(this);
 		freshBoard.move(startPosition, endPosition);
@@ -95,9 +154,50 @@ public final class Board implements Serializable {
 	}
 
 	public void move(Position startPosition, Position endPosition) {
+		PieceType pieceType = pieces[startPosition.getX()][startPosition.getY()].getPieceType();
 		int endx = endPosition.getX();
 		int endy = endPosition.getY();
+		colourToMove = boardColours[endx][endy];
+		if(pieces[endx][endy] != null){
+			boolean pushingUp = startPosition.getY() < endy;
+			sumoPush(pushingUp, endPosition, pieceType.getPiecesItCanMove());
+		}
 		pieces[endx][endy] = removePiece(startPosition.getX(), startPosition.getY());
+		if(gameOver(endy)){
+			pieces[endx][endy].promotePiece();
+		}
+	}
+	
+	private void sumoPush(boolean pushingUp, Position endPosition, int numOfPiecesCanMove){
+		int endx = endPosition.getX();
+		int endy = endPosition.getY();
+		int numOfPiecesActuallyPushing = 0;
+		for(int i = 0; i < numOfPiecesCanMove; i++){
+			if(pushingUp){
+				if(pieces[endx][endy+i] == null){
+					break;
+				}
+			}else{
+				if(pieces[endx][endy-i] == null){
+					break;
+				}
+			}
+			numOfPiecesActuallyPushing++;
+		}
+		if(pushingUp){
+			colourToMove = boardColours[endx][endy+numOfPiecesActuallyPushing];
+		}else{
+			colourToMove = boardColours[endx][endy-numOfPiecesActuallyPushing];
+		}
+		for(int i = numOfPiecesActuallyPushing; i > 0; i--){
+			if(pushingUp){
+				System.out.println("placing X:" + endx + " Y:" + (endy+i-1) + " to X:" + endx + " Y:" + (endy+i));
+				pieces[endx][endy+i] = removePiece(endx,endy+i-1);
+			}else{
+				pieces[endx][endy-i] = removePiece(endx,endy-i+1);
+			}
+		}
+		
 	}
 
 	private Piece removePiece(int x, int y) {
@@ -175,4 +275,10 @@ public final class Board implements Serializable {
 			return "";
 		}
 	}
+
+	public Color getColourToMove() {
+		return colourToMove;
+	}
+	
+	
 }

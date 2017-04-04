@@ -15,8 +15,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	private int timerLimit;
 	private Timer timer;
 
-	public SpeedGameDriver(Player white, Player black, Player playerToStart, int timerLimit) {
-		super(white, black, playerToStart);
+	public SpeedGameDriver(Player white, Player black, Player playerToStart,int gameLength, int timerLimit) {
+		super(white, black, playerToStart, gameLength);
 		this.timerLimit = timerLimit;
 		currentState.setTime(timerLimit);
 		createTimer();
