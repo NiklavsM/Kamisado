@@ -39,4 +39,11 @@ public class EasyAIPlayer extends Player{
         num = rnd.nextInt(validMoves.size());
         tellAll(validMoves.get(num));
     }
+    
+    @Override
+	public int fillHomeRow() {
+		Random rnd = new Random();
+        int num = rnd.nextInt(2);
+		return num;
+	}
 }

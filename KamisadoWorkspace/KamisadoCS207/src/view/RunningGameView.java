@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -88,25 +89,31 @@ public class RunningGameView extends JPanel implements MyObserver {
 		if (arg instanceof ArrayList<?>) {
 			gameBoard.displaySelectable((ArrayList<Position>) arg);
 		}else if (arg instanceof String) {
+			JLabel label = new JLabel();
 			glassPane.removeAll();
 			switch ((String) arg) {
 			case "White":
-				glassPane.add(new JLabel("White Wins!"));
-				winnerLabel.setText("White Wins!");
+				label.setText("White wins this round!");
+				inGameOptions.displayContinue(true);
 				break;
 			case "Black":
-				glassPane.add(new JLabel("Black Wins!"));
-				winnerLabel.setText("Black Wins!");
+				label.setText("Black wins this round!");
+				inGameOptions.displayContinue(true);
 				break;
 			case "Draw":
-				glassPane.add(new JLabel("Draw!"));
-				winnerLabel.setText("Draw!");
+				label.setText("Draw!");
+				inGameOptions.displayContinue(true);
 				break;
 			default:
-				
-				glassPane.add(new JLabel((String) arg));
+				label.setText((String) arg);
+				inGameOptions.displayContinue(false);
 			}
-			inGameOptions.displayContinue();
+			label.setBounds(50, 50, 1000, 500);
+			label.setBackground(Color.white);
+			label.setVisible(true);
+			
+			glassPane.add(label);
+			glassPane.repaint();
 			//gameBoard.setButtonsEnabled(false);
 		} else if (arg instanceof Board) {
 			gameBoard.redrawBoard((Board) arg);

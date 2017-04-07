@@ -253,7 +253,7 @@ public final class Board implements Serializable {
 		Position foundPos = null;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (pieces[i][j].equals(piece)) {
+				if (pieces[i][j].getPiece().equals(piece)) {
 					foundPos = new Position(i, j);
 					break;
 				}
@@ -285,9 +285,9 @@ public final class Board implements Serializable {
 	// return null;
 	// }
 
-	public Piece findPieceAtLoc(int x, int y) {
+	public PieceObject findPieceAtLoc(int x, int y) {
 		if(pieces[x][y] != null){
-			return pieces[x][y].getPiece();
+			return pieces[x][y];
 		}
 		return null;
 	}

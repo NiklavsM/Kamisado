@@ -214,8 +214,8 @@ public final class State implements Serializable {
 		return false;
 	}
 
-	public Piece findPiece(Position position) {
-		return pieces[position.getX()][position.getY()].getPiece();
+	public PieceObject findPiece(Position position) {
+		return pieces[position.getX()][position.getY()];
 	}
 
 	public void flipPlayerToMove() {

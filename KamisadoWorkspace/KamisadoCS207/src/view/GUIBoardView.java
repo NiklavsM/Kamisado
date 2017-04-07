@@ -24,6 +24,7 @@ import model.GameDriver;
 import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
+import model.PieceObject;
 import model.Position;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
@@ -59,13 +60,13 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		selected.setBorderPainted(true);
 	}
 
-	public ImageIcon imageChooser(Piece piece) {
+	public ImageIcon imageChooser(PieceObject pieceObject) {
 		ImageIcon returnImage = null;
-		if(piece == null){
+		if(pieceObject == null){
 			return null;
 		}
 		for (Piece p : Piece.values()) {
-			if (p != null && p.equals(piece)) {
+			if (p != null && p.equals(pieceObject.getPiece())) {
 				returnImage = new ImageIcon(getClass().getResource("/images/" + p.toString() + ".png"));
 			}
 		}

@@ -21,7 +21,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		this.history = new Stack<>();
 		this.currentState = new State(playerWhite, playerBlack, playerToStart, random);
 		currentState.setFirstMove(true);
-		this.scoreToGet = scoreToGet;
+		this.scoreToGet = gameLength;
 		this.currentGameNum = 1;
 	}
 
@@ -53,14 +53,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			stats.addToScores(winner, looser);
 		}
 		m.saveStats(stats);
+		PieceObject pieceThatWon = currentState.getPreviousMove().pieceMoved();
 		
-		
-//		Piece pieceThatWon = currentState.getPreviousMove().pieceMoved();
-//		
-//		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
-//		if(winner.getScore() >= scoreToGet){
-//			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " rounds!");
-//		}
+		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
+		if(winner.getScore() >= scoreToGet){
+			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " rounds!");
+		}
 	}
 
 	public void changeCurrentState(State currentState) {
@@ -82,24 +80,29 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 	}
 	
-	public void nextRound(int n){
-		
+	public int nextRound(){
+		int optionChosen = 0;
 		currentGameNum++;
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerWhite();
-		String previousWinner = currentState.getPreviousMove().pieceMoved().getTeam();
+		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
 		Board previousBoard = currentState.getBoard();
 		if(previousWinner.equals("White")){
+			optionChosen = currentState.getPlayerWhite().fillHomeRow();
 			playerToMove = currentState.getPlayerBlack();
 		}
-		if(n ==0){
+		else{
+			optionChosen = currentState.getPlayerBlack().fillHomeRow();
+		}
+		if(optionChosen ==0){
 			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, true);
-		}else{
+		}else if(optionChosen == 1){
 			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, false);
 		}
 		
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
+		return optionChosen;
 	}
 
 	public void reset() {

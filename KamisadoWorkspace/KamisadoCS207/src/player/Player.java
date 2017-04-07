@@ -87,5 +87,7 @@ public abstract class Player implements MyObservable, Serializable{
 		return score;
 	}
 	
+	public abstract int fillHomeRow();
+	
 	
 }

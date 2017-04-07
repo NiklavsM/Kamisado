@@ -51,4 +51,10 @@ public class HardAIPlayer extends Player implements MyObservable{
         	tellAll(move.getEndPos());
     	}
     }
+	@Override
+	public int fillHomeRow() {
+		Random rnd = new Random();
+        int num = rnd.nextInt(2);
+		return num;
+	}
 }

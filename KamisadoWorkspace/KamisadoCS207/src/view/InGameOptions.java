@@ -98,18 +98,7 @@ public class InGameOptions extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//setWinnerLabel("");
-				
-				Object[] options = {"Fill from the left", "Fill from the right"};
-				int n = JOptionPane.showOptionDialog(null,"Winner, Please select an option!","Ready for next round!",
-				    JOptionPane.YES_NO_OPTION,
-				    JOptionPane.QUESTION_MESSAGE,
-				    null,
-				    options,
-				    options[1]);
-				if(n == -1){
-					
-				}else{
-					controller.getGame().nextRound(n);
+				if(controller.getGame().nextRound() > 0){
 					btnContinue.setVisible(false);
 				}
 			}
@@ -127,7 +116,7 @@ public class InGameOptions extends JPanel{
 		((RunningGameView) this.getParent()).setWinnerLabel(message);
 	}
 
-	public void displayContinue() {
-		btnContinue.setVisible(true);
+	public void displayContinue(boolean b) {
+		btnContinue.setVisible(b);
 	}
 }

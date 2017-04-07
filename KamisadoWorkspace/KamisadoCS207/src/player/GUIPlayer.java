@@ -2,6 +2,8 @@ package player;
 
 import java.io.Serializable;
 
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import model.MyObservable;
 import model.MyObserver;
@@ -25,5 +27,15 @@ public class GUIPlayer extends Player implements MyObservable, Serializable {
 
 	public void setPosition(Position positionClicked) {
 		buttonClicked = positionClicked;
+	}
+	
+	public int fillHomeRow(){
+		Object[] options = {"Fill from the left", "Fill from the right"};
+		return JOptionPane.showOptionDialog(null,"Winner, Please select an option!","Ready for next round!",
+		    JOptionPane.YES_NO_OPTION,
+		    JOptionPane.QUESTION_MESSAGE,
+		    null,
+		    options,
+		    options[1]);
 	}
 }
