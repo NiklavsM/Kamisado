@@ -2,17 +2,19 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.LayoutManager;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -25,6 +27,7 @@ import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
 import model.PieceObject;
+import model.PieceType;
 import model.Position;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
@@ -60,17 +63,43 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		selected.setBorderPainted(true);
 	}
 
-	public ImageIcon imageChooser(PieceObject pieceObject) {
-		ImageIcon returnImage = null;
+	public BufferedImage imageChooser(PieceObject pieceObject) {
+		BufferedImage returnImage = null;
+		BufferedImage combinedImage = null;
+		BufferedImage pieceLevel = null;
+		
 		if(pieceObject == null){
 			return null;
-		}
+		}		
 		for (Piece p : Piece.values()) {
 			if (p != null && p.equals(pieceObject.getPiece())) {
-				returnImage = new ImageIcon(getClass().getResource("/images/" + p.toString() + ".png"));
+				try {
+					returnImage = ImageIO.read(getClass().getResource("/images/" + p.toString() + ".png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		}
-		return returnImage;
+		if(pieceObject.getPieceType().equals(PieceType.Standard)){
+			return returnImage;
+		}
+		try {
+			pieceLevel = ImageIO.read(getClass().getResource("/images/" + pieceObject.getPieceType().toString()+ ".png"));
+			combinedImage = new BufferedImage( 
+	                returnImage.getWidth(), 
+	                returnImage.getHeight(), 
+	                BufferedImage.TYPE_INT_ARGB );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 Graphics2D g = combinedImage.createGraphics();
+	        g.drawImage(returnImage,0,0,null);
+	        g.drawImage(pieceLevel,0,0,null);
+	        g.dispose();
+		return combinedImage;
 	}
 
 	public void pieceMoved(Position start, Position end) {
@@ -159,9 +188,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			for (int x = 0; x <= 7; x++) {
 				buttons[x][y] = new JButton();
 				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
-				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
+				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
-					buttons[x][y].setIcon(image);
+					buttons[x][y].setIcon(new ImageIcon(image));
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
 				}
@@ -181,9 +210,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
 				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
-				ImageIcon image = imageChooser(board.findPieceAtLoc(x, y));
+				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
-					buttons[x][y].setIcon(image);
+					buttons[x][y].setIcon(new ImageIcon(image));
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
 				}
