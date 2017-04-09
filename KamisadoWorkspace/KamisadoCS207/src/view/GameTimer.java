@@ -18,7 +18,7 @@ public class GameTimer extends JLabel implements MyObserver {
 	@Override
 	public void update(MyObservable o, Object arg) {
 		if(arg instanceof Integer){
-			System.out.println("Time: "+ Integer.toString((int) arg));
+			//System.out.println("Time: "+ Integer.toString((int) arg));
 			this.setVisible(true);
 			this.setText("Time remaining: " + Integer.toString((int) arg));
 		}

@@ -22,9 +22,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		createTimer();
 	}
 
-	public SpeedGameDriver(State currentState) {
-		super(currentState);
-		this.timerLimit = currentState.getTimerLimit();
+	public SpeedGameDriver(SpeedGameDriver gameDriver) {
+		super(gameDriver);
+		this.timerLimit = gameDriver.getTimerLimit();
 		createTimer();
 	}
 
@@ -59,7 +59,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	public void turnBegin() {
 		currentState.setTime(timerLimit);
-		tellAll(currentState.getTime());
+		tellAll(timerLimit);
 		timer.restart();
 	}
 
@@ -96,10 +96,33 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		} else {
 			timer.stop();
 			SaveManager s = new SaveManager();
-			currentState.setTimerLimit(timerLimit);
-			s.save(currentState);
+			s.save(this);
 			timer.start();
 		}
+	}
+	public int nextRound(){ //FIX
+		int optionChosen = 0;
+		currentGameNum++;
+		history = new Stack<>();
+		Player playerToMove = currentState.getPlayerWhite();
+		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
+		Board previousBoard = currentState.getBoard();
+		if(previousWinner.equals("White")){
+			optionChosen = currentState.getPlayerWhite().fillHomeRow();
+			playerToMove = currentState.getPlayerBlack();
+		}
+		else{
+			optionChosen = currentState.getPlayerBlack().fillHomeRow();
+		}
+		if(optionChosen ==0){
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, true);
+		}else if(optionChosen == 1){
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, false);
+		}
+		currentState.setFirstMove(true);
+		this.tellAll(currentState.getBoard());
+		tellAll(timerLimit);//FIX
+		return optionChosen;
 	}
 
 	@Override
@@ -131,5 +154,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 				generateMove();
 			}
 		}
+	}
+
+	public int getTimerLimit() {
+		return timerLimit;
 	}
 }

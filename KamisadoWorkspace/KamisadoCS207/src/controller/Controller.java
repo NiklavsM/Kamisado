@@ -101,23 +101,26 @@ public class Controller implements Serializable {
 
 	public boolean loadGame() {
 		SaveManager s = new SaveManager();
-		State stateToLoad = s.load();
-		if (stateToLoad != null) {
-			if (stateToLoad.getTime() > 0) {
-				game = new SpeedGameDriver(stateToLoad);
+		GameDriver gameDriver = s.load();
+		if (gameDriver != null) {
+			if (gameDriver instanceof SpeedGameDriver) {
+				game = new SpeedGameDriver((SpeedGameDriver)gameDriver);
 				game.addObserver(main.getGameTimer());
-				game.tellAll(stateToLoad.getTime());
+				game.tellAll(gameDriver.getCurrentState().getTime());
 			} else {
-				game = new GameDriver(stateToLoad);
+				game = new GameDriver(gameDriver);
 			}
 
-			if (stateToLoad.getPlayerBlack().isAI()) {
-				stateToLoad.getPlayerBlack().addObserver(game);
-			} else if (stateToLoad.getPlayerWhite().isAI()) {
-				stateToLoad.getPlayerWhite().addObserver(game);
+			if (gameDriver.getCurrentState().getPlayerBlack().isAI()) {
+				gameDriver.getCurrentState().getPlayerBlack().addObserver(game);
+			} else if (gameDriver.getCurrentState().getPlayerWhite().isAI()) {
+				gameDriver.getCurrentState().getPlayerWhite().addObserver(game);
 			}
-			game.changeCurrentState(stateToLoad);
+			
 			finishGameSetup();
+			game.changeCurrentState(gameDriver.getCurrentState());
+			//main.displayGame(game.getCurrentState());
+			//main.displaycSelectable(gameDriver.getCurrentState().getValidMoves());
 			return true;
 		}
 		return false;

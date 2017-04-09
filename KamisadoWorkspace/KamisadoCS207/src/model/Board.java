@@ -160,7 +160,7 @@ public final class Board implements Serializable {
 							}else{
 								pieces[homeRowCounter][teamHomeBase] = pieces[x][y];
 								pieces[x][y] = null;
-								System.out.println("moving x:" + x + " y:" + y + " to x:" + homeRowCounter + " y:" + teamHomeBase);
+								//System.out.println("moving x:" + x + " y:" + y + " to x:" + homeRowCounter + " y:" + teamHomeBase);
 								homeRowCounter += increment;
 							}
 						}
@@ -234,7 +234,7 @@ public final class Board implements Serializable {
 		}
 		for(int i = numOfPiecesActuallyPushing; i > 0; i--){
 			if(pushingUp){
-				System.out.println("placing X:" + endx + " Y:" + (endy+i-1) + " to X:" + endx + " Y:" + (endy+i));
+				//System.out.println("placing X:" + endx + " Y:" + (endy+i-1) + " to X:" + endx + " Y:" + (endy+i));
 				pieces[endx][endy+i] = removePiece(endx,endy+i-1);
 			}else{
 				pieces[endx][endy-i] = removePiece(endx,endy-i+1);

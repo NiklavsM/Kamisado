@@ -164,9 +164,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				changedSelected(currentx, currenty);
 				int i = 1;
 				for (MyObserver obs : getObservers()) {
-					System.out.println(obs.getClass().toString());
+					//System.out.println(obs.getClass().toString());
 					if (obs instanceof GameDriver) {
-						 System.out.println("game " + i);
+						// System.out.println("game " + i);
 					}
 					i++;
 				}

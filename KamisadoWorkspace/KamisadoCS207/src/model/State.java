@@ -22,7 +22,6 @@ public final class State implements Serializable {
 	private Player PlayerToMove;
 	private Position pieceToMove;
 	private int time = -1;
-	private int timerLimit = -1;
 	private boolean firstMove = false;
 	private boolean gameOver = false;
 
@@ -167,7 +166,7 @@ public final class State implements Serializable {
 		int tempVal;
 		for(int i = 1; i <= piecesCanMove+1; i++){
 			tempVal = y + (i * increment);
-			System.out.println("temp: " + tempVal);
+			//System.out.println("temp: " + tempVal);
 			if(tempVal >= 8 || tempVal < 0){
 				return false;
 			}else if(pieces[x][tempVal] == null){
@@ -309,13 +308,5 @@ public final class State implements Serializable {
 	
 	public boolean isGameOver() {
 		return gameOver;
-	}
-	
-	public int getTimerLimit() {
-		return timerLimit;
-	}
-	
-	public void setTimerLimit(int timerLimit) {
-		this.timerLimit = timerLimit;
 	}
 }

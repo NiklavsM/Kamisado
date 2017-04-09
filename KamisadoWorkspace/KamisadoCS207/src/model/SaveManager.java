@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class SaveManager {
 
-	public void save(State state) {
+	public void save(GameDriver gameDriver) {
 		File file = new File("");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
@@ -25,7 +25,7 @@ public class SaveManager {
 				fileCreater.close();
 				ObjectOutputStream stateObj = new ObjectOutputStream(
 						new FileOutputStream(fileChooser.getSelectedFile().getPath() + ".bin"));
-				stateObj.writeObject(state);
+				stateObj.writeObject(gameDriver);
 				stateObj.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -34,8 +34,8 @@ public class SaveManager {
 
 	}
 
-	public State load() {
-		State state = null;
+	public GameDriver load() {
+		GameDriver gameDriver = null;
 		File file = new File("");//needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
@@ -44,9 +44,9 @@ public class SaveManager {
             file = fileChooser.getSelectedFile();
 			try {
 				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
-				state = (State) newStateO.readObject();
+				gameDriver = (GameDriver) newStateO.readObject();
 				newStateO.close();
-				return state;
+				return gameDriver;
 			} catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "File not found", "File not found",
                         JOptionPane.ERROR_MESSAGE);
