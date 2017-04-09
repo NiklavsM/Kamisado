@@ -2,7 +2,10 @@ package model;
 
 import java.io.Serializable;
 
-public class PieceObject implements Serializable{
+
+
+public class PieceObject implements Serializable {
+
 
 	private Piece piece;
 	private PieceType pieceType;
