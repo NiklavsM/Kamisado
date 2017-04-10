@@ -14,7 +14,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public State currentState;
 	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
 	private int scoreToGet;
-	private int currentGameNum;
+	private int currentGameNum = 1;
 
 
 	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength, boolean random) {
@@ -22,7 +22,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		this.currentState = new State(playerWhite, playerBlack, playerToStart, random);
 		currentState.setFirstMove(true);
 		this.scoreToGet = gameLength;
-		this.currentGameNum = 1;
 	}
 
 	public GameDriver(State currentState) {
@@ -57,7 +56,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		
 		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
 		if(winner.getScore() >= scoreToGet){
-			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " rounds!");
+			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " round(s)!");
 		}
 	}
 

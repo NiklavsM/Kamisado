@@ -105,10 +105,11 @@ public class MenuFrame extends JFrame {
 				c1.show(contentPane, "New Game");
 				gameView.setWinnerLabel("");
 				gameView.setTimerLabel(" ");
-				controller.loadGame();
 				JPanel tempGlassPane = (JPanel) getGlassPane();
 				tempGlassPane.removeAll();
 				tempGlassPane.repaint();
+				controller.loadGame();
+				
 			}
 		});
 

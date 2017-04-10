@@ -125,9 +125,10 @@ public class Controller implements Serializable {
 	
 	private void finishGameSetup() {
 		main.getGameBoard().addObserver(game);
+		menuFrame.ShowGameViewPanel();
 		main.displayGame(game.getCurrentState());
 		game.addObserver(main);
-		menuFrame.ShowGameViewPanel();
+		
 		game.playGame();
 		JOptionPane.showMessageDialog(null,
 				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",

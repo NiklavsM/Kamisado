@@ -3,18 +3,14 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
 import model.Board;
-import model.GameDriver;
-import model.Move;
 import model.MyObservable;
 import model.MyObserver;
 import model.Position;
@@ -57,6 +53,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		teamWhite.setText(white.getPlayerName());
 		winnerLabel.setText("");
 		gameBoard.redrawBoard(state.getBoard());
+		gameBoard.displaySelectable(state.getValidMoves());
 		if(black.isAI() || white.isAI()){
 			inGameOptions.showUndo(true);
 		}else{
@@ -108,10 +105,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 				label.setText((String) arg);
 				inGameOptions.displayContinue(false);
 			}
-			label.setBounds(50, 50, 1000, 500);
-			label.setBackground(Color.white);
+			label.setBounds(50, 250, 1000, 50);
+			label.setBackground(Color.BLACK);
+			label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC , 27));
+			label.setForeground(Color.WHITE);
 			label.setVisible(true);
-			
+			label.setOpaque(true);
 			glassPane.add(label);
 			glassPane.repaint();
 			//gameBoard.setButtonsEnabled(false);
