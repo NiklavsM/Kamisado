@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
@@ -26,6 +25,7 @@ public class MenuFrame extends JFrame {
 	private GameOptionsPanel options;
 	private StatPanel statPanel;
 	private RunningGameView gameView;
+	private GeneralSettingsPanel generalSettingsPanel;
 	private Controller controller;
 
 	public MenuFrame(Controller controller, RunningGameView gameView) {
@@ -129,6 +129,24 @@ public class MenuFrame extends JFrame {
 				tempGlassPane.repaint();
 			}
 		});
+		
+		JMenuItem generalSettings = new JMenuItem("General Settings");
+		generalSettings.setMnemonic(KeyEvent.VK_O);
+		generalSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
+
+		generalSettings.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				generalSettingsPanel = new GeneralSettingsPanel();
+				contentPane.add(generalSettingsPanel, "General Settings");
+				CardLayout c1 = (CardLayout) contentPane.getLayout();
+				c1.show(contentPane, "General Settings");
+				generalSettingsPanel.requestFocus();
+				JPanel tempGlassPane = (JPanel) getGlassPane();
+				tempGlassPane.removeAll();
+				tempGlassPane.repaint();
+			}
+		});
 
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setMnemonic(KeyEvent.VK_X);
@@ -148,6 +166,7 @@ public class MenuFrame extends JFrame {
 		main.add(newgame);
 		main.add(loadgame);
 		main.add(stats);
+		main.add(generalSettings);
 		main.add(exit);
 		this.setJMenuBar(menuBar);
 	}

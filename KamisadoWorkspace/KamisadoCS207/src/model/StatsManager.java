@@ -46,6 +46,7 @@ public class StatsManager {
 		File file = new File("stats.bin");// needs fixing
 		try {
 			FileWriter fileCreater = new FileWriter(file);
+			fileCreater.close();
 			ObjectOutputStream stateObj = new ObjectOutputStream(new FileOutputStream(file));
 			stateObj.writeObject(stats);
 			stateObj.close();
