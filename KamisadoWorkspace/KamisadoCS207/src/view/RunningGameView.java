@@ -3,18 +3,14 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
 import model.Board;
-import model.GameDriver;
-import model.Move;
 import model.MyObservable;
 import model.MyObserver;
 import model.Position;
@@ -67,7 +63,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void setUpTeamLabels(String whiteName, String blackName){
 		teamLabel = new JPanel();
 		teamWhite = new JLabel(whiteName);
+		teamWhite.setBackground(Color.BLACK);
+		teamWhite.setForeground(Color.WHITE);
+		teamWhite.setFont(new Font("Garamond", Font.BOLD, 15));
+		teamWhite.setOpaque(true);
 		teamBlack = new JLabel(blackName);
+		teamBlack.setBackground(Color.BLACK);
+		teamBlack.setForeground(Color.WHITE);
+		teamBlack.setFont(new Font("Garamond", Font.BOLD, 15));
+		teamBlack.setOpaque(true);
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(teamBlack, BorderLayout.NORTH);
 		winnerLabel = new JLabel("");
