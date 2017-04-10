@@ -103,6 +103,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
+		currentState.getPlayerWhite().resetFirstMove();
+		currentState.getPlayerBlack().resetFirstMove();
 		return optionChosen;
 	}
 

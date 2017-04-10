@@ -57,4 +57,9 @@ public class HardAIPlayer extends Player implements MyObservable{
         int num = rnd.nextInt(2);
 		return num;
 	}
+	
+	public void resetFirstMove(){
+		initialiseBestMoves();
+		timesVisited = 0;
+	}
 }
