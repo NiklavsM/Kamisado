@@ -64,7 +64,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void setUpTeamLabels(String whiteName, String blackName){
 		teamLabel = new JPanel();
 		teamWhite = new JLabel(whiteName);
+		teamWhite.setBackground(Color.BLACK);
+		teamWhite.setForeground(Color.WHITE);
+		teamWhite.setFont(new Font("Garamond", Font.BOLD, 15));
+		teamWhite.setOpaque(true);
 		teamBlack = new JLabel(blackName);
+		teamBlack.setBackground(Color.BLACK);
+		teamBlack.setForeground(Color.WHITE);
+		teamBlack.setFont(new Font("Garamond", Font.BOLD, 15));
+		teamBlack.setOpaque(true);
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(teamBlack, BorderLayout.NORTH);
 		winnerLabel = new JLabel("");

@@ -38,4 +38,9 @@ public class GUIPlayer extends Player implements MyObservable, Serializable {
 		    options,
 		    options[1]);
 	}
+	@Override
+	public void resetFirstMove() {
+		// TODO Auto-generated method stub
+		
+	}
 }

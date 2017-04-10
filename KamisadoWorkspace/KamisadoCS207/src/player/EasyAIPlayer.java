@@ -46,4 +46,8 @@ public class EasyAIPlayer extends Player{
         int num = rnd.nextInt(2);
 		return num;
 	}
+    
+    public void resetFirstMove(){
+		timesVisited = 0;
+	}
 }

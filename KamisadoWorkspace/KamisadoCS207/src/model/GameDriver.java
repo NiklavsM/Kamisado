@@ -13,8 +13,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public Stack<State> history;
 	public State currentState;
 	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
-	private int scoreToGet;
-	private int currentGameNum = 1;
+	public int scoreToGet;
+	public int currentGameNum = 1;
+
 
 
 	public GameDriver(Player playerWhite, Player playerBlack, Player playerToStart, int gameLength, boolean random) {
@@ -24,9 +25,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		this.scoreToGet = gameLength;
 	}
 
-	public GameDriver(State currentState) {
+	public GameDriver(GameDriver gameDriver) {
 		this.history = new Stack<>();
-		this.currentState = currentState;
+		this.scoreToGet = gameDriver.getScoreToGet();
+		changeCurrentState(gameDriver.getCurrentState());
+		this.currentGameNum = gameDriver.getCurrentGameNum();
 	}
 
 	public void saveGame() {
@@ -35,7 +38,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
                     JOptionPane.ERROR_MESSAGE);
 		}else{
 			SaveManager s = new SaveManager();
-			s.save(currentState);
+			s.save(this);
 		}
 	}
 
@@ -98,9 +101,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}else if(optionChosen == 1){
 			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, false);
 		}
-		
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
+		currentState.getPlayerWhite().resetFirstMove();
+		currentState.getPlayerBlack().resetFirstMove();
 		return optionChosen;
 	}
 
@@ -231,5 +235,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	@Override
 	public ArrayList<MyObserver> getObservers() {
 		return observers;
+	}
+	public int getScoreToGet() {
+		return scoreToGet;
+	}
+
+	public int getCurrentGameNum() {
+		return currentGameNum;
 	}
 }

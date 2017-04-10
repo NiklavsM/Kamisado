@@ -89,5 +89,6 @@ public abstract class Player implements MyObservable, Serializable{
 	
 	public abstract int fillHomeRow();
 	
+	public abstract void resetFirstMove();
 	
 }
