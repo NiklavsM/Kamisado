@@ -136,7 +136,10 @@ public class RunningGameView extends JPanel implements MyObserver {
 		winnerLabel.setText(message);
 	}
 	public void setTimerLabel(String message){
-		timer.setText(message);
+		timer.setString(message);
+	}
+	public void setTimerMax(int max){
+		timer.setMaximum(max);
 	}
 
 	public void setGlassPane(Component glassPane) {

@@ -54,6 +54,7 @@ public class Controller implements Serializable {
 			}
 			if (isSpeedGame) {
 				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
+				main.setTimerMax(timerTime);
 				game.addObserver(main.getGameTimer());
 				game.tellAll(timerTime);
 			} else {
@@ -69,6 +70,7 @@ public class Controller implements Serializable {
 			playerBlack = new GUIPlayer("Black", blackName, false, this);
 			if (isSpeedGame) {
 				game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
+				main.setTimerMax(timerTime);
 				game.addObserver(main.getGameTimer());
 				game.tellAll(timerTime);
 			} else {
@@ -84,6 +86,7 @@ public class Controller implements Serializable {
 		initialisePlayers(whiteName, blackName);
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
+			main.setTimerMax(timerTime);
 			game.addObserver(main.getGameTimer());
 			game.tellAll(timerTime);
 		} else {
@@ -112,6 +115,7 @@ public class Controller implements Serializable {
 		if (gameDriver != null) {
 			if (gameDriver instanceof SpeedGameDriver) {
 				game = new SpeedGameDriver((SpeedGameDriver) gameDriver);
+				main.setTimerMax(((SpeedGameDriver) game).getTimerLimit());
 				game.addObserver(main.getGameTimer());
 				game.tellAll(gameDriver.getCurrentState().getTime());
 			} else {

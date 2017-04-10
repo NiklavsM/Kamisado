@@ -108,6 +108,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerWhite();
 		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
+		
 		Board newBoard = currentState.getBoard();
 		if (currentState.getBoard().isRandom()) {
 			newBoard.setRandomBoardColours();

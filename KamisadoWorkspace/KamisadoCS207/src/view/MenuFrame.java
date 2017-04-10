@@ -179,6 +179,7 @@ public class MenuFrame extends JFrame {
 	public void ShowGameViewPanel() {
 		CardLayout c1 = (CardLayout) contentPane.getLayout();
 		c1.show(contentPane, "Game View");
+		gameView.getGameTimer().setValue(0);
 		gameView.requestFocus();
 		JPanel tempGlassPane = (JPanel) this.getGlassPane();
 		tempGlassPane.removeAll();
