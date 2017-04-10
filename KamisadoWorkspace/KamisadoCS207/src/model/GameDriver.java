@@ -88,7 +88,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerWhite();
 		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
-		Board previousBoard = currentState.getBoard();
+		Board newBoard = new Board(currentState.getBoard().isRandom());
 		if(previousWinner.equals("White")){
 			optionChosen = currentState.getPlayerWhite().fillHomeRow();
 			playerToMove = currentState.getPlayerBlack();
@@ -97,9 +97,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			optionChosen = currentState.getPlayerBlack().fillHomeRow();
 		}
 		if(optionChosen ==0){
-			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, true);
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, true);
 		}else if(optionChosen == 1){
-			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, previousBoard, false);
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, false);
 		}
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());

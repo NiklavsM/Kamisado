@@ -19,13 +19,13 @@ public final class Board implements Serializable {
 	private static Color[] defaultColours;// could take take default colors from file
 	private static final int boardSize = 8;
 	private Color colourToMove;
-	//private boolean isRandom;
+	private boolean isRandom;
 
 	public Board(boolean random) {
 		defaultColours = new Color[] { br, gr, r, y, p, c, bl, or };
 
 		pieces = new PieceObject[boardSize][boardSize];
-		//isRandom = random;
+		isRandom = random;
 		if(random){
 			setRandomBoardColours();
 		}else{
@@ -35,6 +35,7 @@ public final class Board implements Serializable {
 	}
 
 	public Board(Board other) {
+		isRandom = other.isRandom();
 		if (other.pieces != null) {
 			this.pieces = new PieceObject[boardSize][boardSize];
 			for (int index = 0; index < boardSize; index++) {
@@ -50,9 +51,9 @@ public final class Board implements Serializable {
 		}
 	}
 
-//	public boolean isRandom() {
-//		return isRandom;
-//	}
+	public boolean isRandom() {
+		return isRandom;
+	}
 
 	private void setDefaultBoardColours() {
 		setBoardColors(defaultColours);
