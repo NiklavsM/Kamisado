@@ -101,6 +101,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		}
 	}
 	public int nextRound(){ //FIX
+		currentState.getPlayerWhite().resetFirstMove();
+		currentState.getPlayerBlack().resetFirstMove();
 		int optionChosen = 0;
 		currentGameNum++;
 		history = new Stack<>();
@@ -121,8 +123,6 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		}
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
-		currentState.getPlayerWhite().resetFirstMove();
-		currentState.getPlayerBlack().resetFirstMove();
 		tellAll(timerLimit);//FIX
 		return optionChosen;
 	}

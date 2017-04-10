@@ -83,6 +83,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 	
 	public int nextRound(){
+		currentState.getPlayerWhite().resetFirstMove();
+		currentState.getPlayerBlack().resetFirstMove();
 		int optionChosen = 0;
 		currentGameNum++;
 		history = new Stack<>();
@@ -94,19 +96,21 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		if (previousWinner.equals("White")) {
 			optionChosen = currentState.getPlayerWhite().fillHomeRow();
+			currentState.getPlayerWhite().setGoingFirst(false);
 			playerToMove = currentState.getPlayerBlack();
 		} else {
+			currentState.getPlayerBlack().setGoingFirst(false);
 			optionChosen = currentState.getPlayerBlack().fillHomeRow();
 		}
-		if(optionChosen ==0){
-			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, true);
+		if(optionChosen == 0){
+			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, true);
 		}else if(optionChosen == 1){
-			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, false);
+			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, false);
 		}
+		playerToMove.setGoingFirst(true);
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
-		currentState.getPlayerWhite().resetFirstMove();
-		currentState.getPlayerBlack().resetFirstMove();
+		generateMove();
 		return optionChosen;
 	}
 

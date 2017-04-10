@@ -29,7 +29,13 @@ public abstract class Player implements MyObservable, Serializable{
         this.isAI = isAI;
     }
 
-    public void getMove(State state){
+    
+    
+    public void setGoingFirst(boolean goingFirst) {
+		this.goingFirst = goingFirst;
+	}
+
+	public void getMove(State state){
     }
 
     public void interupt(){
