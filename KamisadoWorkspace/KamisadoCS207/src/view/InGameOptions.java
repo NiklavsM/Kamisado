@@ -100,7 +100,6 @@ public class InGameOptions extends JPanel{
 				//setWinnerLabel("");
 				if(controller.getGame().nextRound() >= 0){
 					btnContinue.setVisible(false);
-					System.out.println("got here");
 				}
 			}
 		});

@@ -23,7 +23,7 @@ public class HardAIPlayer extends Player implements MyObservable{
     private void initialiseBestMoves() {
     	Random rnd = new Random();
         int num = rnd.nextInt(2)+3;
-        firstMove = new Position(num,0);
+        firstMove = new Position(num,this.getHomeRow());
 		bestOpeningMoves.put(firstMove, new Position(num,4));
 	}
 	@Override
@@ -37,14 +37,13 @@ public class HardAIPlayer extends Player implements MyObservable{
             	 timesVisited++;
             	 tellAll(new Position(bestOpeningMoves.get(firstMove)));
                  return;
+            }else{
+            	TreeNode moveTree = new TreeNode(5, state, 1);
+            	Move move = moveTree.getWorstChild();
+            	move.print();
+            	tellAll(move.getEndPos());
             }
-        }
-    	if(this.getisFirst()){
-    		TreeNode moveTree = new TreeNode(5, state, 1);
-        	Move move = moveTree.getWorstChild();
-        	move.print();
-        	tellAll(move.getEndPos());
-    	}else{
+        }else{
     		TreeNode moveTree = new TreeNode(5, state, 0);
         	Move move = moveTree.getBestChild();
         	move.print();

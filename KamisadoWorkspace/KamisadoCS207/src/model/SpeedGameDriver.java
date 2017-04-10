@@ -114,18 +114,22 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		}
 		if (previousWinner.equals("White")) {
 			optionChosen = currentState.getPlayerWhite().fillHomeRow();
+			currentState.getPlayerWhite().setGoingFirst(false);
 			playerToMove = currentState.getPlayerBlack();
 		} else {
 			optionChosen = currentState.getPlayerBlack().fillHomeRow();
+			currentState.getPlayerBlack().setGoingFirst(false);
 		}
 		if(optionChosen ==0){
 			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, true);
 		}else if(optionChosen == 1){
 			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, false);
 		}
+		playerToMove.setGoingFirst(true);
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
 		tellAll(timerLimit);//FIX
+		generateMove();
 		return optionChosen;
 	}
 
