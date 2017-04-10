@@ -59,7 +59,7 @@ public final class Board implements Serializable {
 		setBoardColors(defaultColours);
 	}
 
-	private void setRandomBoardColours() {
+	public void setRandomBoardColours() {
 		Color[] colorsTemp = new Color[] { br, gr, r, y, p, c, bl, or };
 		Random rnd = new Random();
 		for (int i = 0; i < colorsTemp.length; i++) {

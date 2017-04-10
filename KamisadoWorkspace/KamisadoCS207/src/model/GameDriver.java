@@ -88,12 +88,14 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerWhite();
 		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
-		Board newBoard = new Board(currentState.getBoard().isRandom());
-		if(previousWinner.equals("White")){
+		Board newBoard = currentState.getBoard();
+		if (currentState.getBoard().isRandom()) {
+			newBoard.setRandomBoardColours();
+		}
+		if (previousWinner.equals("White")) {
 			optionChosen = currentState.getPlayerWhite().fillHomeRow();
 			playerToMove = currentState.getPlayerBlack();
-		}
-		else{
+		} else {
 			optionChosen = currentState.getPlayerBlack().fillHomeRow();
 		}
 		if(optionChosen ==0){
