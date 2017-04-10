@@ -176,6 +176,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				this.tellAll("Draw");
 				return true;
 			} else {
+				currentState.setColourToMove(currentState.getBoard().findColor(posToMove));
 				nextTurn(++numOfNoGoes);
 			}
 		} else {
