@@ -42,9 +42,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 	}
 
-	public void gameEnds(Player winner, Player looser) {
-		
-		
+	public boolean gameEnds(Player winner, Player looser) {
 		StatsObject stats;
 		StatsManager m = new StatsManager();
 		stats = m.getStatsObject();
@@ -55,17 +53,27 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			stats.addToScores(winner, looser);
 		}
 		m.saveStats(stats);
+		System.out.println("calling gameEnds");
+		return incrementScoreAtEndOfGame(winner);
+	}
+	
+	public boolean incrementScoreAtEndOfGame(Player winner){
 		PieceObject pieceThatWon = currentState.getPreviousMove().pieceMoved();
-		
+		System.out.println("incremented score");
 		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
 		if(winner.getScore() >= scoreToGet){
+			System.out.println("scoretoget is beat");
 			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " round(s)!");
+			return true;
 		}
+		return false;
 	}
 
 	public void changeCurrentState(State currentState) {
 		this.currentState = currentState;
+		
 		this.tellAll(currentState.getBoard());
+		this.tellAll(currentState);
 		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 	}
 
@@ -83,23 +91,25 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 	
 	public int nextRound(){
-		currentState.getPlayerWhite().resetFirstMove();
-		currentState.getPlayerBlack().resetFirstMove();
 		int optionChosen = 0;
 		currentGameNum++;
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerWhite();
+		System.out.println(currentState.getPlayerToMove().getPlayerTeam());
 		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
 		Board newBoard = currentState.getBoard();
 		if (currentState.getBoard().isRandom()) {
 			newBoard.setRandomBoardColours();
 		}
+		
 		if (previousWinner.equals("White")) {
 			optionChosen = currentState.getPlayerWhite().fillHomeRow();
-			currentState.getPlayerWhite().setGoingFirst(false);
 			playerToMove = currentState.getPlayerBlack();
+			currentState.getPlayerWhite().setToFirstMove(false);
+			currentState.getPlayerBlack().setToFirstMove(true);
 		} else {
-			currentState.getPlayerBlack().setGoingFirst(false);
+			currentState.getPlayerWhite().setToFirstMove(true);
+			currentState.getPlayerBlack().setToFirstMove(false);
 			optionChosen = currentState.getPlayerBlack().fillHomeRow();
 		}
 		if(optionChosen == 0){
@@ -110,7 +120,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		playerToMove.setGoingFirst(true);
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
-		generateMove();
+		playGame();
 		return optionChosen;
 	}
 
@@ -160,8 +170,18 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public boolean playTurn(Position placeClicked) {
 		if (currentState.wasWinningMove()) {
-			Player winningPlayer = currentState.getPlayerToMove();
-			this.tellAll(winningPlayer.getPlayerTeam());
+			boolean gameOver;
+			if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {							
+				gameOver = gameEnds(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+			} else {
+				gameOver = gameEnds(currentState.getPlayerBlack(), currentState.getPlayerWhite());
+			}
+			if(!gameOver){
+				System.out.println("saying player has won round");
+				Player winningPlayer = currentState.getPlayerToMove();
+				this.tellAll(winningPlayer);
+			}
+			this.tellAll(currentState);
 			return true;
 		} else {
 			return nextTurn(0);
@@ -173,10 +193,13 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
 		if (movesCanMake.isEmpty()) {
 			if (numOfNoGoes >= 3) {
-				this.tellAll("Draw");
+//				this.tellAll("Draw");
 				return true;
 			} else {
-				nextTurn(++numOfNoGoes);
+				if(nextTurn(++numOfNoGoes)){
+					currentState.getPlayerToMove().incrementScore(1);
+					this.tellAll(currentState.getPlayerToMove());
+				}
 			}
 		} else {
 			this.tellAll(movesCanMake);
@@ -202,11 +225,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
 						currentState.setGameOver(true);
-						if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {							
-							gameEnds(currentState.getPlayerWhite(), currentState.getPlayerBlack());
-						} else {
-							gameEnds(currentState.getPlayerBlack(), currentState.getPlayerWhite());
-						}
 						return;
 					}
 				}

@@ -64,7 +64,7 @@ public final class State implements Serializable {
 		this.PlayerToMove = playerToMove;
 		this.currentBoard = new Board(previousBoard);
 		this.pieces = currentBoard.getPieces();
-		if(playerToMove.getPlayerTeam().equals(playerWhite.getPlayerTeam())){
+		if(playerToMove.equals(playerWhite)){
 			currentBoard.fillHomeRow(playerBlack.getPlayerTeam(), b);
 			currentBoard.fillHomeRow(playerWhite.getPlayerTeam(), b);
 		}else{

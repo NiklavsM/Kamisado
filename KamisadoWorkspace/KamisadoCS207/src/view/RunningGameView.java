@@ -62,12 +62,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public void setUpTeamLabels(String whiteName, String blackName){
 		teamLabel = new JPanel();
-		teamWhite = new JLabel(whiteName);
+		teamWhite = new JLabel(whiteName + " : 0");
 		teamWhite.setBackground(Color.BLACK);
 		teamWhite.setForeground(Color.WHITE);
 		teamWhite.setFont(new Font("Garamond", Font.BOLD, 15));
 		teamWhite.setOpaque(true);
-		teamBlack = new JLabel(blackName);
+		teamBlack = new JLabel(blackName + " : 0");
 		teamBlack.setBackground(Color.BLACK);
 		teamBlack.setForeground(Color.WHITE);
 		teamBlack.setFont(new Font("Garamond", Font.BOLD, 15));
@@ -92,38 +92,31 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof ArrayList<?>) {
 			gameBoard.displaySelectable((ArrayList<Position>) arg);
+		}else if(arg instanceof Player){
+			JLabel label = new JLabel();
+			glassPane.removeAll();
+			Player player = ((Player) arg);
+			String displayMessage = player.getPlayerName() + " wins this round!";
+			label.setText(displayMessage);
+			addTextToGlassPane(label);
+			inGameOptions.displayContinue(true);
 		}else if (arg instanceof String) {
 			JLabel label = new JLabel();
 			glassPane.removeAll();
-			switch ((String) arg) {
-			case "White":
-				label.setText("White wins this round!");
-				inGameOptions.displayContinue(true);
-				break;
-			case "Black":
-				label.setText("Black wins this round!");
-				inGameOptions.displayContinue(true);
-				break;
-			case "Draw":
-				label.setText("Draw!");
-				inGameOptions.displayContinue(true);
-				break;
-			default:
-				label.setText((String) arg);
-				inGameOptions.displayContinue(false);
-			}
-			label.setBounds(50, 250, 1000, 50);
-			label.setBackground(Color.BLACK);
-			label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC , 27));
-			label.setForeground(Color.WHITE);
-			label.setVisible(true);
-			label.setOpaque(true);
-			glassPane.add(label);
-			glassPane.repaint();
-			//gameBoard.setButtonsEnabled(false);
-		} else if (arg instanceof Board) {
-			gameBoard.redrawBoard((Board) arg);
+			label.setText((String) arg);
+			inGameOptions.displayContinue(false);
+			addTextToGlassPane(label);
+		} else if(arg instanceof Board){
+			gameBoard.redrawBoard((Board)arg);
+		}else if (arg instanceof State) {
+			State state = (State)arg;
+			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
 		}
+	}
+	
+	private void updateTeamScores(Player playerWhite, Player playerBlack){
+		teamWhite.setText(playerWhite.getPlayerName() + " : " + playerWhite.getScore());
+		teamBlack.setText(playerBlack.getPlayerName() + " : " + playerBlack.getScore());
 	}
 
 	public void displaycSelectable(ArrayList<Position> validMoves) {
@@ -147,5 +140,16 @@ public class RunningGameView extends JPanel implements MyObserver {
 		timer.setVisible(true);
 		timer.setFocusable(false);
 		this.add(timer, BorderLayout.NORTH);
+	}
+	
+	private void addTextToGlassPane(JLabel label){
+		label.setBounds(50, 250, 1000, 50);
+		label.setBackground(Color.BLACK);
+		label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC , 27));
+		label.setForeground(Color.WHITE);
+		label.setVisible(true);
+		label.setOpaque(true);
+		glassPane.add(label);
+		glassPane.repaint();
 	}
 }

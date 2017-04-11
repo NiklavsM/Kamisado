@@ -47,7 +47,9 @@ public class EasyAIPlayer extends Player{
 		return num;
 	}
     
-    public void resetFirstMove(){
+    public void setToFirstMove(boolean isGoingFirst){
+    	System.out.println("reseting");
 		timesVisited = 0;
+		this.setGoingFirst(isGoingFirst);
 	}
 }

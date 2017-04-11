@@ -14,9 +14,11 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	private int timerLimit;
 	private Timer timer;
+	private boolean timeOut = false;
 
-	public SpeedGameDriver(Player white, Player black, Player playerToStart,int gameLength, int timerLimit, boolean randomBoard) {
-		super(white, black, playerToStart, gameLength,randomBoard);
+	public SpeedGameDriver(Player white, Player black, Player playerToStart, int gameLength, int timerLimit,
+			boolean randomBoard) {
+		super(white, black, playerToStart, gameLength, randomBoard);
 		this.timerLimit = timerLimit;
 		currentState.setTime(timerLimit);
 		createTimer();
@@ -46,6 +48,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	public void onTimeOut() {
+		timeOut = true;
 		currentState.setGameOver(true);
 		Player winningPlayer;
 		if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {
@@ -53,7 +56,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		} else {
 			winningPlayer = currentState.getPlayerWhite();
 		}
-		this.tellAll(winningPlayer.getPlayerTeam());
+		this.tellAll(winningPlayer);
+		incrementScoreAtEndOfGame(winningPlayer);
+		this.tellAll(currentState);
 		timer.stop();
 	}
 
@@ -100,32 +105,55 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 			timer.start();
 		}
 	}
-	public int nextRound(){ //FIX
-		currentState.getPlayerWhite().resetFirstMove();
-		currentState.getPlayerBlack().resetFirstMove();
+
+	public int nextRound() { // FIX
+		timeOut = false;
 		int optionChosen = 0;
 		currentGameNum++;
 		history = new Stack<>();
-		Player playerToMove = currentState.getPlayerWhite();
-		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
-		Board newBoard = currentState.getBoard();
+		Player playerToMove = currentState.getPlayerToMove();
+		System.out.println(currentState.getPlayerToMove().getPlayerTeam());
+		currentState.getPlayerWhite().setToFirstMove(true);
+		currentState.getPlayerBlack().setToFirstMove(false);
+		if (playerToMove.equals(currentState.getPlayerBlack())) {
+			if (currentState.getTime() == 0) {
+				currentState.getPlayerWhite().setToFirstMove(false);
+				currentState.getPlayerBlack().setToFirstMove(true);
+				optionChosen = currentState.getPlayerWhite().fillHomeRow();
+			} else {
+				playerToMove = currentState.getPlayerWhite();
+				optionChosen = currentState.getPlayerBlack().fillHomeRow();
+			}
+
+		} else {
+			if (currentState.getTime() == 0) {
+				System.out.println("is first move");
+				optionChosen = currentState.getPlayerBlack().fillHomeRow();
+			} else {
+				System.out.println("settings to black");
+				playerToMove = currentState.getPlayerBlack();
+				currentState.getPlayerWhite().setToFirstMove(false);
+				currentState.getPlayerBlack().setToFirstMove(true);
+				optionChosen = currentState.getPlayerWhite().fillHomeRow();
+			}
+
+		}
+		System.out.println(playerToMove.getPlayerTeam());
+		Board newBoard = new Board(currentState.getBoard());
 		if (currentState.getBoard().isRandom()) {
 			newBoard.setRandomBoardColours();
 		}
-		if (previousWinner.equals("White")) {
-			optionChosen = currentState.getPlayerWhite().fillHomeRow();
-			playerToMove = currentState.getPlayerBlack();
-		} else {
-			optionChosen = currentState.getPlayerBlack().fillHomeRow();
-		}
-		if(optionChosen ==0){
-			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, true);
-		}else if(optionChosen == 1){
-			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, false);
+		if (optionChosen == 0) {
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(), playerToMove,
+					newBoard, true);
+		} else if (optionChosen == 1) {
+			this.currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(), playerToMove,
+					newBoard, false);
 		}
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
-		tellAll(timerLimit);//FIX
+		tellAll(timerLimit);// FIX
+		playGame();
 		return optionChosen;
 	}
 
@@ -145,11 +173,6 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 					if (playTurn((Position) arg)) {
 						timer.stop();
 						currentState.setGameOver(true);
-						if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {							
-							gameEnds(currentState.getPlayerWhite(), currentState.getPlayerBlack());
-						} else {
-							gameEnds(currentState.getPlayerBlack(), currentState.getPlayerWhite());
-						}
 						return;
 					} else {
 						turnBegin();
@@ -158,6 +181,21 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 				generateMove();
 			}
 		}
+	}
+
+	@Override
+	public boolean incrementScoreAtEndOfGame(Player winner) {
+		if (!timeOut) {
+			PieceObject pieceThatWon = currentState.getPreviousMove().pieceMoved();
+			winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
+		} else {
+			winner.incrementScore(1);
+		}
+		if (winner.getScore() >= scoreToGet) {
+			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " round(s)!");
+			return true;
+		}
+		return false;
 	}
 
 	public int getTimerLimit() {

@@ -131,7 +131,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			//buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
 			JLabel label = new JLabel();
 			label.setIcon(SELECTED);
-			label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 50, 70, 70);
+			label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 62, 70, 70);
 			glassPane.add(label);
 			glassPane.repaint();
 		}
