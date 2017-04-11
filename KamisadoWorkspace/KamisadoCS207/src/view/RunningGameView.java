@@ -3,15 +3,15 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import com.sun.glass.ui.Cursor;
 
 import controller.Controller;
 import model.Board;
@@ -117,10 +117,11 @@ public class RunningGameView extends JPanel implements MyObserver {
 			State state = (State)arg;
 			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
 		}else if(arg instanceof Boolean){
-//			if(!(Boolean)arg){
-//				this.setCursor(new Cursor(Cursor.CURSOR_WAIT));
-//				Cursor.setVisible(true);
-//			}
+			if(!(Boolean)arg){
+				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			}else{
+				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
 			gameBoard.setButtonsClickable((Boolean)arg);
 		}
 	}

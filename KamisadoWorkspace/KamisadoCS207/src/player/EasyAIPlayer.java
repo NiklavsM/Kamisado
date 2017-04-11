@@ -39,29 +39,29 @@ public class EasyAIPlayer extends Player{
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(4000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 Random rnd = new Random();
-	        int num = rnd.nextInt(6)+1;
-	        if(getisFirst()){
-	            if(timesVisited == 0){
-	                timesVisited++;
-	                tellAll(new Position(num,getHomeRow()));
-	                return;
-	            }
-	        }
-	        ArrayList<Position> validMoves = workingState.getValidMoves();
-	        for(Position pos:validMoves){
-	            if(pos.getY() == 7- getHomeRow()){
-	                tellAll(pos);
-	                return;
-	            }
-	        }
-	        
-	        num = rnd.nextInt(validMoves.size());
-	        tellAll(validMoves.get(num));
+        int num = rnd.nextInt(6)+1;
+        if(getisFirst()){
+            if(timesVisited == 0){
+                timesVisited++;
+                tellAll(new Position(num,getHomeRow()));
+                return;
+            }
+        }
+        ArrayList<Position> validMoves = workingState.getValidMoves();
+        for(Position pos:validMoves){
+            if(pos.getY() == 7- getHomeRow()){
+                tellAll(pos);
+                return;
+            }
+        }
+        
+        num = rnd.nextInt(validMoves.size());
+        tellAll(validMoves.get(num));
 	}
 }
