@@ -14,6 +14,7 @@ import model.GeneralSettings;
 import model.GeneralSettingsManager;
 import model.SaveManager;
 import model.SpeedGameDriver;
+import model.TimerInfo;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
 import player.HardAIPlayer;
@@ -78,7 +79,7 @@ public class Controller implements Serializable {
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
 			game.addObserver(main.getGameTimer());
-			game.tellAll(timerTime);
+			game.tellAll(new TimerInfo(timerTime,timerTime));
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength, randomBoard);
 		}
@@ -105,7 +106,7 @@ public class Controller implements Serializable {
 			if (gameDriver instanceof SpeedGameDriver) {
 				game = new SpeedGameDriver((SpeedGameDriver) gameDriver);
 				game.addObserver(main.getGameTimer());
-				game.tellAll(gameDriver.getCurrentState().getTime());
+				game.tellAll(((SpeedGameDriver) game).getTimerInfo());
 			} else {
 				game = new GameDriver(gameDriver);
 			}

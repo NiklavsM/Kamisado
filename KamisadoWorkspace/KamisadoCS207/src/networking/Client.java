@@ -58,13 +58,13 @@ public class Client {
 	}
 	
 	public static void readFromServer(){
-		try {
-			modifiedSentence = inFromServer.readLine();
-			System.out.println("FROM SERVER: " + modifiedSentence);
-			modifiedSentence.charAt(0);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}  
+//		try {
+//			modifiedSentence = inFromServer.readLine();
+//			System.out.println("FROM SERVER: " + modifiedSentence);
+//			modifiedSentence.charAt(0);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}  
 	}
 	
 	public static void sendToServer(String pos){

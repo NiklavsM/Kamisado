@@ -12,33 +12,32 @@ import player.Player;
 
 public class SpeedGameDriver extends GameDriver implements MyObserver, MyObservable, Serializable {
 
-	private int timerLimit;
+	private TimerInfo timerInfo;
 	private Timer timer;
 	private boolean timeOut = false;
 
 	public SpeedGameDriver(Player white, Player black, Player playerToStart, int gameLength, int timerLimit,
 			boolean randomBoard) {
 		super(white, black, playerToStart, gameLength, randomBoard);
-		this.timerLimit = timerLimit;
-		currentState.setTime(timerLimit);
+		timerInfo = new TimerInfo(timerLimit,timerLimit);
 		createTimer();
 	}
 
 	public SpeedGameDriver(SpeedGameDriver gameDriver) {
 		super(gameDriver);
-		this.timerLimit = gameDriver.getTimerLimit();
+		timerInfo = gameDriver.getTimerInfo();
 		createTimer();
 	}
 
 	public void createTimer() {
-		tellAll(timerLimit);
+		tellAll(timerInfo);
 		timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (currentState != null) {
-					currentState.setTime(currentState.getTime() - 1);
-					tellAll(currentState.getTime());
-					if (currentState.getTime() <= 0) {
+				if (timerInfo != null) {
+					timerInfo.setTimeLeft(timerInfo.getTimeLeft() - 1);;
+					tellAll(timerInfo);
+					if (timerInfo.getTimeLeft() <= 0) {
 						onTimeOut();
 					}
 				}
@@ -63,8 +62,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	public void turnBegin() {
-		currentState.setTime(timerLimit);
-		tellAll(timerLimit);
+		timerInfo.setTimeLeft(timerInfo.getTimerLimit());
+		tellAll(timerInfo);
 		timer.restart();
 	}
 
@@ -116,7 +115,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		currentState.getPlayerWhite().setToFirstMove(true);
 		currentState.getPlayerBlack().setToFirstMove(false);
 		if (playerToMove.equals(currentState.getPlayerBlack())) {
-			if (currentState.getTime() == 0) {
+			if (timerInfo.getTimeLeft() == 0) {
 				currentState.getPlayerWhite().setToFirstMove(false);
 				currentState.getPlayerBlack().setToFirstMove(true);
 				optionChosen = currentState.getPlayerWhite().fillHomeRow();
@@ -126,7 +125,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 			}
 
 		} else {
-			if (currentState.getTime() == 0) {
+			if (timerInfo.getTimeLeft() == 0) {
 				System.out.println("is first move");
 				optionChosen = currentState.getPlayerBlack().fillHomeRow();
 			} else {
@@ -152,7 +151,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		}
 		currentState.setFirstMove(true);
 		this.tellAll(currentState.getBoard());
-		tellAll(timerLimit);// FIX
+		tellAll(timerInfo);
 		playGame();
 		turnBegin();
 		return optionChosen;
@@ -199,7 +198,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		return false;
 	}
 
-	public int getTimerLimit() {
-		return timerLimit;
+	public TimerInfo getTimerInfo() {
+		return timerInfo;
 	}
+	
 }
