@@ -13,7 +13,7 @@ import model.Position;
 public class Client {
 	
 	static int sentence;
-	  static int modifiedSentence;
+	  static String modifiedSentence;
 	  static BufferedReader inFromUser;
 	  static Socket clientSocket;
 	  static DataOutputStream outToServer;
