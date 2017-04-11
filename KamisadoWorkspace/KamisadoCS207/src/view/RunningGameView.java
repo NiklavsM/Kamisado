@@ -29,14 +29,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private JPanel glassPane;
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
-		timer = new GameTimer();
-		timer.setVisible(true);
-		timer.setFocusable(false);
+		
 		
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
 
 		setUpTeamLabels(whiteName, blackName);
+		setUpTimer();
 
 		this.setLayout(new BorderLayout());
 		this.add(timer, BorderLayout.NORTH);
@@ -135,12 +134,18 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void setWinnerLabel(String message){
 		winnerLabel.setText(message);
 	}
-	public void setTimerLabel(String message){
-		timer.setText(message);
-	}
 
 	public void setGlassPane(Component glassPane) {
 		this.glassPane = (JPanel) glassPane;
 		gameBoard.setGlassPane(glassPane);
+	}
+	public void setUpTimer(){
+		if(timer !=null){
+			this.remove(timer);
+		}
+		timer = new GameTimer();
+		timer.setVisible(true);
+		timer.setFocusable(false);
+		this.add(timer, BorderLayout.NORTH);
 	}
 }

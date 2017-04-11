@@ -163,11 +163,7 @@ public class Controller implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					Controller cont = new Controller();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				Controller cont = new Controller();
 			}
 		});
 	}

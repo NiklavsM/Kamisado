@@ -83,7 +83,7 @@ public class MenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controller.killGame();
-				gameView.setTimerLabel(" ");
+				gameView.setUpTimer();
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "New Game");
 				options.requestFocus();
@@ -104,7 +104,7 @@ public class MenuFrame extends JFrame {
 				CardLayout c1 = (CardLayout) contentPane.getLayout();
 				c1.show(contentPane, "New Game");
 				gameView.setWinnerLabel("");
-				gameView.setTimerLabel(" ");
+				gameView.setUpTimer();
 				JPanel tempGlassPane = (JPanel) getGlassPane();
 				tempGlassPane.removeAll();
 				tempGlassPane.repaint();
