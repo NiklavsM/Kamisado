@@ -21,7 +21,6 @@ public final class State implements Serializable {
 	private Player playerBlack;
 	private Player PlayerToMove;
 	private Position pieceToMove;
-	private int time = -1;
 	private boolean firstMove = false;
 	private boolean gameOver = false;
 
@@ -287,12 +286,7 @@ public final class State implements Serializable {
 	public Position getPieceToMove() {
 		return pieceToMove;
 	}
-	public void setTime(int time) {
-		this.time = time;
-	}
-	public int getTime() {
-		return time;
-	}
+	
 	public boolean isFirstMove() {
 		return firstMove;
 	}
