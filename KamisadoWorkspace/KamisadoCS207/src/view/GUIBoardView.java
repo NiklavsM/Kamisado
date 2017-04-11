@@ -32,7 +32,7 @@ import model.Position;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
-	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
+	
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
 	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
 	private JButton[][] buttons;
@@ -115,27 +115,27 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public void removeSelectable() {
-		for (Position pos : selectedPositions) {
-			if (buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)) {
-				buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
-			}
-		}
+//		for (Position pos : selectedPositions) {
+//			if (buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)) {
+//				buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
+//			}
+//		}
 		glassPane.removeAll();
 		glassPane.repaint();
 	}
 
-	public void displaySelectable(ArrayList<Position> positions) {
-		removeSelectable();
-		selectedPositions = (ArrayList<Position>) positions.clone();
-		for (Position pos : positions) {
-			//buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
-			JLabel label = new JLabel();
-			label.setIcon(SELECTED);
-			label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 62, 70, 70);
-			glassPane.add(label);
-			glassPane.repaint();
-		}
-	}
+//	public void displaySelectable(ArrayList<Position> positions) {
+//		removeSelectable();
+//		selectedPositions = (ArrayList<Position>) positions.clone();
+//		for (Position pos : positions) {
+//			//buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
+//			JLabel label = new JLabel();
+//			label.setIcon(SELECTED);
+//			label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 62, 70, 70);
+//			glassPane.add(label);
+//			glassPane.repaint();
+//		}
+//	}
 
 	private void setupButton(int x, int y, JButton newButton) {
 		newButton.setBounds(x * 70, (7 - y) * 70, 70, 70);
@@ -162,14 +162,14 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				currentx = x;
 				currenty = y;
 				changedSelected(currentx, currenty);
-				int i = 1;
-				for (MyObserver obs : getObservers()) {
-					//System.out.println(obs.getClass().toString());
-					if (obs instanceof GameDriver) {
-						// System.out.println("game " + i);
-					}
-					i++;
-				}
+//				int i = 1;
+//				for (MyObserver obs : getObservers()) {
+//					//System.out.println(obs.getClass().toString());
+//					if (obs instanceof GameDriver) {
+//						// System.out.println("game " + i);
+//					}
+//					i++;
+//				}
 				tellAll(new Position(x, y));
 			}
 

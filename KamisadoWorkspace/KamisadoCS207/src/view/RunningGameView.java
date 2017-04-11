@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,6 +21,7 @@ import player.Player;
 
 public class RunningGameView extends JPanel implements MyObserver {
 
+	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
 	private JPanel teamLabel;
 	private GUIBoardView gameBoard;
 	private InGameOptions inGameOptions;
@@ -52,7 +55,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		teamWhite.setText(white.getPlayerName());
 		winnerLabel.setText("");
 		gameBoard.redrawBoard(state.getBoard());
-		gameBoard.displaySelectable(state.getValidMoves());
+		displaySelectable(state.getValidMoves());
 		if(black.isAI() || white.isAI()){
 			inGameOptions.showUndo(true);
 		}else{
@@ -91,7 +94,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 	@Override
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof ArrayList<?>) {
-			gameBoard.displaySelectable((ArrayList<Position>) arg);
+			displaySelectable((ArrayList<Position>) arg);
 		}else if(arg instanceof Player){
 			JLabel label = new JLabel();
 			glassPane.removeAll();
@@ -121,7 +124,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public void displaycSelectable(ArrayList<Position> validMoves) {
 		gameBoard.removeSelectable();
-		gameBoard.displaySelectable(validMoves);
+		displaySelectable(validMoves);
 	}
 
 	public void setWinnerLabel(String message){
@@ -151,5 +154,19 @@ public class RunningGameView extends JPanel implements MyObserver {
 		label.setOpaque(true);
 		glassPane.add(label);
 		glassPane.repaint();
+	}
+	
+	public void displaySelectable(ArrayList<Position> positions){
+		gameBoard.removeSelectable();
+		Double gameBoardPosX = gameBoard.getBounds().getMinX();
+		Double gameBoardPosY = gameBoard.getBounds().getMinY();
+		for (Position pos : positions) {
+			//buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
+			JLabel label = new JLabel();
+			label.setIcon(SELECTED);
+			label.setBounds(((pos.getX()) * 70) + gameBoardPosX.intValue() + 5, ((7 - (pos.getY())) * 70) + gameBoardPosY.intValue() + 30, 70, 70);
+			glassPane.add(label);
+			glassPane.repaint();
+		}
 	}
 }
