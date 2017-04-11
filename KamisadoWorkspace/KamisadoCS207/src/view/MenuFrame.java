@@ -77,7 +77,7 @@ public class MenuFrame extends JFrame {
 		home.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(displayConfirmExitMessage() == 0){
+				if (displayConfirmExitMessage() == 0) {
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
 					c1.show(contentPane, "Home");
 					currentlyShownPanel = "Home";
@@ -96,7 +96,7 @@ public class MenuFrame extends JFrame {
 		newgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(displayConfirmExitMessage() == 0){
+				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
 					gameView.setUpTimer();
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
@@ -117,7 +117,7 @@ public class MenuFrame extends JFrame {
 		loadgame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(displayConfirmExitMessage() == 0){
+				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
 					c1.show(contentPane, "New Game");
@@ -139,7 +139,7 @@ public class MenuFrame extends JFrame {
 		stats.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(displayConfirmExitMessage() == 0){
+				if (displayConfirmExitMessage() == 0) {
 					statPanel = new StatPanel();
 					contentPane.add(statPanel, "Stats");
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
@@ -152,7 +152,7 @@ public class MenuFrame extends JFrame {
 				}
 			}
 		});
-		
+
 		JMenuItem generalSettings = new JMenuItem("General Settings");
 		generalSettings.setMnemonic(KeyEvent.VK_O);
 		generalSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
@@ -160,8 +160,8 @@ public class MenuFrame extends JFrame {
 		generalSettings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(displayConfirmExitMessage() == 0){
-					generalSettingsPanel = new GeneralSettingsPanel();
+				if (displayConfirmExitMessage() == 0) {
+					generalSettingsPanel = new GeneralSettingsPanel(controller);
 					contentPane.add(generalSettingsPanel, "General Settings");
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
 					c1.show(contentPane, "General Settings");
@@ -181,14 +181,12 @@ public class MenuFrame extends JFrame {
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(displayConfirmExitMessage() == 0){
+				if (displayConfirmExitMessage() == 0) {
 					dispatchFrame();
 				}
 			}
 		});
-		
-		    
-		
+
 		menuBar.add(main);
 		menuBar.add(new JLabel("Alt-M"));
 		main.add(home);
@@ -199,21 +197,19 @@ public class MenuFrame extends JFrame {
 		main.add(exit);
 		main.setMnemonic(KeyEvent.VK_M);
 		this.setJMenuBar(menuBar);
-		
-		MenuSelectionManager.defaultManager().addChangeListener(
-		        new ChangeListener() {
-		            public void stateChanged(ChangeEvent evt) {
 
-		              MenuElement[] path = MenuSelectionManager.defaultManager()
-		                  .getSelectedPath();
+		MenuSelectionManager.defaultManager().addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent evt) {
 
-		              if (path.length == 0) {
-		                getGlassPane().setVisible(true);
-		              }else{
-		            	  getGlassPane().setVisible(false);
-		              }
-		            }
-		          });
+				MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
+
+				if (path.length == 0) {
+					getGlassPane().setVisible(true);
+				} else {
+					getGlassPane().setVisible(false);
+				}
+			}
+		});
 	}
 
 	public void dispatchFrame() {
@@ -229,16 +225,16 @@ public class MenuFrame extends JFrame {
 		tempGlassPane.removeAll();
 		tempGlassPane.repaint();
 	}
-	
-	public int displayConfirmExitMessage(){
-		if(currentlyShownPanel.equals("Game View")){
+
+	public int displayConfirmExitMessage() {
+		if (currentlyShownPanel.equals("Game View")) {
 			Object[] options = { "Yes, I want to quit", "Hold on, let me finish this" };
 			return JOptionPane.showOptionDialog(null, "Are you sure you want to quit the current game?",
 					"Quiting so soon?!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
 					options[1]);
-		}else{
+		} else {
 			return 0;
 		}
-		
+
 	}
 }
