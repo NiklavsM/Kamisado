@@ -29,7 +29,7 @@ public class Controller implements Serializable {
 	MenuFrame menuFrame;
 	private Player playerWhite;
 	private Player playerBlack;
-	private static Clip clip;
+	private Clip clip;
 
 	public Controller() {
 		applySettings();
@@ -74,12 +74,12 @@ public class Controller implements Serializable {
 		playSpeedGame(isSpeedGame, gameLength, timerTime, randomBoard);
 		finishGameSetup();
 	}
-	
-	private void playSpeedGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard){
+
+	private void playSpeedGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
 			game.addObserver(main.getGameTimer());
-			game.tellAll(new TimerInfo(timerTime,timerTime));
+			game.tellAll(new TimerInfo(timerTime, timerTime));
 		} else {
 			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength, randomBoard);
 		}
@@ -131,7 +131,7 @@ public class Controller implements Serializable {
 		menuFrame.ShowPanel("Game View");
 		main.displayGame(game.getCurrentState());
 		game.addObserver(main);
-		
+
 		game.playGame();
 		JOptionPane.showMessageDialog(null,
 				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",
@@ -144,7 +144,7 @@ public class Controller implements Serializable {
 		if (settings != null) {
 			if (settings.isMusicOn()) {
 				try {
-					music();
+					musicOn();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -165,11 +165,20 @@ public class Controller implements Serializable {
 		return menuFrame;
 	}
 
-	public static void music() throws Exception {
+	public void musicOn() throws Exception {
 		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("backgroundmusic.wav"));
+//		if (clip != null) {
+//			clip.stop();
+//		}
 		clip = AudioSystem.getClip();
 		clip.open(inputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+
+	public void musicOff() {
+		if (clip != null) {
+			clip.stop();
+		}
 	}
 
 	public Player getPlayerWhite() {

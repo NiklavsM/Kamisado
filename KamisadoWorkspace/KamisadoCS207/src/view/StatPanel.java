@@ -41,6 +41,7 @@ public class StatPanel extends JPanel {
 
 	private void setTable() {
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setFocusable(true);
 		String[] columnNames = { "Player name", "Wins", "Losses" };
 
 		StatsManager m = new StatsManager();
@@ -63,6 +64,7 @@ public class StatPanel extends JPanel {
 		add(filterLebel);
 
 		filter = new JTextField();
+		filter.setFocusable(true);
 		filter.setBounds(90, 360, 100, 20);
 		filter.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent arg0) {

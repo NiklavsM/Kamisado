@@ -8,17 +8,18 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.Controller;
 import model.GeneralSettings;
 import model.GeneralSettingsManager;
 
 public class GeneralSettingsPanel extends JPanel {
 	JLabel soundLabel;
 	JCheckBox soundOn;
-	JButton save;
+	JButton apply;
 	GeneralSettingsManager manager;
 	GeneralSettings settings;
 
-	public GeneralSettingsPanel() {
+	public GeneralSettingsPanel(Controller controller) {
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
 		soundLabel = new JLabel("Sound");
@@ -33,18 +34,27 @@ public class GeneralSettingsPanel extends JPanel {
 		soundOn.setBounds(50, 100, 50, 50);
 		add(soundOn);
 
-		save = new JButton("Save");
-		save.setBounds(50, 150, 80, 20);
-		save.addActionListener(new ActionListener() {
+		apply = new JButton("Apply");
+		apply.setBounds(50, 150, 80, 20);
+		apply.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				settings.setMusicOn(soundOn.isSelected());
+				if (soundOn.isSelected()) {
+					try{
+					controller.musicOn();
+					}catch(Exception ex){
+						ex.printStackTrace();
+					}
+				} else {
+					controller.musicOff();
+				}
 				manager.saveGeneralSettings(settings);
 			}
 
 		});
-		add(save);
+		add(apply);
 
 	}
 
