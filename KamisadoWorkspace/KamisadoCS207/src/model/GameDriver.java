@@ -192,10 +192,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		Position posToMove = currentState.calcPieceToMove();
 		ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
 		if (movesCanMake.isEmpty()) {
-			if (numOfNoGoes >= 3) {
+			if (numOfNoGoes >= 6) {
 //				this.tellAll("Draw");
 				return true;
 			} else {
+                currentState.setColourToMove(currentState.getBoard().findColor(posToMove));
 				if(nextTurn(++numOfNoGoes)){
 					currentState.getPlayerToMove().incrementScore(1);
 					this.tellAll(currentState.getPlayerToMove());

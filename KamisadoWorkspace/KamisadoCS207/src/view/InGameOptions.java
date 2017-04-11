@@ -103,7 +103,6 @@ public class InGameOptions extends JPanel{
 				}
 			}
 		});
-		//btnUndo.setFocusable(false);
 		add(btnContinue);
 		btnContinue.setVisible(false);
 	}
