@@ -18,6 +18,8 @@ public class TreeNode {
 	private int playerToMove;
 	private int depth;
 	private ArrayList<Position> validMovesForThisPlayer;
+	private int alpha;
+	private int beta;
 
 	public TreeNode(int depth, State boardState, int playerToMove) {
 		this.children = new ArrayList<>();
@@ -32,6 +34,8 @@ public class TreeNode {
 		this.depth = depth;
 		this.boardState.calcValidMoves(this.boardState.getPieceToMove());
 		this.validMovesForThisPlayer = this.boardState.getValidMoves();
+		this.alpha = -1000000000;
+		this.beta = 1000000000;
 	}
 
 	public TreeNode(int depth, State boardState, int playerToMove, ArrayList<Move> moves) {
@@ -47,7 +51,8 @@ public class TreeNode {
 		}
 		this.boardState.calcValidMoves(this.boardState.calcPieceToMove());
 		this.validMovesForThisPlayer = this.boardState.getValidMoves();
-
+		this.alpha = -1000000000;
+		this.beta = 1000000000;
 		this.depth = depth;
 	}
 
@@ -57,13 +62,14 @@ public class TreeNode {
 			return previousMove;
 		}
 		if(maxBest){
-			return maxMove(children);
+			return maxMove();
 		}else{
-			return minMove(children);
+			return minMove();
 		}
 	}
 
 	public void generateChildren() {
+		int v; 
 		TreeNode childNode = null;
 		if (depth == 0) {
 			calcScore();
@@ -77,7 +83,11 @@ public class TreeNode {
 			return;
 		}
 		if (validMovesForThisPlayer.size() > 0) {
-			// has valid position(s) to move to
+			if (playerToMove == 0) {
+				v = -1000000000;
+			} else {
+				v = 1000000000;
+			}
 			for (Position pos : validMovesForThisPlayer) {
 				State state = boardState.make(pos);
 				moves.add(state.getPreviousMove());
@@ -85,11 +95,28 @@ public class TreeNode {
 				children.add(childNode);
 				childNode.generateChildren();
 				moves.remove(moves.size() - 1);
+				if (playerToMove == 0) {
+					if(childNode.getChildrenSize() > 0){
+						v = max(v, childNode.getScore());
+					}
+					alpha = max(alpha, v);
+					if(beta <= alpha){
+						break;
+					}
+				}else{
+					if(childNode.getChildrenSize() > 0){
+						v = min(v, childNode.getScore());
+					}
+					beta = min(beta, v);
+					if(beta <= alpha){
+						break;
+					}
+				}
 			}
 			if (playerToMove == 0) {
-				previousMove.setScore(maxScore(children) - 1);
+				previousMove.setScore(maxScore()-1);
 			} else {
-				previousMove.setScore(minScore(children) + 1);
+				previousMove.setScore(minScore()+1);
 			}
 		} else {
 			// if player misses a go
@@ -97,7 +124,7 @@ public class TreeNode {
 			Position pos = board.getPieceToMove();
 			moves.add(new Move(pos, pos, board.findPiece(pos)));
 			board.flipPlayerToMove();
-			childNode = new TreeNode(depth - 1, new State(board, board.getBoard()), (1 - playerToMove), moves);
+			childNode = new TreeNode(depth - 1, new State(board, board.getBoard()),(1 - playerToMove), moves);
 			children.add(childNode);
 			childNode.generateChildren();
 			previousMove.setScore(childNode.getScore());
@@ -108,24 +135,24 @@ public class TreeNode {
 		int score = 0;
 		if (playerToMove == 0) {
 			if (validMovesForThisPlayer.size() == 0) {
-				score += 200;
+				score += 400;
 			} else {
-				score -= validMovesForThisPlayer.size() * 10;
+				score -= validMovesForThisPlayer.size() * 20;
 				for (Position position : validMovesForThisPlayer) {
 					if (position.getY() == 0) {
-						score -= 200;
+						score -= 500;
 					}
 				}
 			}
 
 		} else {
 			if (validMovesForThisPlayer.size() == 0) {
-				score -= 200;
+				score -= 400;
 			} else {
-				score += validMovesForThisPlayer.size() * 10;
+				score += validMovesForThisPlayer.size() * 20;
 				for (Position position : validMovesForThisPlayer) {
 					if (position.getY() == 7) {
-						score += 200;
+						score += 500;
 					}
 				}
 			}
@@ -149,7 +176,7 @@ public class TreeNode {
 		return previousMove;
 	}
 
-	public Move maxMove(ArrayList<TreeNode> children) {
+	public Move maxMove() {
 		Move currentBest = children.get(0).getMove();
 		for (TreeNode node : children) {
 			if (node.getMove().getScore() > currentBest.getScore()) {
@@ -159,7 +186,7 @@ public class TreeNode {
 		return currentBest;
 	}
 
-	public Move minMove(ArrayList<TreeNode> children) {
+	public Move minMove() {
 		Move currentBest = children.get(0).getMove();
 		for (TreeNode node : children) {
 			if (node.getMove().getScore() < currentBest.getScore()) {
@@ -169,25 +196,38 @@ public class TreeNode {
 		return currentBest;
 	}
 
-	public int maxScore(ArrayList<TreeNode> children) {
-		int currentBest = children.get(0).getScore();
-		for (int i = 1; i < children.size(); i++) {
-			if (children.get(i).getScore() >= currentBest) {
-				currentBest = children.get(i).getScore();
+	public int maxScore() {
+		int currentBest = this.children.get(0).getScore();
+		for (int i = 1; i < this.children.size(); i++) {
+			if (this.children.get(i).getScore() >= currentBest) {
+				currentBest = this.children.get(i).getScore();
 			}
 		}
 		return currentBest;
 	}
 
-	public int minScore(ArrayList<TreeNode> children) {
-		int currentBest = children.get(0).getScore();
-		for (int i = 1; i < children.size(); i++) {
-			if (children.get(i).getScore() <= currentBest) {
-				currentBest = children.get(i).getScore();
+	public int minScore() {
+		int currentBest = this.children.get(0).getScore();
+		for (int i = 1; i < this.children.size(); i++) {
+			if (this.children.get(i).getScore() <= currentBest) {
+				currentBest = this.children.get(i).getScore();
 			}
 		}
 		return currentBest;
 	}
-
+	
+	public int max(int a, int b){
+		if(a > b){
+			return a;
+		}
+		return b;
+	}
+	
+	public int min(int a, int b){
+		if(a < b){
+			return a;
+		}
+		return b;
+	}
 
 }
