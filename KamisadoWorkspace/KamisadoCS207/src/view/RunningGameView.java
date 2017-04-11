@@ -32,10 +32,11 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private JLabel teamWhite;
 	private JLabel teamBlack;
 	private JPanel glassPane;
+	private Controller controller;//Discuss
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		
-		
+		this.controller = newController;
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
 
@@ -104,17 +105,22 @@ public class RunningGameView extends JPanel implements MyObserver {
 			String displayMessage = player.getPlayerName() + " wins this round!";
 			label.setText(displayMessage);
 			addTextToGlassPane(label);
+			inGameOptions.showUndo(false);
 			inGameOptions.displayContinue(true);
 		}else if (arg instanceof String) {
+			inGameOptions.showUndo(false);
 			JLabel label = new JLabel();
 			glassPane.removeAll();
 			label.setText((String) arg);
 			inGameOptions.displayContinue(false);
 			addTextToGlassPane(label);
 		} else if(arg instanceof Board){
+			if (controller.getPlayerBlack().isAI() || controller.getPlayerWhite().isAI()) {
+				inGameOptions.showUndo(true);
+			}
 			gameBoard.redrawBoard((Board)arg);
 		}else if (arg instanceof State) {
-			State state = (State)arg;
+			State state = (State)arg;	
 			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
 		}else if(arg instanceof Boolean){
 			if(!(Boolean)arg){

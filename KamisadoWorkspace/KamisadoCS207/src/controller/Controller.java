@@ -170,4 +170,12 @@ public class Controller implements Serializable {
 		clip.open(inputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
+
+	public Player getPlayerWhite() {
+		return playerWhite;
+	}
+
+	public Player getPlayerBlack() {
+		return playerBlack;
+	}
 }
