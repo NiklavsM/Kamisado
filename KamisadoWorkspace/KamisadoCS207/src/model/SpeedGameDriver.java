@@ -48,17 +48,19 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 	public void onTimeOut() {
 		timeOut = true;
-		currentState.setGameOver(true);
-		Player winningPlayer;
-		if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {
-			winningPlayer = currentState.getPlayerBlack();
-		} else {
-			winningPlayer = currentState.getPlayerWhite();
+		if (currentState != null) {
+			currentState.setGameOver(true);
+			Player winningPlayer;
+			if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {
+				winningPlayer = currentState.getPlayerBlack();
+			} else {
+				winningPlayer = currentState.getPlayerWhite();
+			}
+			this.tellAll(winningPlayer);
+			incrementScoreAtEndOfGame(winningPlayer);
+			this.tellAll(currentState);
+			timer.stop();
 		}
-		this.tellAll(winningPlayer);
-		incrementScoreAtEndOfGame(winningPlayer);
-		this.tellAll(currentState);
-		timer.stop();
 	}
 
 	public void turnBegin() {

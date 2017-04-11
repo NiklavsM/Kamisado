@@ -78,6 +78,7 @@ public class MenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
+					controller.killGame();
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
 					c1.show(contentPane, "Home");
 					currentlyShownPanel = "Home";
@@ -140,6 +141,7 @@ public class MenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
+					controller.killGame();
 					statPanel = new StatPanel();
 					contentPane.add(statPanel, "Stats");
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
@@ -161,6 +163,7 @@ public class MenuFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
+					controller.killGame();
 					generalSettingsPanel = new GeneralSettingsPanel(controller);
 					contentPane.add(generalSettingsPanel, "General Settings");
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
