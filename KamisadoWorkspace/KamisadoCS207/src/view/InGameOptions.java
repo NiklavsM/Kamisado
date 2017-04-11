@@ -48,7 +48,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//controller.Quit();
+				controller.getMenuFrame().ShowPanel("New Game");
 			}
 		});
 		//btnQuit.setFocusable(false);
@@ -90,7 +90,7 @@ public class InGameOptions extends JPanel{
 			}
 		});
 		//btnUndo.setFocusable(false);
-		add(btnReset);
+		//add(btnReset);
 		
 		btnContinue.setBackground(Color.LIGHT_GRAY);
 		btnContinue.addActionListener(new ActionListener() {
