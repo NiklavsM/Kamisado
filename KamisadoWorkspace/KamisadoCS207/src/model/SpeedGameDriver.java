@@ -154,6 +154,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		this.tellAll(currentState.getBoard());
 		tellAll(timerLimit);// FIX
 		playGame();
+		turnBegin();
 		return optionChosen;
 	}
 
