@@ -59,10 +59,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	
 	public boolean incrementScoreAtEndOfGame(Player winner){
 		PieceObject pieceThatWon = currentState.getPreviousMove().pieceMoved();
-		System.out.println("incremented score");
 		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
 		if(winner.getScore() >= scoreToGet){
-			System.out.println("scoretoget is beat");
 			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " round(s)!");
 			return true;
 		}
@@ -79,7 +77,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void undo() {
 		if (history.size() >= 2) {
-//			history.pop();
 			State stateToCheck = history.pop();
 			String playerToMoveName = stateToCheck.getPlayerToMove().getPlayerName();
 			while(playerToMoveName.equals("Easy AI") || playerToMoveName.equals("Hard AI")){
@@ -94,23 +91,17 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		int optionChosen = 0;
 		currentGameNum++;
 		history = new Stack<>();
-		Player playerToMove = currentState.getPlayerWhite();
-		System.out.println(currentState.getPlayerToMove().getPlayerTeam());
-		String previousWinner = currentState.getPreviousMove().pieceMoved().getPiece().getTeam();
+		Player playerToMove = currentState.getPlayerToMove();
 		Board newBoard = currentState.getBoard();
 		if (currentState.getBoard().isRandom()) {
 			newBoard.setRandomBoardColours();
 		}
-		
-		if (previousWinner.equals("White")) {
-			optionChosen = currentState.getPlayerWhite().fillHomeRow();
+		if (playerToMove.getPlayerTeam().equals("White")) {
+			optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			playerToMove = currentState.getPlayerBlack();
-			currentState.getPlayerWhite().setToFirstMove(false);
-			currentState.getPlayerBlack().setToFirstMove(true);
 		} else {
-			currentState.getPlayerWhite().setToFirstMove(true);
-			currentState.getPlayerBlack().setToFirstMove(false);
-			optionChosen = currentState.getPlayerBlack().fillHomeRow();
+			optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+			playerToMove = currentState.getPlayerWhite();
 		}
 		if(optionChosen == 0){
 			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(),playerToMove, newBoard, true);
@@ -122,6 +113,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		this.tellAll(currentState.getBoard());
 		playGame();
 		return optionChosen;
+	}
+	
+	private int nextRoundSetUp(Player firstToMove, Player secondToMove){
+		firstToMove.setToFirstMove(true);
+		secondToMove.setToFirstMove(false);
+		return secondToMove.fillHomeRow();
 	}
 
 	public void reset() {
@@ -143,6 +140,13 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public void generateMove() {
 		Player PlayerToMove = currentState.getPlayerToMove();
 		PlayerToMove.getMove(currentState);
+		if(PlayerToMove.isAI()){
+			this.tellAll(false);
+		}else{
+			this.tellAll(true);
+		}
+		Thread newThread = new Thread(PlayerToMove);
+		newThread.start();
 	}
 
 	public boolean playerFirstMove(Position placeClicked) {
@@ -200,6 +204,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				if(nextTurn(++numOfNoGoes)){
 					currentState.getPlayerToMove().incrementScore(1);
 					this.tellAll(currentState.getPlayerToMove());
+					this.tellAll(currentState);
 				}
 			}
 		} else {

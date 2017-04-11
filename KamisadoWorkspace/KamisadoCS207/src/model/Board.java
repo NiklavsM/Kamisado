@@ -153,42 +153,33 @@ public final class Board implements Serializable {
 			teamHomeBase = 0;
 			for(int y = 0; y < 8; y++){
 				x = permx;
-				for(int j = 0; j < 8; j++){
-					if(pieces[x][y] != null){
-						if(pieces[x][y].getPiece().getTeam().equals(team)){
-							if(homeRowCounter == x && teamHomeBase == y){
-								homeRowCounter += increment;
-							}else{
-								pieces[homeRowCounter][teamHomeBase] = pieces[x][y];
-								pieces[x][y] = null;
-								//System.out.println("moving x:" + x + " y:" + y + " to x:" + homeRowCounter + " y:" + teamHomeBase);
-								homeRowCounter += increment;
-							}
-						}
-					}
-					x += increment;
-				}
+				homeRowCounter = fillHomeRowHelper(homeRowCounter, increment, x, y, team, teamHomeBase);
 			}
 		}else{
 			teamHomeBase = 7;
 			for(int y = 7; y >= 0; y--){
 				x = permx;
-				for(int j = 0; j < 8; j++){
-					if(pieces[x][y] != null){
-						if(pieces[x][y].getPiece().getTeam().equals(team)){
-							if(homeRowCounter == x && teamHomeBase == y){
-								homeRowCounter += increment;
-							}else{
-								pieces[homeRowCounter][teamHomeBase] = pieces[x][y];
-								pieces[x][y] = null;
-								homeRowCounter += increment;
-							}
-						}
-					}
-					x += increment;
-				}
+				homeRowCounter = fillHomeRowHelper(homeRowCounter,increment, x, y, team, teamHomeBase);
 			}
 		}
+	}
+	
+	private int fillHomeRowHelper(int homeRowCounter, int increment, int x, int y, String team, int teamHomeBase){
+		for(int j = 0; j < 8; j++){
+			if(pieces[x][y] != null){
+				if(pieces[x][y].getPiece().getTeam().equals(team)){
+					if(homeRowCounter == x && teamHomeBase == y){
+						homeRowCounter += increment;
+					}else{
+						pieces[homeRowCounter][teamHomeBase] = pieces[x][y];
+						pieces[x][y] = null;
+						homeRowCounter += increment;
+					}
+				}
+			}
+			x += increment;
+		}
+		return homeRowCounter;
 	}
 	
 	public Board make(Position startPosition, Position endPosition) {

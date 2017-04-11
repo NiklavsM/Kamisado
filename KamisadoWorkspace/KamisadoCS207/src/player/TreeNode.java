@@ -49,29 +49,21 @@ public class TreeNode {
 		this.validMovesForThisPlayer = this.boardState.getValidMoves();
 
 		this.depth = depth;
-
 	}
-	
 
-	public Move getWorstChild() {
+	public Move getBestOrWorstsChild(boolean maxBest) {
 		this.generateChildren();
 		if (children.size() == 0) {
 			return previousMove;
 		}
-		return minMove(children);
-	}
-
-	public Move getBestChild() {
-		this.generateChildren();
-		if (children.size() == 0) {
-			return previousMove;
+		if(maxBest){
+			return maxMove(children);
+		}else{
+			return minMove(children);
 		}
-		return maxMove(children);
 	}
 
 	public void generateChildren() {
-
-		// System.out.println(move.getScore());
 		TreeNode childNode = null;
 		if (depth == 0) {
 			calcScore();
@@ -140,7 +132,7 @@ public class TreeNode {
 		}
 		previousMove.setScore(score);
 	}
-
+	
 	public int getChildrenSize() {
 		return children.size();
 	}

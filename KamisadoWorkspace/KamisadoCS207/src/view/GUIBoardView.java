@@ -3,26 +3,25 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import com.sun.glass.ui.Cursor;
+
 import controller.Controller;
 import model.Board;
-import model.GameDriver;
 import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
@@ -102,17 +101,17 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		return combinedImage;
 	}
 
-	public void pieceMoved(Position start, Position end) {
-		if (previousLocation != null) {
-			// removeSelectable();
-			if (previousLocation != null && previousLocation.getIcon().equals(GREY)) {
-				previousLocation.setIcon(DEFAULT);
-			}
-			Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
-			previousLocation = buttons[start.getX()][start.getY()];
-			buttons[end.getX()][end.getY()].setIcon(pieceIcon);
-		}
-	}
+//	public void pieceMoved(Position start, Position end) {
+//		if (previousLocation != null) {
+//			// removeSelectable();
+//			if (previousLocation != null && previousLocation.getIcon().equals(GREY)) {
+//				previousLocation.setIcon(DEFAULT);
+//			}
+//			Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
+//			previousLocation = buttons[start.getX()][start.getY()];
+//			buttons[end.getX()][end.getY()].setIcon(pieceIcon);
+//		}
+//	}
 
 	public void removeSelectable() {
 //		for (Position pos : selectedPositions) {
@@ -139,45 +138,24 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	private void setupButton(int x, int y, JButton newButton) {
 		newButton.setBounds(x * 70, (7 - y) * 70, 70, 70);
-		newButton.addMouseListener(new MouseListener() {
+		newButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				currentx = x;
-				currenty = y;
-				changedSelected(currentx, currenty);
-//				int i = 1;
-//				for (MyObserver obs : getObservers()) {
-//					//System.out.println(obs.getClass().toString());
-//					if (obs instanceof GameDriver) {
-//						// System.out.println("game " + i);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					currentx = x;
+					currenty = y;
+					changedSelected(currentx, currenty);
+//					int i = 1;
+//					for (MyObserver obs : getObservers()) {
+//						//System.out.println(obs.getClass().toString());
+//						if (obs instanceof GameDriver) {
+//							// System.out.println("game " + i);
+//						}
+//						i++;
 //					}
-//					i++;
-//				}
-				tellAll(new Position(x, y));
-			}
+					tellAll(new Position(x, y));
+				}
 
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
 		});
 	}
 
@@ -191,8 +169,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(new ImageIcon(image));
+					buttons[x][y].setDisabledIcon(new ImageIcon(image));
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
+					buttons[x][y].setDisabledIcon(DEFAULT);
 				}
 				buttons[x][y].setBorder(thickBorder);
 				buttons[x][y].setBorderPainted(false);
@@ -213,8 +193,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(new ImageIcon(image));
+					buttons[x][y].setDisabledIcon(new ImageIcon(image));
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
+					buttons[x][y].setDisabledIcon(DEFAULT);
 				}
 				buttons[x][y].setEnabled(true);
 			}
@@ -312,6 +294,14 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		this.glassPane = (JPanel) glassPane;
 		this.glassPane.setVisible(true);
 		this.glassPane.setLayout(this.getLayout());
+	}
+
+	public void setButtonsClickable(Boolean arg) {
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				buttons[i][j].setEnabled(arg);
+			}
+		}
 	}
 
 }

@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.sun.glass.ui.Cursor;
+
 import controller.Controller;
 import model.Board;
 import model.MyObservable;
@@ -51,8 +53,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 	public void displayGame(State state){
 		Player black = state.getPlayerBlack();
 		Player white = state.getPlayerWhite();
-		teamBlack.setText(black.getPlayerName());
-		teamWhite.setText(white.getPlayerName());
+		teamBlack.setText(black.getPlayerName() + " : " + black.getScore());
+		teamWhite.setText(white.getPlayerName() + " : " + white.getScore());
 		winnerLabel.setText("");
 		gameBoard.redrawBoard(state.getBoard());
 		displaySelectable(state.getValidMoves());
@@ -114,6 +116,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}else if (arg instanceof State) {
 			State state = (State)arg;
 			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
+		}else if(arg instanceof Boolean){
+//			if(!(Boolean)arg){
+//				this.setCursor(new Cursor(Cursor.CURSOR_WAIT));
+//				Cursor.setVisible(true);
+//			}
+			gameBoard.setButtonsClickable((Boolean)arg);
 		}
 	}
 	

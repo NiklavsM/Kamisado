@@ -41,4 +41,10 @@ public class GUIPlayer extends Player implements MyObservable, Serializable {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
 }

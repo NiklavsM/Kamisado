@@ -7,7 +7,7 @@ import model.MyObservable;
 import model.MyObserver;
 import model.State;
 
-public abstract class Player implements MyObservable, Serializable{
+public abstract class Player implements MyObservable, Serializable, Runnable{
 
 	private String playerName;
 	private String playerTeam;

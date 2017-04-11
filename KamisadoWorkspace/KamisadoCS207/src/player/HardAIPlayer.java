@@ -3,6 +3,8 @@ package player;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.sun.glass.ui.Cursor;
+
 import model.Move;
 import model.MyObservable;
 import model.Piece;
@@ -14,6 +16,7 @@ public class HardAIPlayer extends Player implements MyObservable {
 	private int timesVisited = 0;
 	private HashMap<Position, Position> bestOpeningMoves;
 	private Position firstMove;
+	private State workingState;
 
 	public HardAIPlayer(String playerTeam, String playerName, boolean goingFist) {
 		super(playerTeam, playerName, goingFist, true);
@@ -30,27 +33,7 @@ public class HardAIPlayer extends Player implements MyObservable {
 
 	@Override
 	public void getMove(State state) {
-		if (getisFirst()) {
-			if (timesVisited == 0) {
-				timesVisited++;
-				tellAll(firstMove);
-				return;
-			} else if (timesVisited == 1) {
-				timesVisited++;
-				tellAll(new Position(bestOpeningMoves.get(firstMove)));
-				return;
-			}else{
-				TreeNode moveTree = new TreeNode(5, state, 1);
-				Move move = moveTree.getWorstChild();
-				move.print();
-				tellAll(move.getEndPos());
-			}
-		}else {
-			TreeNode moveTree = new TreeNode(5, state, 0);
-			Move move = moveTree.getBestChild();
-			move.print();
-			tellAll(move.getEndPos());
-		}
+		workingState = state;
 	}
 
 	@Override
@@ -64,5 +47,36 @@ public class HardAIPlayer extends Player implements MyObservable {
 		initialiseBestMoves();
 		timesVisited = 0;
 		this.setGoingFirst(isGoingFirst);
+	}
+
+	@Override
+	public void run() {
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (getisFirst()) {
+			if (timesVisited == 0) {
+				timesVisited++;
+				tellAll(firstMove);
+				return;
+			} else if (timesVisited == 1) {
+				timesVisited++;
+				tellAll(new Position(bestOpeningMoves.get(firstMove)));
+				return;
+			}else{
+				TreeNode moveTree = new TreeNode(5, workingState, 1);
+				Move move = moveTree.getBestOrWorstsChild(false);
+				move.print();
+				tellAll(move.getEndPos());
+			}
+		}else {
+			TreeNode moveTree = new TreeNode(5, workingState, 0);
+			Move move = moveTree.getBestOrWorstsChild(true);
+			move.print();
+			tellAll(move.getEndPos());
+		}
 	}
 }

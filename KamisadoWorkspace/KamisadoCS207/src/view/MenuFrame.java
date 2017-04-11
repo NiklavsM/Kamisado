@@ -1,12 +1,14 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -15,7 +17,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import controller.Controller;
 
@@ -178,8 +186,9 @@ public class MenuFrame extends JFrame {
 				}
 			}
 		});
-
-		main.setMnemonic(KeyEvent.VK_M);
+		
+		    
+		
 		menuBar.add(main);
 		menuBar.add(new JLabel("Alt-M"));
 		main.add(home);
@@ -188,7 +197,23 @@ public class MenuFrame extends JFrame {
 		main.add(stats);
 		main.add(generalSettings);
 		main.add(exit);
+		main.setMnemonic(KeyEvent.VK_M);
 		this.setJMenuBar(menuBar);
+		
+		MenuSelectionManager.defaultManager().addChangeListener(
+		        new ChangeListener() {
+		            public void stateChanged(ChangeEvent evt) {
+
+		              MenuElement[] path = MenuSelectionManager.defaultManager()
+		                  .getSelectedPath();
+
+		              if (path.length == 0) {
+		                getGlassPane().setVisible(true);
+		              }else{
+		            	  getGlassPane().setVisible(false);
+		              }
+		            }
+		          });
 	}
 
 	public void dispatchFrame() {
