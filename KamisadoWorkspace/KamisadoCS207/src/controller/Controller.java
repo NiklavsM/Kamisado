@@ -128,7 +128,7 @@ public class Controller implements Serializable {
 
 	private void finishGameSetup() {
 		main.getGameBoard().addObserver(game);
-		menuFrame.ShowGameViewPanel();
+		menuFrame.ShowPanel("Game View");
 		main.displayGame(game.getCurrentState());
 		game.addObserver(main);
 		

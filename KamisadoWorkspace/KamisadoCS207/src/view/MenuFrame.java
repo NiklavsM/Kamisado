@@ -220,14 +220,16 @@ public class MenuFrame extends JFrame {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
-	public void ShowGameViewPanel() {
-		CardLayout c1 = (CardLayout) contentPane.getLayout();
-		c1.show(contentPane, "Game View");
-		currentlyShownPanel = "Game View";
-		gameView.requestFocus();
-		JPanel tempGlassPane = (JPanel) this.getGlassPane();
-		tempGlassPane.removeAll();
-		tempGlassPane.repaint();
+	public void ShowPanel(String panelToShow) {
+		if(displayConfirmExitMessage() == 0){
+			CardLayout c1 = (CardLayout) contentPane.getLayout();
+			c1.show(contentPane, panelToShow);
+			currentlyShownPanel = panelToShow;
+			gameView.requestFocus();
+			JPanel tempGlassPane = (JPanel) this.getGlassPane();
+			tempGlassPane.removeAll();
+			tempGlassPane.repaint();
+		}
 	}
 	
 	public int displayConfirmExitMessage(){

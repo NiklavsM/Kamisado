@@ -107,6 +107,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 			addTextToGlassPane(label);
 			inGameOptions.showUndo(false);
 			inGameOptions.displayContinue(true);
+			glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}else if (arg instanceof String) {
 			inGameOptions.showUndo(false);
 			JLabel label = new JLabel();
@@ -114,6 +115,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 			label.setText((String) arg);
 			inGameOptions.displayContinue(false);
 			addTextToGlassPane(label);
+			glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if(arg instanceof Board){
 			if (controller.getPlayerBlack().isAI() || controller.getPlayerWhite().isAI()) {
 				inGameOptions.showUndo(true);
