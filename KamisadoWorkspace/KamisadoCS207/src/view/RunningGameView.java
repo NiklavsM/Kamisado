@@ -54,16 +54,17 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.setBounds(100, 100, 522, 482);
 	}
 	
-	public void displayGame(State state){
-		Player black = state.getPlayerBlack();
-		Player white = state.getPlayerWhite();
+	public void displayGame(GameDriver game){
+		State gameState = game.getCurrentState();
+		Player black = gameState.getPlayerBlack();
+		Player white = gameState.getPlayerWhite();
 		teamBlack.setText(black.getPlayerName() + " : " + black.getScore());
 		teamWhite.setText(white.getPlayerName() + " : " + white.getScore());
 		gameLog.setText(null);
-		gameLog.append("Round 1:" + "\n");
+		gameLog.append("Round " + game.getCurrentGameNum() + ":" + "\n");
 		gameLog.setFocusable(false);
-		gameBoard.redrawBoard(state.getBoard());
-		displaySelectable(state.getValidMoves());
+		gameBoard.redrawBoard(gameState.getBoard());
+		displaySelectable(gameState.getValidMoves());
 		if(black.isAI() || white.isAI()){
 			inGameOptions.showUndo(true);
 		}else{
@@ -95,7 +96,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		JLabel label = new JLabel(name + " : 0");
 		label.setBackground(Color.BLACK);
 		label.setForeground(Color.WHITE);
-		label.setFont(new Font("Garamond", Font.BOLD, 15));
+		label.setFont(new Font("Garamond", Font.BOLD, 19));
 		label.setOpaque(true);
 		return label;
 	}
@@ -123,13 +124,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}else if (arg instanceof State) {
 			State state = (State)arg;	
 			GameDriver gameDriver = (GameDriver) o;
-			if ((controller.getPlayerBlack().isAI() || controller.getPlayerWhite().isAI()) && !state.isGameOver()) {
+			if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI()) && !state.isGameOver()) {
 				inGameOptions.showUndo(true);
 			}
 			if(!state.isGameOver()){
 				gameBoard.redrawBoard(state.getBoard());
 			}
-			if(!state.isFirstMove()){
+			if(!state.isFirstMove() && state.getPreviousMove() != null){
 				addToGameLog(state.getPreviousMove().toString());
 			}else{
 				gameLog.setText(null);

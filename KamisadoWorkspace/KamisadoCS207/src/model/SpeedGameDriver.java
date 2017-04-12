@@ -128,10 +128,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 
 		} else {
 			if (timerInfo.getTimeLeft() == 0) {
-				System.out.println("is first move");
 				optionChosen = currentState.getPlayerBlack().fillHomeRow();
 			} else {
-				System.out.println("settings to black");
 				playerToMove = currentState.getPlayerBlack();
 				currentState.getPlayerWhite().setToFirstMove(false);
 				currentState.getPlayerBlack().setToFirstMove(true);
