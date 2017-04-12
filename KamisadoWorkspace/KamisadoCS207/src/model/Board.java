@@ -85,18 +85,19 @@ public final class Board implements Serializable {
 	}
 
 	private void setBoardColors(Color[] colors) {
+		int plusOne = 0;
 		int plusThree = 1;
 		int plusFive = 6;
 		boardColours = new Color[8][8];
-		for (int i = 0; i < 8; i++, plusThree = plusThree + 3, plusFive = plusFive + 5) {
-			boardColours[i][i] = colors[0];
-			boardColours[i][7 - i] = colors[7];
-			boardColours[i][((7 - i) + 4) % 8] = colors[3];
-			boardColours[i][(i + 4) % 8] = colors[4];
-			boardColours[i][plusThree % 8] = colors[5];
-			boardColours[i][(plusThree + 4) % 8] = colors[1];
-			boardColours[i][(plusFive) % 8] = colors[2];
-			boardColours[i][(plusFive + 4) % 8] = colors[6];
+		for (; plusOne < 8; plusOne++, plusThree = plusThree + 3, plusFive = plusFive + 5) {
+			boardColours[plusOne][plusOne] = colors[0];
+			boardColours[plusOne][(plusThree + 4) % 8] = colors[1];
+			boardColours[plusOne][(plusFive) % 8] = colors[2];
+			boardColours[plusOne][((7 - plusOne) + 4) % 8] = colors[3];
+			boardColours[plusOne][(plusOne + 4) % 8] = colors[4];
+			boardColours[plusOne][plusThree % 8] = colors[5];
+			boardColours[plusOne][(plusFive + 4) % 8] = colors[6];
+			boardColours[plusOne][7 - plusOne] = colors[7];
 		}
 	}
 
