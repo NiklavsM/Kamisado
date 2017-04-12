@@ -259,5 +259,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 				gridViewGlassPane.repaint();
 			}
 		}
+		gridViewGlassPane.setLayout(null);
+		gridViewGlassPane.setIgnoreRepaint(true);
 	}
 }

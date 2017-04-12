@@ -65,10 +65,10 @@ public final class State implements Serializable {
 		this.pieces = currentBoard.getPieces();
 		if(playerToMove.equals(playerWhite)){
 			currentBoard.fillHomeRow(playerBlack.getPlayerTeam(), b);
-			currentBoard.fillHomeRow(playerWhite.getPlayerTeam(), b);
+			currentBoard.fillHomeRow(playerWhite.getPlayerTeam(), !b);
 		}else{
 			currentBoard.fillHomeRow(playerWhite.getPlayerTeam(), b);
-			currentBoard.fillHomeRow(playerBlack.getPlayerTeam(), b);
+			currentBoard.fillHomeRow(playerBlack.getPlayerTeam(), !b);
 		}
 		validMoves = new ArrayList<>();
 		previousMove = null;

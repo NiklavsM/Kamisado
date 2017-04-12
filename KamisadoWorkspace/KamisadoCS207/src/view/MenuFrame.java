@@ -61,7 +61,7 @@ public class MenuFrame extends JFrame {
 		currentlyShownPanel = "New Game";
 		setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 800, 700);
+		setBounds(200, 200, 820, 700);
 		setResizable(false);
 	}
 
