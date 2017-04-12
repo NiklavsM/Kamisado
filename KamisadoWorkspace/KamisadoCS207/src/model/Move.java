@@ -46,6 +46,10 @@ public class Move implements Serializable{
 		this.endPos = endPos;
 	}
 	
+	@Override
+	public String toString(){
+		return pieceMoved.toString() + " [" + startPos.toString() + "] -> [" + endPos.toString() + "]";
+	}
 	public void print(){
 		if(pieceMoved != null){
 			//System.out.println(pieceMoved.toString() + 

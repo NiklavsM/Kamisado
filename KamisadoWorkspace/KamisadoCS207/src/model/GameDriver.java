@@ -69,8 +69,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void changeCurrentState(State currentState) {
 		this.currentState = currentState;
-		
-		this.tellAll(currentState.getBoard());
 		this.tellAll(currentState);
 		this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 	}
@@ -110,7 +108,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		playerToMove.setGoingFirst(true);
 		currentState.setFirstMove(true);
-		this.tellAll(currentState.getBoard());
+		this.tellAll(currentState);
 		playGame();
 		return optionChosen;
 	}
@@ -128,7 +126,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			valid = true;
 		}
 		if (valid) {
-			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState);
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
 	}
@@ -167,7 +165,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		} else {
 			history.add(currentState);
 			currentState = state;
-			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState);
 			return true;
 		}
 	}
@@ -185,6 +183,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				Player winningPlayer = currentState.getPlayerToMove();
 				this.tellAll(winningPlayer);
 			}
+			currentState.setGameOver(true);
 			this.tellAll(currentState);
 			return true;
 		} else {
@@ -197,14 +196,13 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
 		if (movesCanMake.isEmpty()) {
 			if (numOfNoGoes >= 6) {
-//				this.tellAll("Draw");
 				return true;
 			} else {
                 currentState.setColourToMove(currentState.getBoard().findColor(posToMove));
 				if(nextTurn(++numOfNoGoes)){
 					currentState.getPlayerToMove().incrementScore(1);
-					this.tellAll(currentState.getPlayerToMove());
 					this.tellAll(currentState);
+					this.tellAll(currentState.getPlayerToMove());
 				}
 			}
 		} else {
@@ -230,7 +228,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 					}
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
-						currentState.setGameOver(true);
 						return;
 					}
 				}

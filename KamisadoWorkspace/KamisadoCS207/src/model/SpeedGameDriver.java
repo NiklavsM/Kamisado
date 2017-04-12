@@ -90,7 +90,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		}
 		if (valid) {
 			turnBegin();
-			this.tellAll(currentState.getBoard());
+			this.tellAll(currentState);
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
 	}
@@ -152,7 +152,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 					newBoard, false);
 		}
 		currentState.setFirstMove(true);
-		this.tellAll(currentState.getBoard());
+		this.tellAll(currentState);
 		tellAll(timerInfo);
 		playGame();
 		turnBegin();
@@ -174,7 +174,6 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 				} else if (tryToMove((Position) arg)) {
 					if (playTurn((Position) arg)) {
 						timer.stop();
-						currentState.setGameOver(true);
 						return;
 					} else {
 						turnBegin();

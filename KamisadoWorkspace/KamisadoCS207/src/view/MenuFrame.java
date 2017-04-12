@@ -61,7 +61,7 @@ public class MenuFrame extends JFrame {
 		currentlyShownPanel = "New Game";
 		setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 700, 700);
+		setBounds(200, 200, 800, 700);
 		setResizable(false);
 	}
 
@@ -123,7 +123,6 @@ public class MenuFrame extends JFrame {
 					CardLayout c1 = (CardLayout) contentPane.getLayout();
 					c1.show(contentPane, "New Game");
 					currentlyShownPanel = "New Game";
-					gameView.setWinnerLabel("");
 					gameView.setUpTimer();
 					JPanel tempGlassPane = (JPanel) getGlassPane();
 					tempGlassPane.removeAll();

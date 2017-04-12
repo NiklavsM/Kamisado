@@ -247,7 +247,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			}
 			break;
 		case KeyEvent.VK_SPACE:
-			tellAll(new Position(currentx, currenty));
+			buttons[currentx][currenty].doClick();
 			break;
 		default:
 			break;
@@ -303,5 +303,4 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			}
 		}
 	}
-
 }

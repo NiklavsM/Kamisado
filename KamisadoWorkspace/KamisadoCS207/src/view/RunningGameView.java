@@ -5,16 +5,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
 
 import controller.Controller;
-import model.Board;
+import model.GameDriver;
 import model.MyObservable;
 import model.MyObserver;
 import model.Position;
@@ -28,11 +30,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private GUIBoardView gameBoard;
 	private InGameOptions inGameOptions;
 	private GameTimer timer;
-	private JLabel winnerLabel;
 	private JLabel teamWhite;
 	private JLabel teamBlack;
+	private JTextArea gameLog;
 	private JPanel glassPane;
 	private Controller controller;//Discuss
+	private JPanel gridViewGlassPane;
 
 	public RunningGameView(String whiteName, String blackName, Controller newController) {
 		
@@ -56,7 +59,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 		Player white = state.getPlayerWhite();
 		teamBlack.setText(black.getPlayerName() + " : " + black.getScore());
 		teamWhite.setText(white.getPlayerName() + " : " + white.getScore());
-		winnerLabel.setText("");
+		gameLog.setText(null);
+		gameLog.append("Round 1:" + "\n");
+		gameLog.setFocusable(false);
 		gameBoard.redrawBoard(state.getBoard());
 		displaySelectable(state.getValidMoves());
 		if(black.isAI() || white.isAI()){
@@ -64,26 +69,35 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}else{
 			inGameOptions.showUndo(false);
 		}
+		setUpGridView();
+		gridViewGlassPane.setVisible(true);
+		gridViewGlassPane.setOpaque(false);
 	}
 
 	public void setUpTeamLabels(String whiteName, String blackName){
+		gameLog = new JTextArea(1,20);
+		gameLog.setEditable(false);
+		gameLog.setLineWrap(true);
+		gameLog.append("Round 1:" + "\n");
+		gameLog.setFocusable(false);
+		JScrollPane scroll = new JScrollPane(gameLog);
 		teamLabel = new JPanel();
-		teamWhite = new JLabel(whiteName + " : 0");
-		teamWhite.setBackground(Color.BLACK);
-		teamWhite.setForeground(Color.WHITE);
-		teamWhite.setFont(new Font("Garamond", Font.BOLD, 15));
-		teamWhite.setOpaque(true);
-		teamBlack = new JLabel(blackName + " : 0");
-		teamBlack.setBackground(Color.BLACK);
-		teamBlack.setForeground(Color.WHITE);
-		teamBlack.setFont(new Font("Garamond", Font.BOLD, 15));
-		teamBlack.setOpaque(true);
+		teamWhite = setUpLabel(whiteName);
+		teamBlack = setUpLabel(blackName);
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(teamBlack, BorderLayout.NORTH);
-		winnerLabel = new JLabel("");
-		teamLabel.add(winnerLabel, BorderLayout.CENTER);
+		teamLabel.add(scroll, BorderLayout.CENTER);
 		teamLabel.add(teamWhite, BorderLayout.SOUTH);
 		teamLabel.setFocusable(false);
+	}
+	
+	private JLabel setUpLabel(String name){
+		JLabel label = new JLabel(name + " : 0");
+		label.setBackground(Color.BLACK);
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Garamond", Font.BOLD, 15));
+		label.setOpaque(true);
+		return label;
 	}
 	
 	public GUIBoardView getGameBoard() {
@@ -99,30 +113,28 @@ public class RunningGameView extends JPanel implements MyObserver {
 		if (arg instanceof ArrayList<?>) {
 			displaySelectable((ArrayList<Position>) arg);
 		}else if(arg instanceof Player){
-			JLabel label = new JLabel();
-			glassPane.removeAll();
 			Player player = ((Player) arg);
 			String displayMessage = player.getPlayerName() + " wins this round!";
-			label.setText(displayMessage);
-			addTextToGlassPane(label);
-			inGameOptions.showUndo(false);
+			roundOrGameOver(displayMessage);
 			inGameOptions.displayContinue(true);
-			glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}else if (arg instanceof String) {
-			inGameOptions.showUndo(false);
-			JLabel label = new JLabel();
-			glassPane.removeAll();
-			label.setText((String) arg);
+			roundOrGameOver((String)arg);
 			inGameOptions.displayContinue(false);
-			addTextToGlassPane(label);
-			glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		} else if(arg instanceof Board){
-			if (controller.getPlayerBlack().isAI() || controller.getPlayerWhite().isAI()) {
-				inGameOptions.showUndo(true);
-			}
-			gameBoard.redrawBoard((Board)arg);
 		}else if (arg instanceof State) {
 			State state = (State)arg;	
+			GameDriver gameDriver = (GameDriver) o;
+			if ((controller.getPlayerBlack().isAI() || controller.getPlayerWhite().isAI()) && !state.isGameOver()) {
+				inGameOptions.showUndo(true);
+			}
+			if(!state.isGameOver()){
+				gameBoard.redrawBoard(state.getBoard());
+			}
+			if(!state.isFirstMove()){
+				addToGameLog(state.getPreviousMove().toString());
+			}else{
+				gameLog.setText(null);
+				gameLog.append("Round " + gameDriver.getCurrentGameNum() + ":" + "\n");
+			}
 			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
 		}else if(arg instanceof Boolean){
 			if(!(Boolean)arg){
@@ -132,6 +144,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 			gameBoard.setButtonsClickable((Boolean)arg);
 		}
+	}
+	
+	private void roundOrGameOver(String gameMessage){
+		inGameOptions.showUndo(false);
+		JLabel label = new JLabel();
+		glassPane.removeAll();
+		label.setText(gameMessage);
+		addTextToGlassPane(label);
+		glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
 	private void updateTeamScores(Player playerWhite, Player playerBlack){
@@ -144,8 +165,27 @@ public class RunningGameView extends JPanel implements MyObserver {
 		displaySelectable(validMoves);
 	}
 
-	public void setWinnerLabel(String message){
-		winnerLabel.setText(message);
+	public void addToGameLog(String message){
+		try {
+			boolean dupe = false;
+			for(int i = 0; i < gameLog.getLineCount()-1; i++){
+				int start = gameLog.getLineStartOffset(i);
+				int end   = gameLog.getLineEndOffset(i);
+				gameLog.setSelectionStart(start);
+				gameLog.setSelectionEnd(end);
+				String currentLine = gameLog.getSelectedText().trim();
+				if(currentLine.equals(message)){
+					gameLog.replaceRange("", end,  gameLog.getLineEndOffset(gameLog.getLineCount()-1));
+					dupe = true;
+					break;
+				}
+			}
+			if(!dupe){
+				gameLog.append(message + "\n");
+			}
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setGlassPane(Component glassPane) {
@@ -184,6 +224,39 @@ public class RunningGameView extends JPanel implements MyObserver {
 			label.setBounds(((pos.getX()) * 70) + gameBoardPosX.intValue() + 5, ((7 - (pos.getY())) * 70) + gameBoardPosY.intValue() + 30, 70, 70);
 			glassPane.add(label);
 			glassPane.repaint();
+		}
+	}
+
+	public void toggleGridView(boolean toggle) {
+		if(toggle){
+			controller.getMenuFrame().setGlassPane(gridViewGlassPane);
+			gridViewGlassPane.setVisible(true);
+			gameBoard.setFocusable(false);
+			gameBoard.setButtonsClickable(false);
+		}else{
+			controller.getMenuFrame().setGlassPane(glassPane);
+			gameBoard.setButtonsClickable(true);
+			gameBoard.setFocusable(true);
+		}
+		controller.getMenuFrame().getGlassPane().repaint();
+	}
+	
+	public void setUpGridView(){
+		gridViewGlassPane = new JPanel();
+		gridViewGlassPane.setBounds(glassPane.getBounds());
+		Double gameBoardPosX = gameBoard.getBounds().getMinX();
+		Double gameBoardPosY = gameBoard.getBounds().getMinY();
+		for (int y = 7; y >= 0; y--) {
+			for (int x = 0; x <= 7; x++) {
+				JLabel label = new JLabel();
+				label.setText("[" + x + ":" + y + "]");
+				label.setOpaque(false);
+				label.setVisible(true);
+				label.setBounds((x *70) + gameBoardPosX.intValue() + 27, ((7 - y) * 70) + gameBoardPosY.intValue() + 2, 65 ,65);
+				label.setPreferredSize(label.getSize());
+				gridViewGlassPane.add(label);
+				gridViewGlassPane.repaint();
+			}
 		}
 	}
 }

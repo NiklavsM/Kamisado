@@ -17,8 +17,9 @@ public class InGameOptions extends JPanel{
 	private JButton btnQuit;
 	private JButton btnSave;
 	private JButton btnUndo;
-	private JButton btnReset;
+	private JButton btnToggle;
 	private JButton btnContinue;
+	private boolean gridViewOn;
 	/**
 	 * Create the panel.
 	 */
@@ -37,7 +38,7 @@ public class InGameOptions extends JPanel{
 		btnQuit = new JButton("Quit");
 		btnSave = new JButton("Save");
 		btnUndo = new JButton("Undo");
-		btnReset = new JButton("Reset");
+		btnToggle = new JButton("Toggle");
 		btnContinue = new JButton("Continue");
 	}
 	
@@ -48,6 +49,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				toggleGridView(false);
 				controller.getMenuFrame().ShowPanel("New Game");
 			}
 		});
@@ -61,6 +63,7 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				toggleGridView(false);
 				controller.getGame().saveGame();
 			}
 		});
@@ -73,31 +76,33 @@ public class InGameOptions extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setWinnerLabel("");
+				//setWinnerLabel("");
+				
 				controller.getGame().undo();
 			}
 		});
 		//btnUndo.setFocusable(false);
 		add(btnUndo);
 		
-		btnReset.setBackground(Color.LIGHT_GRAY);
-		btnReset.addActionListener(new ActionListener() {
+		gridViewOn = false;
+		btnToggle.setBackground(Color.LIGHT_GRAY);
+		btnToggle.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//setWinnerLabel("");
-				//controller.getGame().reset();
+				gridViewOn = !gridViewOn;
+				toggleGridView(gridViewOn);
 			}
 		});
 		//btnUndo.setFocusable(false);
-		//add(btnReset);
+		add(btnToggle);
 		
 		btnContinue.setBackground(Color.LIGHT_GRAY);
 		btnContinue.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//setWinnerLabel("");
+				toggleGridView(false);
 				if(controller.getGame().nextRound() >= 0){
 					btnContinue.setVisible(false);
 				}
@@ -111,8 +116,12 @@ public class InGameOptions extends JPanel{
 		btnUndo.setVisible(undoAvailable);
 	}
 	
-	public void setWinnerLabel(String message){
-		((RunningGameView) this.getParent()).setWinnerLabel(message);
+	public void addToGameLog(String message){
+		((RunningGameView) this.getParent()).addToGameLog(message);
+	}
+	
+	private void toggleGridView(boolean toggle){
+		((RunningGameView) this.getParent()).toggleGridView(toggle);
 	}
 
 	public void displayContinue(boolean b) {

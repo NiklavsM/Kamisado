@@ -27,7 +27,7 @@ public class Position implements Serializable {
 	
 	@Override
 	public String toString(){
-		return new String("POS X: " + x + " Y: " + y);
+		return new String(x + ":" + y);
 	}
 	
 }

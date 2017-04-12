@@ -36,6 +36,11 @@ public class PieceObject implements Serializable {
 		this.pieceType = pieceType;
 	}
 	
+	@Override
+	public String toString(){
+		return piece.toString();
+	}
+	
 	public void promotePiece(){
 		switch(pieceType){
 			case Standard: pieceType = PieceType.Sumo;
