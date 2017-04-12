@@ -166,7 +166,7 @@ public class Controller implements Serializable {
 	}
 
 	public void musicOn() throws Exception {
-		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("backgroundmusic.wav"));
+		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("backgroundmusic1.wav"));
 		if (clip != null) {
 			clip.stop();
 		}
