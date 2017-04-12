@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 
 import model.GameDriver;
@@ -145,6 +146,7 @@ public class Controller implements Serializable {
 			if (settings.isMusicOn()) {
 				try {
 					musicOn();
+					setVolume(settings.getVolume());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -173,12 +175,18 @@ public class Controller implements Serializable {
 		clip = AudioSystem.getClip();
 		clip.open(inputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		
 	}
 
 	public void musicOff() {
 		if (clip != null) {
 			clip.stop();
 		}
+	}
+	
+	public void setVolume(int volume){
+		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(volume);
 	}
 
 	public Player getPlayerWhite() {

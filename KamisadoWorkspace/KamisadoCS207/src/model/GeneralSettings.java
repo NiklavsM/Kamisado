@@ -5,10 +5,7 @@ import java.io.Serializable;
 
 public class GeneralSettings implements Serializable {
 	private boolean musicOn = false;
-
-	public GeneralSettings() {
-
-	}
+	private int volume = 0;
 
 	public void setMusicOn(boolean musicOn) {
 		this.musicOn = musicOn;
@@ -16,6 +13,14 @@ public class GeneralSettings implements Serializable {
 
 	public boolean isMusicOn() {
 		return musicOn;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
 	}
 
 }
