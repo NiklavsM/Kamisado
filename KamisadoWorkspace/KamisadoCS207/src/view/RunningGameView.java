@@ -142,8 +142,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
 		}else if(arg instanceof Boolean){
 			if(!(Boolean)arg){
+				glassPane.removeAll();
+				ImageIcon gif = new ImageIcon(getClass().getResource("/images/AI Wait.gif"));
+				JLabel label = new JLabel(gif);
+				addTextToGlassPane(label);
+				glassPane.repaint();
 				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			}else{
+//				glassPane.removeAll();
+//				glassPane.repaint();
 				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 			gameBoard.setButtonsClickable((Boolean)arg);
@@ -207,7 +214,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 	}
 	
 	private void addTextToGlassPane(JLabel label){
-		label.setBounds(50, 250, 1000, 50);
+		label.setBounds(50, 250, 500, 50);
 		label.setBackground(Color.BLACK);
 		label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC , 27));
 		label.setForeground(Color.WHITE);
