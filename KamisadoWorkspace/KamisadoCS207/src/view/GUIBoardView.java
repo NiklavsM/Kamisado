@@ -303,4 +303,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 			}
 		}
 	}
+
+	public void showHint(Position endPos) {
+		currentx = endPos.getX();
+		currenty = endPos.getY();
+		changedSelected(currentx, currenty);
+	}
 }

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import model.GameDriver;
 import model.GeneralSettings;
 import model.GeneralSettingsManager;
+import model.Move;
 import model.SaveManager;
 import model.SpeedGameDriver;
 import model.TimerInfo;
@@ -20,6 +21,7 @@ import player.EasyAIPlayer;
 import player.GUIPlayer;
 import player.HardAIPlayer;
 import player.Player;
+import player.TreeNode;
 import view.MenuFrame;
 import view.RunningGameView;
 
@@ -195,5 +197,44 @@ public class Controller implements Serializable {
 
 	public Player getPlayerBlack() {
 		return playerBlack;
+	}
+
+	public void rematch() {
+		playerWhite.setScore(0);
+		playerBlack.setScore(0);
+		if(game instanceof SpeedGameDriver){
+			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, game.getScoreToGet(), ((SpeedGameDriver) game).getTimerInfo().getTimerLimit(), game.getCurrentState().getBoard().isRandom());
+			game.addObserver(main.getGameTimer());
+			game.tellAll(((SpeedGameDriver) game).getTimerInfo());
+		}else{
+			game = new GameDriver(playerWhite, playerBlack, playerWhite, game.getScoreToGet(), game.getCurrentState().getBoard().isRandom());
+		}
+		if (game.getCurrentState().getPlayerBlack().isAI()) {
+			game.getCurrentState().getPlayerBlack().addObserver(game);
+		} else if (game.getCurrentState().getPlayerWhite().isAI()) {
+			game.getCurrentState().getPlayerWhite().addObserver(game);
+		}
+		playerWhite.setToFirstMove(true);
+		playerBlack.setToFirstMove(false);
+		finishGameSetup();
+	}
+
+	public void showHint() {
+		if(!game.getCurrentState().isFirstMove() && !game.getCurrentState().isGameOver()){
+			Player playerToMove = game.getCurrentState().getPlayerToMove();
+			if(!playerToMove.isAI()){
+				if(playerToMove.getHomeRow() == 0){
+					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 1);
+					Move move = moveTree.getBestOrWorstsChild(false);
+					move.print();
+					main.showHint(move.getEndPos());
+				}else {
+					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 0);
+					Move move = moveTree.getBestOrWorstsChild(true);
+					move.print();
+					main.showHint(move.getEndPos());
+				}
+			}
+		}
 	}
 }

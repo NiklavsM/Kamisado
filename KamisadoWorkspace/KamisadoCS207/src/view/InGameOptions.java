@@ -4,21 +4,24 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.Controller;
 
 public class InGameOptions extends JPanel{
-
-	
 	private JButton btnQuit;
 	private JButton btnSave;
 	private JButton btnUndo;
 	private JButton btnToggle;
 	private JButton btnContinue;
+	private JButton btnRematch;
+	private JButton btnHint;
 	private boolean gridViewOn;
 	/**
 	 * Create the panel.
@@ -40,6 +43,8 @@ public class InGameOptions extends JPanel{
 		btnUndo = new JButton("Undo");
 		btnToggle = new JButton("Toggle");
 		btnContinue = new JButton("Continue");
+		btnRematch = new JButton("Rematch");
+		btnHint = new JButton("Hint");
 	}
 	
 	public void setUpButtons(Controller controller){
@@ -83,15 +88,55 @@ public class InGameOptions extends JPanel{
 		});
 		//btnUndo.setFocusable(false);
 		add(btnUndo);
-		
 		gridViewOn = false;
 		btnToggle.setBackground(Color.LIGHT_GRAY);
-		btnToggle.addActionListener(new ActionListener() {
-			
+		btnToggle.addMouseListener(new MouseListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
 				gridViewOn = !gridViewOn;
 				toggleGridView(gridViewOn);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				gridViewOn = !gridViewOn;
+				toggleGridView(gridViewOn);
+			}
+		});
+		btnToggle.addKeyListener(new KeyListener(){
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_SPACE && !gridViewOn){
+					gridViewOn = !gridViewOn;
+					toggleGridView(gridViewOn);
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_SPACE && gridViewOn){
+					gridViewOn = !gridViewOn;
+					toggleGridView(gridViewOn);
+				}
+				
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		//btnUndo.setFocusable(false);
@@ -110,6 +155,32 @@ public class InGameOptions extends JPanel{
 		});
 		add(btnContinue);
 		btnContinue.setVisible(false);
+		
+		
+		btnRematch.setBackground(Color.LIGHT_GRAY);
+		btnRematch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				toggleGridView(false);
+				controller.rematch();
+				btnRematch.setVisible(false);
+			}
+		});
+		add(btnRematch);
+		btnRematch.setVisible(false);
+		
+		btnHint.setBackground(Color.LIGHT_GRAY);
+		btnHint.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				toggleGridView(false);
+				controller.showHint();
+			}
+		});
+		add(btnHint);
+		btnHint.setVisible(false);
 	}
 	
 	public void showUndo(boolean undoAvailable){
@@ -126,5 +197,13 @@ public class InGameOptions extends JPanel{
 
 	public void displayContinue(boolean b) {
 		btnContinue.setVisible(b);
+	}
+
+	public void displayRematch(boolean b) {
+		btnRematch.setVisible(b);
+	}
+	
+	public void displayHint(boolean b){
+		btnHint.setVisible(b);
 	}
 }

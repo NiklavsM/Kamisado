@@ -76,6 +76,17 @@ public class GameOptionsPanel extends JPanel {
 				if(playerWhite.length() <= 12 && playerBlack.length() <=12){
 					if(playerWhite.length() != 0 && playerBlack.length() !=0){
 						if(!playerWhite.equals(playerBlack)){
+							if(whiteAiPlayer.isSelected()){
+								if(playerBlack.equals("Easy AI") || playerBlack.equals("Hard AI")){
+									JOptionPane.showMessageDialog(null, "Please rename player Black, this name is protected!");
+									return;
+								}
+							}else if(blackAiPlayer.isSelected()){
+								if(playerWhite.equals("Easy AI") || playerWhite.equals("Hard AI")){
+									JOptionPane.showMessageDialog(null, "Please rename player White, this name is protected!");
+									return;
+								}
+							}
 							if(chckbxSpeedMode.isSelected()){
 								int time;
 								try{

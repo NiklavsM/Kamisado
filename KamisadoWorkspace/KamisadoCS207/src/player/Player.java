@@ -96,5 +96,9 @@ public abstract class Player implements MyObservable, Serializable, Runnable{
 	public abstract int fillHomeRow();
 	
 	public abstract void setToFirstMove(boolean isGoingFirst);
+
+	public void setScore(int i) {
+		score = i;
+	}
 	
 }

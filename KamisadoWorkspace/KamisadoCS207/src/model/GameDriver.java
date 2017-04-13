@@ -113,7 +113,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		return optionChosen;
 	}
 	
-	private int nextRoundSetUp(Player firstToMove, Player secondToMove){
+	protected int nextRoundSetUp(Player firstToMove, Player secondToMove){
 		firstToMove.setToFirstMove(true);
 		secondToMove.setToFirstMove(false);
 		return secondToMove.fillHomeRow();

@@ -113,31 +113,22 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		currentGameNum++;
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerToMove();
-		System.out.println(currentState.getPlayerToMove().getPlayerTeam());
-		currentState.getPlayerWhite().setToFirstMove(true);
-		currentState.getPlayerBlack().setToFirstMove(false);
 		if (playerToMove.equals(currentState.getPlayerBlack())) {
 			if (timerInfo.getTimeLeft() == 0) {
-				currentState.getPlayerWhite().setToFirstMove(false);
-				currentState.getPlayerBlack().setToFirstMove(true);
-				optionChosen = currentState.getPlayerWhite().fillHomeRow();
+				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			} else {
 				playerToMove = currentState.getPlayerWhite();
-				optionChosen = currentState.getPlayerBlack().fillHomeRow();
+				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
 			}
 
 		} else {
 			if (timerInfo.getTimeLeft() == 0) {
-				optionChosen = currentState.getPlayerBlack().fillHomeRow();
+				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
 			} else {
 				playerToMove = currentState.getPlayerBlack();
-				currentState.getPlayerWhite().setToFirstMove(false);
-				currentState.getPlayerBlack().setToFirstMove(true);
-				optionChosen = currentState.getPlayerWhite().fillHomeRow();
+				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			}
-
 		}
-		System.out.println(playerToMove.getPlayerTeam());
 		Board newBoard = new Board(currentState.getBoard());
 		if (currentState.getBoard().isRandom()) {
 			newBoard.setRandomBoardColours();

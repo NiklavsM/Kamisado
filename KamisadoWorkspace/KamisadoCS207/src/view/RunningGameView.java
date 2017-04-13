@@ -61,14 +61,16 @@ public class RunningGameView extends JPanel implements MyObserver {
 		teamBlack.setText(black.getPlayerName() + " : " + black.getScore());
 		teamWhite.setText(white.getPlayerName() + " : " + white.getScore());
 		gameLog.setText(null);
-		gameLog.append("Round " + game.getCurrentGameNum() + ":" + "\n");
+		gameLog.append("Round " + game.getCurrentGameNum() + ":" + "                   First to " + game.getScoreToGet() + "\n");
 		gameLog.setFocusable(false);
 		gameBoard.redrawBoard(gameState.getBoard());
 		displaySelectable(gameState.getValidMoves());
 		if(black.isAI() || white.isAI()){
 			inGameOptions.showUndo(true);
+			inGameOptions.displayHint(true);
 		}else{
 			inGameOptions.showUndo(false);
+			inGameOptions.displayHint(false);
 		}
 		setUpGridView();
 		gridViewGlassPane.setVisible(true);
@@ -121,6 +123,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}else if (arg instanceof String) {
 			roundOrGameOver((String)arg);
 			inGameOptions.displayContinue(false);
+			inGameOptions.displayRematch(true);
 		}else if (arg instanceof State) {
 			State state = (State)arg;	
 			GameDriver gameDriver = (GameDriver) o;
@@ -134,7 +137,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 				addToGameLog(state.getPreviousMove().toString());
 			}else{
 				gameLog.setText(null);
-				gameLog.append("Round " + gameDriver.getCurrentGameNum() + ":" + "\n");
+				gameLog.append("Round " + gameDriver.getCurrentGameNum() + ":" + "                   First to " + gameDriver.getScoreToGet() + "\n");
 			}
 			updateTeamScores(state.getPlayerWhite(), state.getPlayerBlack());
 		}else if(arg instanceof Boolean){
@@ -261,5 +264,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}
 		gridViewGlassPane.setLayout(null);
 		gridViewGlassPane.setIgnoreRepaint(true);
+	}
+
+	public void showHint(Position endPos) {
+		gameBoard.showHint(endPos);
 	}
 }
