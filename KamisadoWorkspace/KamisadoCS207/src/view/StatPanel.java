@@ -42,7 +42,7 @@ public class StatPanel extends JPanel {
 	private void setTable() {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setFocusable(true);
-		String[] columnNames = { "Player name", "Wins", "Losses" };
+		String[] columnNames = { "Player name", "RoundsWon", "RoundsLost", "GamesWon", "GamesLost" };
 
 		StatsManager m = new StatsManager();
 		StatsObject stats = m.getStatsObject();

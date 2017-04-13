@@ -41,20 +41,20 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			s.save(this);
 		}
 	}
-
-	public boolean gameEnds(Player winner, Player looser) {
+	
+	public void updateStats(Player winner,Player loser){
 		StatsObject stats;
 		StatsManager m = new StatsManager();
 		stats = m.getStatsObject();
-		if (stats != null) {
-			stats.addToScores(winner, looser);
-		} else {
+		if (stats == null) {
 			stats = new StatsObject();
-			stats.addToScores(winner, looser);
+		} 
+		if(winner.getScore() >= scoreToGet){
+			stats.addToScores(winner, loser, true);
+		}else{
+			stats.addToScores(winner, loser, false);
 		}
 		m.saveStats(stats);
-		System.out.println("calling gameEnds");
-		return incrementScoreAtEndOfGame(winner);
 	}
 	
 	public boolean incrementScoreAtEndOfGame(Player winner){
@@ -173,11 +173,17 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public boolean playTurn(Position placeClicked) {
 		if (currentState.wasWinningMove()) {
 			boolean gameOver;
+			Player winner;
+			Player loser;
 			if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {							
-				gameOver = gameEnds(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+				winner = currentState.getPlayerWhite();
+				loser = currentState.getPlayerBlack();
 			} else {
-				gameOver = gameEnds(currentState.getPlayerBlack(), currentState.getPlayerWhite());
+				loser = currentState.getPlayerWhite();
+				winner = currentState.getPlayerBlack();
 			}
+			gameOver = incrementScoreAtEndOfGame(winner);
+			updateStats(winner, loser);
 			if(!gameOver){
 				System.out.println("saying player has won round");
 				Player winningPlayer = currentState.getPlayerToMove();

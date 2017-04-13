@@ -50,14 +50,18 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 		timeOut = true;
 		if (currentState != null) {
 			currentState.setGameOver(true);
-			Player winningPlayer;
+			Player winner;
+			Player loser;
 			if (currentState.getPlayerToMove().equals(currentState.getPlayerWhite())) {
-				winningPlayer = currentState.getPlayerBlack();
+				winner = currentState.getPlayerBlack();
+				loser = currentState.getPlayerWhite();
 			} else {
-				winningPlayer = currentState.getPlayerWhite();
+				winner = currentState.getPlayerWhite();
+				loser = currentState.getPlayerBlack();
 			}
-			this.tellAll(winningPlayer);
-			incrementScoreAtEndOfGame(winningPlayer);
+			this.tellAll(winner);
+			incrementScoreAtEndOfGame(winner);
+			updateStats(winner, loser);
 			this.tellAll(currentState);
 			timer.stop();
 		}
