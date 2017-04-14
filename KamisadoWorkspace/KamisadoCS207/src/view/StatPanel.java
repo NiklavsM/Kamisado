@@ -42,16 +42,22 @@ public class StatPanel extends JPanel {
 	private void setTable() {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setFocusable(true);
+		
 		String[] columnNames = { "Player name", "RoundsWon", "RoundsLost", "GamesWon", "GamesLost" };
-
+		
 		StatsManager m = new StatsManager();
 		StatsObject stats = m.getStatsObject();
 		if (stats != null) {
-			model = new DefaultTableModel();
-			model.setDataVector(stats.getTableData(), columnNames);
+			model = new DefaultTableModel(stats.getTableData(), columnNames) {
+
+				public Class getColumnClass(int c) {
+					return getValueAt(0, c).getClass();
+				}
+			};
 			table = new JTable(model);
 			table.setEnabled(false);
-			table.setAutoCreateRowSorter(true);
+			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
+			table.setRowSorter(sorter);
 			scrollPane.setBounds(20, 56, 600, 300);
 			scrollPane.setViewportView(table);
 			add(scrollPane);
@@ -81,8 +87,8 @@ public class StatPanel extends JPanel {
 	}
 
 	private void filterTable() {
-		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
-		table.setRowSorter(sorter);
-		sorter.setRowFilter(RowFilter.regexFilter(filter.getText()));
+		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+		table.setRowSorter(rowFilter);
+		rowFilter.setRowFilter(RowFilter.regexFilter(filter.getText()));
 	}
 }

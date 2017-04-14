@@ -47,6 +47,7 @@ public final class State implements Serializable {
 		this.playerBlack = state.playerBlack;
 		this.PlayerToMove = state.PlayerToMove;
 		this.pieceToMove = state.pieceToMove;
+		this.firstMove = state.firstMove;
 		if(state.validMoves != null) {
 	        this.validMoves = new ArrayList<Position>();
 	        for(int index = 0; index < state.validMoves.size(); index++) {

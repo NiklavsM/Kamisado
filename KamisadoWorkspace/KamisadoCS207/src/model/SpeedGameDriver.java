@@ -100,8 +100,8 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	public void saveGame() {
-		if (history.empty() || currentState.isGameOver()) {
-			JOptionPane.showMessageDialog(null, "Game has not started / is ended", "Game has not started / is ended",
+		if (currentState.isGameOver()) {
+			JOptionPane.showMessageDialog(null, "Game has ended", "Game has ended",
 					JOptionPane.ERROR_MESSAGE);
 		} else {
 			timer.stop();

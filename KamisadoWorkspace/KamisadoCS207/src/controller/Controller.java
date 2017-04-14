@@ -56,7 +56,7 @@ public class Controller implements Serializable {
 				playerBlack = new HardAIPlayer("Black", blackName, false);
 			}
 			playerWhite = new GUIPlayer("White", whiteName, true, this);
-			playSpeedGame(isSpeedGame, gameLength, timerTime, randomBoard);
+			playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 			playerBlack.addObserver(game);
 		} else {
 			if (isEasyAI) {
@@ -65,7 +65,7 @@ public class Controller implements Serializable {
 				playerWhite = new HardAIPlayer("White", whiteName, true);
 			}
 			playerBlack = new GUIPlayer("Black", blackName, false, this);
-			playSpeedGame(isSpeedGame, gameLength, timerTime, randomBoard);
+			playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 			playerWhite.addObserver(game);
 		}
 		finishGameSetup();
@@ -74,11 +74,11 @@ public class Controller implements Serializable {
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength,
 			boolean randomBoard) {
 		initialisePlayers(whiteName, blackName);
-		playSpeedGame(isSpeedGame, gameLength, timerTime, randomBoard);
+		playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 		finishGameSetup();
 	}
 
-	private void playSpeedGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {
+	private void playGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
 			game.addObserver(main.getGameTimer());
@@ -119,9 +119,9 @@ public class Controller implements Serializable {
 			} else if (gameDriver.getCurrentState().getPlayerWhite().isAI()) {
 				gameDriver.getCurrentState().getPlayerWhite().addObserver(game);
 			}
-
-			finishGameSetup();
 			game.changeCurrentState(gameDriver.getCurrentState());
+			finishGameSetup();
+			
 			// main.displayGame(game.getCurrentState());
 			// main.displaycSelectable(gameDriver.getCurrentState().getValidMoves());
 			return true;

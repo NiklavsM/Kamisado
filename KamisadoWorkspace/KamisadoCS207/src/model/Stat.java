@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class Stat implements Serializable {
 	private String name;
-	private int roundsWon;
-	private int roundsLost;
-	private int gamesWon;
-	private int gamesLost;
+	private Integer roundsWon;
+	private Integer roundsLost;
+	private Integer gamesWon;
+	private Integer gamesLost;
 
 	public Stat(String name) {
 		this.name = name;
-		roundsWon = 0;
-		roundsLost = 0;
-		gamesWon = 0;
-		gamesLost = 0;
+		roundsWon = new Integer(0);
+		roundsLost = new Integer(0);
+		gamesWon = new Integer(0);
+		gamesLost = new Integer(0);
 	}
 
 	public String getName() {
@@ -25,7 +25,7 @@ public class Stat implements Serializable {
 		this.name = name;
 	}
 
-	public int getRoundsWon() {
+	public Integer getRoundsWon() {
 		return roundsWon;
 	}
 
@@ -33,7 +33,7 @@ public class Stat implements Serializable {
 		roundsWon++;
 	}
 
-	public int getRoundsLost() {
+	public Integer getRoundsLost() {
 		return roundsLost;
 	}
 
@@ -41,7 +41,7 @@ public class Stat implements Serializable {
 		roundsLost++;
 	}
 
-	public int getGamesWon() {
+	public Integer getGamesWon() {
 		return gamesWon;
 	}
 
@@ -49,7 +49,7 @@ public class Stat implements Serializable {
 		gamesWon++;
 	}
 
-	public int getGamesLost() {
+	public Integer getGamesLost() {
 		return gamesLost;
 	}
 
