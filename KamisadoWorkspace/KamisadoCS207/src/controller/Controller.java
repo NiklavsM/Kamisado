@@ -1,19 +1,15 @@
 package controller;
 
 import java.awt.EventQueue;
-import java.io.File;
 import java.io.Serializable;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 
 import model.GameDriver;
 import model.GeneralSettings;
 import model.GeneralSettingsManager;
 import model.Move;
+import model.MusicPlayer;
 import model.SaveManager;
 import model.SpeedGameDriver;
 import model.TimerInfo;
@@ -29,17 +25,19 @@ public class Controller implements Serializable {
 
 	private GameDriver game;
 	private RunningGameView main;
-	MenuFrame menuFrame;
+	private MenuFrame menuFrame;
 	private Player playerWhite;
 	private Player playerBlack;
-	private Clip clip;
+	transient private MusicPlayer musicPlayer;
+	transient private GeneralSettingsManager manager;
 
 	public Controller() {
-		applySettings();
 		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
 		menuFrame = new MenuFrame(this, main);
 		menuFrame.setVisible(true);
 		main.setGlassPane(menuFrame.getGlassPane());
+		musicPlayer = new MusicPlayer();
+		applySettings();
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
@@ -141,18 +139,18 @@ public class Controller implements Serializable {
 				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	private void applySettings() {
-		GeneralSettingsManager manager = new GeneralSettingsManager();
+	public void applySettings() {
+		manager = new GeneralSettingsManager();
 		GeneralSettings settings = manager.getGeneralSettings();
 		if (settings != null) {
 			if (settings.isMusicOn()) {
-				try {
-					musicOn();
-					setVolume(settings.getVolume());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+					try {
+						musicPlayer.musicOn();
+						musicPlayer.setVolume(settings.getVolume());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+			}else musicPlayer.musicOff();
 		}
 	}
 
@@ -168,28 +166,8 @@ public class Controller implements Serializable {
 	public MenuFrame getMenuFrame() {
 		return menuFrame;
 	}
-
-	public void musicOn() throws Exception {
-		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("backgroundmusic1.wav"));
-		if (clip != null) {
-			clip.stop();
-		}
-		clip = AudioSystem.getClip();
-		clip.open(inputStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
-		
-	}
-
-	public void musicOff() {
-		if (clip != null) {
-			clip.stop();
-		}
-	}
 	
-	public void setVolume(int volume){
-		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		gainControl.setValue(volume);
-	}
+
 
 	public Player getPlayerWhite() {
 		return playerWhite;

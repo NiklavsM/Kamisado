@@ -22,21 +22,23 @@ public class GeneralSettingsPanel extends JPanel {
 	GeneralSettings settings;
 
 	public GeneralSettingsPanel(Controller controller) {
+		this.setLayout(null);
+		this.setFocusable(false);
+
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
+
 		soundLabel = new JLabel("Sound");
 		soundLabel.setText("Sound");
 		soundLabel.setBounds(50, 50, 50, 50);
 		add(soundLabel);
-		this.setLayout(null);
-		this.setFocusable(false);
 
 		soundOn = new JCheckBox("On");
 		soundOn.setSelected(settings.isMusicOn());
 		soundOn.setBounds(50, 100, 50, 50);
 		add(soundOn);
-
-		volume = new JSlider(-80, 6, -40);
+		
+		volume = new JSlider(-80, 6, settings.getVolume());
 		volume.setBounds(100, 100, 100, 50);
 		add(volume);
 
@@ -47,21 +49,14 @@ public class GeneralSettingsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				settings.setMusicOn(soundOn.isSelected());
-				if (soundOn.isSelected()) {
-					try {
-						controller.musicOn();
-						controller.setVolume(volume.getValue());
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				} else {
-					controller.musicOff();
-				}
 				settings.setVolume(volume.getValue());
-
 				manager.saveGeneralSettings(settings);
+				try {
+					controller.applySettings();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
-
 		});
 		add(apply);
 
