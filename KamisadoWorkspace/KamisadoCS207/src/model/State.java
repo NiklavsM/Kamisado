@@ -13,7 +13,7 @@ public final class State implements Serializable {
 	
 	private Board currentBoard;
 	private ArrayList<Position> validMoves;
-	private PieceObject[][] pieces;
+	private Piece[][] pieces;
 	private Position startingPosition;
 	private Color colourToMove;
 	private Move previousMove;
@@ -83,8 +83,8 @@ public final class State implements Serializable {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (pieces[i][j] != null) {
-					if (pieces[i][j].getPiece().getColour().equals(colourToMove)
-							&& pieces[i][j].getPiece().getTeam().equals(PlayerToMove.getPlayerTeam())) {
+					if (pieces[i][j].getColour().equals(colourToMove)
+							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
 						pieceToMove = new Position(i,j);
 						return pieceToMove;
 					}
@@ -102,7 +102,7 @@ public final class State implements Serializable {
 		int starty = position.getY();
 		PieceType pieceToMoveType = pieces[startx][starty].getPieceType();
 		int distanceCanMove = pieceToMoveType.getMaxMovement();
-		if (PlayerToMove.getPlayerTeam().equals("White")) {
+		if (PlayerToMove.getPlayerTeam().equals("TeamWhite")) {
 			//left up
 			options(startx, startx, starty, -1, 1,distanceCanMove);
 			//middle up
@@ -170,7 +170,7 @@ public final class State implements Serializable {
 				return false;
 			}else if(pieces[x][tempVal] == null){
 				return true;
-			}else if(pieces[x][tempVal].getPiece().getTeam().equals(pieces[x][y].getPiece().getTeam())){
+			}else if(pieces[x][tempVal].getTeam().equals(pieces[x][y].getTeam())){
 				return false;
 			}else if(pieces[x][y].getPieceType().compareTo(pieces[x][tempVal].getPieceType()) > 0){
 				continue;
@@ -212,7 +212,7 @@ public final class State implements Serializable {
 		return false;
 	}
 
-	public PieceObject findPiece(Position position) {
+	public Piece findPiece(Position position) {
 		return pieces[position.getX()][position.getY()];
 	}
 
@@ -260,7 +260,7 @@ public final class State implements Serializable {
 		return currentBoard;
 	}
 
-	public PieceObject[][] getPieces() {
+	public Piece[][] getPieces() {
 		return pieces;
 	}
 

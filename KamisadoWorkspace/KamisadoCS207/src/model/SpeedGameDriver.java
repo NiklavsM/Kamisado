@@ -180,7 +180,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	@Override
 	public boolean incrementScoreAtEndOfGame(Player winner) {
 		if (!timeOut) {
-			PieceObject pieceThatWon = currentState.getPreviousMove().pieceMoved();
+			Piece pieceThatWon = currentState.getPreviousMove().pieceMoved();
 			winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
 		} else {
 			winner.incrementScore(1);

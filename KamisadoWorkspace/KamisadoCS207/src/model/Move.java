@@ -7,10 +7,10 @@ public class Move implements Serializable{
 	
 	private Position startPos;
 	private Position endPos;
-	private PieceObject pieceMoved;
+	private Piece pieceMoved;
 	private int score;
 	
-	public Move(Position startPos, Position endPos, PieceObject pieceMoved){
+	public Move(Position startPos, Position endPos, Piece pieceMoved){
             this.startPos = startPos;
             this.endPos = endPos;
             this.pieceMoved = pieceMoved;
@@ -30,7 +30,7 @@ public class Move implements Serializable{
 		return score;
 	}
 
-	public PieceObject pieceMoved(){
+	public Piece pieceMoved(){
 		return pieceMoved;
 	}
 	public Position getStartPos() {

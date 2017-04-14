@@ -18,20 +18,16 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import com.sun.glass.ui.Cursor;
-
 import controller.Controller;
 import model.Board;
 import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
-import model.PieceObject;
 import model.PieceType;
 import model.Position;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
-	
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
 	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
 	private JButton[][] buttons;
@@ -62,99 +58,96 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		selected.setBorderPainted(true);
 	}
 
-	public BufferedImage imageChooser(PieceObject pieceObject) {
+	public BufferedImage imageChooser(Piece piece) {
 		BufferedImage returnImage = null;
 		BufferedImage combinedImage = null;
 		BufferedImage pieceLevel = null;
-		
-		if(pieceObject == null){
+
+		if (piece == null) {
 			return null;
-		}		
-		for (Piece p : Piece.values()) {
-			if (p != null && p.equals(pieceObject.getPiece())) {
-				try {
-					returnImage = ImageIO.read(getClass().getResource("/images/" + p.toString() + ".png"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}
-		if(pieceObject.getPieceType().equals(PieceType.Standard)){
-			return returnImage;
 		}
 		try {
-			pieceLevel = ImageIO.read(getClass().getResource("/images/" + pieceObject.getPieceType().toString()+ ".png"));
-			combinedImage = new BufferedImage( 
-	                returnImage.getWidth(), 
-	                returnImage.getHeight(), 
-	                BufferedImage.TYPE_INT_ARGB );
+			returnImage = ImageIO.read(getClass()
+					.getResource("/images/" + piece.getTeam() + board.getColourName(piece.getColour()) + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 Graphics2D g = combinedImage.createGraphics();
-	        g.drawImage(returnImage,0,0,null);
-	        g.drawImage(pieceLevel,0,0,null);
-	        g.dispose();
+
+		if (piece.getPieceType().equals(PieceType.Standard)) {
+			return returnImage;
+		}
+		try {
+			pieceLevel = ImageIO.read(getClass().getResource("/images/" + piece.getPieceType().toString() + ".png"));
+			combinedImage = new BufferedImage(returnImage.getWidth(), returnImage.getHeight(),
+					BufferedImage.TYPE_INT_ARGB);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Graphics2D g = combinedImage.createGraphics();
+		g.drawImage(returnImage, 0, 0, null);
+		g.drawImage(pieceLevel, 0, 0, null);
+		g.dispose();
 		return combinedImage;
 	}
 
-//	public void pieceMoved(Position start, Position end) {
-//		if (previousLocation != null) {
-//			// removeSelectable();
-//			if (previousLocation != null && previousLocation.getIcon().equals(GREY)) {
-//				previousLocation.setIcon(DEFAULT);
-//			}
-//			Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
-//			previousLocation = buttons[start.getX()][start.getY()];
-//			buttons[end.getX()][end.getY()].setIcon(pieceIcon);
-//		}
-//	}
+	// public void pieceMoved(Position start, Position end) {
+	// if (previousLocation != null) {
+	// // removeSelectable();
+	// if (previousLocation != null && previousLocation.getIcon().equals(GREY))
+	// {
+	// previousLocation.setIcon(DEFAULT);
+	// }
+	// Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
+	// previousLocation = buttons[start.getX()][start.getY()];
+	// buttons[end.getX()][end.getY()].setIcon(pieceIcon);
+	// }
+	// }
 
 	public void removeSelectable() {
-//		for (Position pos : selectedPositions) {
-//			if (buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)) {
-//				buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
-//			}
-//		}
+		// for (Position pos : selectedPositions) {
+		// if (buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)) {
+		// buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
+		// }
+		// }
 		glassPane.removeAll();
 		glassPane.repaint();
 	}
 
-//	public void displaySelectable(ArrayList<Position> positions) {
-//		removeSelectable();
-//		selectedPositions = (ArrayList<Position>) positions.clone();
-//		for (Position pos : positions) {
-//			//buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
-//			JLabel label = new JLabel();
-//			label.setIcon(SELECTED);
-//			label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 62, 70, 70);
-//			glassPane.add(label);
-//			glassPane.repaint();
-//		}
-//	}
+	// public void displaySelectable(ArrayList<Position> positions) {
+	// removeSelectable();
+	// selectedPositions = (ArrayList<Position>) positions.clone();
+	// for (Position pos : positions) {
+	// //buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
+	// JLabel label = new JLabel();
+	// label.setIcon(SELECTED);
+	// label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 62, 70,
+	// 70);
+	// glassPane.add(label);
+	// glassPane.repaint();
+	// }
+	// }
 
 	private void setupButton(int x, int y, JButton newButton) {
 		newButton.setBounds(x * 70, (7 - y) * 70, 70, 70);
 		newButton.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					currentx = x;
-					currenty = y;
-					changedSelected(currentx, currenty);
-//					int i = 1;
-//					for (MyObserver obs : getObservers()) {
-//						//System.out.println(obs.getClass().toString());
-//						if (obs instanceof GameDriver) {
-//							// System.out.println("game " + i);
-//						}
-//						i++;
-//					}
-					tellAll(new Position(x, y));
-				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentx = x;
+				currenty = y;
+				changedSelected(currentx, currenty);
+				// int i = 1;
+				// for (MyObserver obs : getObservers()) {
+				// //System.out.println(obs.getClass().toString());
+				// if (obs instanceof GameDriver) {
+				// // System.out.println("game " + i);
+				// }
+				// i++;
+				// }
+				tellAll(new Position(x, y));
+			}
 
 		});
 	}
@@ -268,7 +261,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	@Override
 	public void tellAll(Object arg) {
-		for(MyObserver obs : observers){
+		for (MyObserver obs : observers) {
 			obs.update(this, arg);
 		}
 	}
@@ -280,7 +273,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	@Override
 	public void removeObserver(MyObserver o) {
-		if(observers.contains(o)){
+		if (observers.contains(o)) {
 			observers.remove(o);
 		}
 	}
@@ -297,8 +290,8 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public void setButtonsClickable(Boolean arg) {
-		for(int i = 0; i < 8; i++){
-			for(int j = 0; j < 8; j++){
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
 				buttons[i][j].setEnabled(arg);
 			}
 		}

@@ -41,28 +41,28 @@ public class Controller implements Serializable {
 	}
 
 	public void initialisePlayers(String whiteName, String blackName) {
-		playerWhite = new GUIPlayer("White", whiteName, true, this);
-		playerBlack = new GUIPlayer("Black", blackName, false, this);
+		playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
+		playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
 	}
 
 	public void playSinglePlayer(boolean userToMoveFirst, boolean isSpeedGame, boolean isEasyAI, String whiteName,
 			String blackName, int timerTime, int gameLength, boolean randomBoard) {
 		if (userToMoveFirst) {
 			if (isEasyAI) {
-				playerBlack = new EasyAIPlayer("Black", blackName, false);
+				playerBlack = new EasyAIPlayer("TeamBlack", blackName, false);
 			} else {
-				playerBlack = new HardAIPlayer("Black", blackName, false);
+				playerBlack = new HardAIPlayer("TeamBlack", blackName, false);
 			}
-			playerWhite = new GUIPlayer("White", whiteName, true, this);
+			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 			playerBlack.addObserver(game);
 		} else {
 			if (isEasyAI) {
-				playerWhite = new EasyAIPlayer("White", whiteName, true);
+				playerWhite = new EasyAIPlayer("TeamWhite", whiteName, true);
 			} else {
-				playerWhite = new HardAIPlayer("White", whiteName, true);
+				playerWhite = new HardAIPlayer("TeamWhite", whiteName, true);
 			}
-			playerBlack = new GUIPlayer("Black", blackName, false, this);
+			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
 			playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 			playerWhite.addObserver(game);
 		}

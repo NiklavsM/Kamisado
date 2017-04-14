@@ -19,7 +19,7 @@ public abstract class Player implements MyObservable, Serializable, Runnable{
 
     public Player(String playerTeam, String playerName, boolean goingFirst, boolean isAI){
         this.playerTeam = playerTeam;
-        if(playerTeam.equals("White")){
+        if(playerTeam.equals("TeamWhite")){
             homeRow = 0;
         }else{
             homeRow = 7;

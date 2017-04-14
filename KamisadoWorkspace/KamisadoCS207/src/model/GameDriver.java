@@ -56,7 +56,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public boolean incrementScoreAtEndOfGame(Player winner) {
-		PieceObject pieceThatWon = currentState.getPreviousMove().pieceMoved();
+		Piece pieceThatWon = currentState.getPreviousMove().pieceMoved();
 		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
 		if (winner.getScore() >= scoreToGet) {
 			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " round(s)!");
@@ -95,7 +95,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		if (currentState.getBoard().isRandom()) {
 			newBoard.setRandomBoardColours();
 		}
-		if (playerToMove.getPlayerTeam().equals("White")) {
+		if (playerToMove.getPlayerTeam().equals("TeamWhite")) {
 			optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			playerToMove = currentState.getPlayerBlack();
 		} else {
