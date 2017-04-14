@@ -50,15 +50,17 @@ public class StatsObject implements Serializable {
 	}
 
 	public Object[][] getTableData() {
-		Object stats[][] = new Object[playerScores.size()][5];
+		Object stats[][] = new Object[playerScores.size()][7];
 
 		int i = 0;
 		for (Stat stat : playerScores) {
 			stats[i][0] = stat.getName();
 			stats[i][1] = stat.getRoundsWon();
 			stats[i][2] = stat.getRoundsLost();
-			stats[i][3] = stat.getGamesWon();
-			stats[i][4] = stat.getGamesLost();
+			stats[i][3] = stat.roundsWinLosRatio();
+			stats[i][4] = stat.getGamesWon();
+			stats[i][5] = stat.getGamesLost();
+			stats[i][6] = stat.gamesWinLosRatio();
 			i++;
 		}
 		return stats;

@@ -42,9 +42,10 @@ public class StatPanel extends JPanel {
 	private void setTable() {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setFocusable(true);
-		
-		String[] columnNames = { "Player name", "RoundsWon", "RoundsLost", "GamesWon", "GamesLost" };
-		
+
+		String[] columnNames = { "Player name", "RoundsWon", "RoundsLost", "Rounds Won %", "GamesWon", "GamesLost",
+				"Games Won %" };
+
 		StatsManager m = new StatsManager();
 		StatsObject stats = m.getStatsObject();
 		if (stats != null) {
@@ -58,7 +59,7 @@ public class StatPanel extends JPanel {
 			table.setEnabled(false);
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 			table.setRowSorter(sorter);
-			scrollPane.setBounds(20, 56, 600, 300);
+			scrollPane.setBounds(20, 56, 750, 300);
 			scrollPane.setViewportView(table);
 			add(scrollPane);
 		}

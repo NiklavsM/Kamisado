@@ -56,4 +56,12 @@ public class Stat implements Serializable {
 	public void addGamesLost() {
 		gamesLost++;
 	}
+
+	public float roundsWinLosRatio() {
+		return (float) roundsWon / (roundsWon + roundsLost) * 100;
+	}
+
+	public float gamesWinLosRatio() {
+		return (float) gamesWon / (gamesWon + gamesLost) * 100;
+	}
 }
