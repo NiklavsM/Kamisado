@@ -3,7 +3,6 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -11,6 +10,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -31,13 +31,17 @@ public class GeneralSettingsPanel extends JPanel {
 	BufferedImage styleTwoImage;
 	JLabel styleOneImageLabel;
 	JLabel styleTwoImageLabel;
+	JComboBox colourPicker;
+	JLabel colorPreview;
+	JSlider redSlider;
+	JSlider greenSlider;
+	JSlider blueSlider;
 	GeneralSettingsManager manager;
 	GeneralSettings settings;
 
 	public GeneralSettingsPanel(Controller controller) {
 		this.setLayout(null);
 		this.setFocusable(false);
-
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
 
@@ -77,17 +81,17 @@ public class GeneralSettingsPanel extends JPanel {
 		styleOne.setBounds(300, 150, 80, 20);
 		styleTwo = new JCheckBox("Style Two");
 		styleTwo.setBounds(380, 150, 80, 20);
-		if(settings.getPieceImageStyle().equals("pieceStyleOne")){
-			styleOne.setSelected(true);
-		}else if(settings.getPieceImageStyle().equals("pieceStyleTwo")){
-			styleTwo.setSelected(true);
-		}
+		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
+		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
+
 		
 		pieceTypes = new ButtonGroup();
 		pieceTypes.add(styleOne);
 		pieceTypes.add(styleTwo);
 		add(styleOne);
 		add(styleTwo);
+		
+		boardColourChooser();
 
 		apply = new JButton("Apply");
 		apply.setBounds(50, 150, 80, 20);
@@ -112,6 +116,17 @@ public class GeneralSettingsPanel extends JPanel {
 		});
 		add(apply);
 
+	}
+	
+	public void boardColourChooser(){
+		colourPicker = new JComboBox(new String[]{ "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
+		colourPicker.setBounds(300, 350, 80, 30);
+		add(colourPicker);
+		
+		
+		redSlider = new JSlider(0,255,20);
+		redSlider.setBounds(300, 400, 80, 20);
+		add(redSlider);
 	}
 
 }
