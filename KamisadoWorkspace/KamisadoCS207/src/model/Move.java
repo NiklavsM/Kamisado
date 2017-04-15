@@ -48,7 +48,7 @@ public class Move implements Serializable{
 	
 	@Override
 	public String toString(){
-		return pieceMoved.toString() + " [" + startPos.toString() + "] -> [" + endPos.toString() + "]";
+		return pieceMoved.getTeam() + " [" + startPos.toString() + "] -> [" + endPos.toString() + "]";
 	}
 	public void print(){
 		if(pieceMoved != null){

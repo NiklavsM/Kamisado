@@ -20,6 +20,8 @@ import javax.swing.border.LineBorder;
 
 import controller.Controller;
 import model.Board;
+import model.GeneralSettings;
+import model.GeneralSettingsManager;
 import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
@@ -39,6 +41,8 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private Board board;
 	ArrayList<MyObserver> observers = new ArrayList<>();
 	private JPanel glassPane;
+	GeneralSettingsManager manager;
+	GeneralSettings settings;
 
 	public GUIBoardView(Controller controller) {
 		board = new Board(false);
@@ -59,6 +63,8 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public BufferedImage imageChooser(Piece piece) {
+		manager = new GeneralSettingsManager();
+		settings = manager.getGeneralSettings();
 		BufferedImage returnImage = null;
 		BufferedImage combinedImage = null;
 		BufferedImage pieceLevel = null;
@@ -68,7 +74,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		}
 		try {
 			returnImage = ImageIO.read(getClass()
-					.getResource("/images/" + piece.getTeam() + board.getColourName(piece.getColour()) + ".png"));
+					.getResource("/"+ settings.getPieceImageStyle()+"/" + piece.getTeam() + board.getColourName(piece.getColour()) + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
