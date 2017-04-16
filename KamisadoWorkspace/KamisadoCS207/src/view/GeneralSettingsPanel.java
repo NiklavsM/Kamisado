@@ -41,6 +41,7 @@ public class GeneralSettingsPanel extends JPanel {
 	JSlider blueSlider;
 	GeneralSettingsManager manager;
 	GeneralSettings settings;
+	JButton resetDefaultColours;
 	Controller controller;
 
 	public GeneralSettingsPanel(Controller controller) {
@@ -113,6 +114,7 @@ public class GeneralSettingsPanel extends JPanel {
 						.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
 			}
 		};
+		
 		colourPicker = new JComboBox(
 				new Object[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
 		colourPicker.setBounds(260, 350, 80, 30);
@@ -148,6 +150,20 @@ public class GeneralSettingsPanel extends JPanel {
 		colourPreview.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
 		colourPreview.setOpaque(true);
 		add(colourPreview);
+		
+		resetDefaultColours = new JButton("Reset Colours");
+		resetDefaultColours.setBounds(500, 450, 120, 20);
+		resetDefaultColours.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				settings.setDefaultColors();
+				redSlider.setValue(settings.getColoursRed(colourPicker.getSelectedItem().toString()));
+				greenSlider.setValue(settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
+				blueSlider.setValue(settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
+			}
+		});
+		add(resetDefaultColours);
 	}
 
 	public void initializeApplyButton() {

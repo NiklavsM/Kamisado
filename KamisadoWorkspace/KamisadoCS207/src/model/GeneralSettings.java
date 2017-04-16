@@ -7,14 +7,18 @@ public class GeneralSettings implements Serializable {
 	private boolean musicOn = false;
 	private int volume = 0;
 	private String pieceImageStyle = "PieceStyleOne";
-	private Color brown = new Color(148, 104, 39);
-	private Color green = new Color(108, 216, 68);
-	private Color red = new Color(249, 69, 24);
-	private Color yellow = new Color(245, 245, 26);
-	private Color pink = new Color(239, 86, 208);
-	private Color cyan = new Color(95, 207, 235);
-	private Color blue = new Color(14, 104, 243);
-	private Color orange = new Color(250, 190, 50);
+	private Color brown;
+	private Color green;
+	private Color red;
+	private Color yellow;
+	private Color pink;
+	private Color cyan;
+	private Color blue;
+	private Color orange;
+	
+	public GeneralSettings(){
+		setDefaultColors();
+	}
 
 	public void setMusicOn(boolean musicOn) {
 		this.musicOn = musicOn;
@@ -91,6 +95,17 @@ public class GeneralSettings implements Serializable {
 
 	public int getColoursBlue(String colour) {
 		return getColour(colour).getBlue();
+	}
+	
+	public void setDefaultColors(){
+		brown = new Color(148, 104, 39);
+		green = new Color(108, 216, 68);
+		red = new Color(249, 69, 24);
+		yellow = new Color(245, 245, 26);
+		pink = new Color(239, 86, 208);
+		cyan = new Color(95, 207, 235);
+		blue = new Color(14, 104, 243);
+		orange = new Color(250, 190, 50);
 	}
 
 }
