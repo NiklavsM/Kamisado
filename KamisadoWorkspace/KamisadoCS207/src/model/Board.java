@@ -24,14 +24,14 @@ public final class Board implements Serializable {
 	public Board(boolean random) {
 		GeneralSettingsManager manager = new GeneralSettingsManager();
 		GeneralSettings settings = manager.getGeneralSettings();
-		orange = settings.getOrange();
-		blue = settings.getBlue();
-		brown = settings.getBrown();
-		red = settings.getRed();
-		cyan = settings.getCyan();
-		green = settings.getGreen();
-		yellow = settings.getYellow();
-		pink = settings.getPink();
+		orange = settings.getColour("orange");
+		blue = settings.getColour("blue");
+		brown = settings.getColour("brown");
+		red = settings.getColour("red");
+		cyan = settings.getColour("cyan");
+		green = settings.getColour("green");
+		yellow = settings.getColour("yellow");
+		pink = settings.getColour("pink");
 		defaultColours = new Color[] { brown, green, red, yellow, pink, cyan, blue, orange };
 
 		pieces = new Piece[boardSize][boardSize];

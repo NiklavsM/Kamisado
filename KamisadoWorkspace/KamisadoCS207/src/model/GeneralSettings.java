@@ -15,7 +15,7 @@ public class GeneralSettings implements Serializable {
 	private Color cyan = new Color(95, 207, 235);
 	private Color blue = new Color(14, 104, 243);
 	private Color orange = new Color(250, 190, 50);
-	
+
 	public void setMusicOn(boolean musicOn) {
 		this.musicOn = musicOn;
 	}
@@ -31,77 +31,66 @@ public class GeneralSettings implements Serializable {
 	public void setVolume(int volume) {
 		this.volume = volume;
 	}
-	
-	public void setPieceImageStyle(String pieceImageStyle){
+
+	public void setPieceImageStyle(String pieceImageStyle) {
 		this.pieceImageStyle = pieceImageStyle;
 	}
-	
-	public String getPieceImageStyle(){
+
+	public String getPieceImageStyle() {
 		return pieceImageStyle;
 	}
-	
-	public Color getBrown() {
-		return brown;
+
+	public Color getColour(String colour) {
+		String colourT = colour.toLowerCase();
+		if (colourT.equals("blue"))
+			return blue;
+		if (colourT.equals("brown"))
+			return brown;
+		if (colourT.equals("green"))
+			return green;
+		if (colourT.equals("red"))
+			return red;
+		if (colourT.equals("yellow"))
+			return yellow;
+		if (colourT.equals("pink"))
+			return pink;
+		if (colourT.equals("cyan"))
+			return cyan;
+		if (colourT.equals("orange"))
+			return orange;
+		return null;
 	}
 
-	public void setBrown(Color brown) {
-		this.brown = brown;
+	public void setColour(String colour, int red, int green, int blue) {
+		String colourT = colour.toLowerCase();
+		if (colourT.equals("blue"))
+			this.blue = new Color(red, green, blue);
+		if (colourT.equals("brown"))
+			this.brown = new Color(red, green, blue);
+		if (colourT.equals("green"))
+			this.green = new Color(red, green, blue);
+		if (colourT.equals("red"))
+			this.red = new Color(red, green, blue);
+		if (colourT.equals("yellow"))
+			this.yellow = new Color(red, green, blue);
+		if (colourT.equals("pink"))
+			this.pink = new Color(red, green, blue);
+		if (colourT.equals("cyan"))
+			this.cyan = new Color(red, green, blue);
+		if (colourT.equals("orange"))
+			this.orange = new Color(red, green, blue);
 	}
 
-	public Color getGreen() {
-		return green;
+	public int getColoursRed(String colour) {
+		return getColour(colour).getRed();
 	}
 
-	public void setGreen(Color green) {
-		this.green = green;
+	public int getColoursGreen(String colour) {
+		return getColour(colour).getGreen();
 	}
 
-	public Color getRed() {
-		return red;
-	}
-
-	public void setRed(Color red) {
-		this.red = red;
-	}
-
-	public Color getYellow() {
-		return yellow;
-	}
-
-	public void setYellow(Color yellow) {
-		this.yellow = yellow;
-	}
-
-	public Color getPink() {
-		return pink;
-	}
-
-	public void setPink(Color pink) {
-		this.pink = pink;
-	}
-
-	public Color getCyan() {
-		return cyan;
-	}
-
-	public void setCyan(Color cyan) {
-		this.cyan = cyan;
-	}
-
-	public Color getBlue() {
-		return blue;
-	}
-
-	public void setBlue(Color blue) {
-		this.blue = blue;
-	}
-
-	public Color getOrange() {
-		return orange;
-	}
-
-	public void setOrange(Color orange) {
-		this.orange = orange;
+	public int getColoursBlue(String colour) {
+		return getColour(colour).getBlue();
 	}
 
 }

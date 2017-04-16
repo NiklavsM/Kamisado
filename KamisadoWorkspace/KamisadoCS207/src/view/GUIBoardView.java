@@ -41,8 +41,8 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private Board board;
 	ArrayList<MyObserver> observers = new ArrayList<>();
 	private JPanel glassPane;
-	GeneralSettingsManager manager;
-	GeneralSettings settings;
+	private GeneralSettingsManager manager;
+	private GeneralSettings settings;
 
 	public GUIBoardView(Controller controller) {
 		board = new Board(false);
