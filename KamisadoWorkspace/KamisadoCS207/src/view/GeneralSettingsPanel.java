@@ -94,9 +94,10 @@ public class GeneralSettingsPanel extends JPanel {
 
 		styleOne = new JCheckBox("Style One");
 		styleOne.setBounds(300, 150, 80, 20);
+		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
+		
 		styleTwo = new JCheckBox("Style Two");
 		styleTwo.setBounds(380, 150, 80, 20);
-		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
 		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
 
 		pieceTypes = new ButtonGroup();
@@ -117,7 +118,7 @@ public class GeneralSettingsPanel extends JPanel {
 		
 		colourPicker = new JComboBox(
 				new Object[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
-		colourPicker.setBounds(260, 350, 80, 30);
+		colourPicker.setBounds(50, 250, 80, 30);
 		colourPicker.addActionListener(new ActionListener() {
 
 			@Override
@@ -131,28 +132,28 @@ public class GeneralSettingsPanel extends JPanel {
 		add(colourPicker);
 
 		redSlider = new JSlider(0, 255, settings.getColoursRed(colourPicker.getSelectedItem().toString()));
-		redSlider.setBounds(260, 400, 120, 20);
+		redSlider.setBounds(50, 300, 120, 20);
 		redSlider.addChangeListener(sliderChangeListener);
 		add(redSlider);
 
 		greenSlider = new JSlider(0, 255, settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
-		greenSlider.setBounds(260, 430, 120, 20);
+		greenSlider.setBounds(50, 330, 120, 20);
 		greenSlider.addChangeListener(sliderChangeListener);
 		add(greenSlider);
 
 		blueSlider = new JSlider(0, 255, settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
-		blueSlider.setBounds(260, 460, 120, 20);
+		blueSlider.setBounds(50, 360, 120, 20);
 		blueSlider.addChangeListener(sliderChangeListener);
 		add(blueSlider);
 
 		colourPreview = new JLabel();
-		colourPreview.setBounds(400, 400, 80, 80);
+		colourPreview.setBounds(180, 300, 80, 80);
 		colourPreview.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
 		colourPreview.setOpaque(true);
 		add(colourPreview);
 		
 		resetDefaultColours = new JButton("Reset Colours");
-		resetDefaultColours.setBounds(500, 450, 120, 20);
+		resetDefaultColours.setBounds(180, 250, 120, 20);
 		resetDefaultColours.addActionListener(new ActionListener() {
 			
 			@Override
@@ -168,7 +169,7 @@ public class GeneralSettingsPanel extends JPanel {
 
 	public void initializeApplyButton() {
 		apply = new JButton("Apply");
-		apply.setBounds(50, 150, 80, 20);
+		apply.setBounds(500, 500, 80, 20);
 		apply.addActionListener(new ActionListener() {
 
 			@Override
