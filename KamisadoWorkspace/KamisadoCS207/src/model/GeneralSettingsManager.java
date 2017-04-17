@@ -8,10 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
-public class GeneralSettingsManager {
+public class GeneralSettingsManager implements Serializable {
 	public GeneralSettings getGeneralSettings() {
 		GeneralSettings generalSettings = null;
 		File file = new File("settings.bin");
