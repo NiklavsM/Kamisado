@@ -29,8 +29,8 @@ public class MusicPlayer {
 	}
 	
 	public void setVolume(int volume){
-		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		gainControl.setValue(volume);
+		FloatControl floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		floatControl.setValue(volume);
 	}
 
 }

@@ -1,9 +1,14 @@
 package model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 
 import player.Player;
@@ -166,6 +171,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			// valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
+			playTurnSound();
 			history.add(currentState);
 			currentState = state;
 			this.tellAll(currentState);
@@ -284,5 +290,22 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public Stack<State> getHistory() {
 		return history;
+	}
+
+	public void playTurnSound() {
+		GeneralSettingsManager manager = new GeneralSettingsManager();
+		GeneralSettings settings = manager.getGeneralSettings();
+		if (settings.isSoundOn()) {
+			try {
+				AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("pipe.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(inputStream);
+				FloatControl floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				floatControl.setValue(settings.getSoundVolume());
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

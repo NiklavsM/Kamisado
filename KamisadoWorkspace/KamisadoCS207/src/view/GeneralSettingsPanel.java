@@ -24,8 +24,10 @@ import model.GeneralSettingsManager;
 
 public class GeneralSettingsPanel extends JPanel {
 	JLabel soundLabel;
+	JCheckBox musicOn;
 	JCheckBox soundOn;
-	JSlider volume;
+	JSlider soundVolume;
+	JSlider musicVolume;
 	JButton apply;
 	JCheckBox styleOne;
 	JCheckBox styleTwo;
@@ -63,14 +65,23 @@ public class GeneralSettingsPanel extends JPanel {
 		soundLabel.setBounds(50, 50, 50, 50);
 		add(soundLabel);
 
-		soundOn = new JCheckBox("On");
-		soundOn.setSelected(settings.isMusicOn());
-		soundOn.setBounds(50, 100, 50, 50);
+		musicOn = new JCheckBox("Music On");
+		musicOn.setSelected(settings.isMusicOn());
+		musicOn.setBounds(50, 100, 80, 20);
+		add(musicOn);
+
+		musicVolume = new JSlider(-80, 6, settings.getMusicVolume());
+		musicVolume.setBounds(130, 100, 100, 20);
+		add(musicVolume);
+		
+		soundOn = new JCheckBox("Sound On");
+		soundOn.setSelected(settings.isSoundOn());
+		soundOn.setBounds(50, 130, 80, 20);
 		add(soundOn);
 
-		volume = new JSlider(-80, 6, settings.getVolume());
-		volume.setBounds(100, 100, 100, 50);
-		add(volume);
+		soundVolume = new JSlider(-80, 6, settings.getSoundVolume());
+		soundVolume.setBounds(130, 130, 100, 20);
+		add(soundVolume);
 	}
 
 	public void pieceTypeChooser() {
@@ -174,8 +185,10 @@ public class GeneralSettingsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				settings.setMusicOn(soundOn.isSelected());
-				settings.setVolume(volume.getValue());
+				settings.setMusicOn(musicOn.isSelected());
+				settings.setMusicVolume(musicVolume.getValue());
+				settings.setSoundOn(soundOn.isSelected());
+				settings.setSoundVolume(soundVolume.getValue());
 				settings.setColour(colourPicker.getSelectedItem().toString(), redSlider.getValue(),
 						greenSlider.getValue(), blueSlider.getValue());
 				if (styleOne.isSelected()) {

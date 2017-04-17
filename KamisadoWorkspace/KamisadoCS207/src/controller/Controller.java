@@ -147,7 +147,7 @@ public class Controller implements Serializable {
 			if (settings.isMusicOn()) {
 					try {
 						musicPlayer.musicOn();
-						musicPlayer.setVolume(settings.getVolume());
+						musicPlayer.setVolume(settings.getMusicVolume());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
