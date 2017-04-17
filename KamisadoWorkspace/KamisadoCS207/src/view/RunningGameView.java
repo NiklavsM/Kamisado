@@ -65,16 +65,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameLog.setFocusable(false);
 		gameBoard.redrawBoard(gameState.getBoard());
 		displaySelectable(gameState.getValidMoves());
-		if(black.isAI() || white.isAI()){
-			inGameOptions.showUndo(true);
-			inGameOptions.displayHint(true);
-		}else{
-			inGameOptions.showUndo(false);
-			inGameOptions.displayHint(false);
-		}
 		setUpGridView();
 		gridViewGlassPane.setVisible(true);
 		gridViewGlassPane.setOpaque(false);
+		inGameOptions.displayRematch(false);
+		inGameOptions.showUndo(false);
+		inGameOptions.displayHint(false);
 	}
 
 	public void setUpTeamLabels(String whiteName, String blackName){
@@ -119,22 +115,31 @@ public class RunningGameView extends JPanel implements MyObserver {
 			Player player = ((Player) arg);
 			String displayMessage = player.getPlayerName() + " wins this round!";
 			roundOrGameOver(displayMessage);
+			inGameOptions.displayHint(false);
 			inGameOptions.displayContinue(true);
 		}else if (arg instanceof String) {
 			roundOrGameOver((String)arg);
 			inGameOptions.displayContinue(false);
 			inGameOptions.displayRematch(true);
+			inGameOptions.displayHint(false);
 		}else if (arg instanceof State) {
 			State state = (State)arg;	
 			GameDriver gameDriver = (GameDriver) o;
-			if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI()) && !state.isGameOver()) {
-				inGameOptions.showUndo(true);
-			}
 			if(!state.isGameOver()){
+				if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
+					inGameOptions.displayHint(true);
+					inGameOptions.showUndo(true);
+				}
+				if(state.isFirstMove()){
+					inGameOptions.displayHint(false);
+					inGameOptions.showUndo(false);
+				}
 				gameBoard.redrawBoard(state.getBoard());
+				inGameOptions.displayRematch(false);
 			}
-			if(!state.isFirstMove() && state.getPreviousMove() != null){
+			if(state.getPreviousMove() != null){
 				addToGameLog(state.getPreviousMove().toString());
+				gameBoard.showPreviousLocation(state.getPreviousMove().getStartPos());
 			}else{
 				gameLog.setText(null);
 				gameLog.append("Round " + gameDriver.getCurrentGameNum() + ":" + "                   First to " + gameDriver.getScoreToGet() + "\n");
@@ -149,11 +154,11 @@ public class RunningGameView extends JPanel implements MyObserver {
 				glassPane.repaint();
 				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			}else{
-//				glassPane.removeAll();
-//				glassPane.repaint();
 				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 			gameBoard.setButtonsClickable((Boolean)arg);
+		}else if(arg instanceof Position){
+			gameBoard.showHint((Position)arg);
 		}
 	}
 	

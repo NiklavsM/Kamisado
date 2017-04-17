@@ -7,18 +7,22 @@ public class Piece implements Serializable {
 
 	private String team;
 	private PieceType pieceType;
-	private Color colour;
+	private Color pieceColour;
 
-	public Piece(String team,PieceType pieceType, Color color) {
+	public Piece(String team,PieceType pieceType, Color pieceColour) {
 		this.team = team;
 		this.pieceType = pieceType;
-		this.colour = color;
+		this.pieceColour = pieceColour;
 	}
 	
 	public Piece(Piece piece){
 		this.team = piece.getTeam();
 		this.pieceType = piece.getPieceType();
-		this.colour = piece.getColour();
+		this.pieceColour = piece.getPieceColour();
+	}
+
+	public Color getPieceColour() {
+		return pieceColour;
 	}
 
 	public PieceType getPieceType() {
@@ -31,10 +35,6 @@ public class Piece implements Serializable {
 	
 	public String getTeam() {
 		return team;
-	}
-	
-	public Color getColour() {
-		return colour;
 	}
 	
 	public void promotePiece(){

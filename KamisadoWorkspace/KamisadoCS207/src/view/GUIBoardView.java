@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,7 +35,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
 	private JButton[][] buttons;
 	private ArrayList<Position> selectedPositions;
-	private JButton previousLocation;
+	private JButton previousLocation = null;
 	private JButton selected;
 	private int currentx;
 	private int currenty;
@@ -43,8 +44,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private JPanel glassPane;
 	private GeneralSettingsManager manager;
 	private GeneralSettings settings;
+	private Controller controller;
 
 	public GUIBoardView(Controller controller) {
+		this.controller = controller;
 		board = new Board(false);
 		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
@@ -63,77 +66,90 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public BufferedImage imageChooser(Piece piece) {
+		if (piece == null) {
+			return null;
+		}
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
 		BufferedImage returnImage = null;
 		BufferedImage combinedImage = null;
 		BufferedImage pieceLevel = null;
-
-		if (piece == null) {
-			return null;
+		BufferedImage colourImage = null;
+	        
+		int w = 30;
+        int h = 31;
+        Color pieceColour = piece.getPieceColour();
+		colourImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = colourImage.createGraphics();
+		if(settings.getPieceImageStyle().equals("pieceStyleOne")){
+			g2d.setColor(pieceColour);
+			g2d.fillRect(0, 0, w, h);
+		}else{
+			int R = pieceColour.getRed();
+			int G = pieceColour.getGreen();
+			int B = pieceColour.getBlue();
+			g2d.setColor(pieceColour);
+			g2d.fillRect(0, 0, w, 14);
+			g2d.setColor(colourChanger(R,G,B, true));
+			g2d.fillRect(0, 14, 15, 18);
+			g2d.setColor(colourChanger(R,G,B, false));
+			g2d.fillRect(15, 14, 15, 18);
 		}
+		g2d.dispose();
+		
 		try {
 			returnImage = ImageIO.read(getClass()
-					.getResource("/"+ settings.getPieceImageStyle()+"/" + piece.getTeam() + board.getColourName(piece.getColour()) + ".png"));
+					.getResource("/"+ settings.getPieceImageStyle()+"/" + piece.getTeam() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		if (piece.getPieceType().equals(PieceType.Standard)) {
-			return returnImage;
-		}
-		try {
-			pieceLevel = ImageIO.read(getClass().getResource("/images/" + piece.getPieceType().toString() + ".png"));
-			combinedImage = new BufferedImage(returnImage.getWidth(), returnImage.getHeight(),
-					BufferedImage.TYPE_INT_ARGB);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		combinedImage = new BufferedImage(returnImage.getWidth(), returnImage.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+		
 		Graphics2D g = combinedImage.createGraphics();
+		g.drawImage(colourImage, 10, 7, null);
 		g.drawImage(returnImage, 0, 0, null);
-		g.drawImage(pieceLevel, 0, 0, null);
+		if(!piece.getPieceType().equals(PieceType.Standard)){
+			try {
+				pieceLevel = ImageIO.read(getClass().getResource("/images/" + piece.getTeam() + piece.getPieceType().toString() + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			g.drawImage(pieceLevel, 0, 0, null);
+		}
 		g.dispose();
 		return combinedImage;
 	}
 
-	// public void pieceMoved(Position start, Position end) {
-	// if (previousLocation != null) {
-	// // removeSelectable();
-	// if (previousLocation != null && previousLocation.getIcon().equals(GREY))
-	// {
-	// previousLocation.setIcon(DEFAULT);
-	// }
-	// Icon pieceIcon = buttons[start.getX()][start.getY()].getIcon();
-	// previousLocation = buttons[start.getX()][start.getY()];
-	// buttons[end.getX()][end.getY()].setIcon(pieceIcon);
-	// }
-	// }
-
+	private Color colourChanger(int R, int G, int B, boolean brighter){
+		int increment = 30;
+		if(brighter){
+			increment *= -1;
+		}
+		if(R + increment <= 255 && R + increment >=0 ){
+			R += increment;
+		}else if(G + increment <= 255 && R + increment >= 0){
+			G += increment;
+		}else if(B + increment <= 255 && R + increment >= 0){
+			B += increment;
+		}else{
+			increment *= -4;
+			if(R + increment <= 255 && R + increment >=0 ){
+				R += increment;
+			}else if(G + increment <= 255 && R + increment >= 0){
+				G += increment;
+			}else if(B + increment <= 255 && R + increment >= 0){
+				B += increment;
+			}
+		}
+		return new Color(R,G,B);
+	}
 	public void removeSelectable() {
-		// for (Position pos : selectedPositions) {
-		// if (buttons[pos.getX()][pos.getY()].getIcon().equals(SELECTED)) {
-		// buttons[pos.getX()][pos.getY()].setIcon(DEFAULT);
-		// }
-		// }
 		glassPane.removeAll();
 		glassPane.repaint();
 	}
-
-	// public void displaySelectable(ArrayList<Position> positions) {
-	// removeSelectable();
-	// selectedPositions = (ArrayList<Position>) positions.clone();
-	// for (Position pos : positions) {
-	// //buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
-	// JLabel label = new JLabel();
-	// label.setIcon(SELECTED);
-	// label.setBounds((pos.getX() * 70) + 5, ((7 - pos.getY()) * 70) + 62, 70,
-	// 70);
-	// glassPane.add(label);
-	// glassPane.repaint();
-	// }
-	// }
 
 	private void setupButton(int x, int y, JButton newButton) {
 		newButton.setBounds(x * 70, (7 - y) * 70, 70, 70);
@@ -144,14 +160,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				currentx = x;
 				currenty = y;
 				changedSelected(currentx, currenty);
-				// int i = 1;
-				// for (MyObserver obs : getObservers()) {
-				// //System.out.println(obs.getClass().toString());
-				// if (obs instanceof GameDriver) {
-				// // System.out.println("game " + i);
-				// }
-				// i++;
-				// }
 				tellAll(new Position(x, y));
 			}
 
@@ -191,12 +199,16 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
+					if(previousLocation != null && previousLocation.equals(buttons[x][y])){
+						previousLocation = null;
+					}
 					buttons[x][y].setIcon(new ImageIcon(image));
 					buttons[x][y].setDisabledIcon(new ImageIcon(image));
 				} else {
 					buttons[x][y].setIcon(DEFAULT);
 					buttons[x][y].setDisabledIcon(DEFAULT);
 				}
+				
 				buttons[x][y].setEnabled(true);
 			}
 		}
@@ -215,7 +227,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		}
 	}
 
-	private void changedSelected(int currentx, int currenty) {
+	public void changedSelected(int currentx, int currenty) {
 		selected.setBorderPainted(false);
 		selected = buttons[currentx][currenty];
 		selected.setSelected(true);
@@ -307,5 +319,17 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		currentx = endPos.getX();
 		currenty = endPos.getY();
 		changedSelected(currentx, currenty);
+	}
+	
+	public void showPreviousLocation(Position pos){
+		if(previousLocation != null){
+			previousLocation.setIcon(DEFAULT);
+			previousLocation.setDisabledIcon(DEFAULT);
+		}
+		if(controller.getGame().getCurrentState().getPieces()[pos.getX()][pos.getY()] == null){
+			previousLocation = buttons[pos.getX()][pos.getY()];
+			previousLocation.setIcon(GREY);
+			previousLocation.setDisabledIcon(GREY);
+		}
 	}
 }

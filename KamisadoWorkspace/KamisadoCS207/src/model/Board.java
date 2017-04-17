@@ -51,7 +51,7 @@ public final class Board implements Serializable {
 			for (int index = 0; index < boardSize; index++) {
 				for (int j = 0; j < boardSize; j++) {
 					if (other.pieces[index][j] != null) {
-						this.pieces[index][j] = new Piece(other.pieces[index][j]);
+						this.pieces[index][j] = new Piece(other.findPieceAtLoc(index, j));
 					} else {
 						this.pieces[index][j] = null;
 					}
@@ -317,7 +317,7 @@ public final class Board implements Serializable {
 		Position foundPos = null;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (pieces[i][j].getColour().equals(pieceColor) && pieces[i][j].getTeam().equals(teamColor)) {
+				if (pieces[i][j].getPieceColour().equals(pieceColor) && pieces[i][j].getTeam().equals(teamColor)) {
 					foundPos = new Position(i, j);
 					break;
 				}

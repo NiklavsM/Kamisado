@@ -67,11 +67,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void changeCurrentState(State currentState) {
 		this.currentState = new State(currentState, currentState.getBoard());
+		this.tellAll(currentState);
 		if (currentState.getStartingPosition() != null) {
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
-		this.tellAll(currentState);
-
 	}
 
 	public void undo() {
@@ -217,6 +216,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				}
 			}
 		} else {
+			this.tellAll(posToMove);
 			this.tellAll(movesCanMake);
 		}
 		return false;
