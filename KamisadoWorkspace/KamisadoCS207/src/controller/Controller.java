@@ -25,11 +25,12 @@ public class Controller implements Serializable {
 
 	private GameDriver game;
 	private RunningGameView main;
-	private MenuFrame menuFrame;
+	transient private MenuFrame menuFrame;
 	private Player playerWhite;
 	private Player playerBlack;
 	transient private MusicPlayer musicPlayer;
 	transient private GeneralSettingsManager manager;
+	transient private GeneralSettings settings;
 
 	public Controller() {
 		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
@@ -141,12 +142,12 @@ public class Controller implements Serializable {
 
 	public void applySettings() {
 		manager = new GeneralSettingsManager();
-		GeneralSettings settings = manager.getGeneralSettings();
+		settings = manager.getGeneralSettings();
 		if (settings != null) {
 			if (settings.isMusicOn()) {
 					try {
 						musicPlayer.musicOn();
-						musicPlayer.setVolume(settings.getVolume());
+						musicPlayer.setVolume(settings.getMusicVolume());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

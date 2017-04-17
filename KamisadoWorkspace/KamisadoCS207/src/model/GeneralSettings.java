@@ -5,7 +5,9 @@ import java.io.Serializable;
 
 public class GeneralSettings implements Serializable {
 	private boolean musicOn = false;
-	private int volume = 0;
+	private boolean soundOn = false;
+	private int musicVolume = -30;
+	private int soundVolume = -30;
 	private String pieceImageStyle = "pieceStyleOne";
 	private Color brown;
 	private Color green;
@@ -28,12 +30,28 @@ public class GeneralSettings implements Serializable {
 		return musicOn;
 	}
 
-	public int getVolume() {
-		return volume;
+	public int getMusicVolume() {
+		return musicVolume;
 	}
 
-	public void setVolume(int volume) {
-		this.volume = volume;
+	public void setMusicVolume(int musicVolume) {
+		this.musicVolume = musicVolume;
+	}
+
+	public boolean isSoundOn() {
+		return soundOn;
+	}
+
+	public void setSoundOn(boolean soundOn) {
+		this.soundOn = soundOn;
+	}
+
+	public int getSoundVolume() {
+		return soundVolume;
+	}
+
+	public void setSoundVolume(int soundVolume) {
+		this.soundVolume = soundVolume;
 	}
 
 	public void setPieceImageStyle(String pieceImageStyle) {
