@@ -70,19 +70,37 @@ public class GeneralSettingsPanel extends JPanel {
 		musicOn = new JCheckBox("Music On");
 		musicOn.setSelected(settings.isMusicOn());
 		musicOn.setBounds(50, 100, 80, 20);
+		musicOn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				musicVolume.setEnabled(musicOn.isSelected());
+				
+			}
+		});
 		add(musicOn);
 
 		musicVolume = new JSlider(-80, 6, settings.getMusicVolume());
 		musicVolume.setBounds(130, 100, 100, 20);
+		musicVolume.setEnabled(settings.isMusicOn());
 		add(musicVolume);
 		
 		soundOn = new JCheckBox("Sound On");
 		soundOn.setSelected(settings.isSoundOn());
 		soundOn.setBounds(50, 130, 80, 20);
+		soundOn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				soundVolume.setEnabled(soundOn.isSelected());
+				
+			}
+		});
 		add(soundOn);
 
 		soundVolume = new JSlider(-80, 6, settings.getSoundVolume());
 		soundVolume.setBounds(130, 130, 100, 20);
+		soundVolume.setEnabled(settings.isSoundOn());
 		add(soundVolume);
 	}
 
@@ -128,7 +146,7 @@ public class GeneralSettingsPanel extends JPanel {
 			}
 		};
 		
-		colourPicker = new JComboBox(
+		colourPicker = new JComboBox<Object>(
 				new Object[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
 		colourPicker.setBounds(50, 250, 80, 30);
 		colourPicker.addActionListener(new ActionListener() {
