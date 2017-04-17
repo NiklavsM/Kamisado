@@ -20,10 +20,12 @@ public final class Board implements Serializable {
 	private static final int boardSize = 8;
 	private Color colourToMove;
 	private boolean isRandom;
+	private transient GeneralSettingsManager manager;
+	private transient GeneralSettings settings;
 
 	public Board(boolean random) {
-		GeneralSettingsManager manager = new GeneralSettingsManager();
-		GeneralSettings settings = manager.getGeneralSettings();
+		manager = new GeneralSettingsManager();
+		settings = manager.getGeneralSettings();
 		orange = settings.getColour("orange");
 		blue = settings.getColour("blue");
 		brown = settings.getColour("brown");

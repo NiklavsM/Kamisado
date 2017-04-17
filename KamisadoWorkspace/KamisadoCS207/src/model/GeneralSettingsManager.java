@@ -33,7 +33,7 @@ public class GeneralSettingsManager {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException s) {
-			//s.printStackTrace();
+			// s.printStackTrace();
 			// Thats fine(it has reached the end of file)
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Class not right", "Class not right", JOptionPane.ERROR_MESSAGE);

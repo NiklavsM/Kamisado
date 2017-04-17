@@ -24,7 +24,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public GameDriver(GameDriver gameDriver) {
-		this.history = new Stack<>();
+		this.history = gameDriver.getHistory();
 		this.scoreToGet = gameDriver.getScoreToGet();
 		changeCurrentState(gameDriver.getCurrentState());
 		this.currentGameNum = gameDriver.getCurrentGameNum();
@@ -32,8 +32,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void saveGame() {
 		if (currentState.isGameOver()) {
-			JOptionPane.showMessageDialog(null, "Game has ended", "Game has ended",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Game has ended", "Game has ended", JOptionPane.ERROR_MESSAGE);
 		} else {
 			SaveManager s = new SaveManager();
 			s.save(this);
@@ -67,10 +66,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public void changeCurrentState(State currentState) {
 		this.currentState = new State(currentState, currentState.getBoard());
+		this.tellAll(currentState);
 		if (currentState.getStartingPosition() != null) {
 			this.tellAll(currentState.calcValidMoves(currentState.getStartingPosition()));
 		}
-		this.tellAll(currentState);
 
 	}
 
@@ -281,5 +280,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 
 	public int getCurrentGameNum() {
 		return currentGameNum;
+	}
+
+	public Stack<State> getHistory() {
+		return history;
 	}
 }
