@@ -45,6 +45,8 @@ public class GeneralSettingsPanel extends JPanel {
 	GeneralSettings settings;
 	JButton resetDefaultColours;
 	Controller controller;
+	
+	ImageMerger merger = new ImageMerger();
 
 	public GeneralSettingsPanel(Controller controller) {
 		this.controller = controller;
@@ -85,20 +87,14 @@ public class GeneralSettingsPanel extends JPanel {
 	}
 
 	public void pieceTypeChooser() {
-		try {
-			styleOneImage = ImageIO.read(getClass().getResource("/pieceStyleOne/TeamWhiteBlue.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		styleOneImage = merger.mergeRegularStyle(settings.getColour("blue"), "TeamWhite", "Standard");
+		
 		styleOneImageLabel = new JLabel(new ImageIcon(styleOneImage));
 		styleOneImageLabel.setBounds(300, 100, 50, 50);
 		add(styleOneImageLabel);
 
-		try {
-			styleTwoImage = ImageIO.read(getClass().getResource("/pieceStyleTwo/TeamWhiteBlue.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		styleTwoImage = merger.mergeAlternateStyle(settings.getColour("blue"), "TeamWhite", "Standard");
+		
 		styleTwoImageLabel = new JLabel(new ImageIcon(styleTwoImage));
 		styleTwoImageLabel.setBounds(380, 100, 50, 50);
 		add(styleTwoImageLabel);
@@ -124,6 +120,11 @@ public class GeneralSettingsPanel extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				colourPreview
 						.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
+				
+				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
+				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
+				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
+				styleTwoImageLabel.setIcon(new ImageIcon(styleTwoImage));
 			}
 		};
 		
@@ -137,7 +138,11 @@ public class GeneralSettingsPanel extends JPanel {
 				redSlider.setValue(settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 				greenSlider.setValue(settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 				blueSlider.setValue(settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
-
+				
+				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
+				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
+				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
+				styleTwoImageLabel.setIcon(new ImageIcon(styleTwoImage));
 			}
 		});
 		add(colourPicker);
@@ -173,6 +178,10 @@ public class GeneralSettingsPanel extends JPanel {
 				redSlider.setValue(settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 				greenSlider.setValue(settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 				blueSlider.setValue(settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
+				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
+				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
+				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
+				styleTwoImageLabel.setIcon(new ImageIcon(styleTwoImage));
 			}
 		});
 		add(resetDefaultColours);

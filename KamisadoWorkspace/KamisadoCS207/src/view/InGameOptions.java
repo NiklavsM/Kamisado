@@ -204,4 +204,8 @@ public class InGameOptions extends JPanel{
 	public void displayHint(boolean b){
 		btnHint.setVisible(b);
 	}
+
+	public void displaySave(boolean b) {
+		btnSave.setVisible(b);
+	}
 }

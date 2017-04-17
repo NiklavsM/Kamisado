@@ -179,6 +179,8 @@ public class Controller implements Serializable {
 	}
 
 	public void rematch() {
+		playerWhite = game.getCurrentState().getPlayerWhite();
+		playerBlack = game.getCurrentState().getPlayerBlack();
 		playerWhite.setScore(0);
 		playerBlack.setScore(0);
 		if(game instanceof SpeedGameDriver){
@@ -203,12 +205,12 @@ public class Controller implements Serializable {
 			Player playerToMove = game.getCurrentState().getPlayerToMove();
 			if(!playerToMove.isAI()){
 				if(playerToMove.getHomeRow() == 0){
-					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 1);
+					TreeNode moveTree = new TreeNode(6, game.getCurrentState(), 1);
 					Move move = moveTree.getBestOrWorstsChild(false);
 					move.print();
 					main.showHint(move.getEndPos());
 				}else {
-					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 0);
+					TreeNode moveTree = new TreeNode(6, game.getCurrentState(), 0);
 					Move move = moveTree.getBestOrWorstsChild(true);
 					move.print();
 					main.showHint(move.getEndPos());
