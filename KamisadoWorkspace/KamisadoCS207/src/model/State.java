@@ -30,7 +30,7 @@ public final class State implements Serializable {
 		this.PlayerToMove = playerToMove;
 		currentBoard = new Board(random);
 		pieces = currentBoard.getPieces();
-		colourToMove = Color.BLACK;
+//		colourToMove = Color.BLACK;
 		validMoves = new ArrayList<>();
 		previousMove = null;
 		pieceToMove = null;
@@ -75,7 +75,7 @@ public final class State implements Serializable {
 		previousMove = null;
 		pieceToMove = null;
 		startingPosition = null;
-		colourToMove = Color.BLACK;
+//		colourToMove = Color.BLACK;
 	}
 
 	public Position calcPieceToMove() {

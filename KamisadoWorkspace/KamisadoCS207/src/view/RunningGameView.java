@@ -81,6 +81,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		inGameOptions.displayRematch(false);
 		inGameOptions.showUndo(false);
 		inGameOptions.displayHint(false);
+		inGameOptions.displaySave(true);
 	}
 
 	public void setUpTeamLabels(String whiteName, String blackName) {
@@ -127,25 +128,29 @@ public class RunningGameView extends JPanel implements MyObserver {
 			roundOrGameOver(displayMessage);
 			inGameOptions.displayHint(false);
 			inGameOptions.displayContinue(true);
-		} else if (arg instanceof String) {
-			roundOrGameOver((String) arg);
+			inGameOptions.displaySave(false);
+		}else if (arg instanceof String) {
+			roundOrGameOver((String)arg);
 			inGameOptions.displayContinue(false);
 			inGameOptions.displayRematch(true);
 			inGameOptions.displayHint(false);
-		} else if (arg instanceof State) {
-			State state = (State) arg;
+			inGameOptions.displaySave(false);
+		}else if (arg instanceof State) {
+			State state = (State)arg;	
 			GameDriver gameDriver = (GameDriver) o;
 			if (!state.isGameOver()) {
 				if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
 					inGameOptions.displayHint(true);
 					inGameOptions.showUndo(true);
 				}
-				if (state.isFirstMove()) {
+				if(state.isFirstMove() && state.getPreviousMove() == null){
+					System.out.println("got here");
 					inGameOptions.displayHint(false);
 					inGameOptions.showUndo(false);
 				}
 				gameBoard.redrawBoard(state.getBoard());
 				inGameOptions.displayRematch(false);
+				inGameOptions.displaySave(true);
 			}
 			if (state.getPreviousMove() != null) {
 				addToGameLog(state.getPreviousMove().toString());
@@ -229,9 +234,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 		timer.setFocusable(false);
 		this.add(timer, BorderLayout.NORTH);
 	}
-
-	private void addTextToGlassPane(JLabel label) {
-		label.setBounds(50, 250, 500, 50);
+	
+	private void addTextToGlassPane(JLabel label){
+		label.setBounds(0, 250, 587, 50);
 		label.setBackground(Color.BLACK);
 		label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC, 27));
 		label.setForeground(Color.WHITE);
@@ -279,10 +284,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 			for (int x = 0; x <= 7; x++) {
 				JLabel label = new JLabel();
 				label.setText("[" + x + ":" + y + "]");
-				label.setOpaque(false);
+				label.setOpaque(true);
 				label.setVisible(true);
-				label.setBounds((x * 70) + gameBoardPosX.intValue() + 27, ((7 - y) * 70) + gameBoardPosY.intValue() + 2,
-						65, 65);
+				label.setBounds((x *70) + gameBoardPosX.intValue() + 27, ((7 - y) * 70) + gameBoardPosY.intValue() + 20, 25 ,10);
 				label.setPreferredSize(label.getSize());
 				gridViewGlassPane.add(label);
 				gridViewGlassPane.repaint();

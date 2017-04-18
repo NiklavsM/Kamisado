@@ -45,6 +45,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private GeneralSettingsManager manager;
 	private GeneralSettings settings;
 	private Controller controller;
+	private ImageMerger merger = new ImageMerger();
 
 	public GUIBoardView(Controller controller) {
 		this.controller = controller;
@@ -71,81 +72,13 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		}
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
-		BufferedImage returnImage = null;
-		BufferedImage combinedImage = null;
-		BufferedImage pieceLevel = null;
-		BufferedImage colourImage = null;
-	        
-		int w = 30;
-        int h = 31;
-        Color pieceColour = piece.getPieceColour();
-		colourImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2d = colourImage.createGraphics();
 		if(settings.getPieceImageStyle().equals("pieceStyleOne")){
-			g2d.setColor(pieceColour);
-			g2d.fillRect(0, 0, w, h);
+			return merger.mergeRegularStyle(piece.getPieceColour(), piece.getTeam(), piece.getPieceType().toString());
 		}else{
-			int R = pieceColour.getRed();
-			int G = pieceColour.getGreen();
-			int B = pieceColour.getBlue();
-			g2d.setColor(pieceColour);
-			g2d.fillRect(0, 0, w, 14);
-			g2d.setColor(colourChanger(R,G,B, true));
-			g2d.fillRect(0, 14, 15, 18);
-			g2d.setColor(colourChanger(R,G,B, false));
-			g2d.fillRect(15, 14, 15, 18);
+			return merger.mergeAlternateStyle(piece.getPieceColour(), piece.getTeam(), piece.getPieceType().toString());
 		}
-		g2d.dispose();
-		
-		try {
-			returnImage = ImageIO.read(getClass()
-					.getResource("/"+ settings.getPieceImageStyle()+"/" + piece.getTeam() + ".png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		combinedImage = new BufferedImage(returnImage.getWidth(), returnImage.getHeight(),
-				BufferedImage.TYPE_INT_ARGB);
-		
-		Graphics2D g = combinedImage.createGraphics();
-		g.drawImage(colourImage, 10, 7, null);
-		g.drawImage(returnImage, 0, 0, null);
-		if(!piece.getPieceType().equals(PieceType.Standard)){
-			try {
-				pieceLevel = ImageIO.read(getClass().getResource("/images/" + piece.getTeam() + piece.getPieceType().toString() + ".png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			g.drawImage(pieceLevel, 0, 0, null);
-		}
-		g.dispose();
-		return combinedImage;
 	}
 
-	private Color colourChanger(int R, int G, int B, boolean brighter){
-		int increment = 30;
-		if(brighter){
-			increment *= -1;
-		}
-		if(R + increment <= 255 && R + increment >=0 ){
-			R += increment;
-		}else if(G + increment <= 255 && R + increment >= 0){
-			G += increment;
-		}else if(B + increment <= 255 && R + increment >= 0){
-			B += increment;
-		}else{
-			increment *= -4;
-			if(R + increment <= 255 && R + increment >=0 ){
-				R += increment;
-			}else if(G + increment <= 255 && R + increment >= 0){
-				G += increment;
-			}else if(B + increment <= 255 && R + increment >= 0){
-				B += increment;
-			}
-		}
-		return new Color(R,G,B);
-	}
 	public void removeSelectable() {
 		glassPane.removeAll();
 		glassPane.repaint();
