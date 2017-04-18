@@ -85,22 +85,25 @@ public class GeneralSettings implements Serializable {
 
 	public void setColour(String colour, int red, int green, int blue) {
 		String colourT = colour.toLowerCase();
+		Color colourToSet = new Color(red, green, blue);
 		if (colourT.equals("blue"))
-			this.blue = new Color(red, green, blue);
+			this.blue = colourToSet;
 		if (colourT.equals("brown"))
-			this.brown = new Color(red, green, blue);
+			this.brown = colourToSet;
 		if (colourT.equals("green"))
-			this.green = new Color(red, green, blue);
+			this.green = colourToSet;
 		if (colourT.equals("red"))
-			this.red = new Color(red, green, blue);
+			this.red = colourToSet;
 		if (colourT.equals("yellow"))
-			this.yellow = new Color(red, green, blue);
+			this.yellow = colourToSet;
 		if (colourT.equals("pink"))
-			this.pink = new Color(red, green, blue);
+			this.pink = colourToSet;
 		if (colourT.equals("cyan"))
-			this.cyan = new Color(red, green, blue);
+			this.cyan = colourToSet;
 		if (colourT.equals("orange"))
-			this.orange = new Color(red, green, blue);
+			this.orange = colourToSet;
+		
+		MyColour.valueOf(colourT).setColour(colourToSet);
 	}
 
 	public int getColoursRed(String colour) {
@@ -117,13 +120,40 @@ public class GeneralSettings implements Serializable {
 	
 	public void setDefaultColors(){
 		brown = new Color(148, 104, 39);
+		MyColour.brown.setColour(this.brown);
 		green = new Color(108, 216, 68);
+		MyColour.green.setColour(this.green);
 		red = new Color(249, 69, 24);
+		MyColour.red.setColour(this.red);
 		yellow = new Color(245, 245, 26);
+		MyColour.yellow.setColour(this.yellow);
 		pink = new Color(239, 86, 208);
+		MyColour.pink.setColour(this.pink);
 		cyan = new Color(95, 207, 235);
+		MyColour.cyan.setColour(this.cyan);
 		blue = new Color(14, 104, 243);
+		MyColour.blue.setColour(this.blue);
 		orange = new Color(250, 190, 50);
+		MyColour.orange.setColour(this.orange);
 	}
-
+	
+	public String getColorName(Color colour){
+		if (colour.equals(blue))
+			return "blue";
+		if (colour.equals(brown))
+			return "brown";
+		if (colour.equals(green))
+			return "green";
+		if (colour.equals(red))
+			return "red";
+		if (colour.equals(yellow))
+			return "yellow";
+		if (colour.equals(pink))
+			return "pink";
+		if (colour.equals(cyan))
+			return "cyan";
+		if (colour.equals(orange))
+			return "orange";
+		return null;
+	}
 }

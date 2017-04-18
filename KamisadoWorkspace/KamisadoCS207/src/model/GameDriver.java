@@ -212,7 +212,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			if (numOfNoGoes >= 6) {
 				return true;
 			} else {
-				currentState.setColourToMove(currentState.getBoard().findColor(posToMove));
+				Board board = currentState.getBoard();
+				currentState.setColourToMove(board.getColourName(board.findColor(posToMove)));
 				if (nextTurn(++numOfNoGoes)) {
 					currentState.getPlayerToMove().incrementScore(1);
 					this.tellAll(currentState);

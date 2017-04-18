@@ -5,37 +5,18 @@ import java.io.Serializable;
 import java.util.Random;
 
 public final class Board implements Serializable {
-	private static Color orange;
-	private static Color blue;
-	private static Color brown;
-	private static Color red;
-	private static Color cyan;
-	private static Color green;
-	private static Color yellow;
-	private static Color pink;
 	private Piece[][] pieces;
-	private static Color[][] boardColours;
-	private static Color[] defaultColours;// could take take default colours
+	private MyColour[][] boardColours = new MyColour[boardSize][boardSize];
+	private static MyColour[] defaultColours = {MyColour.brown, MyColour.green, MyColour.red
+			, MyColour.yellow, MyColour.pink, MyColour.cyan, MyColour.blue, MyColour.orange};// could take take default colours
 											// from file
 	private static final int boardSize = 8;
-	private Color colourToMove;
+	private String colourToMove;
 	private boolean isRandom;
 	private transient GeneralSettingsManager manager;
 	private transient GeneralSettings settings;
 
 	public Board(boolean random) {
-		manager = new GeneralSettingsManager();
-		settings = manager.getGeneralSettings();
-		orange = settings.getColour("orange");
-		blue = settings.getColour("blue");
-		brown = settings.getColour("brown");
-		red = settings.getColour("red");
-		cyan = settings.getColour("cyan");
-		green = settings.getColour("green");
-		yellow = settings.getColour("yellow");
-		pink = settings.getColour("pink");
-		defaultColours = new Color[] { brown, green, red, yellow, pink, cyan, blue, orange };
-
 		pieces = new Piece[boardSize][boardSize];
 		isRandom = random;
 		if (random) {
@@ -52,34 +33,34 @@ public final class Board implements Serializable {
 			this.pieces = new Piece[boardSize][boardSize];
 			for (int index = 0; index < boardSize; index++) {
 				for (int j = 0; j < boardSize; j++) {
+					boardColours[index][j] = other.getBoardColours()[index][j];
 					if (other.pieces[index][j] != null) {
 						this.pieces[index][j] = new Piece(other.findPieceAtLoc(index, j));
 					} else {
 						this.pieces[index][j] = null;
 					}
-
 				}
 			}
 		}
 	}
 
 	public String getColourName(Color colour) {
-		if (colour.equals(orange))
-			return "Orange";
-		if (colour.equals(blue))
-			return "Blue";
-		if (colour.equals(brown))
-			return "Brown";
-		if (colour.equals(red))
-			return "Red";
-		if (colour.equals(cyan))
-			return "Cyan";
-		if (colour.equals(green))
-			return "Green";
-		if (colour.equals(yellow))
-			return "Yellow";
-		if (colour.equals(pink))
-			return "Pink";
+		if (colour.equals(MyColour.orange.getColour()))
+			return "orange";
+		if (colour.equals(MyColour.blue.getColour()))
+			return "blue";
+		if (colour.equals(MyColour.brown.getColour()))
+			return "brown";
+		if (colour.equals(MyColour.red.getColour()))
+			return "red";
+		if (colour.equals(MyColour.cyan.getColour()))
+			return "cyan";
+		if (colour.equals(MyColour.green.getColour()))
+			return "green";
+		if (colour.equals(MyColour.yellow.getColour()))
+			return "yellow";
+		if (colour.equals(MyColour.pink.getColour()))
+			return "pink";
 		return null;
 	}
 
@@ -92,11 +73,11 @@ public final class Board implements Serializable {
 	}
 
 	public void setRandomBoardColours() {
-		Color[] colorsTemp = new Color[] { brown, green, red, yellow, pink, cyan, blue, orange };
+		MyColour[] colorsTemp ={MyColour.brown, MyColour.green, MyColour.red, MyColour.yellow, MyColour.pink, MyColour.cyan, MyColour.blue, MyColour.orange };
 		Random rnd = new Random();
 		for (int i = 0; i < colorsTemp.length; i++) {
 			int index = rnd.nextInt(colorsTemp.length);
-			Color temp = colorsTemp[index];
+			MyColour temp = colorsTemp[index];
 			colorsTemp[index] = colorsTemp[i];
 			colorsTemp[i] = temp;
 		}
@@ -109,34 +90,33 @@ public final class Board implements Serializable {
 		for (int i = 0; i < boardSize; i++) {
 			int index = rnd.nextInt(boardSize);
 			for (int k = 0; k < boardSize; k++) {
-				Color temp = boardColours[index][k];
+				MyColour temp = boardColours[index][k];
 				boardColours[index][k] = boardColours[i][k];
 				boardColours[i][k] = temp;
 			}
 		}
 	}
 
-	private void setBoardColors(Color[] colors) {
+	private void setBoardColors(MyColour[] colorsTemp) {
 		int plusOne = 0;
 		int plusThree = 1;
 		int plusFive = 6;
-		boardColours = new Color[boardSize][boardSize];
 		for (; plusOne < boardSize; plusOne++, plusThree = plusThree + 3, plusFive = plusFive + 5) {
-			boardColours[plusOne][plusOne] = colors[0];
-			boardColours[plusOne][(plusThree + 4) % 8] = colors[1];
-			boardColours[plusOne][(plusFive) % 8] = colors[2];
-			boardColours[plusOne][((7 - plusOne) + 4) % 8] = colors[3];
-			boardColours[plusOne][(plusOne + 4) % 8] = colors[4];
-			boardColours[plusOne][plusThree % 8] = colors[5];
-			boardColours[plusOne][(plusFive + 4) % 8] = colors[6];
-			boardColours[plusOne][7 - plusOne] = colors[7];
+			boardColours[plusOne][plusOne] = colorsTemp[0];
+			boardColours[plusOne][(plusThree + 4) % 8] = colorsTemp[1];
+			boardColours[plusOne][(plusFive) % 8] = colorsTemp[2];
+			boardColours[plusOne][((7 - plusOne) + 4) % 8] = colorsTemp[3];
+			boardColours[plusOne][(plusOne + 4) % 8] = colorsTemp[4];
+			boardColours[plusOne][plusThree % 8] = colorsTemp[5];
+			boardColours[plusOne][(plusFive + 4) % 8] = colorsTemp[6];
+			boardColours[plusOne][7 - plusOne] = colorsTemp[7];
 		}
 	}
-
+	
 	private void initialisePiecePositions() {
 		for (int i = 0; i < boardSize; i++) {
-			pieces[i][7] = new Piece("TeamBlack", PieceType.Standard, boardColours[i][7]);
-			pieces[i][0] = new Piece("TeamWhite", PieceType.Standard, boardColours[i][0]);
+			pieces[i][7] = new Piece("TeamBlack", PieceType.Standard, boardColours[i][7].toString());
+			pieces[i][0] = new Piece("TeamWhite", PieceType.Standard, boardColours[i][0].toString());
 		}
 		// pieces[0][7] = new PieceObject("Black", PieceType.Standard,
 		// boardColours[0][7]);
@@ -244,7 +224,7 @@ public final class Board implements Serializable {
 		PieceType pieceType = pieces[startPosition.getX()][startPosition.getY()].getPieceType();
 		int endx = endPosition.getX();
 		int endy = endPosition.getY();
-		colourToMove = boardColours[endx][endy];
+		colourToMove = boardColours[endx][endy].toString();
 		if (pieces[endx][endy] != null) {
 			boolean pushingUp = startPosition.getY() < endy;
 			sumoPush(pushingUp, endPosition, pieceType.getPiecesItCanMove());
@@ -272,20 +252,17 @@ public final class Board implements Serializable {
 			numOfPiecesActuallyPushing++;
 		}
 		if (pushingUp) {
-			colourToMove = boardColours[endx][endy + numOfPiecesActuallyPushing];
+			colourToMove = boardColours[endx][endy + numOfPiecesActuallyPushing].toString();
 		} else {
-			colourToMove = boardColours[endx][endy - numOfPiecesActuallyPushing];
+			colourToMove = boardColours[endx][endy - numOfPiecesActuallyPushing].toString();
 		}
 		for (int i = numOfPiecesActuallyPushing; i > 0; i--) {
 			if (pushingUp) {
-				// System.out.println("placing X:" + endx + " Y:" + (endy+i-1) +
-				// " to X:" + endx + " Y:" + (endy+i));
 				pieces[endx][endy + i] = removePiece(endx, endy + i - 1);
 			} else {
 				pieces[endx][endy - i] = removePiece(endx, endy - i + 1);
 			}
 		}
-
 	}
 
 	private Piece removePiece(int x, int y) {
@@ -312,32 +289,8 @@ public final class Board implements Serializable {
 	}
 
 	public Color findColor(Position position) {
-		return boardColours[position.getX()][position.getY()];
+		return boardColours[position.getX()][position.getY()].getColour();
 	}
-
-	public Position findColorPos(String teamColor, Color pieceColor) {
-		Position foundPos = null;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if (pieces[i][j].getPieceColour().equals(pieceColor) && pieces[i][j].getTeam().equals(teamColor)) {
-					foundPos = new Position(i, j);
-					break;
-				}
-			}
-		}
-		return foundPos;
-	}
-
-	// public Position findPiece(Piece piece){
-	// for(int i = 0; i < 8; i++){
-	// for(int j = 0; j < 8; j++){
-	// if(pieces[i][j].equals(piece)){
-	// return new Position(i,j);
-	// }
-	// }
-	// }
-	// return null;
-	// }
 
 	public Piece findPieceAtLoc(int x, int y) {
 		if (pieces[x][y] != null) {
@@ -350,33 +303,11 @@ public final class Board implements Serializable {
 		return pieces;
 	}
 
-	public Color[][] getBoardColours() {
+	public MyColour[][] getBoardColours() {
 		return boardColours;
 	}
 
-	// private String pieceColor(Color pieceColor) {
-	// if (pieceColor.equals(or)) {
-	// return "Orange";
-	// } else if (pieceColor.equals(bl)) {
-	// return "Blue";
-	// } else if (pieceColor.equals(br)) {
-	// return "Brown";
-	// } else if (pieceColor.equals(r)) {
-	// return "Red";
-	// } else if (pieceColor.equals(c)) {
-	// return "Cyan";
-	// } else if (pieceColor.equals(gr)) {
-	// return "Green";
-	// } else if (pieceColor.equals(y)) {
-	// return "Yellow";
-	// } else if (pieceColor.equals(p)) {
-	// return "Pink";
-	// } else {
-	// return "";
-	// }
-	// }
-
-	public Color getColourToMove() {
+	public String getColourToMove() {
 		return colourToMove;
 	}
 

@@ -26,6 +26,7 @@ import model.GeneralSettingsManager;
 import model.MyObservable;
 import model.MyObserver;
 import model.Piece;
+import model.MyColour;
 import model.PieceType;
 import model.Position;
 
@@ -73,9 +74,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
 		if(settings.getPieceImageStyle().equals("pieceStyleOne")){
-			return merger.mergeRegularStyle(piece.getPieceColour(), piece.getTeam(), piece.getPieceType().toString());
+			return merger.mergeRegularStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(), piece.getPieceType().toString());
 		}else{
-			return merger.mergeAlternateStyle(piece.getPieceColour(), piece.getTeam(), piece.getPieceType().toString());
+			return merger.mergeAlternateStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(), piece.getPieceType().toString());
 		}
 	}
 
@@ -105,7 +106,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
 				buttons[x][y] = new JButton();
-				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
+				buttons[x][y].setBackground(board.findColor(new Position(x,y)));
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(new ImageIcon(image));
@@ -129,7 +130,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
-				buttons[x][y].setBackground(board.getBoardColours()[x][y]);
+				buttons[x][y].setBackground(board.findColor(new Position(x,y)));
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					if(previousLocation != null && previousLocation.equals(buttons[x][y])){

@@ -49,8 +49,7 @@ public class TreeNode {
 		for (int i = 0; i < moves.size(); i++) {
 			this.moves.add(new Move(moves.get(i)));
 		}
-		this.boardState.calcValidMoves(this.boardState.calcPieceToMove());
-		this.validMovesForThisPlayer = this.boardState.getValidMoves();
+		this.validMovesForThisPlayer = this.boardState.calcValidMoves(this.boardState.calcPieceToMove());
 		this.alpha = -1000000000;
 		this.beta = 1000000000;
 		this.depth = depth;
@@ -120,11 +119,11 @@ public class TreeNode {
 			}
 		} else {
 			// if player misses a go
-			State board = new State(boardState, boardState.getBoard());
-			Position pos = board.getPieceToMove();
-			moves.add(new Move(pos, pos, board.findPiece(pos)));
-			board.flipPlayerToMove();
-			childNode = new TreeNode(depth - 1, new State(board, board.getBoard()),(1 - playerToMove), moves);
+			State state = new State(boardState, boardState.getBoard());
+			Position pos = state.getPieceToMove();
+			moves.add(new Move(pos, pos, state.findPiece(pos)));
+			state.flipPlayerToMove();
+			childNode = new TreeNode(depth - 1, new State(state, state.getBoard()),(1 - playerToMove), moves);
 			children.add(childNode);
 			childNode.generateChildren();
 			previousMove.setScore(childNode.getScore());
