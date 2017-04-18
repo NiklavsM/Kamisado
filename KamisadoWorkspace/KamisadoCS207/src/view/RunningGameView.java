@@ -313,8 +313,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
@@ -356,8 +354,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
