@@ -1,8 +1,14 @@
 package model;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import player.Player;
 
@@ -10,7 +16,7 @@ public final class State implements Serializable {
 
 	private final int boardUpperLimit = 7;
 	private final int boardLowerLimit = 0;
-	
+
 	private Board currentBoard;
 	private ArrayList<Position> validMoves;
 	private Piece[][] pieces;
@@ -23,6 +29,7 @@ public final class State implements Serializable {
 	private Position pieceToMove;
 	private boolean firstMove = false;
 	private boolean gameOver = false;
+	private boolean sumoPush = false;
 
 	public State(Player playerWhite, Player playerBlack, Player playerToMove, Boolean random) {
 		this.playerWhite = playerWhite;
@@ -30,7 +37,7 @@ public final class State implements Serializable {
 		this.PlayerToMove = playerToMove;
 		currentBoard = new Board(random);
 		pieces = currentBoard.getPieces();
-//		colourToMove = Color.BLACK;
+		// colourToMove = Color.BLACK;
 		validMoves = new ArrayList<>();
 		previousMove = null;
 		pieceToMove = null;
@@ -48,14 +55,14 @@ public final class State implements Serializable {
 		this.PlayerToMove = state.PlayerToMove;
 		this.pieceToMove = state.pieceToMove;
 		this.firstMove = state.firstMove;
-		if(state.validMoves != null) {
-	        this.validMoves = new ArrayList<Position>();
-	        for(int index = 0; index < state.validMoves.size(); index++) {
-	        	if(state.validMoves.get(index) != null){
-        			this.validMoves.add(new Position(state.validMoves.get(index)));
-        		}
-	        }
-	    }
+		if (state.validMoves != null) {
+			this.validMoves = new ArrayList<Position>();
+			for (int index = 0; index < state.validMoves.size(); index++) {
+				if (state.validMoves.get(index) != null) {
+					this.validMoves.add(new Position(state.validMoves.get(index)));
+				}
+			}
+		}
 	}
 
 	public State(Player playerWhite, Player playerBlack, Player playerToMove, Board previousBoard, boolean b) {
@@ -64,10 +71,10 @@ public final class State implements Serializable {
 		this.PlayerToMove = playerToMove;
 		this.currentBoard = new Board(previousBoard);
 		this.pieces = currentBoard.getPieces();
-		if(playerToMove.equals(playerWhite)){
+		if (playerToMove.equals(playerWhite)) {
 			currentBoard.fillHomeRow(playerBlack.getPlayerTeam(), b);
 			currentBoard.fillHomeRow(playerWhite.getPlayerTeam(), !b);
-		}else{
+		} else {
 			currentBoard.fillHomeRow(playerWhite.getPlayerTeam(), b);
 			currentBoard.fillHomeRow(playerBlack.getPlayerTeam(), !b);
 		}
@@ -75,7 +82,7 @@ public final class State implements Serializable {
 		previousMove = null;
 		pieceToMove = null;
 		startingPosition = null;
-//		colourToMove = Color.BLACK;
+		// colourToMove = Color.BLACK;
 	}
 
 	public Position calcPieceToMove() {
@@ -85,7 +92,7 @@ public final class State implements Serializable {
 				if (pieces[i][j] != null) {
 					if (pieces[i][j].getPieceName().equals(colourToMove)
 							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
-						pieceToMove = new Position(i,j);
+						pieceToMove = new Position(i, j);
 						return pieceToMove;
 					}
 				}
@@ -96,26 +103,31 @@ public final class State implements Serializable {
 
 	public ArrayList<Position> calcValidMoves(Position position) {
 		validMoves.clear();
-		
+
 		startingPosition = position;
 		int startx = position.getX();
 		int starty = position.getY();
 		PieceType pieceToMoveType = pieces[startx][starty].getPieceType();
 		int distanceCanMove = pieceToMoveType.getMaxMovement();
 		if (PlayerToMove.getPlayerTeam().equals("TeamWhite")) {
-			options(startx, startx, starty, -1, 1,distanceCanMove);//left up
-			options((7 - starty), startx, starty, 0, 1,distanceCanMove);//middle up
-			options((7 - startx), startx, starty, 1, 1,distanceCanMove);//right up
-			
-			if(!legal(new Position(startx, starty +1))){
+			options(startx, startx, starty, -1, 1, distanceCanMove);// left up
+			options((7 - starty), startx, starty, 0, 1, distanceCanMove);// middle
+																			// up
+			options((7 - startx), startx, starty, 1, 1, distanceCanMove);// right
+																			// up
+
+			if (!legal(new Position(startx, starty + 1))) {
 				checkSumoPush(startx, starty, true);
 			}
 		} else {
-			options(startx, startx, starty, -1, -1,distanceCanMove);//left down
-			options(starty, startx, starty, 0, -1,distanceCanMove);//middle down
-			options((7-startx), startx, starty, 1, -1,distanceCanMove);//right down
-			
-			if(!legal(new Position(startx, starty -1))){
+			options(startx, startx, starty, -1, -1, distanceCanMove);// left
+																		// down
+			options(starty, startx, starty, 0, -1, distanceCanMove);// middle
+																	// down
+			options((7 - startx), startx, starty, 1, -1, distanceCanMove);// right
+																			// down
+
+			if (!legal(new Position(startx, starty - 1))) {
 				checkSumoPush(startx, starty, false);
 			}
 		}
@@ -123,7 +135,7 @@ public final class State implements Serializable {
 	}
 
 	private void options(int options, int x, int y, int incrementx, int incrementy, int numSpacesCanMove) {
-		if(options > numSpacesCanMove){
+		if (options > numSpacesCanMove) {
 			options = numSpacesCanMove;
 		}
 		for (int j = 0; j < options; j++) {
@@ -138,38 +150,38 @@ public final class State implements Serializable {
 			}
 		}
 	}
-	
-	private void checkSumoPush(int posX, int posY, boolean checkingUp){
+
+	private void checkSumoPush(int posX, int posY, boolean checkingUp) {
 		PieceType pieceType = pieces[posX][posY].getPieceType();
-		if(!pieceType.equals(PieceType.Standard)){
-			if(sumoLoop(posX, posY, pieceType.getPiecesItCanMove(), checkingUp)){
+		if (!pieceType.equals(PieceType.Standard)) {
+			if (sumoLoop(posX, posY, pieceType.getPiecesItCanMove(), checkingUp)) {
 				int increment = -1;
-				if(checkingUp){
+				if (checkingUp) {
 					increment = 1;
 				}
-				validMoves.add(new Position(posX, posY+increment));
+				validMoves.add(new Position(posX, posY + increment));
 			}
 		}
 	}
-	
-	private boolean sumoLoop(int x, int y, int piecesCanMove, boolean checkingUp){
+
+	private boolean sumoLoop(int x, int y, int piecesCanMove, boolean checkingUp) {
 		int increment = -1;
-		if(checkingUp){
+		if (checkingUp) {
 			increment = 1;
 		}
 		int tempVal;
-		for(int i = 1; i <= piecesCanMove+1; i++){
+		for (int i = 1; i <= piecesCanMove + 1; i++) {
 			tempVal = y + (i * increment);
-			//System.out.println("temp: " + tempVal);
-			if(tempVal >= 8 || tempVal < 0){
+			// System.out.println("temp: " + tempVal);
+			if (tempVal >= 8 || tempVal < 0) {
 				return false;
-			}else if(pieces[x][tempVal] == null){
+			} else if (pieces[x][tempVal] == null) {
 				return true;
-			}else if(pieces[x][tempVal].getTeam().equals(pieces[x][y].getTeam())){
+			} else if (pieces[x][tempVal].getTeam().equals(pieces[x][y].getTeam())) {
 				return false;
-			}else if(pieces[x][y].getPieceType().compareTo(pieces[x][tempVal].getPieceType()) > 0){
+			} else if (pieces[x][y].getPieceType().compareTo(pieces[x][tempVal].getPieceType()) > 0) {
 				continue;
-			}else{
+			} else {
 				return false;
 			}
 		}
@@ -178,18 +190,18 @@ public final class State implements Serializable {
 
 	public State make(Position endPosition) {
 		if (legal(endPosition)) {
-			boolean sumoMove = false;
-			if(pieces[endPosition.getX()][endPosition.getY()] != null){
-				sumoMove = true;
+			setSumoPush(false);
+			if (pieces[endPosition.getX()][endPosition.getY()] != null) {
+				setSumoPush(true);
 			}
 			Board newBoard = new Board(currentBoard);
 			newBoard.move(startingPosition, endPosition);
-			if (newBoard != null) {	
+			if (newBoard != null) {
 				colourToMove = newBoard.getColourToMove();
 				State newState = new State(this, newBoard);
 				newState.setPreviousMove(new Move(startingPosition, endPosition,
-				newBoard.findPieceAtLoc(endPosition.getX(), endPosition.getY())));
-				if(sumoMove){
+						newBoard.findPieceAtLoc(endPosition.getX(), endPosition.getY())));
+				if (isSumoPush()) {
 					newState.flipPlayerToMove();
 				}
 				return newState;
@@ -243,9 +255,10 @@ public final class State implements Serializable {
 		return colourToMove;
 	}
 
-//	public Position findPositionOfColour(String teamColor, Color colourToMove) {
-//		return currentBoard.findColorPos(teamColor, colourToMove);
-//	}
+	// public Position findPositionOfColour(String teamColor, Color
+	// colourToMove) {
+	// return currentBoard.findColorPos(teamColor, colourToMove);
+	// }
 
 	public Player getPlayerToMove() {
 		return PlayerToMove;
@@ -282,7 +295,7 @@ public final class State implements Serializable {
 	public Position getPieceToMove() {
 		return pieceToMove;
 	}
-	
+
 	public boolean isFirstMove() {
 		return firstMove;
 	}
@@ -294,8 +307,16 @@ public final class State implements Serializable {
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
-	
+
 	public boolean isGameOver() {
 		return gameOver;
+	}
+
+	public boolean isSumoPush() {
+		return sumoPush;
+	}
+
+	public void setSumoPush(boolean sumoPush) {
+		this.sumoPush = sumoPush;
 	}
 }
