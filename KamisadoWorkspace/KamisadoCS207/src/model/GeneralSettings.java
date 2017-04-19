@@ -119,22 +119,15 @@ public class GeneralSettings implements Serializable {
 	}
 	
 	public void setDefaultColors(){
-		brown = new Color(148, 104, 39);
-		MyColour.brown.setColour(this.brown);
-		green = new Color(108, 216, 68);
-		MyColour.green.setColour(this.green);
+		brown = new Color(148, 104, 39);		
+		green = new Color(108, 216, 68);		
 		red = new Color(249, 69, 24);
-		MyColour.red.setColour(this.red);
 		yellow = new Color(245, 245, 26);
-		MyColour.yellow.setColour(this.yellow);
 		pink = new Color(239, 86, 208);
-		MyColour.pink.setColour(this.pink);
 		cyan = new Color(95, 207, 235);
-		MyColour.cyan.setColour(this.cyan);
 		blue = new Color(14, 104, 243);
-		MyColour.blue.setColour(this.blue);
 		orange = new Color(250, 190, 50);
-		MyColour.orange.setColour(this.orange);
+
 	}
 	
 	public String getColorName(Color colour){
