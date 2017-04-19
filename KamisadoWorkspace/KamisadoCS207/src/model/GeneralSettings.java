@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class GeneralSettings implements Serializable {
 	private boolean musicOn = false;
 	private boolean soundOn = false;
-	private int musicVolume = -30;
-	private int soundVolume = -30;
+	private int musicVolume = -20;
+	private int soundVolume = -20;
 	private String pieceImageStyle = "pieceStyleOne";
 	private Color brown;
 	private Color green;

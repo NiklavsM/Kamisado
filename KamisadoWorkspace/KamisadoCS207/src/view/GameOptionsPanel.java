@@ -252,8 +252,8 @@ public class GameOptionsPanel extends JPanel {
 	}
 	
 	private void setUpAIColour(){
-		JLabel aiStart = new JLabel("AI Colour");
-		aiStart.setBounds(430, 130, 90, 20);
+		JLabel aiStart = new JLabel("AI");
+		aiStart.setBounds(455, 130, 30, 20);
 		add(aiStart);
 		
 		whiteAiPlayer.setBounds(450, 178, 60, 20);

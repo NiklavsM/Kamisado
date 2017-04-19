@@ -28,34 +28,20 @@ public class MenuFrame extends JFrame {
 	private JPanel homePanel;
 	private JPanel contentPane;
 	private GameOptionsPanel options;
-	private StatPanel statPanel;
-	private RunningGameView gameView;
-	private GeneralSettingsPanel generalSettingsPanel;
 	private Controller controller;
 	private String currentlyShownPanel;
 
-	public MenuFrame(Controller controller, RunningGameView gameView) {
+	public MenuFrame(Controller controller) {
 		this.controller = controller;
 		menuBar();
-		this.gameView = gameView;
 		contentPane = new JPanel(new CardLayout());
 		options = new GameOptionsPanel(controller);
-		homePanel = new JPanel();
-
-		JLabel homeLabel = new JLabel();
-		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
-		homeLabel.setIcon(homeImage);
-		homePanel.add(homeLabel);
-		homePanel.setFocusable(false);
-
-		contentPane.add(homePanel, "Home");
-		contentPane.add(options, "New Game");
-		contentPane.add(this.gameView, "Game View");
+		addPanel(options, "New Game");
+		initializeHomePanel();
+		addPanel(homePanel, "Home");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		CardLayout c1 = (CardLayout) contentPane.getLayout();
-		c1.show(contentPane, "New Game");
-		currentlyShownPanel = "New Game";
 		setContentPane(contentPane);
+		ShowPanel("New Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 200, 820, 700);
 		setResizable(false);
@@ -75,13 +61,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					CardLayout c1 = (CardLayout) contentPane.getLayout();
-					c1.show(contentPane, "Home");
-					currentlyShownPanel = "Home";
-					homePanel.requestFocus();
-					JPanel tempGlassPane = (JPanel) getGlassPane();
-					tempGlassPane.removeAll();
-					tempGlassPane.repaint();
+					ShowPanel("Home");
 				}
 			}
 		});
@@ -95,14 +75,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					gameView.setUpTimer();
-					CardLayout c1 = (CardLayout) contentPane.getLayout();
-					c1.show(contentPane, "New Game");
-					currentlyShownPanel = "New Game";
-					options.requestFocus();
-					JPanel tempGlassPane = (JPanel) getGlassPane();
-					tempGlassPane.removeAll();
-					tempGlassPane.repaint();
+					ShowPanel("New Game");
 				}
 			}
 		});
@@ -116,13 +89,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					CardLayout c1 = (CardLayout) contentPane.getLayout();
-					c1.show(contentPane, "New Game");
-					currentlyShownPanel = "New Game";
-					gameView.setUpTimer();
-					JPanel tempGlassPane = (JPanel) getGlassPane();
-					tempGlassPane.removeAll();
-					tempGlassPane.repaint();
+					ShowPanel("New Game");
 					controller.loadGame();
 				}
 			}
@@ -137,15 +104,9 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					statPanel = new StatPanel();
-					contentPane.add(statPanel, "Stats");
-					CardLayout c1 = (CardLayout) contentPane.getLayout();
-					c1.show(contentPane, "Stats");
-					currentlyShownPanel = "Stats";
-					statPanel.requestFocus();
-					JPanel tempGlassPane = (JPanel) getGlassPane();
-					tempGlassPane.removeAll();
-					tempGlassPane.repaint();
+					StatPanel statPanel = new StatPanel();
+					addPanel(statPanel, "Stats");
+					ShowPanel("Stats");
 				}
 			}
 		});
@@ -159,15 +120,9 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					generalSettingsPanel = new GeneralSettingsPanel(controller);
-					contentPane.add(generalSettingsPanel, "General Settings");
-					CardLayout c1 = (CardLayout) contentPane.getLayout();
-					c1.show(contentPane, "General Settings");
-					currentlyShownPanel = "General Settings";
-					generalSettingsPanel.requestFocus();
-					JPanel tempGlassPane = (JPanel) getGlassPane();
-					tempGlassPane.removeAll();
-					tempGlassPane.repaint();
+					GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(controller);
+					addPanel(generalSettingsPanel, "General Settings");
+					ShowPanel("General Settings");
 				}
 			}
 		});
@@ -214,15 +169,21 @@ public class MenuFrame extends JFrame {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
-	public void ShowPanel(String panelToShow) {
-		
-		if(panelToShow.equals(currentlyShownPanel)){
-			
-		}else if(displayConfirmExitMessage() == 0){
+	public void initializeHomePanel() {
+		homePanel = new JPanel();
+		JLabel homeLabel = new JLabel();
+		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
+		homeLabel.setIcon(homeImage);
+		homePanel.add(homeLabel);
+		homePanel.setFocusable(false);
+	}
+
+	public void ShowPanel(String panelsName) {
+
+		if (!panelsName.equals(currentlyShownPanel)) {
 			CardLayout c1 = (CardLayout) contentPane.getLayout();
-			c1.show(contentPane, panelToShow);
-			currentlyShownPanel = panelToShow;
-			gameView.requestFocus();
+			c1.show(contentPane, panelsName);
+			currentlyShownPanel = panelsName;
 			JPanel tempGlassPane = (JPanel) this.getGlassPane();
 			tempGlassPane.removeAll();
 			tempGlassPane.repaint();
@@ -239,5 +200,9 @@ public class MenuFrame extends JFrame {
 			return 0;
 		}
 
+	}
+
+	public void addPanel(JPanel panel, String name) {
+		contentPane.add(panel, name);
 	}
 }

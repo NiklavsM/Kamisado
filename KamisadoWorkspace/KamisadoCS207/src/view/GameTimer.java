@@ -17,7 +17,7 @@ public class GameTimer extends JPanel implements MyObserver {
 		time = new JLabel();
 		time.setVisible(true);
 		time.setText(" ");
-		time.setFont(new Font("sherif", Font.BOLD, 9));
+		time.setFont(new Font("sherif", Font.BOLD, 18));
 		this.add(time);
 	}
 
