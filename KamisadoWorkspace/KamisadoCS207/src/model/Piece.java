@@ -5,11 +5,12 @@ import java.io.Serializable;
 
 public class Piece implements Serializable {
 
+	GeneralSettingsManager settings = new GeneralSettingsManager();
 	private String team;
 	private PieceType pieceType;
-	private Color pieceColour;
+	private String pieceColour;
 
-	public Piece(String team,PieceType pieceType, Color pieceColour) {
+	public Piece(String team,PieceType pieceType, String pieceColour) {
 		this.team = team;
 		this.pieceType = pieceType;
 		this.pieceColour = pieceColour;
@@ -18,10 +19,10 @@ public class Piece implements Serializable {
 	public Piece(Piece piece){
 		this.team = piece.getTeam();
 		this.pieceType = piece.getPieceType();
-		this.pieceColour = piece.getPieceColour();
+		this.pieceColour = piece.getPieceName();
 	}
 
-	public Color getPieceColour() {
+	public String getPieceName() {
 		return pieceColour;
 	}
 

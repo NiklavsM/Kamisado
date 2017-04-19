@@ -21,6 +21,7 @@ import javax.swing.event.ChangeListener;
 import controller.Controller;
 import model.GeneralSettings;
 import model.GeneralSettingsManager;
+import model.MyColour;
 
 public class GeneralSettingsPanel extends JPanel {
 	JLabel soundLabel;
@@ -105,13 +106,13 @@ public class GeneralSettingsPanel extends JPanel {
 	}
 
 	public void pieceTypeChooser() {
-		styleOneImage = merger.mergeRegularStyle(settings.getColour("blue"), "TeamWhite", "Standard");
+		styleOneImage = merger.mergeRegularStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
 		
 		styleOneImageLabel = new JLabel(new ImageIcon(styleOneImage));
 		styleOneImageLabel.setBounds(300, 100, 50, 50);
 		add(styleOneImageLabel);
 
-		styleTwoImage = merger.mergeAlternateStyle(settings.getColour("blue"), "TeamWhite", "Standard");
+		styleTwoImage = merger.mergeAlternateStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
 		
 		styleTwoImageLabel = new JLabel(new ImageIcon(styleTwoImage));
 		styleTwoImageLabel.setBounds(380, 100, 50, 50);
@@ -233,5 +234,4 @@ public class GeneralSettingsPanel extends JPanel {
 		});
 		add(apply);
 	}
-
 }

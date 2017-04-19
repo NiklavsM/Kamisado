@@ -15,7 +15,7 @@ public final class State implements Serializable {
 	private ArrayList<Position> validMoves;
 	private Piece[][] pieces;
 	private Position startingPosition;
-	private Color colourToMove;
+	private String colourToMove;
 	private Move previousMove;
 	private Player playerWhite;
 	private Player playerBlack;
@@ -83,7 +83,7 @@ public final class State implements Serializable {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (pieces[i][j] != null) {
-					if (pieces[i][j].getPieceColour().equals(colourToMove)
+					if (pieces[i][j].getPieceName().equals(colourToMove)
 							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
 						pieceToMove = new Position(i,j);
 						return pieceToMove;
@@ -103,23 +103,18 @@ public final class State implements Serializable {
 		PieceType pieceToMoveType = pieces[startx][starty].getPieceType();
 		int distanceCanMove = pieceToMoveType.getMaxMovement();
 		if (PlayerToMove.getPlayerTeam().equals("TeamWhite")) {
-			//left up
-			options(startx, startx, starty, -1, 1,distanceCanMove);
-			//middle up
-			options((7 - starty), startx, starty, 0, 1,distanceCanMove);
-			//right up
-			options((7 - startx), startx, starty, 1, 1,distanceCanMove);
+			options(startx, startx, starty, -1, 1,distanceCanMove);//left up
+			options((7 - starty), startx, starty, 0, 1,distanceCanMove);//middle up
+			options((7 - startx), startx, starty, 1, 1,distanceCanMove);//right up
 			
 			if(!legal(new Position(startx, starty +1))){
 				checkSumoPush(startx, starty, true);
 			}
 		} else {
-			//left down
-			options(startx, startx, starty, -1, -1,distanceCanMove);
-			//middle down
-			options(starty, startx, starty, 0, -1,distanceCanMove);
-			//right down
-			options((7-startx), startx, starty, 1, -1,distanceCanMove);
+			options(startx, startx, starty, -1, -1,distanceCanMove);//left down
+			options(starty, startx, starty, 0, -1,distanceCanMove);//middle down
+			options((7-startx), startx, starty, 1, -1,distanceCanMove);//right down
+			
 			if(!legal(new Position(startx, starty -1))){
 				checkSumoPush(startx, starty, false);
 			}
@@ -244,13 +239,13 @@ public final class State implements Serializable {
 		return currentBoard.gameOver(previousMove.getEndPos().getY());
 	}
 
-	public Color getColourToMove() {
+	public String getColourToMove() {
 		return colourToMove;
 	}
 
-	public Position findPositionOfColour(String teamColor, Color colourToMove) {
-		return currentBoard.findColorPos(teamColor, colourToMove);
-	}
+//	public Position findPositionOfColour(String teamColor, Color colourToMove) {
+//		return currentBoard.findColorPos(teamColor, colourToMove);
+//	}
 
 	public Player getPlayerToMove() {
 		return PlayerToMove;
@@ -276,7 +271,7 @@ public final class State implements Serializable {
 		return playerBlack;
 	}
 
-	public void setColourToMove(Color colour) {
+	public void setColourToMove(String colour) {
 		colourToMove = colour;
 	}
 
