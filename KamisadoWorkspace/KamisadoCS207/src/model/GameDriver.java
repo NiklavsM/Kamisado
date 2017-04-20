@@ -166,13 +166,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public boolean tryToMove(Position placeClicked) {
 		State state = currentState.make(placeClicked);
 		if (state == null) {
-			// JOptionPane.showMessageDialog(null,"Not a valid move!", "Not a
-			// valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
-			if(currentState.getPlayerToMove().getPlayerTeam().equals("TeamWhite")){
+			if (currentState.getPlayerToMove().getPlayerTeam().equals("TeamWhite")) {
 				currentState.getPlayerBlack().wasValidMove();
-			}else{
+			} else {
 				currentState.getPlayerWhite().wasValidMove();
 			}
 			playTurnSound(currentState.isSumoPush());
@@ -296,6 +294,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public Stack<State> getHistory() {
 		return history;
 	}
+
 	public void playTurnSound(boolean sumo) {
 		GeneralSettingsManager manager = new GeneralSettingsManager();
 		GeneralSettings settings = manager.getGeneralSettings();

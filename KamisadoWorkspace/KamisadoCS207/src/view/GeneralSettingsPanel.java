@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,7 +44,7 @@ public class GeneralSettingsPanel extends JPanel {
 	GeneralSettings settings;
 	JButton resetDefaultColours;
 	Controller controller;
-	
+
 	ImageMerger merger = new ImageMerger();
 
 	public GeneralSettingsPanel(Controller controller) {
@@ -72,11 +70,11 @@ public class GeneralSettingsPanel extends JPanel {
 		musicOn.setSelected(settings.isMusicOn());
 		musicOn.setBounds(50, 100, 80, 20);
 		musicOn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				musicVolume.setEnabled(musicOn.isSelected());
-				
+
 			}
 		});
 		add(musicOn);
@@ -85,16 +83,16 @@ public class GeneralSettingsPanel extends JPanel {
 		musicVolume.setBounds(130, 100, 100, 20);
 		musicVolume.setEnabled(settings.isMusicOn());
 		add(musicVolume);
-		
+
 		soundOn = new JCheckBox("Sound On");
 		soundOn.setSelected(settings.isSoundOn());
 		soundOn.setBounds(50, 130, 80, 20);
 		soundOn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				soundVolume.setEnabled(soundOn.isSelected());
-				
+
 			}
 		});
 		add(soundOn);
@@ -107,13 +105,13 @@ public class GeneralSettingsPanel extends JPanel {
 
 	public void pieceTypeChooser() {
 		styleOneImage = merger.mergeRegularStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
-		
+
 		styleOneImageLabel = new JLabel(new ImageIcon(styleOneImage));
 		styleOneImageLabel.setBounds(300, 100, 50, 50);
 		add(styleOneImageLabel);
 
 		styleTwoImage = merger.mergeAlternateStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
-		
+
 		styleTwoImageLabel = new JLabel(new ImageIcon(styleTwoImage));
 		styleTwoImageLabel.setBounds(380, 100, 50, 50);
 		add(styleTwoImageLabel);
@@ -121,7 +119,7 @@ public class GeneralSettingsPanel extends JPanel {
 		styleOne = new JCheckBox("Style One");
 		styleOne.setBounds(300, 150, 80, 20);
 		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
-		
+
 		styleTwo = new JCheckBox("Style Two");
 		styleTwo.setBounds(380, 150, 80, 20);
 		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
@@ -139,14 +137,14 @@ public class GeneralSettingsPanel extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				colourPreview
 						.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
-				
+
 				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
 				styleTwoImageLabel.setIcon(new ImageIcon(styleTwoImage));
 			}
 		};
-		
+
 		colourPicker = new JComboBox<Object>(
 				new Object[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
 		colourPicker.setBounds(50, 250, 80, 30);
@@ -157,7 +155,7 @@ public class GeneralSettingsPanel extends JPanel {
 				redSlider.setValue(settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 				greenSlider.setValue(settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 				blueSlider.setValue(settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
-				
+
 				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
@@ -186,11 +184,11 @@ public class GeneralSettingsPanel extends JPanel {
 		colourPreview.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
 		colourPreview.setOpaque(true);
 		add(colourPreview);
-		
+
 		resetDefaultColours = new JButton("Reset Colours");
 		resetDefaultColours.setBounds(180, 250, 120, 20);
 		resetDefaultColours.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				settings.setDefaultColors();
