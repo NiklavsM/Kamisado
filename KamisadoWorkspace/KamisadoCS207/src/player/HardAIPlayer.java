@@ -70,13 +70,19 @@ public class HardAIPlayer extends Player implements MyObservable {
 		}if(this.getHomeRow() == 0){
 			TreeNode moveTree = new TreeNode(5, workingState, 1);
 			Move move = moveTree.getBestOrWorstsChild(false);
-			move.print();
+			//System.out.println(move);
 			tellAll(move.getEndPos());
 		}else {
 			TreeNode moveTree = new TreeNode(5, workingState, 0);
 			Move move = moveTree.getBestOrWorstsChild(true);
-			move.print();
+			//System.out.println(move);
 			tellAll(move.getEndPos());
 		}
+	}
+
+	@Override
+	public void update(MyObservable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

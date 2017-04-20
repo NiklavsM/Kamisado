@@ -199,7 +199,6 @@ public class MenuFrame extends JFrame {
 		} else {
 			return 0;
 		}
-
 	}
 
 	public void addPanel(JPanel panel, String name) {

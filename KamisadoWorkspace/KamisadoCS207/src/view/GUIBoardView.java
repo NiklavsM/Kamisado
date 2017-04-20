@@ -96,7 +96,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				changedSelected(currentx, currenty);
 				tellAll(new Position(x, y));
 			}
-
 		});
 	}
 

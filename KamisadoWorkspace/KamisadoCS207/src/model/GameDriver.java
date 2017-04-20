@@ -170,6 +170,11 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			// valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
+			if(currentState.getPlayerToMove().getPlayerTeam().equals("TeamWhite")){
+				currentState.getPlayerBlack().wasValidMove();
+			}else{
+				currentState.getPlayerWhite().wasValidMove();
+			}
 			playTurnSound(currentState.isSumoPush());
 			history.add(currentState);
 			currentState = state;
@@ -193,7 +198,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			gameOver = incrementScoreAtEndOfGame(winner);
 			updateStats(winner, loser);
 			if (!gameOver) {
-				System.out.println("saying player has won round");
 				Player winningPlayer = currentState.getPlayerToMove();
 				this.tellAll(winningPlayer);
 			}

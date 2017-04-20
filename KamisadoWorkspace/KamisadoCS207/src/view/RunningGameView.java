@@ -147,8 +147,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 					inGameOptions.displayHint(true);
 					inGameOptions.showUndo(true);
 				}
-				if (state.isFirstMove() && state.getPreviousMove() == null) {
-					System.out.println("got here");
+
+				if(state.isFirstMove() && state.getPreviousMove() == null){
 					inGameOptions.displayHint(false);
 					inGameOptions.showUndo(false);
 				}
@@ -172,9 +172,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 				JLabel label = new JLabel(gif);
 				addTextToGlassPane(label);
 				glassPane.repaint();
-				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				//glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			} else {
-				glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				//glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 			gameBoard.setButtonsClickable((Boolean) arg);
 		} else if (arg instanceof Position) {
@@ -188,17 +188,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 		glassPane.removeAll();
 		label.setText(gameMessage);
 		addTextToGlassPane(label);
-		glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		//glassPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	private void updateTeamScores(Player playerWhite, Player playerBlack) {
 		teamWhite.setText(playerWhite.getPlayerName() + " : " + playerWhite.getScore());
 		teamBlack.setText(playerBlack.getPlayerName() + " : " + playerBlack.getScore());
-	}
-
-	public void displaycSelectable(ArrayList<Position> validMoves) {
-		gameBoard.removeSelectable();
-		displaySelectable(validMoves);
 	}
 
 	public void addToGameLog(String message) {
@@ -255,7 +250,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 		Double gameBoardPosX = gameBoard.getBounds().getMinX();
 		Double gameBoardPosY = gameBoard.getBounds().getMinY();
 		for (Position pos : positions) {
-			// buttons[pos.getX()][pos.getY()].setIcon(SELECTED);
 			JLabel label = new JLabel();
 			label.setIcon(SELECTED);
 			label.setBounds(((pos.getX()) * 70) + gameBoardPosX.intValue() + 5,
@@ -290,8 +284,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 				label.setText("[" + x + ":" + y + "]");
 				label.setOpaque(true);
 				label.setVisible(true);
-				label.setBounds((x * 70) + gameBoardPosX.intValue() + 27,
-						((7 - y) * 70) + gameBoardPosY.intValue() + 20, 25, 10);
+				label.setBounds((x *70) + gameBoardPosX.intValue() + 27, ((7 - y) * 70) + gameBoardPosY.intValue() + 30, 25 ,11);
 				label.setPreferredSize(label.getSize());
 				gridViewGlassPane.add(label);
 				gridViewGlassPane.repaint();
