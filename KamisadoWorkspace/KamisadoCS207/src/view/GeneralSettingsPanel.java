@@ -35,7 +35,7 @@ public class GeneralSettingsPanel extends JPanel {
 	BufferedImage styleTwoImage;
 	JLabel styleOneImageLabel;
 	JLabel styleTwoImageLabel;
-	JComboBox colourPicker;
+	JComboBox<String> colourPicker;
 	JLabel colourPreview;
 	JSlider redSlider;
 	JSlider greenSlider;
@@ -43,6 +43,7 @@ public class GeneralSettingsPanel extends JPanel {
 	GeneralSettingsManager manager;
 	GeneralSettings settings;
 	JButton resetDefaultColours;
+	JLabel colorsStyle;
 	Controller controller;
 
 	ImageMerger merger = new ImageMerger();
@@ -107,21 +108,21 @@ public class GeneralSettingsPanel extends JPanel {
 		styleOneImage = merger.mergeRegularStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
 
 		styleOneImageLabel = new JLabel(new ImageIcon(styleOneImage));
-		styleOneImageLabel.setBounds(300, 100, 50, 50);
+		styleOneImageLabel.setBounds(400, 300, 50, 50);
 		add(styleOneImageLabel);
 
 		styleTwoImage = merger.mergeAlternateStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
 
 		styleTwoImageLabel = new JLabel(new ImageIcon(styleTwoImage));
-		styleTwoImageLabel.setBounds(380, 100, 50, 50);
+		styleTwoImageLabel.setBounds(480, 300, 50, 50);
 		add(styleTwoImageLabel);
 
 		styleOne = new JCheckBox("Style One");
-		styleOne.setBounds(300, 150, 80, 20);
+		styleOne.setBounds(400, 350, 80, 20);
 		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
 
 		styleTwo = new JCheckBox("Style Two");
-		styleTwo.setBounds(380, 150, 80, 20);
+		styleTwo.setBounds(480, 350, 80, 20);
 		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
 
 		pieceTypes = new ButtonGroup();
@@ -132,6 +133,10 @@ public class GeneralSettingsPanel extends JPanel {
 	}
 
 	public void boardColourChooser() {
+		
+		colorsStyle = new JLabel("Colours & Style");
+		colorsStyle.setBounds(50, 220, 120, 20);
+		add(colorsStyle);
 
 		ChangeListener sliderChangeListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -145,8 +150,8 @@ public class GeneralSettingsPanel extends JPanel {
 			}
 		};
 
-		colourPicker = new JComboBox<Object>(
-				new Object[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
+		colourPicker = new JComboBox<String>(
+				new String[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
 		colourPicker.setBounds(50, 250, 80, 30);
 		colourPicker.addActionListener(new ActionListener() {
 

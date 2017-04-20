@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -44,6 +45,8 @@ public class GameOptionsPanel extends JPanel {
 	private ButtonGroup aiDiff = new ButtonGroup();
 	private ButtonGroup networkOption = new ButtonGroup();
 	private JComboBox<Integer> gameLength;
+	private JLabel gameRoundLabel;
+	private JLabel logo;
 
 	/**
 	 * Create the panel.
@@ -62,6 +65,7 @@ public class GameOptionsPanel extends JPanel {
 		setUpPlayerTxtField();
 		setUpAIColour();
 		setUpNetworkOptions();
+		setUpRounds();
 
 //		JSeparator separator = new JSeparator();
 //		separator.setBounds(32, 108, 168, 22);
@@ -121,6 +125,11 @@ public class GameOptionsPanel extends JPanel {
 			}
 		});
 		add(btnPlay);
+		logo = new JLabel();
+		logo.setBounds(20, 350, 800, 300);
+		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
+		logo.setIcon(homeImage);
+		add(logo);
 	}
 	
 	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime, boolean randomBoard ){
@@ -152,6 +161,7 @@ public class GameOptionsPanel extends JPanel {
 		txtBlackName = new JTextField();
 		txtWhiteName = new JTextField();
 		AiSelectedField = txtBlackName;
+		gameRoundLabel = new JLabel("Rounds");
 		gameLength = new JComboBox<Integer>(new Integer[]{1,3,7,15});
 		gameLength.setSelectedIndex(0);
 	}
@@ -400,9 +410,7 @@ public class GameOptionsPanel extends JPanel {
 		whiteAiPlayer.doClick();
 		blackAiPlayer.doClick();
 		
-		gameLength.setBounds(48, 250, 82, 20);
-		
-		add(gameLength);
+
 	}
 
 	private void setUpPlayerTxtField(){
@@ -421,5 +429,12 @@ public class GameOptionsPanel extends JPanel {
 		txtWhiteName.setBounds(345, 178, 98, 20);
 		add(txtWhiteName);
 		txtWhiteName.setColumns(10);
+	}
+	
+	private void setUpRounds(){
+		gameRoundLabel.setBounds(48, 230, 80, 20);
+		add(gameRoundLabel);
+		gameLength.setBounds(48, 250, 82, 20);		
+		add(gameLength);
 	}
 }

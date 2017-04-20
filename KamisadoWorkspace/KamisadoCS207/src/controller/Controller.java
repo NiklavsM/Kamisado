@@ -84,16 +84,17 @@ public class Controller implements Serializable {
 			playerWhite = new Client2("TeamWhite", whiteName, blackName, true, true);
 
 			((Client2) playerWhite).getNameFromServer();
-			main.getGameBoard().addObserver(playerWhite);
+			
 		} else {
 			System.out.println("started second client");
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			playerBlack = new Client2("TeamBlack", blackName, whiteName, false, false);
 
 			((Client2) playerBlack).getNameFromServer();
-			main.getGameBoard().addObserver(playerBlack);
 		}
 		playGame(isSpeedGame, gameLength, timerTime, false);
+		main.getGameBoard().addObserver(playerBlack);
+		main.getGameBoard().addObserver(playerWhite);
 		playerBlack.addObserver(game);
 		playerWhite.addObserver(game);
 		System.out.println("finishing game setup");
