@@ -11,6 +11,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 
+import player.EasyAIPlayer;
+import player.HardAIPlayer;
 import player.Player;
 
 public class GameDriver implements MyObservable, MyObserver, Serializable {
@@ -90,7 +92,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public int nextRound() {
-		int optionChosen = 0;
+		System.out.println("next round?");
+		int optionChosen = -2;
 		currentGameNum++;
 		history = new Stack<>();
 		Player playerToMove = currentState.getPlayerToMove();
@@ -99,11 +102,31 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			newBoard.setRandomBoardColours();
 		}
 		if (playerToMove.getPlayerTeam().equals("TeamWhite")) {
-			optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
+			while(optionChosen == -2){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
+			}
+			currentState.getPlayerBlack().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerBlack();
+			
 		} else {
-			optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+			while(optionChosen == -2){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
+			}
+			currentState.getPlayerWhite().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerWhite();
+			
 		}
 		if (optionChosen == 0) {
 			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(), playerToMove,
@@ -149,8 +172,10 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		} else {
 			this.tellAll(true);
 		}
-		Thread newThread = new Thread(PlayerToMove);
-		newThread.start();
+		if(PlayerToMove instanceof HardAIPlayer || PlayerToMove instanceof EasyAIPlayer){
+			Thread newThread = new Thread(PlayerToMove);
+			newThread.start();
+		}
 	}
 
 	public boolean playerFirstMove(Position placeClicked) {
@@ -170,11 +195,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			// valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
-			if(currentState.getPlayerToMove().getPlayerTeam().equals("TeamWhite")){
-				currentState.getPlayerBlack().wasValidMove();
-			}else{
-				currentState.getPlayerWhite().wasValidMove();
-			}
 			playTurnSound(currentState.isSumoPush());
 			history.add(currentState);
 			currentState = state;
@@ -210,6 +230,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public boolean nextTurn(int numOfNoGoes) {
+		
 		Position posToMove = currentState.calcPieceToMove();
 		ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
 		if (movesCanMake.isEmpty()) {
@@ -226,6 +247,8 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				}
 			}
 		} else {
+			currentState.getPlayerToMove().TurnEnded();
+
 			this.tellAll(posToMove);
 			this.tellAll(movesCanMake);
 		}

@@ -285,6 +285,8 @@ public class GameOptionsPanel extends JPanel {
 					chckbxSpeedMode.setEnabled(true);
 					chckbxRandomBoard.setEnabled(true);
 					gameLength.setEnabled(true);
+					AiSelectedField.setEditable(true);
+					AiSelectedField.setFocusable(true);
 				}
 			}
 		});

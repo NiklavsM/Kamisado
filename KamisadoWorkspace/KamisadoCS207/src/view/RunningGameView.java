@@ -139,10 +139,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 			State state = (State)arg;	
 			GameDriver gameDriver = (GameDriver) o;
 			if (!state.isGameOver()) {
-				if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
+				if(controller.isNetworking()){
+					inGameOptions.displayHint(false);
+					inGameOptions.showUndo(false);
+					inGameOptions.displaySave(false);
+				}else if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
 					inGameOptions.displayHint(true);
 					inGameOptions.showUndo(true);
 				}
+				
 				if(state.isFirstMove() && state.getPreviousMove() == null){
 					inGameOptions.displayHint(false);
 					inGameOptions.showUndo(false);
@@ -380,7 +385,9 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(musicSwitch);
-		
-		
+	}
+	
+	public InGameOptions getInGameOptions(){
+		return inGameOptions;
 	}
 }

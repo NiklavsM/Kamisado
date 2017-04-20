@@ -99,10 +99,14 @@ public abstract class Player implements MyObservable,MyObserver, Serializable, R
 	public void setScore(int i) {
 		score = i;
 	}
-	public void wasValidMove() {
+	public void TurnEnded() {
 	}
 	public void setName(String playerName2) {
 		playerName = playerName2;
+	}
+
+	public void otherPersonOption(int option) {
+		
 	}
 	
 }

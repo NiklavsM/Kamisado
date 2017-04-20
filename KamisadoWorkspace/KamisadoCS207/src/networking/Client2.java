@@ -4,21 +4,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import controller.Controller;
 import model.GameDriver;
 import model.MyObservable;
 import model.MyObserver;
 import model.Position;
 import model.State;
-import player.GUIPlayer;
 import player.Player;
-import view.MenuFrame;
 
 public class Client2 extends Player implements Runnable, MyObserver, Serializable {
 
@@ -29,11 +26,17 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	private boolean myTurn;
 	private Position previousPos = null;
 	private boolean connected = false;
+	private Controller controller;
+	private boolean firstMove = true;
+	private int option = -2;
+	private int gameLength;
+	private String sendOption = "none";
 
-	public Client2(String team, String playerName, String opponentName, boolean goingFirst, boolean hosting) {
+	public Client2(String team, String playerName, String opponentName, boolean goingFirst, boolean hosting,
+			Controller controller) {
 		super(team, playerName, goingFirst, true);
 		this.myTurn = goingFirst;
-
+		this.controller = controller;
 		try {
 			socket = new Socket("localhost", PORT);
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -42,52 +45,42 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 			oout.writeObject(opponentName);
 			oout.flush();
 			connected = true;
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Cannot connect!");
-		}
-	}
 
-	public void sendGameToServer(GameDriver game) {
-		try {
-
-			oout.writeObject(game);
-			System.out.println("Game sent to server");
-			oout.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Object ob = ois.readObject();
+			System.out.println("Name read");
+			if (ob instanceof String) {
+				System.out.println("Name Set: " + ob);
+				this.setName((String) ob);
+				ob = ois.readObject();
+				if (ob instanceof Integer) {
+					gameLength = (Integer) ob;
+				}
+			}
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void getNameFromServer() {
-		if(connected == true){
-			while (true) {
-				Object ob;
-				try {
-					ob = ois.readObject();
-					System.out.println("Name read");
-					if (ob instanceof String) {
-						System.out.println("Name Set: " + ob);
-						this.setName((String) ob);
-						break;
-					}
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+	public int getGameLengthFromServer() {
+		return gameLength;
 	}
 
 	@Override
 	public void run() {
-		System.out.println("started client thread");
+
 		try {
+			System.out.println("started client thread");
 			while (true) {
+				if (!sendOption.equals("none")) {
+					System.out.println("sending options! :" + sendOption);
+					oout.writeObject(sendOption);
+					oout.flush();
+					sendOption = "none";
+				}
+				System.out.println("waiting for input at client");
 				Object obj = ois.readObject();
+				System.out.println("got object: [" + obj + "]");
+				System.out.println(obj.getClass());
 				if (obj instanceof Integer) {
 					System.out.println("read in posX");
 					Object obj2 = ois.readObject();
@@ -99,21 +92,21 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 						System.out.println(y);
 						previousPos = new Position(x, y);
 						this.tellAll(previousPos);
-						return;
 					}
-				} else if (obj instanceof Boolean) {
-
+				} else if (obj instanceof String) {
+					System.out.println("obj: [" + obj + "]");
+					if (obj.equals("continue")) {
+						askingThisClientToContinue();
+					} else if (obj.equals("rematch")) {
+						System.out.println("or here?");
+						askingThisClientToRematch();
+					} else if (obj.equals("fill")) {
+						System.out.println("got fill");
+						option = (int) ois.readObject();
+					}
 				}
-				System.out.println(obj.getClass());
 			}
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
@@ -126,22 +119,28 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 			try {
 				oout.writeObject(pos.getX());
 				oout.writeObject(pos.getY());
+
 				oout.flush();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
+				if (!firstMove && (pos.getY() == 0 || pos.getY() == 7)) {
+					System.out.println("Y: " + pos.getY());
+					oout.writeObject("gameOver");
+					oout.flush();
+				}
+			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public void wasValidMove() {
+	public void TurnEnded() {
 		try {
 			System.out.println("sending boolean");
 			oout.writeObject(new Boolean(true));
+			firstMove = false;
 			oout.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
@@ -160,12 +159,68 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 
 	@Override
 	public int fillHomeRow() {
-		return 0;
+		firstMove = true;
+		System.out.println("returning before : " + option);
+		try {
+			String s = (String) ois.readObject();
+			option = (int) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("returning after : " + option);
+		return option;
+	}
+
+	@Override
+	public void otherPersonOption(int option) {
+		firstMove = true;
+		sendOption = "none";
+		if (option == 1) {
+			sendOption = "right";
+		} else if (option == 0) {
+			sendOption = "left";
+		}
+		System.out.println("setting option to : " + sendOption);
 	}
 
 	@Override
 	public void setToFirstMove(boolean isGoingFirst) {
-
+		firstMove = true;
+		this.setGoingFirst(isGoingFirst);
 	}
 
+	private void askingThisClientToContinue() {
+		controller.networkContinue();
+	}
+
+	private void askingThisClientToRematch() {
+		controller.networkRematch();
+	}
+
+	public void askToContinue() {
+		try {
+			System.out.println("sending continue");
+			oout.writeObject("continue");
+			oout.flush();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void askToRematch() {
+		try {
+			System.out.println("sending rematch");
+			oout.writeObject("rematch");
+			oout.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

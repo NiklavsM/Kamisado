@@ -146,7 +146,7 @@ public class InGameOptions extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
-				if(controller.getGame().nextRound() >= 0){
+				if(controller.continueGame() >= 0){
 					btnContinue.setVisible(false);
 				}
 			}
