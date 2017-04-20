@@ -56,13 +56,13 @@ public class GeneralSettingsPanel extends JPanel {
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
 
-		musicOptions();
+		soundOptions();
 		pieceTypeChooser();
 		boardColourChooser();
 		initializeApplyButton();
 	}
 
-	public void musicOptions() {
+	public void soundOptions() {
 		soundLabel = new JLabel("Sound");
 		soundLabel.setText("Sound");
 		soundLabel.setBounds(50, 50, 50, 50);

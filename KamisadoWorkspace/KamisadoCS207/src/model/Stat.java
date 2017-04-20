@@ -58,10 +58,16 @@ public class Stat implements Serializable {
 	}
 
 	public float roundsWinLosRatio() {
-		return (float) roundsWon / (roundsWon + roundsLost) * 100;
+		if (roundsWon == 0 && roundsLost == 0) {
+			return 0;
+		} else
+			return (float) roundsWon / (roundsWon + roundsLost) * 100;
 	}
 
 	public float gamesWinLosRatio() {
+		if (gamesWon == 0 && gamesLost == 0) {
+			return 0;
+		}
 		return (float) gamesWon / (gamesWon + gamesLost) * 100;
 	}
 }

@@ -38,20 +38,20 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private JLabel teamBlack;
 	private JTextArea gameLog;
 	private JPanel glassPane;
-	private Controller controller;// Discuss
+	private Controller controller;
 	private JPanel gridViewGlassPane;
 	private JLabel musicSwitch;
 	private JLabel soundSwitch;
 	private GeneralSettingsManager settingManager;
 	private GeneralSettings settings;
 
-	public RunningGameView(String whiteName, String blackName, Controller newController) {
+	public RunningGameView(Controller newController) {
 
 		this.controller = newController;
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
 
-		setUpTeamLabels(whiteName, blackName);
+		setUpTeamLabels();
 		setUpTimer();
 		setUpSoundOptions();
 
@@ -84,7 +84,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		inGameOptions.displaySave(true);
 	}
 
-	public void setUpTeamLabels(String whiteName, String blackName) {
+	public void setUpTeamLabels() {
 		gameLog = new JTextArea(1, 20);
 		gameLog.setEditable(false);
 		gameLog.setLineWrap(true);
@@ -92,8 +92,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameLog.setFocusable(false);
 		JScrollPane scroll = new JScrollPane(gameLog);
 		teamLabel = new JPanel();
-		teamWhite = setUpLabel(whiteName);
-		teamBlack = setUpLabel(blackName);
+		teamWhite = setUpLabel("");
+		teamBlack = setUpLabel("");
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(teamBlack, BorderLayout.NORTH);
 		teamLabel.add(scroll, BorderLayout.CENTER);

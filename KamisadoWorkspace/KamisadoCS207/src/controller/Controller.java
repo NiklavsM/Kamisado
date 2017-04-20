@@ -34,10 +34,8 @@ public class Controller implements Serializable {
 	transient private GeneralSettings settings;
 
 	public Controller() {
-		main = new RunningGameView("DefaultWhite", "DefaultBlack", this);
-		menuFrame = new MenuFrame(this, main);
+		menuFrame = new MenuFrame(this);
 		menuFrame.setVisible(true);
-		main.setGlassPane(menuFrame.getGlassPane());
 		musicPlayer = new MusicPlayer();
 		applySettings();
 	}
@@ -107,6 +105,7 @@ public class Controller implements Serializable {
 	}
 	
 	private void playGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {
+		setUpRunningGameView();
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
 			game.addObserver(main.getGameTimer());
@@ -134,6 +133,7 @@ public class Controller implements Serializable {
 		SaveManager s = new SaveManager();
 		GameDriver gameDriver = s.load();
 		if (gameDriver != null) {
+			setUpRunningGameView();
 			if (gameDriver instanceof SpeedGameDriver) {
 				game = new SpeedGameDriver((SpeedGameDriver) gameDriver);
 				game.addObserver(main.getGameTimer());
@@ -159,10 +159,8 @@ public class Controller implements Serializable {
 
 	private void finishGameSetup() {
 		main.getGameBoard().addObserver(game);
-		menuFrame.ShowPanel("Game View");
 		main.displayGame(game);
 		game.addObserver(main);
-
 		game.playGame();
 //		JOptionPane.showMessageDialog(null,
 //				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",
@@ -197,6 +195,13 @@ public class Controller implements Serializable {
 		return menuFrame;
 	}
 	
+	public void setUpRunningGameView(){
+		main = new RunningGameView(this);
+		main.setGlassPane(menuFrame.getGlassPane());
+		menuFrame.addPanel(main,"Game View");
+		menuFrame.ShowPanel("Game View");
+	}
+
 	public Player getPlayerWhite() {
 		return playerWhite;
 	}

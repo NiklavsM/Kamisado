@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class GeneralSettings implements Serializable {
 	private boolean musicOn = false;
 	private boolean soundOn = false;
-	private int musicVolume = -30;
-	private int soundVolume = -30;
+	private int musicVolume = -20;
+	private int soundVolume = -20;
 	private String pieceImageStyle = "pieceStyleOne";
 	private Color brown;
 	private Color green;
@@ -119,22 +119,15 @@ public class GeneralSettings implements Serializable {
 	}
 	
 	public void setDefaultColors(){
-		brown = new Color(148, 104, 39);
-		MyColour.brown.setColour(this.brown);
-		green = new Color(108, 216, 68);
-		MyColour.green.setColour(this.green);
+		brown = new Color(148, 104, 39);		
+		green = new Color(108, 216, 68);		
 		red = new Color(249, 69, 24);
-		MyColour.red.setColour(this.red);
 		yellow = new Color(245, 245, 26);
-		MyColour.yellow.setColour(this.yellow);
 		pink = new Color(239, 86, 208);
-		MyColour.pink.setColour(this.pink);
 		cyan = new Color(95, 207, 235);
-		MyColour.cyan.setColour(this.cyan);
 		blue = new Color(14, 104, 243);
-		MyColour.blue.setColour(this.blue);
 		orange = new Color(250, 190, 50);
-		MyColour.orange.setColour(this.orange);
+
 	}
 	
 	public String getColorName(Color colour){

@@ -175,7 +175,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			}else{
 				currentState.getPlayerWhite().wasValidMove();
 			}
-			playTurnSound();
+			playTurnSound(currentState.isSumoPush());
 			history.add(currentState);
 			currentState = state;
 			this.tellAll(currentState);
@@ -296,13 +296,17 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public Stack<State> getHistory() {
 		return history;
 	}
-
-	public void playTurnSound() {
+	public void playTurnSound(boolean sumo) {
 		GeneralSettingsManager manager = new GeneralSettingsManager();
 		GeneralSettings settings = manager.getGeneralSettings();
 		if (settings.isSoundOn()) {
 			try {
-				AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("pipe.wav"));
+				AudioInputStream inputStream;
+				if (sumo) {
+					inputStream = AudioSystem.getAudioInputStream(new File("sumo.wav"));
+				} else {
+					inputStream = AudioSystem.getAudioInputStream(new File("pipe.wav"));
+				}
 				Clip clip = AudioSystem.getClip();
 				clip.open(inputStream);
 				FloatControl floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
