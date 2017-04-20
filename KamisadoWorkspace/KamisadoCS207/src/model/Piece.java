@@ -52,4 +52,7 @@ public class Piece implements Serializable {
 		}
 	}
 
+	public String getPieceColour() {
+		return pieceColour;
+	}
 }

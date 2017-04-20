@@ -217,7 +217,6 @@ public class MenuFrame extends JFrame {
 	public void ShowPanel(String panelToShow) {
 		
 		if(panelToShow.equals(currentlyShownPanel)){
-			
 		}else if(displayConfirmExitMessage() == 0){
 			CardLayout c1 = (CardLayout) contentPane.getLayout();
 			c1.show(contentPane, panelToShow);
@@ -238,6 +237,5 @@ public class MenuFrame extends JFrame {
 		} else {
 			return 0;
 		}
-
 	}
 }

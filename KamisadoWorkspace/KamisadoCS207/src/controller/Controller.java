@@ -3,8 +3,6 @@ package controller;
 import java.awt.EventQueue;
 import java.io.Serializable;
 
-import javax.swing.JOptionPane;
-
 import model.GameDriver;
 import model.GeneralSettings;
 import model.GeneralSettingsManager;
@@ -12,7 +10,10 @@ import model.Move;
 import model.MusicPlayer;
 import model.SaveManager;
 import model.SpeedGameDriver;
+import model.State;
 import model.TimerInfo;
+import networking.Client2;
+import networking.Server2;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
 import player.HardAIPlayer;
@@ -76,7 +77,35 @@ public class Controller implements Serializable {
 		playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 		finishGameSetup();
 	}
+	
+	public void playNetwork(boolean hosting, boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength) {
+		if(hosting){
+			Server2 host = new Server2();
+			Thread hostThread = new Thread(host);
+			hostThread.start();
+			System.out.println("started first client");
+			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
+			playerWhite = new Client2("TeamWhite", whiteName,blackName, true, true);
 
+			((Client2)playerWhite).getNameFromServer();
+			main.getGameBoard().addObserver(playerWhite);
+		}else{
+			System.out.println("started second client");
+			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
+			playerBlack = new Client2("TeamBlack", blackName,whiteName, false, false);
+			
+			((Client2)playerBlack).getNameFromServer();
+			main.getGameBoard().addObserver(playerBlack);
+		}
+		playGame(isSpeedGame, gameLength, timerTime, false);
+		playerBlack.addObserver(game);
+		playerWhite.addObserver(game);
+		System.out.println("finishing game setup");
+		finishGameSetup();
+		
+		
+	}
+	
 	private void playGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {
 		if (isSpeedGame) {
 			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, gameLength, timerTime, randomBoard);
@@ -135,9 +164,9 @@ public class Controller implements Serializable {
 		game.addObserver(main);
 
 		game.playGame();
-		JOptionPane.showMessageDialog(null,
-				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",
-				"Instructions", JOptionPane.INFORMATION_MESSAGE);
+//		JOptionPane.showMessageDialog(null,
+//				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",
+//				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void applySettings() {
@@ -168,8 +197,6 @@ public class Controller implements Serializable {
 		return menuFrame;
 	}
 	
-
-
 	public Player getPlayerWhite() {
 		return playerWhite;
 	}
@@ -207,12 +234,12 @@ public class Controller implements Serializable {
 				if(playerToMove.getHomeRow() == 0){
 					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 1);
 					Move move = moveTree.getBestOrWorstsChild(false);
-					move.print();
+					//System.out.println(move);
 					main.showHint(move.getEndPos());
 				}else {
 					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 0);
 					Move move = moveTree.getBestOrWorstsChild(true);
-					move.print();
+					//System.out.println(move);
 					main.showHint(move.getEndPos());
 				}
 			}

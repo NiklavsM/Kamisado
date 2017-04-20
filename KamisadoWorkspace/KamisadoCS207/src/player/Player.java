@@ -7,7 +7,7 @@ import model.MyObservable;
 import model.MyObserver;
 import model.State;
 
-public abstract class Player implements MyObservable, Serializable, Runnable{
+public abstract class Player implements MyObservable,MyObserver, Serializable, Runnable{
 
 	private String playerName;
 	private String playerTeam;
@@ -35,12 +35,11 @@ public abstract class Player implements MyObservable, Serializable, Runnable{
 		this.goingFirst = goingFirst;
 	}
 
-	public void getMove(State state){
-    }
+	public abstract void getMove(State state);
 
-    public void interupt(){
-
-    }
+//    public void interupt(){
+//
+//    }
     
     public boolean getisFirst(){
         return goingFirst;
@@ -99,6 +98,11 @@ public abstract class Player implements MyObservable, Serializable, Runnable{
 
 	public void setScore(int i) {
 		score = i;
+	}
+	public void wasValidMove() {
+	}
+	public void setName(String playerName2) {
+		playerName = playerName2;
 	}
 	
 }

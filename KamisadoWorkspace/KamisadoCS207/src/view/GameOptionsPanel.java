@@ -21,25 +21,30 @@ import javax.swing.UIManager;
 import controller.Controller;
 
 public class GameOptionsPanel extends JPanel {
+	
 	private JTextField txtBlackName;
 	private JTextField txtWhiteName;
-	JCheckBox chckbxSpeedMode;
-	JCheckBox chckbxRandomBoard;
-	JLabel white;
-	JLabel black;
-	JRadioButton rdbtnEasy;
-	JRadioButton rdbtnHard;
-	JRadioButton rdbtnSingleplayer;
-	JRadioButton rdbtnTwoPlayer;
-	JRadioButton whiteAiPlayer;
-	JRadioButton blackAiPlayer;
-	JTextField timerTime;
-	JLabel timeLabel;
-	JTextField AiSelectedField;
-	ButtonGroup gameType = new ButtonGroup();
-	ButtonGroup aiStartCol = new ButtonGroup();
-	ButtonGroup aiDiff = new ButtonGroup();
-	JComboBox<Integer> gameLength;
+	private JCheckBox chckbxSpeedMode;
+	private JCheckBox chckbxRandomBoard;
+	private JLabel white;
+	private JLabel black;
+	private JRadioButton rdbtnEasy;
+	private JRadioButton rdbtnHard;
+	private JRadioButton rdbtnSingleplayer;
+	private JRadioButton rdbtnTwoPlayer;
+	private JRadioButton rdbtnNetworkPlay;
+	private JRadioButton whiteAiPlayer;
+	private JRadioButton blackAiPlayer;
+	private JRadioButton hostNetworkGame;
+	private JRadioButton joinNetworkGame;
+	private JTextField timerTime;
+	private JLabel timeLabel;
+	private JTextField AiSelectedField;
+	private ButtonGroup gameType = new ButtonGroup();
+	private ButtonGroup aiStartCol = new ButtonGroup();
+	private ButtonGroup aiDiff = new ButtonGroup();
+	private ButtonGroup networkOption = new ButtonGroup();
+	private JComboBox<Integer> gameLength;
 
 	/**
 	 * Create the panel.
@@ -57,10 +62,11 @@ public class GameOptionsPanel extends JPanel {
 		setUpSpeedMode();
 		setUpPlayerTxtField();
 		setUpAIColour();
+		setUpNetworkOptions();
 
-		JSeparator separator = new JSeparator();
-		separator.setBounds(32, 108, 168, 22);
-		add(separator);
+//		JSeparator separator = new JSeparator();
+//		separator.setBounds(32, 108, 168, 22);
+//		add(separator);
 
 		JButton btnPlay = new JButton("Play");
 		btnPlay.setBounds(354, 234, 89, 23);
@@ -123,12 +129,17 @@ public class GameOptionsPanel extends JPanel {
 			thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,timerTime, (int)gameLength.getSelectedItem(), randomBoard);
 		} else if (rdbtnTwoPlayer.isSelected()) {
 			thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem(), randomBoard);
+		}else if(rdbtnNetworkPlay.isSelected()){
+			thisController.playNetwork(hostNetworkGame.isSelected(), chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem());
 		}
 	}
 	
 	private void initialiseComponents(){
 		rdbtnSingleplayer = new JRadioButton("Single Player");
 		rdbtnTwoPlayer = new JRadioButton("Two Player");
+		rdbtnNetworkPlay = new JRadioButton("Network Play");
+		hostNetworkGame = new JRadioButton("Host Game");
+		joinNetworkGame = new JRadioButton("Join Game");
 		rdbtnEasy = new JRadioButton("Easy");
 		rdbtnHard = new JRadioButton("Hard");
 		chckbxRandomBoard = new JCheckBox("Random Board");
@@ -146,6 +157,57 @@ public class GameOptionsPanel extends JPanel {
 		gameLength.setSelectedIndex(0);
 	}
 	
+	private void setUpNetworkOptions(){
+		JLabel lblGameType = new JLabel("Host or Join");
+		lblGameType.setBounds(350, 30, 120, 35);
+		add(lblGameType);
+		
+		hostNetworkGame.setBounds(350, 60, 120, 35);
+		hostNetworkGame.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(arg0.getStateChange() == ItemEvent.SELECTED){
+					AiSelectedField = txtWhiteName;
+					txtBlackName.setText(txtWhiteName.getText());
+					txtBlackName.setEditable(true);
+					txtBlackName.setFocusable(true);
+					txtWhiteName.setText("Opponent");
+					txtWhiteName.setEditable(false);
+					txtWhiteName.setFocusable(false);
+					
+					chckbxSpeedMode.setEnabled(true);
+					chckbxRandomBoard.setEnabled(false);
+					gameLength.setEnabled(true);
+				}
+			}
+		});
+		add(hostNetworkGame);
+		
+		joinNetworkGame.setBounds(350, 90, 120, 35);
+		joinNetworkGame.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(arg0.getStateChange() == ItemEvent.SELECTED){
+					AiSelectedField = txtBlackName;
+					txtWhiteName.setText(txtBlackName.getText());
+					txtWhiteName.setEditable(true);
+					txtWhiteName.setFocusable(true);
+					txtBlackName.setText("Opponent");
+					txtBlackName.setEditable(false);
+					txtBlackName.setFocusable(false);
+					
+					chckbxSpeedMode.setEnabled(false);
+					chckbxRandomBoard.setEnabled(false);
+					gameLength.setEnabled(false);
+				}
+			}
+		});
+		add(joinNetworkGame);
+		
+		networkOption.add(hostNetworkGame);
+		networkOption.add(joinNetworkGame);
+	}
+	
 	private void setUpGameTypeSelect(){
 		JLabel lblGameType = new JLabel("Game Type");
 		lblGameType.setBounds(48, 23, 81, 14);
@@ -161,14 +223,26 @@ public class GameOptionsPanel extends JPanel {
 					rdbtnHard.setEnabled(true);
 					rdbtnEasy.setSelected(true);
 					whiteAiPlayer.setEnabled(true);
-					
 					blackAiPlayer.setEnabled(true);
 					blackAiPlayer.doClick();
 					//blackAiPlayer.setSelected(true);
 					AiSelectedField = txtBlackName;
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setEditable(false);
-				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					
+					networkOption.clearSelection();
+					hostNetworkGame.setEnabled(false);
+					joinNetworkGame.setEnabled(false);
+				}
+			}
+		});
+		add(rdbtnSingleplayer);
+
+		rdbtnTwoPlayer.setBounds(48, 78, 109, 23);
+		rdbtnTwoPlayer.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(arg0.getStateChange() == ItemEvent.SELECTED){
 					rdbtnEasy.setEnabled(false);
 					rdbtnHard.setEnabled(false);
 					aiDiff.clearSelection();
@@ -178,14 +252,45 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setText("New user");
+					
+					networkOption.clearSelection();
+					hostNetworkGame.setEnabled(false);
+					joinNetworkGame.setEnabled(false);
 				}
 			}
 		});
-		add(rdbtnSingleplayer);
-
-		rdbtnTwoPlayer.setBounds(48, 78, 109, 23);
 		add(rdbtnTwoPlayer);
 
+		rdbtnNetworkPlay.setBounds(48, 103, 109, 23);
+		rdbtnNetworkPlay.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if(arg0.getStateChange() == ItemEvent.SELECTED){
+					hostNetworkGame.setSelected(true);
+					rdbtnEasy.setEnabled(false);
+					rdbtnHard.setEnabled(false);
+					aiDiff.clearSelection();
+					
+					whiteAiPlayer.setEnabled(false);
+					blackAiPlayer.setEnabled(false);
+					aiStartCol.clearSelection();
+					
+					AiSelectedField.setEditable(false);
+					AiSelectedField.setFocusable(false);
+					AiSelectedField.setText("Opponent");
+					
+					hostNetworkGame.setEnabled(true);
+					joinNetworkGame.setEnabled(true);
+				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					chckbxSpeedMode.setEnabled(true);
+					chckbxRandomBoard.setEnabled(true);
+					gameLength.setEnabled(true);
+				}
+			}
+		});
+		add(rdbtnNetworkPlay);
+		
+		gameType.add(rdbtnNetworkPlay);
 		gameType.add(rdbtnSingleplayer);
 		gameType.add(rdbtnTwoPlayer);
 		rdbtnSingleplayer.setSelected(true);

@@ -64,4 +64,10 @@ public class EasyAIPlayer extends Player{
         num = rnd.nextInt(validMoves.size());
         tellAll(validMoves.get(num));
 	}
+
+	@Override
+	public void update(MyObservable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -48,19 +48,6 @@ public class Move implements Serializable{
 	
 	@Override
 	public String toString(){
-		return pieceMoved.getTeam() + " [" + startPos.toString() + "] -> [" + endPos.toString() + "]";
-	}
-	public void print(){
-		if(pieceMoved != null){
-			//System.out.println(pieceMoved.toString() + 
-			//		" From: X: " + startPos.getX() + " Y: " + startPos.getY() 
-			//		+ " To: X: " + endPos.getX() + " Y: " + endPos.getY());
-			//System.out.println("Score: " + score);
-		}else{
-			//System.out.println("pieceNull? " + " From: X: " + startPos.getX() + " Y: " + startPos.getY() 
-			//+ " To: X: " + endPos.getX() + " Y: " + endPos.getY());
-		}
-		
-	}
-	
+		return pieceMoved.getTeam() + " '" + pieceMoved.getPieceColour() + "' " +" [" + startPos.toString() + "] -> [" + endPos.toString() + "]";
+	}	
 }
