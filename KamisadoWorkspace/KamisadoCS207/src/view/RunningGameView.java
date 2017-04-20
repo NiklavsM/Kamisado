@@ -5,16 +5,20 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
 
 import controller.Controller;
@@ -129,21 +133,21 @@ public class RunningGameView extends JPanel implements MyObserver {
 			inGameOptions.displayHint(false);
 			inGameOptions.displayContinue(true);
 			inGameOptions.displaySave(false);
-		}else if (arg instanceof String) {
-			roundOrGameOver((String)arg);
+		} else if (arg instanceof String) {
+			roundOrGameOver((String) arg);
 			inGameOptions.displayContinue(false);
 			inGameOptions.displayRematch(true);
 			inGameOptions.displayHint(false);
 			inGameOptions.displaySave(false);
-		}else if (arg instanceof State) {
-			State state = (State)arg;	
+		} else if (arg instanceof State) {
+			State state = (State) arg;
 			GameDriver gameDriver = (GameDriver) o;
 			if (!state.isGameOver()) {
 				if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
 					inGameOptions.displayHint(true);
 					inGameOptions.showUndo(true);
 				}
-				if(state.isFirstMove() && state.getPreviousMove() == null){
+				if (state.isFirstMove() && state.getPreviousMove() == null) {
 					System.out.println("got here");
 					inGameOptions.displayHint(false);
 					inGameOptions.showUndo(false);
@@ -234,8 +238,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 		timer.setFocusable(false);
 		this.add(timer, BorderLayout.NORTH);
 	}
-	
-	private void addTextToGlassPane(JLabel label){
+
+	private void addTextToGlassPane(JLabel label) {
 		label.setBounds(0, 250, 587, 50);
 		label.setBackground(Color.BLACK);
 		label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC, 27));
@@ -286,7 +290,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 				label.setText("[" + x + ":" + y + "]");
 				label.setOpaque(true);
 				label.setVisible(true);
-				label.setBounds((x *70) + gameBoardPosX.intValue() + 27, ((7 - y) * 70) + gameBoardPosY.intValue() + 20, 25 ,10);
+				label.setBounds((x * 70) + gameBoardPosX.intValue() + 27,
+						((7 - y) * 70) + gameBoardPosY.intValue() + 20, 25, 10);
 				label.setPreferredSize(label.getSize());
 				gridViewGlassPane.add(label);
 				gridViewGlassPane.repaint();
@@ -321,14 +326,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (settings.isSoundOn()) {
-					soundSwitch.setIcon(new ImageIcon(getClass().getResource("/images/soundoff.png")));
-					settings.setSoundOn(false);
-				} else {
-					soundSwitch.setIcon(new ImageIcon(getClass().getResource("/images/soundon.png")));
-					settings.setSoundOn(true);
-				}
-				settingManager.saveGeneralSettings(settings);
+				soundSwitchActivated();
 			}
 
 			@Override
@@ -344,7 +342,18 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(soundSwitch);
-		
+
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK),
+				"soundSwitch");
+		this.getActionMap().put("soundSwitch", new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				soundSwitchActivated();
+
+			}
+		});
+
 		ImageIcon musicSwitchImage = null;
 		if (settings.isMusicOn()) {
 			musicSwitchImage = new ImageIcon(getClass().getResource("/images/musicon.png"));
@@ -362,16 +371,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (settings.isMusicOn()) {
-					musicSwitch.setIcon(new ImageIcon(getClass().getResource("/images/musicoff.png")));
-					settings.setMusicOn(false);
-				} else {
-					musicSwitch.setIcon(new ImageIcon(getClass().getResource("/images/musicon.png")));
-					controller.applySettings();
-					settings.setMusicOn(true);
-				}
-				settingManager.saveGeneralSettings(settings);
-				controller.applySettings();
+				musicSwitchActivated();
 			}
 
 			@Override
@@ -387,7 +387,41 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(musicSwitch);
-		
-		
+		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK),
+				"musicSwitch");
+		this.getActionMap().put("musicSwitch", new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				musicSwitchActivated();
+
+			}
+
+		});
 	}
+
+	private void musicSwitchActivated() {
+		if (settings.isMusicOn()) {
+			musicSwitch.setIcon(new ImageIcon(getClass().getResource("/images/musicoff.png")));
+			settings.setMusicOn(false);
+		} else {
+			musicSwitch.setIcon(new ImageIcon(getClass().getResource("/images/musicon.png")));
+			controller.applySettings();
+			settings.setMusicOn(true);
+		}
+		settingManager.saveGeneralSettings(settings);
+		controller.applySettings();
+	}
+
+	public void soundSwitchActivated() {
+		if (settings.isSoundOn()) {
+			soundSwitch.setIcon(new ImageIcon(getClass().getResource("/images/soundoff.png")));
+			settings.setSoundOn(false);
+		} else {
+			soundSwitch.setIcon(new ImageIcon(getClass().getResource("/images/soundon.png")));
+			settings.setSoundOn(true);
+		}
+		settingManager.saveGeneralSettings(settings);
+	}
+
 }
