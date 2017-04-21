@@ -59,11 +59,13 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			stats.addToScores(winner, loser, false);
 		}
 		m.saveStats(stats);
+		loser.gameOver();
 	}
 
 	public boolean incrementScoreAtEndOfGame(Player winner) {
 		Piece pieceThatWon = currentState.getPreviousMove().pieceMoved();
 		winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
+		
 		if (winner.getScore() >= scoreToGet) {
 			this.tellAll(winner.getPlayerName() + " has won the game! In " + currentGameNum + " round(s)!");
 			return true;
@@ -113,6 +115,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			}
 			currentState.getPlayerBlack().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerBlack();
+			
 		} else {
 			while(optionChosen == -2){
 //				try {
@@ -125,6 +128,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			}
 			currentState.getPlayerWhite().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerWhite();
+			
 		}
 		if (optionChosen == 0) {
 			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(), playerToMove,
@@ -229,6 +233,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		
 		Position posToMove = currentState.calcPieceToMove();
 		ArrayList<Position> movesCanMake = currentState.calcValidMoves(posToMove);
+		
 		if (movesCanMake.isEmpty()) {
 			if (numOfNoGoes >= 6) {
 				return true;
@@ -243,7 +248,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				}
 			}
 		} else {
-			currentState.getPlayerToMove().TurnEnded(null);
 			this.tellAll(posToMove);
 			this.tellAll(movesCanMake);
 		}
@@ -263,11 +267,16 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 						if (tryToMove((Position) arg)) {
 							currentState.setFirstMove(false);
 							nextTurn(0);
+							currentState.getPlayerToMove().TurnEnded(null);
 						}
 					}
 				} else if (tryToMove((Position) arg)) {
+					Player temp = currentState.getPlayerToMove();
 					if (playTurn((Position) arg)) {
 						return;
+					}
+					if (!temp.equals(currentState.getPlayerToMove())){
+						currentState.getPlayerToMove().TurnEnded(null);
 					}
 				}
 				generateMove();
