@@ -181,6 +181,7 @@ public class GeneralSettingsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				settings.setDefaultColors();
+				settings.setStaticColors();
 				redSlider.setValue(settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 				greenSlider.setValue(settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 				blueSlider.setValue(settings.getColoursBlue(colourPicker.getSelectedItem().toString()));

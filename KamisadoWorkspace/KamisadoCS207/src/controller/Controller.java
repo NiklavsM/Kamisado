@@ -83,6 +83,8 @@ public class Controller implements Serializable {
 
 	public void playNetwork(boolean hosting, boolean isSpeedGame, String whiteName, String blackName, int timerTime,
 			int gameLength) {
+		GeneralSettingsManager manager = new GeneralSettingsManager();
+		GeneralSettings settings = manager.getGeneralSettings();
 		int gameL;
 		networkGame = true;
 		if (hosting) {
@@ -91,8 +93,10 @@ public class Controller implements Serializable {
 			Thread hostThread = new Thread(host);
 			hostThread.start();
 			System.out.println("started first client");
+			JOptionPane.showMessageDialog(null, "Waiting for player 2...");
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
 			client = new Client2("TeamWhite", whiteName, blackName, true, true, this, "localhost");
+			client.tryConnect();
 			playerWhite = client;
 			Thread newThread = new Thread(client);
 			newThread.start();
@@ -103,8 +107,13 @@ public class Controller implements Serializable {
 		} else {
 			System.out.println("started second client");
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
-			String ip = JOptionPane.showInputDialog("Please enter hosts IP");
+			String ip = JOptionPane.showInputDialog("Please enter hosts IP", settings.getRecentIP());
+			settings.setRecentIP(ip);
+			manager.saveGeneralSettings(settings);
 			client = new Client2("TeamBlack", blackName, whiteName, false, false, this, ip);
+			if(!client.tryConnect()){
+				return;
+			};
 			playerBlack = client;
 			Thread newThread = new Thread(client);
 			newThread.start();
@@ -294,10 +303,10 @@ public class Controller implements Serializable {
 			return game.nextRound();
 		}
 	}
-	
-	public void networkContinue(){
+
+	public void networkContinue() {
 		main.getInGameOptions().displayContinue(false);
-		if(game.nextRound() >=0){
+		if (game.nextRound() >= 0) {
 		}
 	}
 

@@ -8,6 +8,7 @@ public class GeneralSettings implements Serializable {
 	private boolean soundOn = false;
 	private int musicVolume = -20;
 	private int soundVolume = -20;
+	private String recentIP = "localhost";
 	private String pieceImageStyle = "pieceStyleOne";
 	private Color brown;
 	private Color green;
@@ -60,6 +61,14 @@ public class GeneralSettings implements Serializable {
 
 	public String getPieceImageStyle() {
 		return pieceImageStyle;
+	}
+
+	public String getRecentIP() {
+		return recentIP;
+	}
+
+	public void setRecentIP(String recentIP) {
+		this.recentIP = recentIP;
 	}
 
 	public Color getColour(String colour) {
@@ -120,22 +129,24 @@ public class GeneralSettings implements Serializable {
 
 	public void setDefaultColors() {
 		brown = new Color(148, 104, 39);
-		MyColour.valueOf("brown").setColour(brown);
 		green = new Color(108, 216, 68);
-		MyColour.valueOf("green").setColour(green);
 		red = new Color(249, 69, 24);
-		MyColour.valueOf("red").setColour(red);
 		yellow = new Color(245, 245, 26);
-		MyColour.valueOf("yellow").setColour(yellow);
 		pink = new Color(239, 86, 208);
-		MyColour.valueOf("pink").setColour(pink);
 		cyan = new Color(95, 207, 235);
-		MyColour.valueOf("cyan").setColour(cyan);
 		blue = new Color(14, 104, 243);
-		MyColour.valueOf("blue").setColour(blue);
 		orange = new Color(250, 190, 50);
+	}
+	
+	public void setStaticColors(){
+		MyColour.valueOf("brown").setColour(brown);
+		MyColour.valueOf("green").setColour(green);
+		MyColour.valueOf("red").setColour(red);
+		MyColour.valueOf("yellow").setColour(yellow);
+		MyColour.valueOf("pink").setColour(pink);
+		MyColour.valueOf("cyan").setColour(cyan);
+		MyColour.valueOf("blue").setColour(blue);
 		MyColour.valueOf("orange").setColour(orange);
-
 	}
 
 	public String getColorName(Color colour) {

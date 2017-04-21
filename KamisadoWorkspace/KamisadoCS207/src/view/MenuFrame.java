@@ -37,13 +37,11 @@ public class MenuFrame extends JFrame {
 		contentPane = new JPanel(new CardLayout());
 		options = new GameOptionsPanel(controller);
 		addPanel(options, "New Game");
-		initializeHomePanel();
-		addPanel(homePanel, "Home");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		ShowPanel("New Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 820, 700);
+		setBounds(500, 200, 820, 700);
 		setResizable(false);
 	}
 
@@ -51,20 +49,6 @@ public class MenuFrame extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFocusable(false);
 		JMenu main = new JMenu("Menu");
-
-		JMenuItem home = new JMenuItem("Home");
-		home.setMnemonic(KeyEvent.VK_H);
-		home.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.ALT_MASK));
-
-		home.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (displayConfirmExitMessage() == 0) {
-					controller.killGame();
-					ShowPanel("Home");
-				}
-			}
-		});
 
 		JMenuItem newgame = new JMenuItem("New Game");
 		newgame.setMnemonic(KeyEvent.VK_N);
@@ -142,7 +126,6 @@ public class MenuFrame extends JFrame {
 
 		menuBar.add(main);
 		menuBar.add(new JLabel("Alt-M"));
-		main.add(home);
 		main.add(newgame);
 		main.add(loadgame);
 		main.add(stats);
@@ -167,15 +150,6 @@ public class MenuFrame extends JFrame {
 
 	public void dispatchFrame() {
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-	}
-
-	public void initializeHomePanel() {
-		homePanel = new JPanel();
-		JLabel homeLabel = new JLabel();
-		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
-		homeLabel.setIcon(homeImage);
-		homePanel.add(homeLabel);
-		homePanel.setFocusable(false);
 	}
 
 	public void ShowPanel(String panelsName) {

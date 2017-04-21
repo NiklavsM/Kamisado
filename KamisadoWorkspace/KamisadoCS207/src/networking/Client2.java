@@ -31,12 +31,19 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	private int option = -2;
 	private int gameLength;
 	private String sendOption = "none";
+	private String opponentName;
+	private String ip ;
 
 	public Client2(String team, String playerName, String opponentName, boolean goingFirst, boolean hosting,
 			Controller controller, String ip) {
 		super(team, playerName, goingFirst, true);
 		this.myTurn = goingFirst;
 		this.controller = controller;
+		this.opponentName = opponentName;
+		this.ip = ip;
+	}
+	
+	public boolean tryConnect(){
 		try {
 			socket = new Socket(ip, PORT);
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -56,10 +63,11 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 					gameLength = (Integer) ob;
 				}
 			}
+			return true;
 		} catch (Throwable e) {
 			disconnected();
 			e.printStackTrace();
-		}
+		}return false;
 	}
 
 	public int getGameLengthFromServer() {
