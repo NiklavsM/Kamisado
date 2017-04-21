@@ -67,7 +67,8 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 		} catch (Throwable e) {
 			disconnected();
 			e.printStackTrace();
-		}return false;
+			return false;
+		}
 	}
 
 	public int getGameLengthFromServer() {
