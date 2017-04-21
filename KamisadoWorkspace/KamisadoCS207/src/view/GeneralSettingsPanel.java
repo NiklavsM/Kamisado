@@ -46,7 +46,7 @@ public class GeneralSettingsPanel extends JPanel {
 	private JButton resetDefaultColours;
 	private JLabel colorsStyle;
 	private Controller controller;
-	private String fontStyle = "Rockwell";
+	private String fontStyle = "Sitka Text";
 
 	ImageMerger merger = new ImageMerger();
 
@@ -72,7 +72,8 @@ public class GeneralSettingsPanel extends JPanel {
 	public void soundOptions() {
 		soundLabel = new JLabel("Sound");
 		soundLabel.setText("Sound");
-		soundLabel.setBounds(250, 150, 50, 50);
+		soundLabel.setBounds(250, 150, 100, 30);
+		soundLabel.setFont(new Font(fontStyle, Font.BOLD, 18));
 		add(soundLabel);
 
 		musicOn = new JCheckBox("Music On");
@@ -117,7 +118,8 @@ public class GeneralSettingsPanel extends JPanel {
 	public void boardColourChooser() {
 		
 		colorsStyle = new JLabel("Colours & Style");
-		colorsStyle.setBounds(250, 270, 120, 20);
+		colorsStyle.setBounds(250, 270, 160, 30);
+		colorsStyle.setFont(new Font(fontStyle, Font.BOLD, 18));
 		add(colorsStyle);
 
 		ChangeListener sliderChangeListener = new ChangeListener() {

@@ -33,12 +33,12 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	private String sendOption = "none";
 
 	public Client2(String team, String playerName, String opponentName, boolean goingFirst, boolean hosting,
-			Controller controller) {
+			Controller controller, String ip) {
 		super(team, playerName, goingFirst, true);
 		this.myTurn = goingFirst;
 		this.controller = controller;
 		try {
-			socket = new Socket("localhost", PORT);
+			socket = new Socket(ip, PORT);
 			ois = new ObjectInputStream(socket.getInputStream());
 			oout = new ObjectOutputStream(socket.getOutputStream());
 
