@@ -323,6 +323,7 @@ public class GameOptionsPanel extends JPanel {
 		timerTime.setBounds(200, 408, 82, 20);
 		add(timerTime);
 		chckbxSpeedMode.setSelected(false);
+		timerTime.setEditable(false);
 	}
 
 	private void setUpAIColour() {
