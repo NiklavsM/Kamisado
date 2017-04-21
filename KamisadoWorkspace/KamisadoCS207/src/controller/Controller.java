@@ -3,6 +3,7 @@ package controller;
 import java.awt.EventQueue;
 import java.io.Serializable;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import model.GameDriver;
@@ -81,7 +82,7 @@ public class Controller implements Serializable {
 		finishGameSetup();
 	}
 
-	public void playNetwork(boolean hosting, boolean isSpeedGame, String whiteName, String blackName, int timerTime,
+	public boolean playNetwork(boolean hosting, boolean isSpeedGame, String whiteName, String blackName, int timerTime,
 			int gameLength) {
 		GeneralSettingsManager manager = new GeneralSettingsManager();
 		GeneralSettings settings = manager.getGeneralSettings();
@@ -89,11 +90,30 @@ public class Controller implements Serializable {
 		networkGame = true;
 		if (hosting) {
 			Server2 host = new Server2(gameLength);
-
+			
+			Thread waiting = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					JOptionPane pane = new JOptionPane("Waiting for Opponent...", JOptionPane.CANCEL_OPTION);
+					JDialog dialog = pane.createDialog(main, "Hosting");
+					dialog.setVisible(true);
+					pane.setVisible(true);
+//					try {
+//						Thread.sleep(2000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+					dialog.setVisible(false);
+					pane.setVisible(false);
+					return;
+				}
+			});
+			waiting.start();
 			Thread hostThread = new Thread(host);
 			hostThread.start();
 			System.out.println("started first client");
-			JOptionPane.showMessageDialog(null, "Waiting for player 2...");
+			
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
 			client = new Client2("TeamWhite", whiteName, blackName, true, true, this, "localhost");
 			client.tryConnect();
@@ -102,9 +122,29 @@ public class Controller implements Serializable {
 			newThread.start();
 
 			// ((Client2)playerWhite).getGameLengthFromServer();
+			
 			gameL = gameLength;
 
 		} else {
+			Thread joining = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					JOptionPane pane = new JOptionPane("Connecting...", JOptionPane.CANCEL_OPTION);
+					JDialog dialog = pane.createDialog(main, "Joining");
+					dialog.setVisible(true);
+					pane.setVisible(true);
+//					try {
+//						Thread.sleep(2000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+					dialog.setVisible(false);
+					pane.setVisible(false);
+					return;
+				}
+			});
+			joining.start();
 			System.out.println("started second client");
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			String ip = JOptionPane.showInputDialog("Please enter hosts IP", settings.getRecentIP());
@@ -112,7 +152,7 @@ public class Controller implements Serializable {
 			manager.saveGeneralSettings(settings);
 			client = new Client2("TeamBlack", blackName, whiteName, false, false, this, ip);
 			if(!client.tryConnect()){
-				return;
+				return false;
 			};
 			playerBlack = client;
 			Thread newThread = new Thread(client);
@@ -127,7 +167,7 @@ public class Controller implements Serializable {
 		playerWhite.addObserver(game);
 		System.out.println("finishing game setup");
 		finishGameSetup();
-
+		return true;
 	}
 
 	private void playGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {

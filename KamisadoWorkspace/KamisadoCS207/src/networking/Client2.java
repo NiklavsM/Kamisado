@@ -257,15 +257,8 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	}
 	
 	public void disconnected(){
-//		try {
-////			ois.close();
-////			oout.close();
-////			socket.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		JOptionPane.showMessageDialog(null, "Connection Lost");
 		controller.getMenuFrame().ShowPanel("New Game");
+		JOptionPane.showMessageDialog(null, "Connection Lost");
+		
 	}
 }

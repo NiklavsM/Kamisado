@@ -44,7 +44,7 @@ public class Server2 implements Runnable, Serializable {
 		try {
 			listener = new ServerSocket(8905);
 			client1 = listener.accept();
-
+			
 			System.out.println("player 1 has joined");
 			client2 = listener.accept();
 			clientsTurn = client2;
