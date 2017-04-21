@@ -3,6 +3,8 @@ package controller;
 import java.awt.EventQueue;
 import java.io.Serializable;
 
+import javax.swing.JOptionPane;
+
 import model.GameDriver;
 import model.GeneralSettings;
 import model.GeneralSettingsManager;
@@ -29,11 +31,10 @@ public class Controller implements Serializable {
 	private Player playerWhite;
 	private Player playerBlack;
 	transient private MusicPlayer musicPlayer;
-	//transient private GeneralSettingsManager manager;
-	///transient private GeneralSettings settings;
+	// transient private GeneralSettingsManager manager;
+	/// transient private GeneralSettings settings;
 	private boolean networkGame = false;
 	private Client2 client;
-
 
 	public Controller() {
 		menuFrame = new MenuFrame(this);
@@ -79,29 +80,30 @@ public class Controller implements Serializable {
 		playGame(isSpeedGame, gameLength, timerTime, randomBoard);
 		finishGameSetup();
 	}
-	
-	public void playNetwork(boolean hosting, boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength) {
+
+	public void playNetwork(boolean hosting, boolean isSpeedGame, String whiteName, String blackName, int timerTime,
+			int gameLength) {
 		int gameL;
 		networkGame = true;
-		if(hosting){
+		if (hosting) {
 			Server2 host = new Server2(gameLength);
 
 			Thread hostThread = new Thread(host);
 			hostThread.start();
 			System.out.println("started first client");
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
-
-			client = new Client2("TeamWhite", whiteName,blackName, true, true, this);
+			client = new Client2("TeamWhite", whiteName, blackName, true, true, this, "localhost");
 			playerWhite = client;
 			Thread newThread = new Thread(client);
 			newThread.start();
-			
-			//((Client2)playerWhite).getGameLengthFromServer();
+
+			// ((Client2)playerWhite).getGameLengthFromServer();
 			gameL = gameLength;
-		}else{
+		} else {
 			System.out.println("started second client");
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
-			client = new Client2("TeamBlack", blackName,whiteName, false, false, this);
+			String ip = JOptionPane.showInputDialog("Please enter hosts IP");
+			client = new Client2("TeamBlack", blackName, whiteName, false, false, this, ip);
 			playerBlack = client;
 			Thread newThread = new Thread(client);
 			newThread.start();
@@ -225,9 +227,9 @@ public class Controller implements Serializable {
 	public Player getPlayerBlack() {
 		return playerBlack;
 	}
-	
-	public void rematchNonNetwork(){
-		
+
+	public void rematchNonNetwork() {
+
 		System.out.println("REMATCHING");
 		playerWhite = game.getCurrentState().getPlayerWhite();
 		playerBlack = game.getCurrentState().getPlayerBlack();
@@ -254,12 +256,12 @@ public class Controller implements Serializable {
 	}
 
 	public void rematch() {
-		if(networkGame){
-//			Thread newThread = new Thread(client);
+		if (networkGame) {
+			// Thread newThread = new Thread(client);
 			client.askToRematch();
-//			newThread.start();
+			// newThread.start();
 			main.getInGameOptions().displayRematch(true);
-		}else{
+		} else {
 			rematchNonNetwork();
 		}
 	}
@@ -282,27 +284,27 @@ public class Controller implements Serializable {
 	}
 
 	public int continueGame() {
-		if(networkGame){
-//			Thread newThread = new Thread(client);
+		if (networkGame) {
+			// Thread newThread = new Thread(client);
 			client.askToContinue();
-//			newThread.start();
+			// newThread.start();
 			return -1;
-		}else{
+		} else {
 			return game.nextRound();
 		}
 	}
-	
-	public void networkContinue(){
-		if(game.nextRound() >=0){
+
+	public void networkContinue() {
+		if (game.nextRound() >= 0) {
 			main.getInGameOptions().displayContinue(false);
 		}
 	}
-	
-	public void networkRematch(){
+
+	public void networkRematch() {
 		rematchNonNetwork();
-//		if(playerBlack instanceof Client2){
-//			((Client2)playerBlack).TurnEnded();
-//		}
+		// if(playerBlack instanceof Client2){
+		// ((Client2)playerBlack).TurnEnded();
+		// }
 		main.getInGameOptions().displayRematch(false);
 	}
 

@@ -23,7 +23,7 @@ public class StatPanel extends JPanel {
 	private JTextField filter;
 	private JTable table;
 	private DefaultTableModel model;
-	private String fontStyle = "Rockwell";
+	private String fontStyle = "Sitka Text";
 
 	public StatPanel() {
 		setLabelText("User stats");
