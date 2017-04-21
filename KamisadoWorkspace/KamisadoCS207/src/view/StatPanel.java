@@ -36,7 +36,7 @@ public class StatPanel extends JPanel {
 	private void setLabelText(String text) {
 		statsText = new JLabel();
 		statsText.setText(text);
-		statsText.setBounds(350, 100, 150, 20);
+		statsText.setBounds(330,100,200,40);
 		statsText.setFont(new Font(fontStyle, Font.BOLD, 28));
 		add(statsText);
 	}
@@ -61,14 +61,14 @@ public class StatPanel extends JPanel {
 			table.setEnabled(false);
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 			table.setRowSorter(sorter);
-			scrollPane.setBounds(20, 130, 750, 300);
+			scrollPane.setBounds(20, 150, 750, 300);
 			scrollPane.setViewportView(table);
 			add(scrollPane);
 		}
 
 		JLabel filterLebel = new JLabel();
 		filterLebel.setText("Filter:");
-		filterLebel.setBounds(280, 445, 70, 20);
+		filterLebel.setBounds(70, 460, 70, 20);
 		filterLebel.setFont(new Font(fontStyle, Font.BOLD, 20));
 		String fonts[] = 
 			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
@@ -82,7 +82,7 @@ public class StatPanel extends JPanel {
 
 		filter = new JTextField();
 		filter.setFocusable(true);
-		filter.setBounds(350, 445, 120, 20);
+		filter.setBounds(150, 460, 120, 20);
 		filter.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent arg0) {
 			}

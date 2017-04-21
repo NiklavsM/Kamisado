@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -21,7 +22,7 @@ import javax.swing.UIManager;
 import controller.Controller;
 
 public class GameOptionsPanel extends JPanel {
-	
+
 	private JTextField txtBlackName;
 	private JTextField txtWhiteName;
 	private JCheckBox chckbxSpeedMode;
@@ -46,16 +47,19 @@ public class GameOptionsPanel extends JPanel {
 	private ButtonGroup networkOption = new ButtonGroup();
 	private JComboBox<Integer> gameLength;
 	private JLabel gameRoundLabel;
+	private String fontStyle = "Rockwell";
+	Controller controller;
 
-	/**
-	 * Create the panel.
-	 */
 	public GameOptionsPanel(Controller controller) {
 		UIManager.put("Button.focus", Color.red);
 		UIManager.put("RadioButton.focus", Color.red);
 		UIManager.put("CheckBox.focus", Color.red);
 		setLayout(null);
-		Controller thisController = controller;
+		this.controller = controller;
+		JLabel title = new JLabel("Game options");
+		title.setBounds(300,100,200,40);
+		title.setFont(new Font(fontStyle, Font.BOLD, 28));
+		add(title);
 		initialiseComponents();
 		setUpAIdifficulty();
 		setUpGameTypeSelect();
@@ -65,80 +69,33 @@ public class GameOptionsPanel extends JPanel {
 		setUpAIColour();
 		setUpNetworkOptions();
 		setUpRounds();
+		setUpPlayButton();
 		setUpGraphics();
 
-//		JSeparator separator = new JSeparator();
-//		separator.setBounds(32, 108, 168, 22);
-//		add(separator);
+		// JSeparator separator = new JSeparator();
+		// separator.setBounds(32, 108, 168, 22);
+		// add(separator);
 
-		JButton btnPlay = new JButton("Play");
-		btnPlay.setBounds(504, 434, 89, 23);
-		btnPlay.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String playerBlack = txtBlackName.getText().trim();
-				String playerWhite = txtWhiteName.getText().trim();
-				Boolean randomBoard = chckbxRandomBoard.isSelected();
-				txtBlackName.setText(playerBlack);
-				txtWhiteName.setText(playerWhite);
-				if(playerWhite.length() <= 12 && playerBlack.length() <=12){
-					if(playerWhite.length() != 0 && playerBlack.length() !=0){
-						if(!playerWhite.equals(playerBlack)){
-							if(whiteAiPlayer.isSelected()){
-								if(playerBlack.equals("Easy AI") || playerBlack.equals("Hard AI")){
-									JOptionPane.showMessageDialog(null, "Please rename player Black, this name is protected!");
-									return;
-								}
-							}else if(blackAiPlayer.isSelected()){
-								if(playerWhite.equals("Easy AI") || playerWhite.equals("Hard AI")){
-									JOptionPane.showMessageDialog(null, "Please rename player White, this name is protected!");
-									return;
-								}
-							}
-							if(chckbxSpeedMode.isSelected()){
-								int time;
-								try{
-									time = Integer.parseInt(timerTime.getText());
-									System.out.println(time);
-								}catch(NumberFormatException exception){
-									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
-									return;
-								}
-								if (time < 5 || time > 20) {
-									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
-								} else{
-									initialiseGame(thisController, playerWhite, playerBlack, time, randomBoard);
-								}
-							}else{
-								initialiseGame(thisController, playerWhite, playerBlack, 0, randomBoard);
-							}
-						}else{
-							JOptionPane.showMessageDialog(null, "Player Names can't be the same, You can't play yourself!");
-						}
-					}else{
-						JOptionPane.showMessageDialog(null, "Player Name can't be empty, Please Enter at least one character!");
-					}
-				}else{
-					JOptionPane.showMessageDialog(null, "Player Names are too long, Please limit to 12 characters!");
-				}
-			}
-		});
-		add(btnPlay);
+		
 
 	}
-	
-	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime, boolean randomBoard ){
+
+	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime,
+			boolean randomBoard) {
 		if (rdbtnSingleplayer.isSelected()) {
-			thisController.playSinglePlayer(blackAiPlayer.isSelected(),chckbxSpeedMode.isSelected(),rdbtnEasy.isSelected(), playerWhite, playerBlack,timerTime, (int)gameLength.getSelectedItem(), randomBoard);
+			thisController.playSinglePlayer(blackAiPlayer.isSelected(), chckbxSpeedMode.isSelected(),
+					rdbtnEasy.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem(),
+					randomBoard);
 		} else if (rdbtnTwoPlayer.isSelected()) {
-			thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem(), randomBoard);
-		}else if(rdbtnNetworkPlay.isSelected()){
-			thisController.playNetwork(hostNetworkGame.isSelected(), chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime, (int) gameLength.getSelectedItem());
+			thisController.playTwoPlayer(chckbxSpeedMode.isSelected(), playerWhite, playerBlack, timerTime,
+					(int) gameLength.getSelectedItem(), randomBoard);
+		} else if (rdbtnNetworkPlay.isSelected()) {
+			thisController.playNetwork(hostNetworkGame.isSelected(), chckbxSpeedMode.isSelected(), playerWhite,
+					playerBlack, timerTime, (int) gameLength.getSelectedItem());
 		}
 	}
-	
-	private void initialiseComponents(){
+
+	private void initialiseComponents() {
 		rdbtnSingleplayer = new JRadioButton("Single Player");
 		rdbtnTwoPlayer = new JRadioButton("Two Player");
 		rdbtnNetworkPlay = new JRadioButton("Network Play");
@@ -158,20 +115,20 @@ public class GameOptionsPanel extends JPanel {
 		txtWhiteName = new JTextField();
 		AiSelectedField = txtBlackName;
 		gameRoundLabel = new JLabel("Rounds");
-		gameLength = new JComboBox<Integer>(new Integer[]{1,3,7,15});
+		gameLength = new JComboBox<Integer>(new Integer[] { 1, 3, 7, 15 });
 		gameLength.setSelectedIndex(0);
 	}
-	
-	private void setUpNetworkOptions(){
+
+	private void setUpNetworkOptions() {
 		JLabel lblGameType = new JLabel("Host or Join");
 		lblGameType.setBounds(500, 200, 120, 20);
 		add(lblGameType);
-		
+
 		hostNetworkGame.setBounds(500, 230, 120, 20);
 		hostNetworkGame.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if(arg0.getStateChange() == ItemEvent.SELECTED){
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					AiSelectedField = txtWhiteName;
 					txtBlackName.setText(txtWhiteName.getText());
 					txtBlackName.setEditable(true);
@@ -179,7 +136,7 @@ public class GameOptionsPanel extends JPanel {
 					txtWhiteName.setText("Opponent");
 					txtWhiteName.setEditable(false);
 					txtWhiteName.setFocusable(false);
-					
+
 					chckbxSpeedMode.setEnabled(true);
 					chckbxRandomBoard.setEnabled(false);
 					gameLength.setEnabled(true);
@@ -187,12 +144,12 @@ public class GameOptionsPanel extends JPanel {
 			}
 		});
 		add(hostNetworkGame);
-		
+
 		joinNetworkGame.setBounds(500, 250, 120, 20);
 		joinNetworkGame.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if(arg0.getStateChange() == ItemEvent.SELECTED){
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					AiSelectedField = txtBlackName;
 					txtWhiteName.setText(txtBlackName.getText());
 					txtWhiteName.setEditable(true);
@@ -200,7 +157,7 @@ public class GameOptionsPanel extends JPanel {
 					txtBlackName.setText("Opponent");
 					txtBlackName.setEditable(false);
 					txtBlackName.setFocusable(false);
-					
+
 					chckbxSpeedMode.setEnabled(false);
 					chckbxRandomBoard.setEnabled(false);
 					gameLength.setEnabled(false);
@@ -208,33 +165,33 @@ public class GameOptionsPanel extends JPanel {
 			}
 		});
 		add(joinNetworkGame);
-		
+
 		networkOption.add(hostNetworkGame);
 		networkOption.add(joinNetworkGame);
 	}
-	
-	private void setUpGameTypeSelect(){
+
+	private void setUpGameTypeSelect() {
 		JLabel lblGameType = new JLabel("Game Type");
 		lblGameType.setBounds(200, 200, 120, 20);
 		add(lblGameType);
-		
+
 		rdbtnSingleplayer.setBounds(200, 230, 109, 23);
 		rdbtnSingleplayer.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if(arg0.getStateChange() == ItemEvent.SELECTED){
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					rdbtnEasy.setEnabled(true);
 					rdbtnHard.setEnabled(true);
 					rdbtnEasy.setSelected(true);
 					whiteAiPlayer.setEnabled(true);
 					blackAiPlayer.setEnabled(true);
 					blackAiPlayer.doClick();
-					//blackAiPlayer.setSelected(true);
+					// blackAiPlayer.setSelected(true);
 					AiSelectedField = txtBlackName;
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setEditable(false);
-					
+
 					networkOption.clearSelection();
 					hostNetworkGame.setEnabled(false);
 					joinNetworkGame.setEnabled(false);
@@ -247,7 +204,7 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnTwoPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if(arg0.getStateChange() == ItemEvent.SELECTED){
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					rdbtnEasy.setEnabled(false);
 					rdbtnHard.setEnabled(false);
 					aiDiff.clearSelection();
@@ -257,7 +214,7 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setText("New user");
-					
+
 					networkOption.clearSelection();
 					hostNetworkGame.setEnabled(false);
 					joinNetworkGame.setEnabled(false);
@@ -270,23 +227,23 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnNetworkPlay.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if(arg0.getStateChange() == ItemEvent.SELECTED){
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					hostNetworkGame.setSelected(true);
 					rdbtnEasy.setEnabled(false);
 					rdbtnHard.setEnabled(false);
 					aiDiff.clearSelection();
-					
+
 					whiteAiPlayer.setEnabled(false);
 					blackAiPlayer.setEnabled(false);
 					aiStartCol.clearSelection();
-					
+
 					AiSelectedField.setEditable(false);
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setText("Opponent");
-					
+
 					hostNetworkGame.setEnabled(true);
 					joinNetworkGame.setEnabled(true);
-				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 					chckbxSpeedMode.setEnabled(true);
 					chckbxRandomBoard.setEnabled(true);
 					gameLength.setEnabled(true);
@@ -296,25 +253,25 @@ public class GameOptionsPanel extends JPanel {
 			}
 		});
 		add(rdbtnNetworkPlay);
-		
+
 		gameType.add(rdbtnNetworkPlay);
 		gameType.add(rdbtnSingleplayer);
 		gameType.add(rdbtnTwoPlayer);
 		rdbtnSingleplayer.setSelected(true);
 	}
 
-	private void setUpAIdifficulty(){
+	private void setUpAIdifficulty() {
 		JLabel lblAiDifficulty = new JLabel("AI Difficulty:");
 		lblAiDifficulty.setBounds(367, 200, 120, 20);
 		add(lblAiDifficulty);
-		
+
 		rdbtnEasy.setBounds(367, 230, 109, 23);
 		rdbtnEasy.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
 					AiSelectedField.setText("Easy AI");
-				}else if(e.getStateChange() == ItemEvent.DESELECTED){
+				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					AiSelectedField.setText("Hard AI");
 				}
 			}
@@ -326,34 +283,35 @@ public class GameOptionsPanel extends JPanel {
 
 		aiDiff.add(rdbtnEasy);
 		aiDiff.add(rdbtnHard);
-		
+
 		rdbtnEasy.setSelected(true);
 		rdbtnEasy.setEnabled(true);
 		rdbtnHard.setEnabled(true);
 		rdbtnEasy.doClick();
 	}
-	private void setUpRandomBoardMode(){
+
+	private void setUpRandomBoardMode() {
 		chckbxRandomBoard.setBounds(200, 336, 130, 23);
 		add(chckbxRandomBoard);
 	}
-	
-	private void setUpSpeedMode(){
-		
+
+	private void setUpSpeedMode() {
+
 		chckbxSpeedMode.setBounds(200, 360, 97, 23);
 		chckbxSpeedMode.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
 					timerTime.setEditable(true);
 					timerTime.setFocusable(true);
-				}else if(e.getStateChange() == ItemEvent.DESELECTED){
+				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					timerTime.setEditable(false);
 					timerTime.setFocusable(false);
 				}
 			}
 		});
 		add(chckbxSpeedMode);
-		
+
 		timeLabel.setBounds(200, 382, 97, 23);
 		add(timeLabel);
 
@@ -362,36 +320,36 @@ public class GameOptionsPanel extends JPanel {
 		chckbxSpeedMode.setSelected(true);
 		chckbxSpeedMode.setSelected(false);
 	}
-	
-	private void setUpAIColour(){
+
+	private void setUpAIColour() {
 		JLabel aiStart = new JLabel("AI");
 		aiStart.setBounds(605, 300, 30, 20);
 		add(aiStart);
-		
+
 		whiteAiPlayer.setBounds(600, 360, 60, 20);
 		whiteAiPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
 					AiSelectedField = txtWhiteName;
 					txtBlackName.setText(txtWhiteName.getText());
 					txtBlackName.setEditable(true);
 					txtBlackName.setFocusable(true);
-					if(rdbtnEasy.isSelected()){
+					if (rdbtnEasy.isSelected()) {
 						txtWhiteName.setText("Easy AI");
-					}else{
+					} else {
 						txtWhiteName.setText("Hard AI");
 					}
 					txtWhiteName.setEditable(false);
 					txtWhiteName.setFocusable(false);
-				}else if(e.getStateChange() == ItemEvent.DESELECTED){
+				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					AiSelectedField = txtBlackName;
 					txtWhiteName.setText(txtBlackName.getText());
 					txtWhiteName.setEditable(true);
 					txtWhiteName.setFocusable(true);
-					if(rdbtnEasy.isSelected()){
+					if (rdbtnEasy.isSelected()) {
 						txtBlackName.setText("Easy AI");
-					}else{
+					} else {
 						txtBlackName.setText("Hard AI");
 					}
 					txtBlackName.setEditable(false);
@@ -407,14 +365,13 @@ public class GameOptionsPanel extends JPanel {
 		aiStartCol.add(blackAiPlayer);
 		whiteAiPlayer.doClick();
 		blackAiPlayer.doClick();
-		
 
 	}
 
-	private void setUpPlayerTxtField(){
+	private void setUpPlayerTxtField() {
 		black.setBounds(390, 330, 109, 20);
 		add(black);
-		
+
 		white.setBounds(390, 360, 109, 20);
 		add(white);
 
@@ -428,15 +385,76 @@ public class GameOptionsPanel extends JPanel {
 		add(txtWhiteName);
 		txtWhiteName.setColumns(10);
 	}
-	
-	private void setUpRounds(){
+
+	private void setUpRounds() {
 		gameRoundLabel.setBounds(400, 410, 80, 20);
 		add(gameRoundLabel);
-		gameLength.setBounds(400, 435, 82, 20);		
+		gameLength.setBounds(400, 435, 82, 20);
 		add(gameLength);
 	}
 	
-	private void setUpGraphics(){
+	private void setUpPlayButton(){
+		JButton btnPlay = new JButton("Play");
+		btnPlay.setBounds(504, 434, 89, 23);
+		btnPlay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String playerBlack = txtBlackName.getText().trim();
+				String playerWhite = txtWhiteName.getText().trim();
+				Boolean randomBoard = chckbxRandomBoard.isSelected();
+				txtBlackName.setText(playerBlack);
+				txtWhiteName.setText(playerWhite);
+				if (playerWhite.length() <= 12 && playerBlack.length() <= 12) {
+					if (playerWhite.length() != 0 && playerBlack.length() != 0) {
+						if (!playerWhite.equals(playerBlack)) {
+							if (whiteAiPlayer.isSelected()) {
+								if (playerBlack.equals("Easy AI") || playerBlack.equals("Hard AI")) {
+									JOptionPane.showMessageDialog(null,
+											"Please rename player Black, this name is protected!");
+									return;
+								}
+							} else if (blackAiPlayer.isSelected()) {
+								if (playerWhite.equals("Easy AI") || playerWhite.equals("Hard AI")) {
+									JOptionPane.showMessageDialog(null,
+											"Please rename player White, this name is protected!");
+									return;
+								}
+							}
+							if (chckbxSpeedMode.isSelected()) {
+								int time;
+								try {
+									time = Integer.parseInt(timerTime.getText());
+									System.out.println(time);
+								} catch (NumberFormatException exception) {
+									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
+									return;
+								}
+								if (time < 5 || time > 20) {
+									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
+								} else {
+									initialiseGame(controller, playerWhite, playerBlack, time, randomBoard);
+								}
+							} else {
+								initialiseGame(controller, playerWhite, playerBlack, 0, randomBoard);
+							}
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Player Names can't be the same, You can't play yourself!");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Player Name can't be empty, Please Enter at least one character!");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Player Names are too long, Please limit to 12 characters!");
+				}
+			}
+		});
+		add(btnPlay);
+	}
+
+	private void setUpGraphics() {
 		JLabel logo = new JLabel();
 		logo.setBounds(260, 0, 500, 100);
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));

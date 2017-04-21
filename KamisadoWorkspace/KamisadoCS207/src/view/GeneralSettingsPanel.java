@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -22,29 +23,30 @@ import model.GeneralSettingsManager;
 import model.MyColour;
 
 public class GeneralSettingsPanel extends JPanel {
-	JLabel soundLabel;
-	JCheckBox musicOn;
-	JCheckBox soundOn;
-	JSlider soundVolume;
-	JSlider musicVolume;
-	JButton apply;
-	JCheckBox styleOne;
-	JCheckBox styleTwo;
-	ButtonGroup pieceTypes;
-	BufferedImage styleOneImage;
-	BufferedImage styleTwoImage;
-	JLabel styleOneImageLabel;
-	JLabel styleTwoImageLabel;
-	JComboBox<String> colourPicker;
-	JLabel colourPreview;
-	JSlider redSlider;
-	JSlider greenSlider;
-	JSlider blueSlider;
-	GeneralSettingsManager manager;
-	GeneralSettings settings;
-	JButton resetDefaultColours;
-	JLabel colorsStyle;
-	Controller controller;
+	private JLabel soundLabel;
+	private JCheckBox musicOn;
+	private JCheckBox soundOn;
+	private JSlider soundVolume;
+	private JSlider musicVolume;
+	private JButton apply;
+	private JCheckBox styleOne;
+	private JCheckBox styleTwo;
+	private ButtonGroup pieceTypes;
+	private BufferedImage styleOneImage;
+	private BufferedImage styleTwoImage;
+	private JLabel styleOneImageLabel;
+	private JLabel styleTwoImageLabel;
+	private JComboBox<String> colourPicker;
+	private JLabel colourPreview;
+	private JSlider redSlider;
+	private JSlider greenSlider;
+	private JSlider blueSlider;
+	private GeneralSettingsManager manager;
+	private GeneralSettings settings;
+	private JButton resetDefaultColours;
+	private JLabel colorsStyle;
+	private Controller controller;
+	private String fontStyle = "Rockwell";
 
 	ImageMerger merger = new ImageMerger();
 
@@ -54,6 +56,11 @@ public class GeneralSettingsPanel extends JPanel {
 		this.setFocusable(false);
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
+		
+		JLabel title = new JLabel("Game settings");
+		title.setBounds(300,100,220,40);
+		title.setFont(new Font(fontStyle, Font.BOLD, 28));
+		add(title);
 
 		soundOptions();
 		pieceTypeChooser();
