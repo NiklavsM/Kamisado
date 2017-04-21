@@ -36,7 +36,7 @@ public class StatPanel extends JPanel {
 	private void setLabelText(String text) {
 		statsText = new JLabel();
 		statsText.setText(text);
-		statsText.setBounds(330,100,200,40);
+		statsText.setBounds(330, 100, 200, 40);
 		statsText.setFont(new Font(fontStyle, Font.BOLD, 28));
 		add(statsText);
 	}
@@ -70,14 +70,6 @@ public class StatPanel extends JPanel {
 		filterLebel.setText("Filter:");
 		filterLebel.setBounds(70, 460, 70, 20);
 		filterLebel.setFont(new Font(fontStyle, Font.BOLD, 20));
-		String fonts[] = 
-			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-
-			    for ( int i = 0; i < fonts.length; i++ )
-			    {
-			      System.out.println(fonts[i]);
-			    }
-			  
 		add(filterLebel);
 
 		filter = new JTextField();
@@ -102,13 +94,23 @@ public class StatPanel extends JPanel {
 		table.setRowSorter(rowFilter);
 		rowFilter.setRowFilter(RowFilter.regexFilter(filter.getText()));
 	}
-	
-	private void setUpGraphics(){
+
+	private void setUpGraphics() {
 		JLabel logo = new JLabel();
 		logo.setBounds(260, 0, 500, 100);
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
 		logo.setIcon(homeImage);
 		add(logo);
+		JLabel dragonLeftCorner = new JLabel();
+		dragonLeftCorner.setBounds(-80, -100, 460, 310);
+		ImageIcon dragonLeftCornerImage = new ImageIcon(getClass().getResource("/images/dragonleftcorner.png"));
+		dragonLeftCorner.setIcon(dragonLeftCornerImage);
+		add(dragonLeftCorner);
+		JLabel dragonRightCorner = new JLabel();
+		dragonRightCorner.setBounds(500, -100, 460, 310);
+		ImageIcon dragonRightCornerImage = new ImageIcon(getClass().getResource("/images/dragonrightcorner.png"));
+		dragonRightCorner.setIcon(dragonRightCornerImage);
+		add(dragonRightCorner);
 		JLabel dragonHorizontal = new JLabel();
 		dragonHorizontal.setBounds(-40, 445, 820, 240);
 		ImageIcon dragonHorizontalImage = new ImageIcon(getClass().getResource("/images/dragonhorizontal.png"));

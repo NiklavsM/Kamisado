@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -47,7 +48,7 @@ public class GameOptionsPanel extends JPanel {
 	private ButtonGroup networkOption = new ButtonGroup();
 	private JComboBox<Integer> gameLength;
 	private JLabel gameRoundLabel;
-	private String fontStyle = "Rockwell";
+	private String fontStyle = "Sitka Text";//Rockwell Sylfaen Sitka Text
 	Controller controller;
 
 	public GameOptionsPanel(Controller controller) {
@@ -71,6 +72,11 @@ public class GameOptionsPanel extends JPanel {
 		setUpRounds();
 		setUpPlayButton();
 		setUpGraphics();
+		String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+		for (int i = 0; i < fonts.length; i++) {
+			System.out.println(fonts[i]);
+		}
 
 		// JSeparator separator = new JSeparator();
 		// separator.setBounds(32, 108, 168, 22);
