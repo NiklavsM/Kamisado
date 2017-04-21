@@ -87,7 +87,8 @@ public class Server2 implements Runnable, Serializable {
 			while (true) {
 				Object ob;
 				
-					System.out.println("game Over? : " + game.getCurrentState().isGameOver());
+				System.out.println("game Over? : " + gameEnded);
+				System.out.println("current State game over? = " + game.getCurrentState().isGameOver());
 				if(game.getCurrentState().isGameOver() && !gameEnded){
 					gameEnded = true;
 					endOfGame();
@@ -239,6 +240,7 @@ public class Server2 implements Runnable, Serializable {
 		PWhite.setToFirstMove(true);
 		PBlack.setToFirstMove(false);
 		game.playGame();
+		gameEnded = false;
 	}
 	
 	private void disconnect(){
