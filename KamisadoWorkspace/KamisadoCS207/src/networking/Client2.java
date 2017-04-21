@@ -57,6 +57,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 				}
 			}
 		} catch (Throwable e) {
+			disconnected();
 			e.printStackTrace();
 		}
 	}
@@ -108,6 +109,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 				}
 			}
 		} catch (Throwable e) {
+			disconnected();
 			e.printStackTrace();
 		}
 	}
@@ -128,6 +130,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 //					oout.flush();
 //				}
 			} catch (Throwable e) {
+				disconnected();
 				e.printStackTrace();
 			}
 		}
@@ -142,6 +145,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 				firstMove = false;
 				oout.flush();
 			} catch (Throwable e) {
+				disconnected();
 				e.printStackTrace();
 			}
 		//}
@@ -154,6 +158,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 				oout.writeObject(new String("gameOver"));
 				oout.flush();
 			} catch (Throwable e) {
+				disconnected();
 				e.printStackTrace();
 			}
 	}
@@ -181,6 +186,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			disconnected();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -221,6 +227,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 			oout.flush();
 
 		} catch (IOException e) {
+			disconnected();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -232,8 +239,22 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 			oout.writeObject("rematch");
 			oout.flush();
 		} catch (IOException e) {
+			disconnected();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void disconnected(){
+//		try {
+////			ois.close();
+////			oout.close();
+////			socket.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		JOptionPane.showMessageDialog(null, "Connection Lost");
+		controller.getMenuFrame().ShowPanel("New Game");
 	}
 }

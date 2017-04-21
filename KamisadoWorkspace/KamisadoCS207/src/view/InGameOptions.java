@@ -183,6 +183,7 @@ public class InGameOptions extends JPanel{
 	
 	public void showUndo(boolean undoAvailable){
 		btnUndo.setVisible(undoAvailable);
+		btnUndo.setFocusable(undoAvailable);
 	}
 	
 	public void addToGameLog(String message){
@@ -195,17 +196,21 @@ public class InGameOptions extends JPanel{
 
 	public void displayContinue(boolean b) {
 		btnContinue.setVisible(b);
+		btnContinue.setFocusable(b);
 	}
 
 	public void displayRematch(boolean b) {
 		btnRematch.setVisible(b);
+		btnRematch.setFocusable(b);
 	}
 	
 	public void displayHint(boolean b){
 		btnHint.setVisible(b);
+		btnHint.setFocusable(b);
 	}
 
 	public void displaySave(boolean b) {
 		btnSave.setVisible(b);
+		btnSave.setFocusable(b);
 	}
 }

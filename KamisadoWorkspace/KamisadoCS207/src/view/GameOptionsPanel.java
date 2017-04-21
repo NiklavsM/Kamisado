@@ -143,7 +143,7 @@ public class GameOptionsPanel extends JPanel {
 					txtWhiteName.setEditable(false);
 					txtWhiteName.setFocusable(false);
 
-					chckbxSpeedMode.setEnabled(true);
+					chckbxSpeedMode.setEnabled(false);
 					chckbxRandomBoard.setEnabled(false);
 					gameLength.setEnabled(true);
 				}
@@ -187,16 +187,15 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				if (arg0.getStateChange() == ItemEvent.SELECTED) {
+					AiSelectedField = txtBlackName;
+					AiSelectedField.setFocusable(false);
+					AiSelectedField.setEditable(false);
 					rdbtnEasy.setEnabled(true);
 					rdbtnHard.setEnabled(true);
 					rdbtnEasy.setSelected(true);
 					whiteAiPlayer.setEnabled(true);
 					blackAiPlayer.setEnabled(true);
 					blackAiPlayer.doClick();
-					// blackAiPlayer.setSelected(true);
-					AiSelectedField = txtBlackName;
-					AiSelectedField.setFocusable(false);
-					AiSelectedField.setEditable(false);
 
 					networkOption.clearSelection();
 					hostNetworkGame.setEnabled(false);

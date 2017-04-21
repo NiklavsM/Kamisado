@@ -99,6 +99,7 @@ public class Controller implements Serializable {
 			//((Client2)playerWhite).getGameLengthFromServer();
 			gameL = gameLength;
 		}else{
+			
 			System.out.println("started second client");
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			client = new Client2("TeamBlack", blackName,whiteName, false, false, this);
@@ -293,8 +294,9 @@ public class Controller implements Serializable {
 	}
 	
 	public void networkContinue(){
+		main.getInGameOptions().displayContinue(false);
 		if(game.nextRound() >=0){
-			main.getInGameOptions().displayContinue(false);
+			
 		}
 	}
 	

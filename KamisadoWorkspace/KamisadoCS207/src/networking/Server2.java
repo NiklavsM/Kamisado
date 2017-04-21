@@ -24,6 +24,7 @@ public class Server2 implements Runnable, Serializable {
 	private ObjectInputStream readFromPlayerToMove;
 	private ObjectOutputStream writeToOtherPlayer;
 	private ObjectInputStream readFromOtherPlayer;
+	private ServerSocket listener;
 
 	/**
 	 * Runs the application. Pairs up clients that connect.
@@ -36,7 +37,7 @@ public class Server2 implements Runnable, Serializable {
 	@Override
 	public void run() {
 		try {
-			ServerSocket listener = new ServerSocket(8905);
+			listener = new ServerSocket(8905);
 			client1 = listener.accept();
 
 			System.out.println("player 1 has joined");
@@ -101,6 +102,7 @@ public class Server2 implements Runnable, Serializable {
 				writeToOtherPlayer.reset();
 			}
 		} catch (Throwable e) {
+			disconnect();
 			e.printStackTrace();
 		}
 	}
@@ -137,6 +139,7 @@ public class Server2 implements Runnable, Serializable {
 				oout2.flush();
 			}
 		} catch (Throwable e) {
+			disconnect();
 			e.printStackTrace();
 		}
 	}
@@ -152,6 +155,7 @@ public class Server2 implements Runnable, Serializable {
 			fillOption = "none";
 			flip();
 		} catch (Throwable e) {
+			disconnect();
 			e.printStackTrace();
 		}
 	}
@@ -170,6 +174,19 @@ public class Server2 implements Runnable, Serializable {
 			readFromPlayerToMove = ois1;
 			writeToOtherPlayer = oout2;
 			readFromOtherPlayer = ois2;
+		}
+	}
+	
+	private void disconnect(){
+		try {
+			ois1.close();
+			ois2.close();
+			oout1.close();
+			oout2.close();
+			listener.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

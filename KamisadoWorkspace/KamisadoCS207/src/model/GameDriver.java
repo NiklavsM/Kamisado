@@ -11,6 +11,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 
+import networking.Client2;
 import player.EasyAIPlayer;
 import player.HardAIPlayer;
 import player.Player;
@@ -59,7 +60,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			stats.addToScores(winner, loser, false);
 		}
 		m.saveStats(stats);
-		loser.gameOver();
+		System.out.println("Winner: " + winner.getPlayerName());
+		System.out.println("loser: " + loser.getPlayerName());
+		if(loser instanceof Client2){
+			loser.gameOver();
+		}
+//		winner.gameOver();
 	}
 
 	public boolean incrementScoreAtEndOfGame(Player winner) {
@@ -105,12 +111,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		if (playerToMove.getPlayerTeam().equals("TeamWhite")) {
 			while(optionChosen == -2){
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			}
 			currentState.getPlayerBlack().otherPersonOption(optionChosen);
@@ -118,12 +118,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			
 		} else {
 			while(optionChosen == -2){
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
 			}
 			currentState.getPlayerWhite().otherPersonOption(optionChosen);
