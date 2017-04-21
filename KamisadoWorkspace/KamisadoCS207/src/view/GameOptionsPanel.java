@@ -72,11 +72,6 @@ public class GameOptionsPanel extends JPanel {
 		setUpRounds();
 		setUpPlayButton();
 		setUpGraphics();
-		String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-
-		for (int i = 0; i < fonts.length; i++) {
-			System.out.println(fonts[i]);
-		}
 
 		// JSeparator separator = new JSeparator();
 		// separator.setBounds(32, 108, 168, 22);
@@ -245,6 +240,7 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField.setEditable(false);
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setText("Opponent");
+					chckbxSpeedMode.setSelected(false);
 
 					hostNetworkGame.setEnabled(true);
 					joinNetworkGame.setEnabled(true);

@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -19,23 +18,21 @@ import model.StatsManager;
 import model.StatsObject;
 
 public class StatPanel extends JPanel {
-	private JLabel statsText;
 	private JTextField filter;
 	private JTable table;
 	private DefaultTableModel model;
 	private String fontStyle = "Sitka Text";
 
 	public StatPanel() {
-		setLabelText("User stats");
+		setLabelText();
 		setTable();
 		this.setLayout(null);
 		this.setFocusable(false);
 		setUpGraphics();
 	}
 
-	private void setLabelText(String text) {
-		statsText = new JLabel();
-		statsText.setText(text);
+	private void setLabelText() {
+		JLabel statsText = new JLabel("User stats");
 		statsText.setBounds(330, 100, 200, 40);
 		statsText.setFont(new Font(fontStyle, Font.BOLD, 28));
 		add(statsText);

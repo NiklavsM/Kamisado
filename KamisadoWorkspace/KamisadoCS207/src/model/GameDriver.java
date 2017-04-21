@@ -337,9 +337,9 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			try {
 				AudioInputStream inputStream;
 				if (sumo) {
-					inputStream = AudioSystem.getAudioInputStream(new File("sumo.wav"));
+					inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sound/sumo.wav"));
 				} else {
-					inputStream = AudioSystem.getAudioInputStream(new File("pipe.wav"));
+					inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sound/regular.wav"));
 				}
 				Clip clip = AudioSystem.getClip();
 				clip.open(inputStream);
