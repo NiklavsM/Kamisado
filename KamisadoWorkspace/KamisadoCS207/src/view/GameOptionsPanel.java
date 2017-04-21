@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -45,6 +45,7 @@ public class GameOptionsPanel extends JPanel {
 	private ButtonGroup aiDiff = new ButtonGroup();
 	private ButtonGroup networkOption = new ButtonGroup();
 	private JComboBox<Integer> gameLength;
+	private JLabel gameRoundLabel;
 
 	/**
 	 * Create the panel.
@@ -63,13 +64,15 @@ public class GameOptionsPanel extends JPanel {
 		setUpPlayerTxtField();
 		setUpAIColour();
 		setUpNetworkOptions();
+		setUpRounds();
+		setUpGraphics();
 
 //		JSeparator separator = new JSeparator();
 //		separator.setBounds(32, 108, 168, 22);
 //		add(separator);
 
 		JButton btnPlay = new JButton("Play");
-		btnPlay.setBounds(354, 234, 89, 23);
+		btnPlay.setBounds(504, 434, 89, 23);
 		btnPlay.addActionListener(new ActionListener() {
 
 			@Override
@@ -122,6 +125,7 @@ public class GameOptionsPanel extends JPanel {
 			}
 		});
 		add(btnPlay);
+
 	}
 	
 	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime, boolean randomBoard ){
@@ -153,16 +157,17 @@ public class GameOptionsPanel extends JPanel {
 		txtBlackName = new JTextField();
 		txtWhiteName = new JTextField();
 		AiSelectedField = txtBlackName;
+		gameRoundLabel = new JLabel("Rounds");
 		gameLength = new JComboBox<Integer>(new Integer[]{1,3,7,15});
 		gameLength.setSelectedIndex(0);
 	}
 	
 	private void setUpNetworkOptions(){
 		JLabel lblGameType = new JLabel("Host or Join");
-		lblGameType.setBounds(350, 30, 120, 35);
+		lblGameType.setBounds(500, 200, 120, 20);
 		add(lblGameType);
 		
-		hostNetworkGame.setBounds(350, 60, 120, 35);
+		hostNetworkGame.setBounds(500, 230, 120, 20);
 		hostNetworkGame.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -183,7 +188,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(hostNetworkGame);
 		
-		joinNetworkGame.setBounds(350, 90, 120, 35);
+		joinNetworkGame.setBounds(500, 250, 120, 20);
 		joinNetworkGame.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -210,10 +215,10 @@ public class GameOptionsPanel extends JPanel {
 	
 	private void setUpGameTypeSelect(){
 		JLabel lblGameType = new JLabel("Game Type");
-		lblGameType.setBounds(48, 23, 81, 14);
+		lblGameType.setBounds(200, 200, 120, 20);
 		add(lblGameType);
 		
-		rdbtnSingleplayer.setBounds(48, 52, 109, 23);
+		rdbtnSingleplayer.setBounds(200, 230, 109, 23);
 		rdbtnSingleplayer.addItemListener(new ItemListener() {
 
 			@Override
@@ -238,7 +243,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(rdbtnSingleplayer);
 
-		rdbtnTwoPlayer.setBounds(48, 78, 109, 23);
+		rdbtnTwoPlayer.setBounds(200, 250, 109, 23);
 		rdbtnTwoPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -261,7 +266,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(rdbtnTwoPlayer);
 
-		rdbtnNetworkPlay.setBounds(48, 103, 109, 23);
+		rdbtnNetworkPlay.setBounds(200, 270, 109, 23);
 		rdbtnNetworkPlay.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -300,10 +305,10 @@ public class GameOptionsPanel extends JPanel {
 
 	private void setUpAIdifficulty(){
 		JLabel lblAiDifficulty = new JLabel("AI Difficulty:");
-		lblAiDifficulty.setBounds(217, 35, 101, 14);
+		lblAiDifficulty.setBounds(367, 200, 120, 20);
 		add(lblAiDifficulty);
 		
-		rdbtnEasy.setBounds(217, 57, 109, 23);
+		rdbtnEasy.setBounds(367, 230, 109, 23);
 		rdbtnEasy.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -316,7 +321,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(rdbtnEasy);
 
-		rdbtnHard.setBounds(217, 87, 109, 23);
+		rdbtnHard.setBounds(367, 250, 109, 23);
 		add(rdbtnHard);
 
 		aiDiff.add(rdbtnEasy);
@@ -328,13 +333,13 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnEasy.doClick();
 	}
 	private void setUpRandomBoardMode(){
-		chckbxRandomBoard.setBounds(48, 136, 130, 23);
+		chckbxRandomBoard.setBounds(200, 336, 130, 23);
 		add(chckbxRandomBoard);
 	}
 	
 	private void setUpSpeedMode(){
 		
-		chckbxSpeedMode.setBounds(48, 160, 97, 23);
+		chckbxSpeedMode.setBounds(200, 360, 97, 23);
 		chckbxSpeedMode.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -349,10 +354,10 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(chckbxSpeedMode);
 		
-		timeLabel.setBounds(48, 182, 97, 23);
+		timeLabel.setBounds(200, 382, 97, 23);
 		add(timeLabel);
 
-		timerTime.setBounds(48, 208, 82, 20);
+		timerTime.setBounds(200, 408, 82, 20);
 		add(timerTime);
 		chckbxSpeedMode.setSelected(true);
 		chckbxSpeedMode.setSelected(false);
@@ -360,10 +365,10 @@ public class GameOptionsPanel extends JPanel {
 	
 	private void setUpAIColour(){
 		JLabel aiStart = new JLabel("AI");
-		aiStart.setBounds(455, 130, 30, 20);
+		aiStart.setBounds(605, 300, 30, 20);
 		add(aiStart);
 		
-		whiteAiPlayer.setBounds(450, 178, 60, 20);
+		whiteAiPlayer.setBounds(600, 360, 60, 20);
 		whiteAiPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -397,32 +402,55 @@ public class GameOptionsPanel extends JPanel {
 		add(whiteAiPlayer);
 		aiStartCol.add(whiteAiPlayer);
 
-		blackAiPlayer.setBounds(450, 153, 60, 20);
+		blackAiPlayer.setBounds(600, 330, 60, 20);
 		add(blackAiPlayer);
 		aiStartCol.add(blackAiPlayer);
 		whiteAiPlayer.doClick();
 		blackAiPlayer.doClick();
 		
-		gameLength.setBounds(48, 250, 82, 20);
-		
-		add(gameLength);
+
 	}
 
 	private void setUpPlayerTxtField(){
-		black.setBounds(217, 152, 109, 22);
+		black.setBounds(390, 330, 109, 20);
 		add(black);
 		
-		white.setBounds(217, 177, 109, 23);
+		white.setBounds(390, 360, 109, 20);
 		add(white);
 
 		txtBlackName.setText("Player Black");
-		txtBlackName.setBounds(346, 153, 97, 20);
+		txtBlackName.setBounds(500, 330, 90, 20);
 		add(txtBlackName);
 		txtBlackName.setColumns(10);
 
 		txtWhiteName.setText("Player White");
-		txtWhiteName.setBounds(345, 178, 98, 20);
+		txtWhiteName.setBounds(500, 360, 90, 20);
 		add(txtWhiteName);
 		txtWhiteName.setColumns(10);
+	}
+	
+	private void setUpRounds(){
+		gameRoundLabel.setBounds(400, 410, 80, 20);
+		add(gameRoundLabel);
+		gameLength.setBounds(400, 435, 82, 20);		
+		add(gameLength);
+	}
+	
+	private void setUpGraphics(){
+		JLabel logo = new JLabel();
+		logo.setBounds(260, 0, 500, 100);
+		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
+		logo.setIcon(homeImage);
+		add(logo);
+		JLabel dragonLeft = new JLabel();
+		dragonLeft.setBounds(-10, 0, 300, 650);
+		homeImage = new ImageIcon(getClass().getResource("/images/dragonleft.png"));
+		dragonLeft.setIcon(homeImage);
+		add(dragonLeft);
+		JLabel dragonRight = new JLabel();
+		dragonRight.setBounds(555, 0, 300, 650);
+		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
+		dragonRight.setIcon(homeImage);
+		add(dragonRight);
 	}
 }

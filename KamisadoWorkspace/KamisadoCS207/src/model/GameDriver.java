@@ -103,30 +103,28 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		if (playerToMove.getPlayerTeam().equals("TeamWhite")) {
 			while(optionChosen == -2){
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			}
 			currentState.getPlayerBlack().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerBlack();
-			
 		} else {
 			while(optionChosen == -2){
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
 			}
 			currentState.getPlayerWhite().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerWhite();
-			
 		}
 		if (optionChosen == 0) {
 			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(), playerToMove,
@@ -191,8 +189,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public boolean tryToMove(Position placeClicked) {
 		State state = currentState.make(placeClicked);
 		if (state == null) {
-			// JOptionPane.showMessageDialog(null,"Not a valid move!", "Not a
-			// valid move!", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		} else {
 			playTurnSound(currentState.isSumoPush());
@@ -247,8 +243,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 				}
 			}
 		} else {
-			currentState.getPlayerToMove().TurnEnded();
-
+			currentState.getPlayerToMove().TurnEnded(null);
 			this.tellAll(posToMove);
 			this.tellAll(movesCanMake);
 		}
@@ -319,6 +314,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	public Stack<State> getHistory() {
 		return history;
 	}
+
 	public void playTurnSound(boolean sumo) {
 		GeneralSettingsManager manager = new GeneralSettingsManager();
 		GeneralSettings settings = manager.getGeneralSettings();

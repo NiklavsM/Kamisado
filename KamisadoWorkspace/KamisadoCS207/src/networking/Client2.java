@@ -90,6 +90,11 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 						int y = (Integer) obj2;
 						System.out.println(x);
 						System.out.println(y);
+						if (!firstMove && (y == 0 || y == 7)) {
+							System.out.println("Y: " + y);
+							oout.writeObject("gameOver");
+							oout.flush();
+						}
 						previousPos = new Position(x, y);
 						this.tellAll(previousPos);
 					}
@@ -122,11 +127,6 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 
 				oout.flush();
 
-				if (!firstMove && (pos.getY() == 0 || pos.getY() == 7)) {
-					System.out.println("Y: " + pos.getY());
-					oout.writeObject("gameOver");
-					oout.flush();
-				}
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -134,15 +134,28 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	}
 
 	@Override
-	public void TurnEnded() {
-		try {
-			System.out.println("sending boolean");
-			oout.writeObject(new Boolean(true));
-			firstMove = false;
-			oout.flush();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+	public void TurnEnded(Position pos) {
+		//if(pos.getY() > 0 || pos.getY() < 7){
+			try {
+				System.out.println("sending boolean");
+				oout.writeObject(new Boolean(true));
+				firstMove = false;
+				oout.flush();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		//}
+	}
+	
+	@Override
+	public void gameOver(){
+//		System.out.println("was called");
+//			try {
+//				oout.writeObject("gameOver");
+//				oout.flush();
+//			} catch (Throwable e) {
+//				e.printStackTrace();
+//			}
 	}
 
 	public boolean isMyTurn() {

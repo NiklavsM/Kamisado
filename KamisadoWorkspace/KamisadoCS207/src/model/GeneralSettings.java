@@ -17,8 +17,8 @@ public class GeneralSettings implements Serializable {
 	private Color cyan;
 	private Color blue;
 	private Color orange;
-	
-	public GeneralSettings(){
+
+	public GeneralSettings() {
 		setDefaultColors();
 	}
 
@@ -88,22 +88,22 @@ public class GeneralSettings implements Serializable {
 		Color colourToSet = new Color(red, green, blue);
 		if (colourT.equals("blue"))
 			this.blue = colourToSet;
-		if (colourT.equals("brown"))
+		else if (colourT.equals("brown"))
 			this.brown = colourToSet;
-		if (colourT.equals("green"))
+		else if (colourT.equals("green"))
 			this.green = colourToSet;
-		if (colourT.equals("red"))
+		else if (colourT.equals("red"))
 			this.red = colourToSet;
-		if (colourT.equals("yellow"))
+		else if (colourT.equals("yellow"))
 			this.yellow = colourToSet;
-		if (colourT.equals("pink"))
+		else if (colourT.equals("pink"))
 			this.pink = colourToSet;
-		if (colourT.equals("cyan"))
+		else if (colourT.equals("cyan"))
 			this.cyan = colourToSet;
-		if (colourT.equals("orange"))
+		else if (colourT.equals("orange"))
 			this.orange = colourToSet;
-		
 		MyColour.valueOf(colourT).setColour(colourToSet);
+
 	}
 
 	public int getColoursRed(String colour) {
@@ -117,20 +117,28 @@ public class GeneralSettings implements Serializable {
 	public int getColoursBlue(String colour) {
 		return getColour(colour).getBlue();
 	}
-	
-	public void setDefaultColors(){
-		brown = new Color(148, 104, 39);		
-		green = new Color(108, 216, 68);		
+
+	public void setDefaultColors() {
+		brown = new Color(148, 104, 39);
+		MyColour.valueOf("brown").setColour(brown);
+		green = new Color(108, 216, 68);
+		MyColour.valueOf("green").setColour(green);
 		red = new Color(249, 69, 24);
+		MyColour.valueOf("red").setColour(red);
 		yellow = new Color(245, 245, 26);
+		MyColour.valueOf("yellow").setColour(yellow);
 		pink = new Color(239, 86, 208);
+		MyColour.valueOf("pink").setColour(pink);
 		cyan = new Color(95, 207, 235);
+		MyColour.valueOf("cyan").setColour(cyan);
 		blue = new Color(14, 104, 243);
+		MyColour.valueOf("blue").setColour(blue);
 		orange = new Color(250, 190, 50);
+		MyColour.valueOf("orange").setColour(orange);
 
 	}
-	
-	public String getColorName(Color colour){
+
+	public String getColorName(Color colour) {
 		if (colour.equals(blue))
 			return "blue";
 		if (colour.equals(brown))

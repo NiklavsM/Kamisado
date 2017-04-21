@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,7 +35,7 @@ public class GeneralSettingsPanel extends JPanel {
 	BufferedImage styleTwoImage;
 	JLabel styleOneImageLabel;
 	JLabel styleTwoImageLabel;
-	JComboBox colourPicker;
+	JComboBox<String> colourPicker;
 	JLabel colourPreview;
 	JSlider redSlider;
 	JSlider greenSlider;
@@ -45,8 +43,9 @@ public class GeneralSettingsPanel extends JPanel {
 	GeneralSettingsManager manager;
 	GeneralSettings settings;
 	JButton resetDefaultColours;
+	JLabel colorsStyle;
 	Controller controller;
-	
+
 	ImageMerger merger = new ImageMerger();
 
 	public GeneralSettingsPanel(Controller controller) {
@@ -60,96 +59,75 @@ public class GeneralSettingsPanel extends JPanel {
 		pieceTypeChooser();
 		boardColourChooser();
 		initializeApplyButton();
+		setUpGraphics();
 	}
 
 	public void soundOptions() {
 		soundLabel = new JLabel("Sound");
 		soundLabel.setText("Sound");
-		soundLabel.setBounds(50, 50, 50, 50);
+		soundLabel.setBounds(250, 150, 50, 50);
 		add(soundLabel);
 
 		musicOn = new JCheckBox("Music On");
 		musicOn.setSelected(settings.isMusicOn());
-		musicOn.setBounds(50, 100, 80, 20);
+		musicOn.setBounds(250, 200, 80, 20);
 		musicOn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				musicVolume.setEnabled(musicOn.isSelected());
-				
+
 			}
 		});
 		add(musicOn);
 
 		musicVolume = new JSlider(-80, 6, settings.getMusicVolume());
-		musicVolume.setBounds(130, 100, 100, 20);
+		musicVolume.setBounds(330, 200, 100, 20);
 		musicVolume.setEnabled(settings.isMusicOn());
 		add(musicVolume);
-		
+
 		soundOn = new JCheckBox("Sound On");
 		soundOn.setSelected(settings.isSoundOn());
-		soundOn.setBounds(50, 130, 80, 20);
+		soundOn.setBounds(250, 230, 80, 20);
 		soundOn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				soundVolume.setEnabled(soundOn.isSelected());
-				
+
 			}
 		});
 		add(soundOn);
 
 		soundVolume = new JSlider(-80, 6, settings.getSoundVolume());
-		soundVolume.setBounds(130, 130, 100, 20);
+		soundVolume.setBounds(330, 230, 100, 20);
 		soundVolume.setEnabled(settings.isSoundOn());
 		add(soundVolume);
 	}
 
-	public void pieceTypeChooser() {
-		styleOneImage = merger.mergeRegularStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
-		
-		styleOneImageLabel = new JLabel(new ImageIcon(styleOneImage));
-		styleOneImageLabel.setBounds(300, 100, 50, 50);
-		add(styleOneImageLabel);
 
-		styleTwoImage = merger.mergeAlternateStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
-		
-		styleTwoImageLabel = new JLabel(new ImageIcon(styleTwoImage));
-		styleTwoImageLabel.setBounds(380, 100, 50, 50);
-		add(styleTwoImageLabel);
-
-		styleOne = new JCheckBox("Style One");
-		styleOne.setBounds(300, 150, 80, 20);
-		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
-		
-		styleTwo = new JCheckBox("Style Two");
-		styleTwo.setBounds(380, 150, 80, 20);
-		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
-
-		pieceTypes = new ButtonGroup();
-		pieceTypes.add(styleOne);
-		pieceTypes.add(styleTwo);
-		add(styleOne);
-		add(styleTwo);
-	}
 
 	public void boardColourChooser() {
+		
+		colorsStyle = new JLabel("Colours & Style");
+		colorsStyle.setBounds(250, 270, 120, 20);
+		add(colorsStyle);
 
 		ChangeListener sliderChangeListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				colourPreview
 						.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
-				
+
 				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
 				styleTwoImageLabel.setIcon(new ImageIcon(styleTwoImage));
 			}
 		};
-		
-		colourPicker = new JComboBox<Object>(
-				new Object[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
-		colourPicker.setBounds(50, 250, 80, 30);
+
+		colourPicker = new JComboBox<String>(
+				new String[] { "Blue", "Brown", "Green", "Red", "Yellow", "Pink", "Cyan", "Orange" });
+		colourPicker.setBounds(250, 300, 80, 30);
 		colourPicker.addActionListener(new ActionListener() {
 
 			@Override
@@ -157,7 +135,7 @@ public class GeneralSettingsPanel extends JPanel {
 				redSlider.setValue(settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 				greenSlider.setValue(settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 				blueSlider.setValue(settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
-				
+
 				styleOneImage = merger.mergeRegularStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleTwoImage = merger.mergeAlternateStyle(colourPreview.getBackground(), "TeamWhite", "Standard");
 				styleOneImageLabel.setIcon(new ImageIcon(styleOneImage));
@@ -167,30 +145,30 @@ public class GeneralSettingsPanel extends JPanel {
 		add(colourPicker);
 
 		redSlider = new JSlider(0, 255, settings.getColoursRed(colourPicker.getSelectedItem().toString()));
-		redSlider.setBounds(50, 300, 120, 20);
+		redSlider.setBounds(250, 350, 120, 20);
 		redSlider.addChangeListener(sliderChangeListener);
 		add(redSlider);
 
 		greenSlider = new JSlider(0, 255, settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
-		greenSlider.setBounds(50, 330, 120, 20);
+		greenSlider.setBounds(250, 380, 120, 20);
 		greenSlider.addChangeListener(sliderChangeListener);
 		add(greenSlider);
 
 		blueSlider = new JSlider(0, 255, settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
-		blueSlider.setBounds(50, 360, 120, 20);
+		blueSlider.setBounds(250, 410, 120, 20);
 		blueSlider.addChangeListener(sliderChangeListener);
 		add(blueSlider);
 
 		colourPreview = new JLabel();
-		colourPreview.setBounds(180, 300, 80, 80);
+		colourPreview.setBounds(380, 350, 80, 80);
 		colourPreview.setBackground(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));
 		colourPreview.setOpaque(true);
 		add(colourPreview);
-		
+
 		resetDefaultColours = new JButton("Reset Colours");
-		resetDefaultColours.setBounds(180, 250, 120, 20);
+		resetDefaultColours.setBounds(360, 300, 120, 20);
 		resetDefaultColours.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				settings.setDefaultColors();
@@ -204,6 +182,34 @@ public class GeneralSettingsPanel extends JPanel {
 			}
 		});
 		add(resetDefaultColours);
+	}
+	
+	public void pieceTypeChooser() {
+		styleOneImage = merger.mergeRegularStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
+
+		styleOneImageLabel = new JLabel(new ImageIcon(styleOneImage));
+		styleOneImageLabel.setBounds(500, 350, 50, 50);
+		add(styleOneImageLabel);
+
+		styleTwoImage = merger.mergeAlternateStyle(MyColour.valueOf("blue").getColour(), "TeamWhite", "Standard");
+
+		styleTwoImageLabel = new JLabel(new ImageIcon(styleTwoImage));
+		styleTwoImageLabel.setBounds(580, 350, 50, 50);
+		add(styleTwoImageLabel);
+
+		styleOne = new JCheckBox("Style One");
+		styleOne.setBounds(500, 400, 80, 20);
+		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
+
+		styleTwo = new JCheckBox("Style Two");
+		styleTwo.setBounds(580, 400, 80, 20);
+		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
+
+		pieceTypes = new ButtonGroup();
+		pieceTypes.add(styleOne);
+		pieceTypes.add(styleTwo);
+		add(styleOne);
+		add(styleTwo);
 	}
 
 	public void initializeApplyButton() {
@@ -233,5 +239,23 @@ public class GeneralSettingsPanel extends JPanel {
 			}
 		});
 		add(apply);
+	}
+	
+	private void setUpGraphics(){
+		JLabel logo = new JLabel();
+		logo.setBounds(260, 0, 500, 100);
+		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
+		logo.setIcon(homeImage);
+		add(logo);
+		JLabel dragonLeft = new JLabel();
+		dragonLeft.setBounds(-10, 0, 300, 650);
+		homeImage = new ImageIcon(getClass().getResource("/images/dragonleft.png"));
+		dragonLeft.setIcon(homeImage);
+		add(dragonLeft);
+		JLabel dragonRight = new JLabel();
+		dragonRight.setBounds(555, 0, 300, 650);
+		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
+		dragonRight.setIcon(homeImage);
+		add(dragonRight);
 	}
 }

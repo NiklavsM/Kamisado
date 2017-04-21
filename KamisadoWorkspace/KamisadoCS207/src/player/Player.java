@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import model.MyObservable;
 import model.MyObserver;
+import model.Position;
 import model.State;
 
 public abstract class Player implements MyObservable,MyObserver, Serializable, Runnable{
@@ -99,13 +100,20 @@ public abstract class Player implements MyObservable,MyObserver, Serializable, R
 	public void setScore(int i) {
 		score = i;
 	}
-	public void TurnEnded() {
-	}
 	public void setName(String playerName2) {
 		playerName = playerName2;
 	}
 
 	public void otherPersonOption(int option) {
+		
+	}
+	public void TurnEnded(Position pos) {
+	}
+
+
+
+	public void gameOver() {
+		// TODO Auto-generated method stub
 		
 	}
 	

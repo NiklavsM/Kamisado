@@ -7,14 +7,12 @@ import java.util.Random;
 public final class Board implements Serializable {
 	private Piece[][] pieces;
 	private MyColour[][] boardColours = new MyColour[boardSize][boardSize];
-	private static MyColour[] defaultColours = {MyColour.brown, MyColour.green, MyColour.red
-			, MyColour.yellow, MyColour.pink, MyColour.cyan, MyColour.blue, MyColour.orange};// could take take default colours
-											// from file
+	private static MyColour[] defaultColours = { MyColour.brown, MyColour.green, MyColour.red, MyColour.yellow,
+			MyColour.pink, MyColour.cyan, MyColour.blue, MyColour.orange };
+
 	private static final int boardSize = 8;
 	private String colourToMove;
 	private boolean isRandom;
-	private transient GeneralSettingsManager manager;
-	private transient GeneralSettings settings;
 
 	public Board(boolean random) {
 		pieces = new Piece[boardSize][boardSize];
@@ -73,7 +71,8 @@ public final class Board implements Serializable {
 	}
 
 	public void setRandomBoardColours() {
-		MyColour[] colorsTemp ={MyColour.brown, MyColour.green, MyColour.red, MyColour.yellow, MyColour.pink, MyColour.cyan, MyColour.blue, MyColour.orange };
+		MyColour[] colorsTemp = { MyColour.brown, MyColour.green, MyColour.red, MyColour.yellow, MyColour.pink,
+				MyColour.cyan, MyColour.blue, MyColour.orange };
 		Random rnd = new Random();
 		for (int i = 0; i < colorsTemp.length; i++) {
 			int index = rnd.nextInt(colorsTemp.length);
@@ -112,62 +111,12 @@ public final class Board implements Serializable {
 			boardColours[plusOne][7 - plusOne] = colorsTemp[7];
 		}
 	}
-	
+
 	private void initialisePiecePositions() {
 		for (int i = 0; i < boardSize; i++) {
 			pieces[i][7] = new Piece("TeamBlack", PieceType.Standard, boardColours[i][7].toString());
 			pieces[i][0] = new Piece("TeamWhite", PieceType.Standard, boardColours[i][0].toString());
 		}
-		// pieces[0][7] = new PieceObject("Black", PieceType.Standard,
-		// boardColours[0][7]);
-		// pieces[0][7].getPiece().setColour(or);
-		// pieces[1][7] = new PieceObject(Piece.TeamBlackBlue,
-		// PieceType.Standard);
-		// pieces[1][7].getPiece().setColour(bl);
-		// pieces[2][7] = new PieceObject(Piece.TeamBlackCyan,
-		// PieceType.Standard);
-		// pieces[2][7].getPiece().setColour(c);
-		// pieces[3][7] = new PieceObject(Piece.TeamBlackPink,
-		// PieceType.Standard);
-		// pieces[3][7].getPiece().setColour(p);
-		// pieces[4][7] = new PieceObject(Piece.TeamBlackYellow,
-		// PieceType.Standard);
-		// pieces[4][7].getPiece().setColour(y);
-		// pieces[5][7] = new PieceObject(Piece.TeamBlackRed,
-		// PieceType.Standard);
-		// pieces[5][7].getPiece().setColour(r);
-		// pieces[6][7] = new PieceObject(Piece.TeamBlackGreen,
-		// PieceType.Standard);
-		// pieces[6][7].getPiece().setColour(gr);
-		// pieces[7][7] = new PieceObject(Piece.TeamBlackBrown,
-		// PieceType.Standard);
-		// pieces[7][7].getPiece().setColour(br);
-		//
-		// pieces[7][0] = new PieceObject(Piece.TeamWhiteOrange,
-		// PieceType.Standard);
-		// pieces[7][0].getPiece().setColour(or);
-		// pieces[6][0] = new PieceObject(Piece.TeamWhiteBlue,
-		// PieceType.Standard);
-		// pieces[6][0].getPiece().setColour(bl);
-		// pieces[5][0] = new PieceObject(Piece.TeamWhiteCyan,
-		// PieceType.Standard);
-		// pieces[5][0].getPiece().setColour(c);
-		// pieces[4][0] = new PieceObject(Piece.TeamWhitePink,
-		// PieceType.Standard);
-		// pieces[4][0].getPiece().setColour(p);
-		// pieces[3][0] = new PieceObject(Piece.TeamWhiteYellow,
-		// PieceType.Standard);
-		// pieces[3][0].getPiece().setColour(y);
-		// pieces[2][0] = new PieceObject(Piece.TeamWhiteRed,
-		// PieceType.Standard);
-		// pieces[2][0].getPiece().setColour(r);
-		// pieces[1][0] = new PieceObject(Piece.TeamWhiteGreen,
-		// PieceType.Standard);
-		// pieces[1][0].getPiece().setColour(gr);
-		// pieces[0][0] = new PieceObject(Piece.TeamWhiteBrown,
-		// PieceType.Standard);
-		// pieces[0][0].getPiece().setColour(br);
-
 	}
 
 	public void fillHomeRow(String team, boolean fillLeft) {
@@ -197,7 +146,7 @@ public final class Board implements Serializable {
 	}
 
 	private int fillHomeRowHelper(int homeRowCounter, int increment, int x, int y, String team, int teamHomeBase) {
-		for (int j = 0; j < 8; j++) {
+		for (int j = 0; j < boardSize; j++) {
 			if (pieces[x][y] != null) {
 				if (pieces[x][y].getTeam().equals(team)) {
 					if (homeRowCounter == x && teamHomeBase == y) {
@@ -273,8 +222,8 @@ public final class Board implements Serializable {
 
 	public Position findPiecePos(Piece piece) {
 		Position foundPos = null;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize; j++) {
 				if (pieces[i][j].equals(piece)) {
 					foundPos = new Position(i, j);
 					break;

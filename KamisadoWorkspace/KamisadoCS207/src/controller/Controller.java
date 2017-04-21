@@ -10,7 +10,6 @@ import model.Move;
 import model.MusicPlayer;
 import model.SaveManager;
 import model.SpeedGameDriver;
-import model.State;
 import model.TimerInfo;
 import networking.Client2;
 import networking.Server2;
@@ -30,10 +29,11 @@ public class Controller implements Serializable {
 	private Player playerWhite;
 	private Player playerBlack;
 	transient private MusicPlayer musicPlayer;
-	transient private GeneralSettingsManager manager;
-	transient private GeneralSettings settings;
+	//transient private GeneralSettingsManager manager;
+	///transient private GeneralSettings settings;
 	private boolean networkGame = false;
 	private Client2 client;
+
 
 	public Controller() {
 		menuFrame = new MenuFrame(this);
@@ -85,10 +85,12 @@ public class Controller implements Serializable {
 		networkGame = true;
 		if(hosting){
 			Server2 host = new Server2(gameLength);
+
 			Thread hostThread = new Thread(host);
 			hostThread.start();
 			System.out.println("started first client");
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
+
 			client = new Client2("TeamWhite", whiteName,blackName, true, true, this);
 			playerWhite = client;
 			Thread newThread = new Thread(client);
@@ -106,16 +108,16 @@ public class Controller implements Serializable {
 			gameL = client.getGameLengthFromServer();
 		}
 		playGame(false, gameL, timerTime, false);
+
 		main.getGameBoard().addObserver(playerBlack);
 		main.getGameBoard().addObserver(playerWhite);
 		playerBlack.addObserver(game);
 		playerWhite.addObserver(game);
 		System.out.println("finishing game setup");
 		finishGameSetup();
-		
-		
+
 	}
-	
+
 	private void playGame(boolean isSpeedGame, int gameLength, int timerTime, boolean randomBoard) {
 		setUpRunningGameView();
 		if (isSpeedGame) {
@@ -161,7 +163,7 @@ public class Controller implements Serializable {
 			}
 			game.changeCurrentState(gameDriver.getCurrentState());
 			finishGameSetup();
-			
+
 			// main.displayGame(game.getCurrentState());
 			// main.displaycSelectable(gameDriver.getCurrentState().getValidMoves());
 			return true;
@@ -174,23 +176,25 @@ public class Controller implements Serializable {
 		main.displayGame(game);
 		game.addObserver(main);
 		game.playGame();
-//		JOptionPane.showMessageDialog(null,
-//				"1. Press Tab to start moving the selected tile 2. Highlighted tiles indicates the valid moves",
-//				"Instructions", JOptionPane.INFORMATION_MESSAGE);
+		// JOptionPane.showMessageDialog(null,
+		// "1. Press Tab to start moving the selected tile 2. Highlighted tiles
+		// indicates the valid moves",
+		// "Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void applySettings() {
-		manager = new GeneralSettingsManager();
-		settings = manager.getGeneralSettings();
+		GeneralSettingsManager manager = new GeneralSettingsManager();
+		GeneralSettings settings = manager.getGeneralSettings();
 		if (settings != null) {
 			if (settings.isMusicOn()) {
-					try {
-						musicPlayer.musicOn();
-						musicPlayer.setVolume(settings.getMusicVolume());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-			}else musicPlayer.musicOff();
+				try {
+					musicPlayer.musicOn();
+					musicPlayer.setVolume(settings.getMusicVolume());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else
+				musicPlayer.musicOff();
 		}
 	}
 
@@ -206,11 +210,11 @@ public class Controller implements Serializable {
 	public MenuFrame getMenuFrame() {
 		return menuFrame;
 	}
-	
-	public void setUpRunningGameView(){
+
+	public void setUpRunningGameView() {
 		main = new RunningGameView(this);
 		main.setGlassPane(menuFrame.getGlassPane());
-		menuFrame.addPanel(main,"Game View");
+		menuFrame.addPanel(main, "Game View");
 		menuFrame.ShowPanel("Game View");
 	}
 
@@ -229,12 +233,15 @@ public class Controller implements Serializable {
 		playerBlack = game.getCurrentState().getPlayerBlack();
 		playerWhite.setScore(0);
 		playerBlack.setScore(0);
-		if(game instanceof SpeedGameDriver){
-			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, game.getScoreToGet(), ((SpeedGameDriver) game).getTimerInfo().getTimerLimit(), game.getCurrentState().getBoard().isRandom());
+		if (game instanceof SpeedGameDriver) {
+			game = new SpeedGameDriver(playerWhite, playerBlack, playerWhite, game.getScoreToGet(),
+					((SpeedGameDriver) game).getTimerInfo().getTimerLimit(),
+					game.getCurrentState().getBoard().isRandom());
 			game.addObserver(main.getGameTimer());
 			game.tellAll(((SpeedGameDriver) game).getTimerInfo());
-		}else{
-			game = new GameDriver(playerWhite, playerBlack, playerWhite, game.getScoreToGet(), game.getCurrentState().getBoard().isRandom());
+		} else {
+			game = new GameDriver(playerWhite, playerBlack, playerWhite, game.getScoreToGet(),
+					game.getCurrentState().getBoard().isRandom());
 		}
 		if (game.getCurrentState().getPlayerBlack().isAI()) {
 			game.getCurrentState().getPlayerBlack().addObserver(game);
@@ -258,18 +265,16 @@ public class Controller implements Serializable {
 	}
 
 	public void showHint() {
-		if(!game.getCurrentState().isFirstMove() && !game.getCurrentState().isGameOver()){
+		if (!game.getCurrentState().isFirstMove() && !game.getCurrentState().isGameOver()) {
 			Player playerToMove = game.getCurrentState().getPlayerToMove();
-			if(!playerToMove.isAI()){
-				if(playerToMove.getHomeRow() == 0){
+			if (!playerToMove.isAI()) {
+				if (playerToMove.getHomeRow() == 0) {
 					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 1);
 					Move move = moveTree.getBestOrWorstsChild(false);
-					//System.out.println(move);
 					main.showHint(move.getEndPos());
-				}else {
+				} else {
 					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 0);
 					Move move = moveTree.getBestOrWorstsChild(true);
-					//System.out.println(move);
 					main.showHint(move.getEndPos());
 				}
 			}
