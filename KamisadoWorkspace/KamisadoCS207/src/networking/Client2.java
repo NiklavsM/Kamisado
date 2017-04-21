@@ -98,6 +98,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 				} else if (obj instanceof String) {
 					System.out.println("obj: [" + obj + "]");
 					if (obj.equals("continue")) {
+						System.out.println("client got continue");
 						askingThisClientToContinue();
 					} else if (obj.equals("rematch")) {
 						System.out.println("or here?");
@@ -139,28 +140,28 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	@Override
 	public void TurnEnded(Position pos) {
 		//if(pos.getY() > 0 || pos.getY() < 7){
-			try {
-				System.out.println("sending boolean");
-				oout.writeObject(new Boolean(true));
-				firstMove = false;
-				oout.flush();
-			} catch (Throwable e) {
-				disconnected();
-				e.printStackTrace();
-			}
+//			try {
+//				System.out.println("sending boolean");
+//				oout.writeObject(new Boolean(true));
+//				firstMove = false;
+//				oout.flush();
+//			} catch (Throwable e) {
+//				disconnected();
+//				e.printStackTrace();
+//			}
 		//}
 	}
 	
 	@Override
 	public void gameOver(){
 //		System.out.println("was called");
-			try {
-				oout.writeObject(new String("gameOver"));
-				oout.flush();
-			} catch (Throwable e) {
-				disconnected();
-				e.printStackTrace();
-			}
+//			try {
+//				oout.writeObject(new String("gameOver"));
+//				oout.flush();
+//			} catch (Throwable e) {
+//				disconnected();
+//				e.printStackTrace();
+//			}
 	}
 
 	public boolean isMyTurn() {
@@ -181,7 +182,9 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 		System.out.println("returning before : " + option);
 		try {
 			String s = (String) ois.readObject();
+			System.out.println(s + " here?");
 			option = (int) ois.readObject();
+			System.out.println("got option at client: " + option);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
