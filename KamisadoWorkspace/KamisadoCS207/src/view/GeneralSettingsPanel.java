@@ -23,7 +23,6 @@ import model.GeneralSettingsManager;
 import model.MyColour;
 
 public class GeneralSettingsPanel extends JPanel {
-	private JLabel soundLabel;
 	private JCheckBox musicOn;
 	private JCheckBox soundOn;
 	private JSlider soundVolume;
@@ -43,8 +42,6 @@ public class GeneralSettingsPanel extends JPanel {
 	private JSlider blueSlider;
 	private GeneralSettingsManager manager;
 	private GeneralSettings settings;
-	private JButton resetDefaultColours;
-	private JLabel colorsStyle;
 	private Controller controller;
 	private String fontStyle = "Sitka Text";
 
@@ -70,7 +67,7 @@ public class GeneralSettingsPanel extends JPanel {
 	}
 
 	public void soundOptions() {
-		soundLabel = new JLabel("Sound");
+		JLabel soundLabel = new JLabel("Sound");
 		soundLabel.setText("Sound");
 		soundLabel.setBounds(250, 150, 100, 30);
 		soundLabel.setFont(new Font(fontStyle, Font.BOLD, 18));
@@ -117,7 +114,7 @@ public class GeneralSettingsPanel extends JPanel {
 
 	public void boardColourChooser() {
 		
-		colorsStyle = new JLabel("Colours & Style");
+		JLabel colorsStyle = new JLabel("Colours & Style");
 		colorsStyle.setBounds(250, 270, 160, 30);
 		colorsStyle.setFont(new Font(fontStyle, Font.BOLD, 18));
 		add(colorsStyle);
@@ -174,7 +171,7 @@ public class GeneralSettingsPanel extends JPanel {
 		colourPreview.setOpaque(true);
 		add(colourPreview);
 
-		resetDefaultColours = new JButton("Reset Colours");
+		JButton resetDefaultColours = new JButton("Reset Colours");
 		resetDefaultColours.setBounds(360, 300, 120, 20);
 		resetDefaultColours.addActionListener(new ActionListener() {
 
