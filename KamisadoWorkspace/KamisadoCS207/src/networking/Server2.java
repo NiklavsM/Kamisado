@@ -119,7 +119,13 @@ public class Server2 implements Runnable, Serializable {
 		System.out.println("ENDING GAME");
 		try {
 			Object p1 = ois1.readObject();
+			while(p1.equals("true")){
+				p1 = ois1.readObject();
+			}
 			Object p2 = ois2.readObject();
+			while(p2.equals("true")){
+				p2 = ois2.readObject();
+			}
 
 			System.out.println("Client One: " + "[" + p1 + "]");
 			System.out.println("Client Two: " + "[" + p2 + "]");
