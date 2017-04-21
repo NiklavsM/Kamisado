@@ -1,7 +1,5 @@
 package model;
 
-import java.io.File;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -12,7 +10,7 @@ public class MusicPlayer {
 	GeneralSettingsManager manager;
 
 	public void musicOn() throws Exception {
-		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("backgroundmusic1.wav"));
+		AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sound/backgroundmusic.wav"));
 		if (clip != null) {
 			clip.stop();
 		}
