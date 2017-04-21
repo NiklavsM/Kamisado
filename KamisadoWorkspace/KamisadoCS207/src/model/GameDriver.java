@@ -111,6 +111,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		}
 		if (playerToMove.getPlayerTeam().equals("TeamWhite")) {
 			while(optionChosen == -2){
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			}
 			currentState.getPlayerBlack().otherPersonOption(optionChosen);
@@ -118,6 +124,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			
 		} else {
 			while(optionChosen == -2){
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
 			}
 			currentState.getPlayerWhite().otherPersonOption(optionChosen);

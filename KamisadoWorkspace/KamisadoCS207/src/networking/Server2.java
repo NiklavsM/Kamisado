@@ -8,6 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import model.GameDriver;
+import model.Position;
+import player.GUIPlayer;
+import player.Player;
 
 public class Server2 implements Runnable, Serializable {
 
@@ -25,6 +28,8 @@ public class Server2 implements Runnable, Serializable {
 	private ObjectOutputStream writeToOtherPlayer;
 	private ObjectInputStream readFromOtherPlayer;
 	private ServerSocket listener;
+	private GameDriver game;
+	private boolean gameEnded = false;
 
 	/**
 	 * Runs the application. Pairs up clients that connect.
@@ -54,48 +59,75 @@ public class Server2 implements Runnable, Serializable {
 			writeToOtherPlayer = oout1;
 			readFromOtherPlayer = ois1;
 			
+			
+			
 			Object j = ois2.readObject();
-			System.out.println("Name1 recieved by server");
+			System.out.println("Name1 recieved by server " + j);
 			if (j instanceof String) {
 				oout1.writeObject(j);
 				oout1.flush();
 				System.out.println("Name1 sent to client");
 			}
 			oout1.writeObject(gameLength);
-
+			GUIPlayer playerWhite = new GUIPlayer("TeamWhite", (String) j, true, null, true);
+			
+			
 			Object p = ois1.readObject();
-			System.out.println("Name2 recieved by server");
+			System.out.println("Name2 recieved by server "  + p);
 			if (p instanceof String) {
 				oout2.writeObject(p);
 				oout2.flush();
 				System.out.println("Name2 sent to client");
 			}
 			oout2.writeObject(gameLength);
-
+		
+			GUIPlayer playerBlack = new GUIPlayer("TeamBlack",(String) p, false, null, true);
+			game = new GameDriver(playerWhite, playerBlack, playerWhite, gameLength, false);
+			game.playGame();
 			while (true) {
 				Object ob;
-				if (clientsTurn.equals(client1)) {
-					System.out.println("---Client one---");
+				
+					System.out.println("game Over? : " + game.getCurrentState().isGameOver());
+				if(game.getCurrentState().isGameOver() && !gameEnded){
+					gameEnded = true;
+					endOfGame();
 				}else{
-					System.out.println("---Client Two---");
-				}
 					
-				ob = readFromPlayerToMove.readObject();
-				System.out.println("OB: [" + ob + "]");
-				if (ob instanceof Boolean) {
-					flip();
-				} else if (ob instanceof String) {
-					if (ob.equals("gameOver")) {
-						endOfGame();
-					} else if (ob.equals("left")) {
-						fill("left");
-					} else if (ob.equals("right")) {
-						fill("right");
+					ob = readFromPlayerToMove.readObject();
+					System.out.println("OB: [" + ob + "]");
+						if (ob instanceof String) {
+							System.out.println("SERVER HAS : " + ob);
+							if (ob.equals("left")) {
+								fill("left");
+							} else if (ob.equals("right")) {
+								fill("right");
+						}
+					} else if (ob instanceof Integer) {
+						System.out.println("Pos been to server");
+						writeToOtherPlayer.writeObject(ob);
+						Object obj = readFromPlayerToMove.readObject();
+						if(obj instanceof Integer){
+							writeToOtherPlayer.writeObject(obj);
+							int x = (Integer) ob;
+							int y = (Integer) obj;
+							System.out.println(x);
+							System.out.println(y);
+							
+							Position previousPos = new Position(x, y);
+							
+							game.update(null, previousPos);
+						}
 					}
-				} else if (ob instanceof Integer) {
-					System.out.println("Pos been to server");
-					writeToOtherPlayer.writeObject(ob);
+					if(game.getCurrentState().getPlayerToMove().getPlayerTeam().equals("TeamBlack")){
+						System.out.println("---Client one---");
+						makeClientsTurn(1);
+					}else {
+						System.out.println("---Client Two---");
+						makeClientsTurn(2);
+					}
+					
 				}
+				
 				writeToPlayerToMove.flush();
 				writeToPlayerToMove.reset();
 				writeToOtherPlayer.flush();
@@ -121,22 +153,26 @@ public class Server2 implements Runnable, Serializable {
 		System.out.println("ENDING GAME");
 		try {
 			Object p1 = ois1.readObject();
-			while(p1.equals("true")){
-				p1 = ois1.readObject();
-			}
-			Object p2 = ois2.readObject();
-			while(p2.equals("true")){
-				p2 = ois2.readObject();
-			}
-
 			System.out.println("Client One: " + "[" + p1 + "]");
+			Object p2 = ois2.readObject();
 			System.out.println("Client Two: " + "[" + p2 + "]");
 			if (p1.equals(p2)) {
+				
 				System.out.println("equal?");
 				oout1.writeObject(p1);
 				oout2.writeObject(p1);
 				oout1.flush();
 				oout2.flush();
+				if(p1.equals("rematch")){
+					rematch();
+				}
+				if(game.getCurrentState().getPlayerToMove().getPlayerTeam().equals("TeamBlack")){
+					//System.out.println("---Client one---");
+					makeClientsTurn(1);
+				}else {
+					//System.out.println("---Client Two---");
+					makeClientsTurn(2);
+				}
 			}
 		} catch (Throwable e) {
 			disconnect();
@@ -151,18 +187,35 @@ public class Server2 implements Runnable, Serializable {
 			writeToOtherPlayer.writeObject("fill");
 			int i = getFillOption();
 			System.out.println("option at server - sending to client: " + i);
+			//System.out.println("sending pos to gui : " + i);
+			//game.getCurrentState().getPlayerToMove().update(null, i);
+			game.getCurrentState().getPlayerBlack().update(null,i);
+			game.getCurrentState().getPlayerWhite().update(null,i);
+//			System.out.println("black fill home row : " + game.getCurrentState().getPlayerBlack().fillHomeRow());
+//			System.out.println("white fill home row : " + game.getCurrentState().getPlayerWhite().fillHomeRow());
 			writeToOtherPlayer.writeObject(i);
+			game.nextRound();
+			gameEnded = false;
+			
 			fillOption = "none";
-			flip();
+			if(game.getCurrentState().getPlayerToMove().getPlayerTeam().equals("TeamBlack")){
+				//System.out.println("---Client one---");
+				makeClientsTurn(1);
+			}else {
+				//System.out.println("---Client Two---");
+				makeClientsTurn(2);
+			}
+			((GUIPlayer) game.getCurrentState().getPlayerBlack()).setOption(-2);
+			((GUIPlayer) game.getCurrentState().getPlayerWhite()).setOption(-2);
 		} catch (Throwable e) {
 			disconnect();
 			e.printStackTrace();
 		}
 	}
 
-	private void flip() {
-		System.out.println("flipping playerToMove");
-		if (clientsTurn.equals(client1)) {
+	private void makeClientsTurn(int i) {
+		//System.out.println("flipping playerToMove");
+		if (i == 2) {
 			clientsTurn = client2;
 			writeToPlayerToMove = oout2;
 			readFromPlayerToMove = ois2;
@@ -175,6 +228,17 @@ public class Server2 implements Runnable, Serializable {
 			writeToOtherPlayer = oout2;
 			readFromOtherPlayer = ois2;
 		}
+	}
+	
+	public void rematch(){
+		Player PWhite = game.getCurrentState().getPlayerWhite();
+		Player PBlack = game.getCurrentState().getPlayerBlack();
+		PBlack.setScore(0);
+		PWhite.setScore(0);
+		game = new GameDriver(PWhite, PBlack, PWhite, gameLength, false);
+		PWhite.setToFirstMove(true);
+		PBlack.setToFirstMove(false);
+		game.playGame();
 	}
 	
 	private void disconnect(){
