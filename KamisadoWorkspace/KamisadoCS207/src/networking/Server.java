@@ -41,11 +41,14 @@ public class Server implements Runnable {
 			listener = new ServerSocket(8905);
 			client1 = listener.accept();
 
+			oout1 = new ObjectOutputStream(client1.getOutputStream());
+			ois1 = new ObjectInputStream(client1.getInputStream());
+			
+			disconnect();
 			client2 = listener.accept();
 
-			oout1 = new ObjectOutputStream(client1.getOutputStream());
+			
 			oout2 = new ObjectOutputStream(client2.getOutputStream());
-			ois1 = new ObjectInputStream(client1.getInputStream());
 			ois2 = new ObjectInputStream(client2.getInputStream());
 			writeToPlayerToMove = oout2;
 			readFromPlayerToMove = ois2;
@@ -202,10 +205,16 @@ public class Server implements Runnable {
 
 	private void disconnect() {
 		try {
-			ois1.close();
-			ois2.close();
-			oout1.close();
-			oout2.close();
+			//game.setState(null);
+			game = null;
+			if(ois1 != null){
+				ois1.close();
+				oout1.close();
+			}
+			if(ois2 != null){
+				ois2.close();
+				oout2.close();
+			}
 			listener.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
