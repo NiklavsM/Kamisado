@@ -215,11 +215,11 @@ public class GeneralSettingsPanel extends JPanel {
 		add(styleTwoImageLabel);
 
 		styleOne = new JCheckBox("Style One");
-		styleOne.setBounds(500, 400, 80, 20);
+		styleOne.setBounds(500, 410, 80, 20);
 		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
 
 		styleTwo = new JCheckBox("Style Two");
-		styleTwo.setBounds(580, 400, 80, 20);
+		styleTwo.setBounds(580, 410, 80, 20);
 		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
 
 		pieceTypes = new ButtonGroup();
@@ -266,11 +266,13 @@ public class GeneralSettingsPanel extends JPanel {
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
 		logo.setIcon(homeImage);
 		add(logo);
+		
 		JLabel dragonLeft = new JLabel();
 		dragonLeft.setBounds(-10, 0, 300, 650);
 		homeImage = new ImageIcon(getClass().getResource("/images/dragonleft.png"));
 		dragonLeft.setIcon(homeImage);
 		add(dragonLeft);
+		
 		JLabel dragonRight = new JLabel();
 		dragonRight.setBounds(555, 0, 300, 650);
 		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));

@@ -32,7 +32,7 @@ public class InGameOptions extends JPanel{
 		//this.setFocusable(false);
 		setBackground(new Color(240, 240, 240));
 		setLayout(new FlowLayout());
-		
+		this.setSize(400, 300);
 		this.setFocusable(false);
 //		this.grabFocus();
 		initialiseButtons();
