@@ -259,7 +259,6 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	
 	public void disconnected(){
 		controller.getMenuFrame().ShowPanel("New Game");
-		JOptionPane.showMessageDialog(null, "Connection Lost");
-		
+		//JOptionPane.showMessageDialog(null, "Connection Lost");
 	}
 }

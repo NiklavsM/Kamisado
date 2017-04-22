@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import model.GameDriver;
 import model.GeneralSettings;
@@ -89,27 +90,9 @@ public class Controller implements Serializable {
 		int gameL;
 		networkGame = true;
 		if (hosting) {
+			
 			Server2 host = new Server2(gameLength);
 			
-			Thread waiting = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					JOptionPane pane = new JOptionPane("Waiting for Opponent...", JOptionPane.CANCEL_OPTION);
-					JDialog dialog = pane.createDialog(main, "Hosting");
-					dialog.setVisible(true);
-					pane.setVisible(true);
-//					try {
-//						Thread.sleep(2000);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-					dialog.setVisible(false);
-					pane.setVisible(false);
-					return;
-				}
-			});
-			waiting.start();
 			Thread hostThread = new Thread(host);
 			hostThread.start();
 			System.out.println("started first client");
@@ -126,25 +109,6 @@ public class Controller implements Serializable {
 			gameL = gameLength;
 
 		} else {
-			Thread joining = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					JOptionPane pane = new JOptionPane("Connecting...", JOptionPane.CANCEL_OPTION);
-					JDialog dialog = pane.createDialog(main, "Joining");
-					dialog.setVisible(true);
-					pane.setVisible(true);
-//					try {
-//						Thread.sleep(2000);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-					dialog.setVisible(false);
-					pane.setVisible(false);
-					return;
-				}
-			});
-			joining.start();
 			System.out.println("started second client");
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			String ip = JOptionPane.showInputDialog("Please enter hosts IP", settings.getRecentIP());
@@ -158,6 +122,18 @@ public class Controller implements Serializable {
 			Thread newThread = new Thread(client);
 			newThread.start();
 			gameL = client.getGameLengthFromServer();
+			
+			Thread joining = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					JOptionPane pane = new JOptionPane("Connecting...", JOptionPane.CANCEL_OPTION);
+					JDialog dialog = pane.createDialog(main, "Joining");
+					dialog.setVisible(true);
+					//pane.setVisible(true);
+					return;
+				}
+			});
+			joining.start();
 		}
 		playGame(false, gameL, timerTime, false);
 
