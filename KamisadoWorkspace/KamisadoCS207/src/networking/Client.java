@@ -100,7 +100,7 @@ public class Client extends Player implements Runnable, MyObserver {
 			}
 		} catch (Throwable e) {
 			disconnected();
-			e.printStackTrace();
+			//e.printStackTrace();
 			return;
 		}
 	}
@@ -116,7 +116,7 @@ public class Client extends Player implements Runnable, MyObserver {
 				oout.flush();
 			} catch (Throwable e) {
 				disconnected();
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class Client extends Player implements Runnable, MyObserver {
 			e.printStackTrace();
 		} catch (IOException e) {
 			disconnected();
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return option;
 	}
@@ -177,7 +177,7 @@ public class Client extends Player implements Runnable, MyObserver {
 
 		} catch (IOException e) {
 			disconnected();
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 

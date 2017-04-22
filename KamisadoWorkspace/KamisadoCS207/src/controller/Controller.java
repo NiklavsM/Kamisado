@@ -157,6 +157,8 @@ public class Controller implements Serializable {
 			game.removeObserver(main.getGameTimer());
 			game.setState(null);
 			game = null;
+			playerWhite = null;
+			playerBlack = null;
 		}
 		menuFrame.ShowPanel("New Game");
 	}
