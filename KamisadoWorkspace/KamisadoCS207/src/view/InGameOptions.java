@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,9 +26,8 @@ public class InGameOptions extends JPanel{
 	private JButton btnRematch;
 	private JButton btnHint;
 	private boolean gridViewOn;
-	/**
-	 * Create the panel.
-	 */
+	private String fontStyle = "Sitka Text";
+
 	public InGameOptions(Controller controller) {
 		//this.setFocusable(false);
 		setBackground(new Color(240, 240, 240));
@@ -65,6 +65,7 @@ public class InGameOptions extends JPanel{
 		add(btnQuit);
 		btnQuit.setVisible(true);
 		btnQuit.setFocusable(true);
+		btnQuit.setFont(new Font(fontStyle, Font.BOLD, 20));
 		
 		btnSave.setBackground(Color.LIGHT_GRAY);
 		btnSave.setForeground(Color.BLUE);

@@ -355,7 +355,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(soundSwitch);
-		soundSwitch.setFocusable(true);
+		soundSwitch.setFocusable(false);
 		this.requestFocus();
 		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
 				.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK), "soundSwitch");
@@ -401,7 +401,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(musicSwitch);
-		musicSwitch.setFocusable(true);
+		musicSwitch.setFocusable(false);
 		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
 				.put(KeyStroke.getKeyStroke(KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK), "musicSwitch");
 		this.getActionMap().put("musicSwitch", new AbstractAction() {
