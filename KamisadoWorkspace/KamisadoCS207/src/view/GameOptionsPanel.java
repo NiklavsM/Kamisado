@@ -131,14 +131,9 @@ public class GameOptionsPanel extends JPanel {
 					txtWhiteName.setText("Opponent");
 					txtWhiteName.setEditable(false);
 					txtWhiteName.setFocusable(false);
-
-					displayForNetworkisHosting(true);
-//					chckbxSpeedMode.setEnabled(false);
-//					chckbxSpeedMode.setFocusable(false);
-//					chckbxRandomBoard.setEnabled(false);
-//					chckbxRandomBoard.setFocusable(false);
-//					gameLength.setEnabled(true);
-//					gameLength.setFocusable(true);
+				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					txtWhiteName.setEditable(true);
+					txtWhiteName.setFocusable(true);
 				}
 			}
 		});
@@ -156,8 +151,11 @@ public class GameOptionsPanel extends JPanel {
 					txtBlackName.setText("Opponent");
 					txtBlackName.setEditable(false);
 					txtBlackName.setFocusable(false);
-
-					displayForNetworkisHosting(false);
+					userIsHosting(false);
+				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					txtBlackName.setEditable(false);
+					txtBlackName.setFocusable(false);
+					userIsHosting(true);
 				}
 			}
 		});
@@ -181,17 +179,16 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField = txtBlackName;
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setEditable(false);
-					rdbtnEasy.setEnabled(true);
-					rdbtnHard.setEnabled(true);
-					rdbtnEasy.setSelected(true);
-					whiteAiPlayer.setEnabled(true);
-					whiteAiPlayer.setFocusable(true);
-					blackAiPlayer.setEnabled(true);
-					blackAiPlayer.setFocusable(true);
-					blackAiPlayer.doClick();
-
-					networkOption.clearSelection();
-					networkChoice(false);
+					
+					showAIOptions(true);
+					blackAiPlayer.doClick();					
+					
+				} else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					AiSelectedField.setFocusable(true);
+					AiSelectedField.setEditable(true);
+					
+					showAIOptions(false);
+					aiDiff.clearSelection();
 				}
 			}
 		});
@@ -202,21 +199,12 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				if (arg0.getStateChange() == ItemEvent.SELECTED) {
-					rdbtnEasy.setEnabled(false);
-					rdbtnEasy.setFocusable(false);
-					rdbtnHard.setEnabled(false);
-					rdbtnHard.setFocusable(false);
-					aiDiff.clearSelection();
-					whiteAiPlayer.setEnabled(false);
-					whiteAiPlayer.setFocusable(false);
-					blackAiPlayer.setEnabled(false);
-					blackAiPlayer.setFocusable(false);
 					aiStartCol.clearSelection();
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setText("New user");
 					networkOption.clearSelection();
-					networkChoice(false);
+				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
 				}
 			}
 		});
@@ -226,38 +214,18 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnNetworkPlay.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if (arg0.getStateChange() == ItemEvent.SELECTED) {
-					hostNetworkGame.setSelected(true);
-					rdbtnEasy.setEnabled(false);
-					rdbtnHard.setEnabled(false);
-					aiDiff.clearSelection();
-
-					whiteAiPlayer.setEnabled(false);
-					whiteAiPlayer.setFocusable(false);
-					blackAiPlayer.setEnabled(false);
-					blackAiPlayer.setFocusable(false);
-					aiStartCol.clearSelection();
-
-					AiSelectedField.setEditable(false);
-					AiSelectedField.setFocusable(false);
-					AiSelectedField.setText("Opponent");
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {		
 					chckbxSpeedMode.setSelected(false);
-
-					networkChoice(true);
+					hostNetworkGame.setSelected(true);	
+					showNetworkOptions(true);
 				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
-					chckbxSpeedMode.setEnabled(true);
-					chckbxSpeedMode.setFocusable(true);
-					chckbxRandomBoard.setEnabled(true);
-					chckbxRandomBoard.setFocusable(true);
-					gameLength.setEnabled(true);
-					gameLength.setFocusable(true);
-					AiSelectedField.setEditable(true);
-					AiSelectedField.setFocusable(true);
+					showNetworkOptions(false);
 				}
 			}
 		});
 		add(rdbtnNetworkPlay);
-
+		showNetworkOptions(false);
+		
 		gameType.add(rdbtnNetworkPlay);
 		gameType.add(rdbtnSingleplayer);
 		gameType.add(rdbtnTwoPlayer);
@@ -488,19 +456,39 @@ public class GameOptionsPanel extends JPanel {
 		btnPlay.transferFocus();
 	}
 	
-	private void displayForNetworkisHosting(boolean b){
-		chckbxSpeedMode.setEnabled(false);
-		chckbxSpeedMode.setFocusable(false);
-		chckbxRandomBoard.setEnabled(false);
-		chckbxRandomBoard.setFocusable(false);
+	private void userIsHosting(boolean b){
 		gameLength.setEnabled(b);
 		gameLength.setFocusable(b);
 	}
 	
-	private void networkChoice(boolean b){
+	private void showNetworkOptions(boolean b){
+		if(!b){
+			networkOption.clearSelection();
+		}
 		hostNetworkGame.setEnabled(b);
 		hostNetworkGame.setFocusable(b);
 		joinNetworkGame.setEnabled(b);
 		joinNetworkGame.setFocusable(b);
+		hostNetworkGame.setSelected(b);
+		chckbxSpeedMode.setEnabled(!b);
+		chckbxSpeedMode.setFocusable(!b);
+		chckbxRandomBoard.setEnabled(!b);
+		chckbxRandomBoard.setFocusable(!b);
+	}
+	
+	private void showAIOptions(boolean b){
+		if(!b){
+			aiDiff.clearSelection();
+			aiStartCol.clearSelection();
+		}
+		rdbtnEasy.setEnabled(b);
+		rdbtnEasy.setFocusable(b);
+		rdbtnHard.setEnabled(b);
+		rdbtnHard.setFocusable(b);
+		rdbtnEasy.setSelected(b);
+		whiteAiPlayer.setEnabled(b);
+		whiteAiPlayer.setFocusable(b);
+		blackAiPlayer.setEnabled(b);
+		blackAiPlayer.setFocusable(b);
 	}
 }
