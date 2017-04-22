@@ -91,9 +91,11 @@ public class StatPanel extends JPanel {
 	}
 
 	private void filterTable() {
-		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
-		table.setRowSorter(rowFilter);
-		rowFilter.setRowFilter(RowFilter.regexFilter(filter.getText()));
+		if (table != null) {
+			TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+			table.setRowSorter(rowFilter);
+			rowFilter.setRowFilter(RowFilter.regexFilter(filter.getText()));
+		}
 	}
 
 	private void setUpGraphics() {
