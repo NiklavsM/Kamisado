@@ -27,12 +27,9 @@ public class Server implements Runnable {
 	private GameDriver game;
 	private boolean gameEnded = false;
 
-	/**
-	 * Runs the application. Pairs up clients that connect.
-	 */
-
 	public Server(int gameLength) {
 		this.gameLength = gameLength;
+
 	}
 
 	@Override
@@ -43,11 +40,11 @@ public class Server implements Runnable {
 
 			oout1 = new ObjectOutputStream(client1.getOutputStream());
 			ois1 = new ObjectInputStream(client1.getInputStream());
-			
-			disconnect();
+			listener.setSoTimeout(3000);
 			client2 = listener.accept();
-
-			
+			if (client2 == null) {
+				return;
+			}
 			oout2 = new ObjectOutputStream(client2.getOutputStream());
 			ois2 = new ObjectInputStream(client2.getInputStream());
 			writeToPlayerToMove = oout2;
@@ -113,7 +110,7 @@ public class Server implements Runnable {
 			}
 		} catch (Throwable e) {
 			disconnect();
-			e.printStackTrace();
+			// e.printStackTrace();
 			return;
 		}
 	}
@@ -205,17 +202,19 @@ public class Server implements Runnable {
 
 	private void disconnect() {
 		try {
-			//game.setState(null);
+			// game.setState(null);
 			game = null;
-			if(ois1 != null){
+			if (ois1 != null) {
 				ois1.close();
 				oout1.close();
 			}
-			if(ois2 != null){
+			if (ois2 != null) {
 				ois2.close();
 				oout2.close();
 			}
-			listener.close();
+			if (listener != null) {
+				listener.close();
+			}
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
