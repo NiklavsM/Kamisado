@@ -1,6 +1,5 @@
 package model;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -11,13 +10,13 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 
-import networking.Client2;
 import player.EasyAIPlayer;
 import player.HardAIPlayer;
 import player.Player;
 
 public class GameDriver implements MyObservable, MyObserver, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	public Stack<State> history;
 	public State currentState;
 	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
@@ -62,9 +61,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		m.saveStats(stats);
 		System.out.println("Winner: " + winner.getPlayerName());
 		System.out.println("loser: " + loser.getPlayerName());
-		if(loser instanceof Client2){
-			loser.gameOver();
-		}
 //		winner.gameOver();
 	}
 
@@ -261,17 +257,17 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 						if (tryToMove((Position) arg)) {
 							currentState.setFirstMove(false);
 							nextTurn(0);
-							currentState.getPlayerToMove().TurnEnded(null);
+							//currentState.getPlayerToMove().TurnEnded(null);
 						}
 					}
 				} else if (tryToMove((Position) arg)) {
-					Player temp = currentState.getPlayerToMove();
+					//Player temp = currentState.getPlayerToMove();
 					if (playTurn((Position) arg)) {
 						return;
 					}
-					if (!temp.equals(currentState.getPlayerToMove())){
-						currentState.getPlayerToMove().TurnEnded(null);
-					}
+//					if (!temp.equals(currentState.getPlayerToMove())){
+//						currentState.getPlayerToMove().TurnEnded(null);
+//					}
 				}
 				generateMove();
 			}

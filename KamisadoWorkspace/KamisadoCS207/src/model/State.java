@@ -1,19 +1,13 @@
 package model;
 
-import java.awt.Color;
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 
 import player.Player;
 
 public final class State implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final int boardUpperLimit = 7;
 	private final int boardLowerLimit = 0;
 

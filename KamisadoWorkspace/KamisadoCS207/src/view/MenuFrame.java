@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -25,7 +24,7 @@ import controller.Controller;
 
 public class MenuFrame extends JFrame {
 
-	private JPanel homePanel;
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private GameOptionsPanel options;
 	private Controller controller;

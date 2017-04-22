@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 import model.MyObservable;
 import model.MyObserver;
-import model.Position;
 import model.State;
 
 public abstract class Player implements MyObservable,MyObserver, Serializable, Runnable{
 
+	private static final long serialVersionUID = 1L;
 	private String playerName;
 	private String playerTeam;
     private int homeRow;
     private boolean goingFirst;
     private boolean isAI;
-    ArrayList<MyObserver> observers = new ArrayList<>();
+    private ArrayList<MyObserver> observers = new ArrayList<>();
     private int score = 0;
 
     public Player(String playerTeam, String playerName, boolean goingFirst, boolean isAI){
@@ -29,18 +29,12 @@ public abstract class Player implements MyObservable,MyObserver, Serializable, R
         this.goingFirst = goingFirst;
         this.isAI = isAI;
     }
-
-    
     
     public void setGoingFirst(boolean goingFirst) {
 		this.goingFirst = goingFirst;
 	}
 
 	public abstract void getMove(State state);
-
-//    public void interupt(){
-//
-//    }
     
     public boolean getisFirst(){
         return goingFirst;
@@ -105,15 +99,6 @@ public abstract class Player implements MyObservable,MyObserver, Serializable, R
 	}
 
 	public void otherPersonOption(int option) {
-		
-	}
-	public void TurnEnded(Position pos) {
-	}
-
-
-
-	public void gameOver() {
-		// TODO Auto-generated method stub
 		
 	}
 	

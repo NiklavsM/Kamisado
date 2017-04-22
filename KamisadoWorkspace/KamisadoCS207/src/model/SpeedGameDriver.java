@@ -12,6 +12,7 @@ import player.Player;
 
 public class SpeedGameDriver extends GameDriver implements MyObserver, MyObservable, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private TimerInfo timerInfo;
 	private Timer timer;
 	private boolean timeOut = false;

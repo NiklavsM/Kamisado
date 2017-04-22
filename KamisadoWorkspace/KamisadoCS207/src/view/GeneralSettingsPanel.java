@@ -24,6 +24,7 @@ import model.MyColour;
 
 public class GeneralSettingsPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
 	private JCheckBox musicOn;
 	private JCheckBox soundOn;
 	private JSlider soundVolume;
@@ -45,7 +46,7 @@ public class GeneralSettingsPanel extends JPanel {
 	private GeneralSettings settings;
 	private Controller controller;
 	private String fontStyle = "Sitka Text";
-	private ImageMerger merger = new ImageMerger();
+	transient private ImageMerger merger = new ImageMerger();
 
 	public GeneralSettingsPanel(Controller controller) {
 		this.controller = controller;

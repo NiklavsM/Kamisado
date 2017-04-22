@@ -1,10 +1,8 @@
 package player;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import model.Move;
-import model.Piece;
 import model.Position;
 import model.State;
 

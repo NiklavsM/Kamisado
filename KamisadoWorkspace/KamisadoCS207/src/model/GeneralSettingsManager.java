@@ -13,6 +13,9 @@ import java.io.Serializable;
 import javax.swing.JOptionPane;
 
 public class GeneralSettingsManager implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public GeneralSettings getGeneralSettings() {
 		GeneralSettings generalSettings = null;
 		File file = new File("settings.bin");

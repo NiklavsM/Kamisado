@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Random;
 
 public final class Board implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Piece[][] pieces;
 	private MyColour[][] boardColours = new MyColour[boardSize][boardSize];
 	private static MyColour[] defaultColours = { MyColour.brown, MyColour.green, MyColour.red, MyColour.yellow,

@@ -1,18 +1,16 @@
 package player;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.Board;
-import model.Move;
 import model.MyObservable;
 import model.Position;
 import model.State;
 
 public class EasyAIPlayer extends Player{
 
-    private int timesVisited = 0;
+	private static final long serialVersionUID = 1L;
+	private int timesVisited = 0;
     private State workingState;
     public EasyAIPlayer(String playerTeam, String playerName, boolean goingFist){
         super(playerTeam,playerName, goingFist, true);
@@ -41,7 +39,6 @@ public class EasyAIPlayer extends Player{
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 Random rnd = new Random();
@@ -67,7 +64,6 @@ public class EasyAIPlayer extends Player{
 
 	@Override
 	public void update(MyObservable o, Object arg) {
-		// TODO Auto-generated method stub
 		
 	}
 }

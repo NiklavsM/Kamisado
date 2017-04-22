@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class StatsManager {

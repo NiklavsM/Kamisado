@@ -3,7 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -33,6 +32,7 @@ import player.Player;
 
 public class RunningGameView extends JPanel implements MyObserver {
 
+	private static final long serialVersionUID = 1L;
 	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
 	private JPanel teamLabel;
 	private GUIBoardView gameBoard;
