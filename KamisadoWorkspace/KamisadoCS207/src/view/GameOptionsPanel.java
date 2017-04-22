@@ -71,13 +71,7 @@ public class GameOptionsPanel extends JPanel {
 		setUpRounds();
 		setUpPlayButton();
 		setUpGraphics();
-
-		// JSeparator separator = new JSeparator();
-		// separator.setBounds(32, 108, 168, 22);
-		// add(separator);
-
 		
-
 	}
 
 	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime,
@@ -387,15 +381,17 @@ public class GameOptionsPanel extends JPanel {
 	}
 
 	private void setUpRounds() {
-		gameRoundLabel.setBounds(400, 410, 80, 20);
+		gameRoundLabel.setBounds(200, 430, 80, 20);
 		add(gameRoundLabel);
-		gameLength.setBounds(400, 435, 82, 20);
+		gameLength.setBounds(200, 452, 82, 20);
 		add(gameLength);
 	}
 	
 	private void setUpPlayButton(){
 		JButton btnPlay = new JButton("Play");
-		btnPlay.setBounds(504, 434, 89, 23);
+		btnPlay.setBounds(510, 500, 120, 40);
+		btnPlay.setBackground(new Color(239, 155, 0));
+		btnPlay.setFont(new Font(fontStyle, Font.BOLD, 24));
 		btnPlay.addActionListener(new ActionListener() {
 
 			@Override

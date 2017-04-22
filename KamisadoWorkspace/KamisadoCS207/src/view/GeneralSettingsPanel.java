@@ -231,7 +231,9 @@ public class GeneralSettingsPanel extends JPanel {
 
 	public void initializeApplyButton() {
 		apply = new JButton("Apply");
-		apply.setBounds(500, 500, 80, 20);
+		apply.setBounds(510, 500, 120, 40);
+		apply.setBackground(new Color(239, 155, 0));
+		apply.setFont(new Font(fontStyle, Font.BOLD, 24));
 		apply.addActionListener(new ActionListener() {
 
 			@Override

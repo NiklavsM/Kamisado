@@ -415,6 +415,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 	}
 
 	public void soundSwitchActivated() {
+		System.out.println("asdas");
 		if (settings.isSoundOn()) {
 			soundSwitch.setIcon(new ImageIcon(getClass().getResource("/images/soundoff.png")));
 			settings.setSoundOn(false);

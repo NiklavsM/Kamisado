@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -42,6 +43,7 @@ public class MenuFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 820, 700);
 		setResizable(false);
+		this.getContentPane().setBackground( new Color(239, 155, 0));
 	}
 
 	public void menuBar() {
