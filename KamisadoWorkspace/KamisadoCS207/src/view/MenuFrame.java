@@ -25,11 +25,11 @@ import controller.Controller;
 
 public class MenuFrame extends JFrame {
 
-	private JPanel homePanel;
+//	private JPanel homePanel;
 	private JPanel contentPane;
 	private GameOptionsPanel options;
 	private Controller controller;
-	private String currentlyShownPanel;
+	private String currentlyShownPanel = "";
 
 	public MenuFrame(Controller controller) {
 		this.controller = controller;
@@ -43,6 +43,7 @@ public class MenuFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 820, 700);
 		setResizable(false);
+		//this.setFocusable(false);
 	}
 
 	public void menuBar() {
@@ -153,9 +154,18 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void ShowPanel(String panelsName) {
-
+		
 		if (!panelsName.equals(currentlyShownPanel)) {
+			if(currentlyShownPanel.equals("New Game")){
+					System.out.println("set new game to false");
+					//options.setFocusable(false);
+					options.focusPlay(false);
+			}
+			if(panelsName.equals("New Game")){
+				options.focusPlay(true);
+			}
 			CardLayout c1 = (CardLayout) contentPane.getLayout();
+			
 			c1.show(contentPane, panelsName);
 			currentlyShownPanel = panelsName;
 			JPanel tempGlassPane = (JPanel) this.getGlassPane();

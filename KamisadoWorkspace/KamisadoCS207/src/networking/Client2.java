@@ -25,9 +25,7 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 	private transient ObjectOutputStream oout;
 	private boolean myTurn;
 	private Position previousPos = null;
-	private boolean connected = false;
 	private Controller controller;
-	private boolean firstMove = true;
 	private int option = -2;
 	private int gameLength;
 	private String sendOption = "none";
@@ -51,7 +49,6 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 
 			oout.writeObject(opponentName);
 			oout.flush();
-			connected = true;
 
 			Object ob = ois.readObject();
 			System.out.println("Name read");
@@ -187,7 +184,6 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 
 	@Override
 	public int fillHomeRow() {
-		firstMove = true;
 		System.out.println("returning before : " + option);
 		try {
 			String s = (String) ois.readObject();
@@ -208,7 +204,6 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 
 	@Override
 	public void otherPersonOption(int option) {
-		firstMove = true;
 		sendOption = "none";
 		if (option == 1) {
 			sendOption = "right";
@@ -220,7 +215,6 @@ public class Client2 extends Player implements Runnable, MyObserver, Serializabl
 
 	@Override
 	public void setToFirstMove(boolean isGoingFirst) {
-		firstMove = true;
 		this.setGoingFirst(isGoingFirst);
 	}
 

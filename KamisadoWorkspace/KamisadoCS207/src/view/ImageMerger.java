@@ -44,7 +44,7 @@ public class ImageMerger implements Serializable{
 	}
 	
 	private Color colourChanger(Integer R, Integer G, Integer B, boolean brighter){
-		int increment = 40;
+		int increment = 10;
 		if(brighter){
 			increment *= -1;
 		}

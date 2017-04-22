@@ -3,9 +3,10 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -54,17 +55,32 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.controller = newController;
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
-
 		setUpTeamLabels();
 		setUpTimer();
 		setUpSoundOptions();
-
+//		this.setFocusable(true);
+//		this.grabFocus();
+//		this.requestFocusInWindow();
 		this.setLayout(new BorderLayout());
 		this.add(timer, BorderLayout.NORTH);
 		this.add(teamLabel, BorderLayout.EAST);
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
 		this.setBounds(100, 100, 522, 482);
+//		System.out.println(controller.getMenuFrame().getFocusOwner().getAlignmentX());
+//		System.out.println(controller.getMenuFrame().getFocusOwner().getAlignmentY());
+		//System.out.println(this.getFocusTraversalPolicy());
+		if(this.getFocusTraversalPolicy() != null){
+			System.out.println(this.getFocusTraversalPolicy().getFirstComponent(this));
+		}
+//		gameBoard.grabFocus();
+		
+		 this.addComponentListener( new ComponentAdapter() {
+		        @Override
+		        public void componentShown( ComponentEvent e ) {
+		        	gameBoard.requestFocusInWindow();
+		        }
+		    });
 	}
 
 	public void displayGame(GameDriver game) {
@@ -86,6 +102,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		inGameOptions.showUndo(false);
 		inGameOptions.displayHint(false);
 		inGameOptions.displaySave(true);
+		
 	}
 
 	public void setUpTeamLabels() {
@@ -337,7 +354,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(soundSwitch);
-
+		soundSwitch.setFocusable(false);
+		
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK),
 				"soundSwitch");
 		this.getActionMap().put("soundSwitch", new AbstractAction() {
@@ -382,7 +400,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 			}
 		});
 		add(musicSwitch);
-		
+		musicSwitch.setFocusable(false);
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK),
 				"musicSwitch");
 		this.getActionMap().put("musicSwitch", new AbstractAction() {

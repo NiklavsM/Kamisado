@@ -31,7 +31,8 @@ public class InGameOptions extends JPanel{
 		setBackground(new Color(240, 240, 240));
 		setLayout(new FlowLayout());
 		
-		
+		this.setFocusable(false);
+//		this.grabFocus();
 		initialiseButtons();
 		setUpButtons(controller);
 		
@@ -58,9 +59,10 @@ public class InGameOptions extends JPanel{
 				controller.getMenuFrame().ShowPanel("New Game");
 			}
 		});
-		//btnQuit.setFocusable(false);
+		//btnQuit.setFocusable(true);
 		add(btnQuit);
-		
+		btnQuit.setVisible(true);
+		btnQuit.setFocusable(true);
 		
 		btnSave.setBackground(Color.LIGHT_GRAY);
 		btnSave.setForeground(Color.BLUE);
@@ -74,7 +76,7 @@ public class InGameOptions extends JPanel{
 		});
 		//btnSave.setFocusable(false);
 		add(btnSave);
-		
+		displaySave(true);
 		
 		btnUndo.setBackground(Color.LIGHT_GRAY);
 		btnUndo.addActionListener(new ActionListener() {
@@ -152,7 +154,8 @@ public class InGameOptions extends JPanel{
 			}
 		});
 		add(btnContinue);
-		btnContinue.setVisible(false);
+		displayContinue(false);
+		//btnContinue.setVisible(false);
 		
 		
 		btnRematch.setBackground(Color.LIGHT_GRAY);
@@ -166,7 +169,8 @@ public class InGameOptions extends JPanel{
 			}
 		});
 		add(btnRematch);
-		btnRematch.setVisible(false);
+		displayRematch(false);
+		//btnRematch.setVisible(false);
 		
 		btnHint.setBackground(Color.LIGHT_GRAY);
 		btnHint.addActionListener(new ActionListener() {
@@ -178,7 +182,8 @@ public class InGameOptions extends JPanel{
 			}
 		});
 		add(btnHint);
-		btnHint.setVisible(false);
+		displayHint(false);
+		//btnHint.setVisible(false);
 	}
 	
 	public void showUndo(boolean undoAvailable){

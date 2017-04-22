@@ -41,6 +41,7 @@ public class GameOptionsPanel extends JPanel {
 	private JRadioButton joinNetworkGame;
 	private JTextField timerTime;
 	private JLabel timeLabel;
+	private JButton btnPlay;
 	private JTextField AiSelectedField;
 	private ButtonGroup gameType = new ButtonGroup();
 	private ButtonGroup aiStartCol = new ButtonGroup();
@@ -118,6 +119,7 @@ public class GameOptionsPanel extends JPanel {
 		gameRoundLabel = new JLabel("Rounds");
 		gameLength = new JComboBox<Integer>(new Integer[] { 1, 3, 7, 15 });
 		gameLength.setSelectedIndex(0);
+		btnPlay = new JButton("Play");
 	}
 
 	private void setUpNetworkOptions() {
@@ -395,7 +397,7 @@ public class GameOptionsPanel extends JPanel {
 	}
 	
 	private void setUpPlayButton(){
-		JButton btnPlay = new JButton("Play");
+		
 		btnPlay.setBounds(504, 434, 89, 23);
 		btnPlay.addActionListener(new ActionListener() {
 
@@ -434,9 +436,11 @@ public class GameOptionsPanel extends JPanel {
 								if (time < 5 || time > 60) {
 									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 60!");
 								} else {
+									focusPlay(false);
 									initialiseGame(controller, playerWhite, playerBlack, time, randomBoard);
 								}
 							} else {
+								focusPlay(false);
 								initialiseGame(controller, playerWhite, playerBlack, 0, randomBoard);
 							}
 						} else {
@@ -471,5 +475,10 @@ public class GameOptionsPanel extends JPanel {
 		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
 		dragonRight.setIcon(homeImage);
 		add(dragonRight);
+	}
+	
+	public void focusPlay(boolean b){
+		//this.setFocusable(b);
+		btnPlay.setFocusable(b);
 	}
 }

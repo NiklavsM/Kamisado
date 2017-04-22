@@ -52,7 +52,11 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.setLayout(null);
-
+//		this.grabFocus();
+//		this.grabFocus();
+		
+//		this.requestFocusInWindow();
+//		this.requestFocusInWindow();
 		displayInitialBoard();
 
 		currentx = 0;
@@ -90,6 +94,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				currenty = y;
 				changedSelected(currentx, currenty);
 				tellAll(new Position(x, y));
+				//newButton.requestFocusInWindow();
 			}
 		});
 	}

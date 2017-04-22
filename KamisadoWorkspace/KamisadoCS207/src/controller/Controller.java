@@ -73,6 +73,8 @@ public class Controller implements Serializable {
 			playerWhite.addObserver(game);
 		}
 		finishGameSetup();
+		System.out.println(getMenuFrame().getFocusOwner().getClass());
+		System.out.println(getMenuFrame().getFocusOwner());
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength,
