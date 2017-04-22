@@ -94,13 +94,33 @@ public class Controller implements Serializable {
 		int gameL;
 		networkGame = true;
 		if (hosting) {
-			
+
+			// Thread hostingThread = new Thread(new Runnable(){
+			//
+			// @Override
+			// public void run() {
+			// JOptionPane pane = new JOptionPane("Waiting for opponent...",
+			// JOptionPane.CANCEL_OPTION);
+			// pane.createDialog("waiting...");
+			// final JDialog dialog = pane.createDialog("Board Sent");
+			// pane.setVisible(true);
+			// dialog.setVisible(true);
+			// try {
+			// Thread.sleep(1000);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// dialog.setVisible(false);
+			// pane.setVisible(false);
+			// }
+			//
+			// });
+			// hostingThread.start();
 			Server host = new Server(gameLength);
-			
 			Thread hostThread = new Thread(host);
 			hostThread.start();
-			System.out.println("started first client");
-			
+
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
 			client = new Client("TeamWhite", whiteName, blackName, true, true, this, "localhost");
 			client.tryConnect();
@@ -108,36 +128,36 @@ public class Controller implements Serializable {
 			Thread newThread = new Thread(client);
 			newThread.start();
 
-			// ((Client2)playerWhite).getGameLengthFromServer();
-			
 			gameL = gameLength;
 
 		} else {
-			System.out.println("started second client");
+			Thread joining = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					// JOptionPane.showMessageDialog(null, "connecting");
+					JOptionPane pane = new JOptionPane("Connecting...", JOptionPane.INFORMATION_MESSAGE);
+					final JDialog dialog = pane.createDialog("Board Sent");
+					dialog.setVisible(true);
+
+					dialog.setVisible(false);
+
+					return;
+				}
+			});
+			joining.start();
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			String ip = JOptionPane.showInputDialog("Please enter hosts IP", settings.getRecentIP());
 			settings.setRecentIP(ip);
 			manager.saveGeneralSettings(settings);
 			client = new Client("TeamBlack", blackName, whiteName, false, false, this, ip);
-			if(!client.tryConnect()){
+			if (!client.tryConnect()) {
 				return false;
-			};
+			}
 			playerBlack = client;
 			Thread newThread = new Thread(client);
 			newThread.start();
 			gameL = client.getGameLengthFromServer();
-			
-			Thread joining = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					JOptionPane pane = new JOptionPane("Connecting...", JOptionPane.CANCEL_OPTION);
-					JDialog dialog = pane.createDialog(main, "Joining");
-					dialog.setVisible(true);
-					//pane.setVisible(true);
-					return;
-				}
-			});
-			joining.start();
+
 		}
 		playGame(false, gameL, timerTime, false);
 
@@ -196,8 +216,6 @@ public class Controller implements Serializable {
 			game.changeCurrentState(gameDriver.getCurrentState());
 			finishGameSetup();
 
-			// main.displayGame(game.getCurrentState());
-			// main.displaycSelectable(gameDriver.getCurrentState().getValidMoves());
 			return true;
 		}
 		return false;
@@ -208,10 +226,6 @@ public class Controller implements Serializable {
 		main.displayGame(game);
 		game.addObserver(main);
 		game.playGame();
-		// JOptionPane.showMessageDialog(null,
-		// "1. Press Tab to start moving the selected tile 2. Highlighted tiles
-		// indicates the valid moves",
-		// "Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void applySettings() {
@@ -250,7 +264,6 @@ public class Controller implements Serializable {
 	}
 
 	public void rematchNonNetwork() {
-
 		System.out.println("REMATCHING");
 		playerWhite = game.getCurrentState().getPlayerWhite();
 		playerBlack = game.getCurrentState().getPlayerBlack();
@@ -278,9 +291,7 @@ public class Controller implements Serializable {
 
 	public void rematch() {
 		if (networkGame) {
-			// Thread newThread = new Thread(client);
 			client.askToRematch();
-			// newThread.start();
 			main.getInGameOptions().displayRematch(true);
 		} else {
 			rematchNonNetwork();
@@ -306,9 +317,7 @@ public class Controller implements Serializable {
 
 	public int continueGame() {
 		if (networkGame) {
-			// Thread newThread = new Thread(client);
 			client.askToContinue();
-			// newThread.start();
 			return -1;
 		} else {
 			return game.nextRound();
@@ -323,13 +332,18 @@ public class Controller implements Serializable {
 
 	public void networkRematch() {
 		rematchNonNetwork();
-		// if(playerBlack instanceof Client2){
-		// ((Client2)playerBlack).TurnEnded();
-		// }
 		main.getInGameOptions().displayRematch(false);
 	}
 
 	public boolean isNetworking() {
 		return networkGame;
+	}
+
+	public void quit() {
+		menuFrame.ShowPanel("New Game");
+		if (networkGame) {
+			client.disconnected();
+		}
+
 	}
 }

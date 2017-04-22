@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
-import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import controller.Controller;
@@ -70,13 +69,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
 		this.setBounds(100, 100, 522, 482);
-		
-		 this.addComponentListener( new ComponentAdapter() {
-		        @Override
-		        public void componentShown( ComponentEvent e ) {
-		        	gameBoard.requestFocusInWindow();
-		        }
-		 });
+
+		this.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				gameBoard.requestFocusInWindow();
+			}
+		});
 	}
 
 	public void displayGame(GameDriver game) {
@@ -108,7 +107,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameLog.append("Round 1:" + "\n");
 		gameLog.setFocusable(false);
 		JScrollPane scroll = new JScrollPane(gameLog);
-		//scroll.setFocusable(true);
 		teamLabel = new JPanel();
 		teamLabel.setFocusable(false);
 		teamWhite = setUpLabel("");
