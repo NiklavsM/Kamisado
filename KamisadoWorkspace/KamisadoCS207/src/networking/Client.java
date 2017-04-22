@@ -59,7 +59,7 @@ public class Client extends Player implements Runnable, MyObserver {
 			return true;
 		} catch (Throwable e) {
 			disconnected();
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 	}
@@ -194,8 +194,12 @@ public class Client extends Player implements Runnable, MyObserver {
 
 	public void disconnected() {
 		try {
-			ois.close();
-			oout.close();
+			if (ois != null) {
+				ois.close();
+			}
+			if (oout != null) {
+				oout.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
