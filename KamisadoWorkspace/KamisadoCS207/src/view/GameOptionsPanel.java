@@ -428,11 +428,11 @@ public class GameOptionsPanel extends JPanel {
 									time = Integer.parseInt(timerTime.getText());
 									System.out.println(time);
 								} catch (NumberFormatException exception) {
-									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
+									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 60!");
 									return;
 								}
-								if (time < 5 || time > 20) {
-									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 20!");
+								if (time < 5 || time > 60) {
+									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 60!");
 								} else {
 									initialiseGame(controller, playerWhite, playerBlack, time, randomBoard);
 								}

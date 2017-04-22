@@ -23,6 +23,7 @@ import model.GeneralSettingsManager;
 import model.MyColour;
 
 public class GeneralSettingsPanel extends JPanel {
+	
 	private JCheckBox musicOn;
 	private JCheckBox soundOn;
 	private JSlider soundVolume;
@@ -44,8 +45,7 @@ public class GeneralSettingsPanel extends JPanel {
 	private GeneralSettings settings;
 	private Controller controller;
 	private String fontStyle = "Sitka Text";
-
-	ImageMerger merger = new ImageMerger();
+	private ImageMerger merger = new ImageMerger();
 
 	public GeneralSettingsPanel(Controller controller) {
 		this.controller = controller;
@@ -149,17 +149,26 @@ public class GeneralSettingsPanel extends JPanel {
 			}
 		});
 		add(colourPicker);
-
+		
+		JLabel redLabel = new JLabel("Red");
+		redLabel.setBounds(210, 350, 40, 20);
+		add(redLabel);
 		redSlider = new JSlider(0, 255, settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 		redSlider.setBounds(250, 350, 120, 20);
 		redSlider.addChangeListener(sliderChangeListener);
 		add(redSlider);
-
+		
+		JLabel greenLabel = new JLabel("Green");
+		greenLabel.setBounds(210, 380, 40, 20);
+		add(greenLabel);
 		greenSlider = new JSlider(0, 255, settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 		greenSlider.setBounds(250, 380, 120, 20);
 		greenSlider.addChangeListener(sliderChangeListener);
 		add(greenSlider);
-
+			
+		JLabel blueLabel = new JLabel("Blue");
+		blueLabel.setBounds(210, 410, 40, 20);
+		add(blueLabel);
 		blueSlider = new JSlider(0, 255, settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
 		blueSlider.setBounds(250, 410, 120, 20);
 		blueSlider.addChangeListener(sliderChangeListener);
