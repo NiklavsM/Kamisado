@@ -58,7 +58,7 @@ public class InGameOptions extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
-				controller.getMenuFrame().ShowPanel("New Game");
+				controller.quit();
 			}
 		});
 		//btnQuit.setFocusable(true);
@@ -189,8 +189,8 @@ public class InGameOptions extends JPanel{
 	}
 	
 	public void showUndo(boolean undoAvailable){
-		btnUndo.setVisible(undoAvailable);
 		btnUndo.setFocusable(undoAvailable);
+		btnUndo.setVisible(undoAvailable);
 	}
 	
 	public void addToGameLog(String message){
@@ -202,22 +202,22 @@ public class InGameOptions extends JPanel{
 	}
 
 	public void displayContinue(boolean b) {
-		btnContinue.setVisible(b);
 		btnContinue.setFocusable(b);
+		btnContinue.setVisible(b);
 	}
 
 	public void displayRematch(boolean b) {
-		btnRematch.setVisible(b);
 		btnRematch.setFocusable(b);
+		btnRematch.setVisible(b);
 	}
 	
 	public void displayHint(boolean b){
-		btnHint.setVisible(b);
 		btnHint.setFocusable(b);
+		btnHint.setVisible(b);
 	}
 
 	public void displaySave(boolean b) {
-		btnSave.setVisible(b);
 		btnSave.setFocusable(b);
+		btnSave.setVisible(b);
 	}
 }

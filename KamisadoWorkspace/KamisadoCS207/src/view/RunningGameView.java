@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import controller.Controller;
@@ -52,14 +53,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private GeneralSettings settings;
 
 	public RunningGameView(Controller newController) {
-
 		this.controller = newController;
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
 		setUpTeamLabels();
 		setUpTimer();
 		setUpSoundOptions();
-//		this.setFocusable(true);
+		this.setFocusable(false);
 //		this.grabFocus();
 //		this.requestFocusInWindow();
 		this.setLayout(new BorderLayout());
@@ -68,12 +68,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
 		this.setBounds(100, 100, 522, 482);
-//		System.out.println(controller.getMenuFrame().getFocusOwner().getAlignmentX());
-//		System.out.println(controller.getMenuFrame().getFocusOwner().getAlignmentY());
+//		System.out.println(controller.getMenuFrame().getFocusOwner());
+//		System.out.println(controller.getMenuFrame().getFocusOwner());
 		//System.out.println(this.getFocusTraversalPolicy());
-		if(this.getFocusTraversalPolicy() != null){
-			System.out.println(this.getFocusTraversalPolicy().getFirstComponent(this));
-		}
+//		if(this.getFocusTraversalPolicy() != null){
+//			System.out.println(this.getFocusTraversalPolicy().getFirstComponent(this));
+//		}
 //		gameBoard.grabFocus();
 		
 		 this.addComponentListener( new ComponentAdapter() {
@@ -81,7 +81,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		        public void componentShown( ComponentEvent e ) {
 		        	gameBoard.requestFocusInWindow();
 		        }
-		    });
+		 });
 	}
 
 	public void displayGame(GameDriver game) {
@@ -113,14 +113,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameLog.append("Round 1:" + "\n");
 		gameLog.setFocusable(false);
 		JScrollPane scroll = new JScrollPane(gameLog);
+		//scroll.setFocusable(true);
 		teamLabel = new JPanel();
+		teamLabel.setFocusable(false);
 		teamWhite = setUpLabel("");
 		teamBlack = setUpLabel("");
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(teamBlack, BorderLayout.NORTH);
 		teamLabel.add(scroll, BorderLayout.CENTER);
 		teamLabel.add(teamWhite, BorderLayout.SOUTH);
-		teamLabel.setFocusable(false);
 	}
 
 	private JLabel setUpLabel(String name) {
@@ -330,7 +331,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}
 
 		soundSwitch = new JLabel(soundSwitchImage);
-		soundSwitch.setBounds(600, 608, 30, 30);
+		soundSwitch.setBounds(600, 603, 30, 30);
 		soundSwitch.addMouseListener(new MouseListener() {
 
 			@Override
@@ -376,7 +377,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}
 
 		musicSwitch = new JLabel(musicSwitchImage);
-		musicSwitch.setBounds(632, 608, 30, 30);
+		musicSwitch.setBounds(632, 603, 30, 30);
 		musicSwitch.addMouseListener(new MouseListener() {
 
 			@Override
