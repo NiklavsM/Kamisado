@@ -100,7 +100,9 @@ public class Controller implements Serializable {
 
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
 			client = new Client("TeamWhite", whiteName, blackName, true, true, this, "localhost");
-			client.tryConnect();
+			if (!client.tryConnect()) {
+				return false;
+			}
 			playerWhite = client;
 			Thread newThread = new Thread(client);
 			newThread.start();

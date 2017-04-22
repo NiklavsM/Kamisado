@@ -70,7 +70,6 @@ public class Client extends Player implements Runnable, MyObserver {
 
 	@Override
 	public void run() {
-		tryConnect();
 		try {
 			while (true) {
 				if (!sendOption.equals("none")) {
@@ -204,6 +203,6 @@ public class Client extends Player implements Runnable, MyObserver {
 			e.printStackTrace();
 		}
 		controller.killGame();
-		JOptionPane.showMessageDialog(null, "Connection Lost");
+		JOptionPane.showMessageDialog(null, "Connection Failed");
 	}
 }
