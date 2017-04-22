@@ -56,8 +56,8 @@ public class InGameOptions extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				toggleGridView(false);
-				controller.quit();
+				//toggleGridView(false);
+				controller.killGame();
 			}
 		});
 
@@ -72,7 +72,7 @@ public class InGameOptions extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				toggleGridView(false);
+				//toggleGridView(false);
 				controller.getGame().saveGame();
 			}
 		});
@@ -149,7 +149,7 @@ public class InGameOptions extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				toggleGridView(false);
+				//toggleGridView(false);
 				if (controller.continueGame() >= 0) {
 					btnContinue.setVisible(false);
 				}
@@ -163,7 +163,7 @@ public class InGameOptions extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				toggleGridView(false);
+				//toggleGridView(false);
 				controller.rematch();
 				btnRematch.setVisible(false);
 			}
@@ -176,7 +176,7 @@ public class InGameOptions extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				toggleGridView(false);
+				//toggleGridView(false);
 				controller.showHint();
 			}
 		});

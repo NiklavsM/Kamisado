@@ -94,29 +94,6 @@ public class Controller implements Serializable {
 		int gameL;
 		networkGame = true;
 		if (hosting) {
-
-			// Thread hostingThread = new Thread(new Runnable(){
-			//
-			// @Override
-			// public void run() {
-			// JOptionPane pane = new JOptionPane("Waiting for opponent...",
-			// JOptionPane.CANCEL_OPTION);
-			// pane.createDialog("waiting...");
-			// final JDialog dialog = pane.createDialog("Board Sent");
-			// pane.setVisible(true);
-			// dialog.setVisible(true);
-			// try {
-			// Thread.sleep(1000);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// dialog.setVisible(false);
-			// pane.setVisible(false);
-			// }
-			//
-			// });
-			// hostingThread.start();
 			Server host = new Server(gameLength);
 			Thread hostThread = new Thread(host);
 			hostThread.start();
@@ -131,20 +108,6 @@ public class Controller implements Serializable {
 			gameL = gameLength;
 
 		} else {
-			Thread joining = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					// JOptionPane.showMessageDialog(null, "connecting");
-					JOptionPane pane = new JOptionPane("Connecting...", JOptionPane.INFORMATION_MESSAGE);
-					final JDialog dialog = pane.createDialog("Board Sent");
-					dialog.setVisible(true);
-
-					dialog.setVisible(false);
-
-					return;
-				}
-			});
-			joining.start();
 			playerWhite = new GUIPlayer("TeamWhite", whiteName, true, this);
 			String ip = JOptionPane.showInputDialog("Please enter hosts IP", settings.getRecentIP());
 			settings.setRecentIP(ip);
@@ -193,6 +156,7 @@ public class Controller implements Serializable {
 			game.setState(null);
 			game = null;
 		}
+		menuFrame.ShowPanel("New Game");
 	}
 
 	public boolean loadGame() {
@@ -337,13 +301,5 @@ public class Controller implements Serializable {
 
 	public boolean isNetworking() {
 		return networkGame;
-	}
-
-	public void quit() {
-		menuFrame.ShowPanel("New Game");
-		if (networkGame) {
-			client.disconnected();
-		}
-
 	}
 }

@@ -168,9 +168,9 @@ public class MenuFrame extends JFrame {
 			
 			c1.show(contentPane, panelsName);
 			currentlyShownPanel = panelsName;
-			JPanel tempGlassPane = (JPanel) this.getGlassPane();
-			tempGlassPane.removeAll();
-			tempGlassPane.repaint();
+			//JPanel tempGlassPane = (JPanel) this.getGlassPane();
+			((JPanel)this.getGlassPane()).removeAll();
+			((JPanel)this.getGlassPane()).repaint();
 		}
 	}
 

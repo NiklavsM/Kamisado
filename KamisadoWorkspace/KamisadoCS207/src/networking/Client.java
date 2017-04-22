@@ -70,7 +70,7 @@ public class Client extends Player implements Runnable, MyObserver {
 
 	@Override
 	public void run() {
-
+		tryConnect();
 		try {
 			while (true) {
 				if (!sendOption.equals("none")) {
@@ -203,7 +203,7 @@ public class Client extends Player implements Runnable, MyObserver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		controller.getMenuFrame().ShowPanel("New Game");
+		controller.killGame();
 		JOptionPane.showMessageDialog(null, "Connection Lost");
 	}
 }
