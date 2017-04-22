@@ -40,9 +40,10 @@ public class Server implements Runnable {
 
 			oout1 = new ObjectOutputStream(client1.getOutputStream());
 			ois1 = new ObjectInputStream(client1.getInputStream());
-			listener.setSoTimeout(3000);
+			listener.setSoTimeout(10000);
 			client2 = listener.accept();
-			
+
+			listener.setSoTimeout(0);
 			oout2 = new ObjectOutputStream(client2.getOutputStream());
 			ois2 = new ObjectInputStream(client2.getInputStream());
 			writeToPlayerToMove = oout2;
