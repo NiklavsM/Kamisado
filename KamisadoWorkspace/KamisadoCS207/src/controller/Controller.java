@@ -1,11 +1,9 @@
 package controller;
 
-import java.awt.EventQueue;
 import java.io.Serializable;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 
 import model.GameDriver;
 import model.GeneralSettings;
@@ -15,8 +13,8 @@ import model.MusicPlayer;
 import model.SaveManager;
 import model.SpeedGameDriver;
 import model.TimerInfo;
-import networking.Client2;
-import networking.Server2;
+import networking.Client;
+import networking.Server;
 import player.EasyAIPlayer;
 import player.GUIPlayer;
 import player.HardAIPlayer;
@@ -27,6 +25,10 @@ import view.RunningGameView;
 
 public class Controller implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameDriver game;
 	private RunningGameView main;
 	transient private MenuFrame menuFrame;
@@ -35,8 +37,8 @@ public class Controller implements Serializable {
 	transient private MusicPlayer musicPlayer;
 	// transient private GeneralSettingsManager manager;
 	/// transient private GeneralSettings settings;
-	private boolean networkGame = false;
-	private Client2 client;
+	transient private boolean networkGame = false;
+	transient private Client client;
 
 	public Controller() {
 		menuFrame = new MenuFrame(this);
@@ -93,14 +95,14 @@ public class Controller implements Serializable {
 		networkGame = true;
 		if (hosting) {
 			
-			Server2 host = new Server2(gameLength);
+			Server host = new Server(gameLength);
 			
 			Thread hostThread = new Thread(host);
 			hostThread.start();
 			System.out.println("started first client");
 			
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
-			client = new Client2("TeamWhite", whiteName, blackName, true, true, this, "localhost");
+			client = new Client("TeamWhite", whiteName, blackName, true, true, this, "localhost");
 			client.tryConnect();
 			playerWhite = client;
 			Thread newThread = new Thread(client);
@@ -116,7 +118,7 @@ public class Controller implements Serializable {
 			String ip = JOptionPane.showInputDialog("Please enter hosts IP", settings.getRecentIP());
 			settings.setRecentIP(ip);
 			manager.saveGeneralSettings(settings);
-			client = new Client2("TeamBlack", blackName, whiteName, false, false, this, ip);
+			client = new Client("TeamBlack", blackName, whiteName, false, false, this, ip);
 			if(!client.tryConnect()){
 				return false;
 			};
@@ -226,15 +228,6 @@ public class Controller implements Serializable {
 			} else
 				musicPlayer.musicOff();
 		}
-	}
-
-	public static void main(String[] args) {// fix put in separate class
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				Controller cont = new Controller();
-			}
-		});
 	}
 
 	public MenuFrame getMenuFrame() {

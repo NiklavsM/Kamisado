@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import controller.Controller;
 
 public class InGameOptions extends JPanel{
+
+	private static final long serialVersionUID = 1L;
 	private JButton btnQuit;
 	private JButton btnSave;
 	private JButton btnUndo;

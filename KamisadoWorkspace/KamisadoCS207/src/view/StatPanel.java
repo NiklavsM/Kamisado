@@ -18,6 +18,8 @@ import model.StatsManager;
 import model.StatsObject;
 
 public class StatPanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField filter;
 	private JTable table;
 	private DefaultTableModel model;
@@ -50,7 +52,9 @@ public class StatPanel extends JPanel {
 		if (stats != null) {
 			model = new DefaultTableModel(stats.getTableData(), columnNames) {
 
-				public Class getColumnClass(int c) {
+				private static final long serialVersionUID = 1L;
+
+				public Class<?> getColumnClass(int c) {
 					return getValueAt(0, c).getClass();
 				}
 			};
@@ -87,9 +91,11 @@ public class StatPanel extends JPanel {
 	}
 
 	private void filterTable() {
-		TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
-		table.setRowSorter(rowFilter);
-		rowFilter.setRowFilter(RowFilter.regexFilter(filter.getText()));
+		if (table != null) {
+			TableRowSorter<DefaultTableModel> rowFilter = new TableRowSorter<DefaultTableModel>(model);
+			table.setRowSorter(rowFilter);
+			rowFilter.setRowFilter(RowFilter.regexFilter(filter.getText()));
+		}
 	}
 
 	private void setUpGraphics() {

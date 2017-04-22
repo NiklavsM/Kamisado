@@ -11,6 +11,8 @@ import model.MyObserver;
 import model.TimerInfo;
 
 public class GameTimer extends JPanel implements MyObserver {
+
+	private static final long serialVersionUID = 1L;
 	JLabel time;
 	JProgressBar timeProgressBar;
 	public GameTimer() {
@@ -28,7 +30,10 @@ public class GameTimer extends JPanel implements MyObserver {
 			int timeLeft = ((TimerInfo) arg).getTimeLeft();
 			if(timeProgressBar == null){
 				timeProgressBar = new JProgressBar(0,timeLimit){
-			        @Override
+
+					private static final long serialVersionUID = 1L;
+
+					@Override
 			        public String getString() {
 			            return super.getString() + (getValue());
 			        }

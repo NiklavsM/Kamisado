@@ -27,10 +27,10 @@ import model.Position;
 
 public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
+	private static final long serialVersionUID = 1L;
 	private final ImageIcon DEFAULT = new ImageIcon(getClass().getResource("/images/default.png"));
 	private final ImageIcon GREY = new ImageIcon(getClass().getResource("/images/Grey.png"));
 	private JButton[][] buttons;
-	private ArrayList<Position> selectedPositions;
 	private JButton previousLocation = null;
 	private JButton selected;
 	private int currentx;
@@ -46,7 +46,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	public GUIBoardView(Controller controller) {
 		this.controller = controller;
 		board = new Board(false);
-		selectedPositions = new ArrayList<>();
 		buttons = new JButton[8][8];
 
 		this.addKeyListener(this);
@@ -200,13 +199,11 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

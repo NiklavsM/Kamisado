@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.Serializable;
 
 public class GeneralSettings implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private boolean musicOn = false;
 	private boolean soundOn = false;
 	private int musicVolume = -20;

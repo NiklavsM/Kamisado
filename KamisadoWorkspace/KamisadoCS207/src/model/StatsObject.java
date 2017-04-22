@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import player.Player;
 
 public class StatsObject implements Serializable {
-	public ArrayList<Stat> playerScores;
+
+	private static final long serialVersionUID = 1L;
+	private ArrayList<Stat> playerScores;
 
 	public StatsObject() {
 		playerScores = new ArrayList<Stat>();

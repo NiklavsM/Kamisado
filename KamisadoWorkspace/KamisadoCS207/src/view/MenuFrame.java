@@ -1,12 +1,12 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -25,7 +25,7 @@ import controller.Controller;
 
 public class MenuFrame extends JFrame {
 
-//	private JPanel homePanel;
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private GameOptionsPanel options;
 	private Controller controller;
@@ -43,7 +43,7 @@ public class MenuFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 820, 700);
 		setResizable(false);
-		//this.setFocusable(false);
+		this.getContentPane().setBackground( new Color(239, 155, 0));
 	}
 
 	public void menuBar() {

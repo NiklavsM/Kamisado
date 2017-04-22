@@ -3,16 +3,14 @@ package player;
 import java.util.HashMap;
 import java.util.Random;
 
-import com.sun.glass.ui.Cursor;
-
 import model.Move;
 import model.MyObservable;
-import model.Piece;
 import model.Position;
 import model.State;
 
 public class HardAIPlayer extends Player implements MyObservable {
 
+	private static final long serialVersionUID = 1L;
 	private int timesVisited = 0;
 	private HashMap<Position, Position> bestOpeningMoves;
 	private Position firstMove;

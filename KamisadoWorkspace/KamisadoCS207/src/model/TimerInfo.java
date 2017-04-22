@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 
 public class TimerInfo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int timerLimit;
 	private int timeLeft;
 	

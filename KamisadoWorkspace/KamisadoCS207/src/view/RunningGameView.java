@@ -34,6 +34,7 @@ import player.Player;
 
 public class RunningGameView extends JPanel implements MyObserver {
 
+	private static final long serialVersionUID = 1L;
 	private final Icon SELECTED = new ImageIcon(getClass().getResource("/images/Selected.png"));
 	private JPanel teamLabel;
 	private GUIBoardView gameBoard;
@@ -433,6 +434,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 	}
 
 	public void soundSwitchActivated() {
+		System.out.println("asdas");
 		if (settings.isSoundOn()) {
 			soundSwitch.setIcon(new ImageIcon(getClass().getResource("/images/soundoff.png")));
 			settings.setSoundOn(false);
