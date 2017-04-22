@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -44,6 +45,9 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private ImageMerger merger = new ImageMerger();
 
 	public GUIBoardView(Controller controller) {
+		UIManager.put("Button.focus", Color.red);
+		UIManager.put("RadioButton.focus", Color.red);
+		UIManager.put("CheckBox.focus", Color.red);
 		this.controller = controller;
 		board = new Board(false);
 		buttons = new JButton[8][8];

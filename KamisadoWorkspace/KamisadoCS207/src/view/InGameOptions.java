@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import controller.Controller;
 
-public class InGameOptions extends JPanel{
+public class InGameOptions extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnQuit;
@@ -29,18 +29,17 @@ public class InGameOptions extends JPanel{
 	private String fontStyle = "Sitka Text";
 
 	public InGameOptions(Controller controller) {
-		//this.setFocusable(false);
 		setBackground(new Color(240, 240, 240));
 		setLayout(new FlowLayout());
 		this.setSize(400, 300);
 		this.setFocusable(false);
-//		this.grabFocus();
+
 		initialiseButtons();
 		setUpButtons(controller);
-		
+
 	}
-	
-	public void initialiseButtons(){
+
+	public void initialiseButtons() {
 		btnQuit = new JButton("Quit");
 		btnSave = new JButton("Save");
 		btnUndo = new JButton("Undo");
@@ -49,121 +48,119 @@ public class InGameOptions extends JPanel{
 		btnRematch = new JButton("Rematch");
 		btnHint = new JButton("Hint");
 	}
-	
-	public void setUpButtons(Controller controller){
+
+	public void setUpButtons(Controller controller) {
 		btnQuit.setForeground(Color.RED);
 		btnQuit.setBackground(Color.LIGHT_GRAY);
 		btnQuit.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
-				controller.getMenuFrame().ShowPanel("New Game");
+				controller.quit();
 			}
 		});
-		//btnQuit.setFocusable(true);
+
 		add(btnQuit);
 		btnQuit.setVisible(true);
 		btnQuit.setFocusable(true);
 		btnQuit.setFont(new Font(fontStyle, Font.BOLD, 20));
-		
+
 		btnSave.setBackground(Color.LIGHT_GRAY);
 		btnSave.setForeground(Color.BLUE);
 		btnSave.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
 				controller.getGame().saveGame();
 			}
 		});
-		//btnSave.setFocusable(false);
+
 		add(btnSave);
 		displaySave(true);
-		
+
 		btnUndo.setBackground(Color.LIGHT_GRAY);
 		btnUndo.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.getGame().undo();
 			}
 		});
-		//btnUndo.setFocusable(false);
+
 		add(btnUndo);
 		gridViewOn = false;
 		btnToggle.setBackground(Color.LIGHT_GRAY);
-		btnToggle.addMouseListener(new MouseListener(){
+		btnToggle.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+
 			}
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				gridViewOn = !gridViewOn;
 				toggleGridView(gridViewOn);
 			}
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				gridViewOn = !gridViewOn;
 				toggleGridView(gridViewOn);
 			}
 		});
-		btnToggle.addKeyListener(new KeyListener(){
+		btnToggle.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_SPACE && !gridViewOn){
+				if (arg0.getKeyCode() == KeyEvent.VK_SPACE && !gridViewOn) {
 					gridViewOn = !gridViewOn;
 					toggleGridView(gridViewOn);
 				}
 			}
+
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_SPACE && gridViewOn){
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && gridViewOn) {
 					gridViewOn = !gridViewOn;
 					toggleGridView(gridViewOn);
 				}
-				
+
 			}
+
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
-		//btnUndo.setFocusable(false);
 		add(btnToggle);
-		
+
 		btnContinue.setBackground(Color.LIGHT_GRAY);
 		btnContinue.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
-				if(controller.continueGame() >= 0){
+				if (controller.continueGame() >= 0) {
 					btnContinue.setVisible(false);
 				}
 			}
 		});
 		add(btnContinue);
 		displayContinue(false);
-		//btnContinue.setVisible(false);
-		
-		
+
 		btnRematch.setBackground(Color.LIGHT_GRAY);
 		btnRematch.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
@@ -173,11 +170,10 @@ public class InGameOptions extends JPanel{
 		});
 		add(btnRematch);
 		displayRematch(false);
-		//btnRematch.setVisible(false);
-		
+
 		btnHint.setBackground(Color.LIGHT_GRAY);
 		btnHint.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleGridView(false);
@@ -186,39 +182,38 @@ public class InGameOptions extends JPanel{
 		});
 		add(btnHint);
 		displayHint(false);
-		//btnHint.setVisible(false);
 	}
-	
-	public void showUndo(boolean undoAvailable){
-		btnUndo.setVisible(undoAvailable);
+
+	public void showUndo(boolean undoAvailable) {
 		btnUndo.setFocusable(undoAvailable);
+		btnUndo.setVisible(undoAvailable);
 	}
-	
-	public void addToGameLog(String message){
+
+	public void addToGameLog(String message) {
 		((RunningGameView) this.getParent()).addToGameLog(message);
 	}
-	
-	private void toggleGridView(boolean toggle){
+
+	private void toggleGridView(boolean toggle) {
 		((RunningGameView) this.getParent()).toggleGridView(toggle);
 	}
 
 	public void displayContinue(boolean b) {
-		btnContinue.setVisible(b);
 		btnContinue.setFocusable(b);
+		btnContinue.setVisible(b);
 	}
 
 	public void displayRematch(boolean b) {
-		btnRematch.setVisible(b);
 		btnRematch.setFocusable(b);
+		btnRematch.setVisible(b);
 	}
-	
-	public void displayHint(boolean b){
-		btnHint.setVisible(b);
+
+	public void displayHint(boolean b) {
 		btnHint.setFocusable(b);
+		btnHint.setVisible(b);
 	}
 
 	public void displaySave(boolean b) {
-		btnSave.setVisible(b);
 		btnSave.setFocusable(b);
+		btnSave.setVisible(b);
 	}
 }

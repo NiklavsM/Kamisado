@@ -72,7 +72,6 @@ public class GameOptionsPanel extends JPanel {
 		setUpRounds();
 		setUpPlayButton();
 		setUpGraphics();
-		
 	}
 
 	private void initialiseGame(Controller thisController, String playerWhite, String playerBlack, int timerTime,
@@ -133,9 +132,13 @@ public class GameOptionsPanel extends JPanel {
 					txtWhiteName.setEditable(false);
 					txtWhiteName.setFocusable(false);
 
-					chckbxSpeedMode.setEnabled(false);
-					chckbxRandomBoard.setEnabled(false);
-					gameLength.setEnabled(true);
+					displayForNetworkisHosting(true);
+//					chckbxSpeedMode.setEnabled(false);
+//					chckbxSpeedMode.setFocusable(false);
+//					chckbxRandomBoard.setEnabled(false);
+//					chckbxRandomBoard.setFocusable(false);
+//					gameLength.setEnabled(true);
+//					gameLength.setFocusable(true);
 				}
 			}
 		});
@@ -154,9 +157,7 @@ public class GameOptionsPanel extends JPanel {
 					txtBlackName.setEditable(false);
 					txtBlackName.setFocusable(false);
 
-					chckbxSpeedMode.setEnabled(false);
-					chckbxRandomBoard.setEnabled(false);
-					gameLength.setEnabled(false);
+					displayForNetworkisHosting(false);
 				}
 			}
 		});
@@ -184,12 +185,13 @@ public class GameOptionsPanel extends JPanel {
 					rdbtnHard.setEnabled(true);
 					rdbtnEasy.setSelected(true);
 					whiteAiPlayer.setEnabled(true);
+					whiteAiPlayer.setFocusable(true);
 					blackAiPlayer.setEnabled(true);
+					blackAiPlayer.setFocusable(true);
 					blackAiPlayer.doClick();
 
 					networkOption.clearSelection();
-					hostNetworkGame.setEnabled(false);
-					joinNetworkGame.setEnabled(false);
+					networkChoice(false);
 				}
 			}
 		});
@@ -201,18 +203,20 @@ public class GameOptionsPanel extends JPanel {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					rdbtnEasy.setEnabled(false);
+					rdbtnEasy.setFocusable(false);
 					rdbtnHard.setEnabled(false);
+					rdbtnHard.setFocusable(false);
 					aiDiff.clearSelection();
 					whiteAiPlayer.setEnabled(false);
+					whiteAiPlayer.setFocusable(false);
 					blackAiPlayer.setEnabled(false);
+					blackAiPlayer.setFocusable(false);
 					aiStartCol.clearSelection();
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setText("New user");
-
 					networkOption.clearSelection();
-					hostNetworkGame.setEnabled(false);
-					joinNetworkGame.setEnabled(false);
+					networkChoice(false);
 				}
 			}
 		});
@@ -229,7 +233,9 @@ public class GameOptionsPanel extends JPanel {
 					aiDiff.clearSelection();
 
 					whiteAiPlayer.setEnabled(false);
+					whiteAiPlayer.setFocusable(false);
 					blackAiPlayer.setEnabled(false);
+					blackAiPlayer.setFocusable(false);
 					aiStartCol.clearSelection();
 
 					AiSelectedField.setEditable(false);
@@ -237,12 +243,14 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField.setText("Opponent");
 					chckbxSpeedMode.setSelected(false);
 
-					hostNetworkGame.setEnabled(true);
-					joinNetworkGame.setEnabled(true);
+					networkChoice(true);
 				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 					chckbxSpeedMode.setEnabled(true);
+					chckbxSpeedMode.setFocusable(true);
 					chckbxRandomBoard.setEnabled(true);
+					chckbxRandomBoard.setFocusable(true);
 					gameLength.setEnabled(true);
+					gameLength.setFocusable(true);
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
 				}
@@ -474,7 +482,25 @@ public class GameOptionsPanel extends JPanel {
 	}
 	
 	public void focusPlay(boolean b){
-		//this.setFocusable(b);
+		//this.transferFocus();
+		this.setFocusable(false);
 		btnPlay.setFocusable(b);
+		btnPlay.transferFocus();
+	}
+	
+	private void displayForNetworkisHosting(boolean b){
+		chckbxSpeedMode.setEnabled(false);
+		chckbxSpeedMode.setFocusable(false);
+		chckbxRandomBoard.setEnabled(false);
+		chckbxRandomBoard.setFocusable(false);
+		gameLength.setEnabled(b);
+		gameLength.setFocusable(b);
+	}
+	
+	private void networkChoice(boolean b){
+		hostNetworkGame.setEnabled(b);
+		hostNetworkGame.setFocusable(b);
+		joinNetworkGame.setEnabled(b);
+		joinNetworkGame.setFocusable(b);
 	}
 }

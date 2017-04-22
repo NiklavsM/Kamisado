@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import model.MyObservable;
 import model.MyObserver;
@@ -26,7 +28,7 @@ public class Client extends Player implements Runnable, MyObserver {
 	private int gameLength;
 	private String sendOption = "none";
 	private String opponentName;
-	private String ip ;
+	private String ip;
 
 	public Client(String team, String playerName, String opponentName, boolean goingFirst, boolean hosting,
 			Controller controller, String ip) {
@@ -36,8 +38,8 @@ public class Client extends Player implements Runnable, MyObserver {
 		this.opponentName = opponentName;
 		this.ip = ip;
 	}
-	
-	public boolean tryConnect(){
+
+	public boolean tryConnect() {
 		try {
 			socket = new Socket(ip, PORT);
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -47,9 +49,7 @@ public class Client extends Player implements Runnable, MyObserver {
 			oout.flush();
 
 			Object ob = ois.readObject();
-			System.out.println("Name read");
 			if (ob instanceof String) {
-				System.out.println("Name Set: " + ob);
 				this.setName((String) ob);
 				ob = ois.readObject();
 				if (ob instanceof Integer) {
@@ -72,41 +72,29 @@ public class Client extends Player implements Runnable, MyObserver {
 	public void run() {
 
 		try {
-			System.out.println("started client thread");
 			while (true) {
 				if (!sendOption.equals("none")) {
-					System.out.println("sending options! :" + sendOption);
 					oout.writeObject(sendOption);
 					oout.flush();
 					sendOption = "none";
 				}
-				System.out.println("waiting for input at client");
+
 				Object obj = ois.readObject();
-				System.out.println("got object: [" + obj + "]");
-				System.out.println(obj.getClass());
 				if (obj instanceof Integer) {
-					System.out.println("read in posX");
 					Object obj2 = ois.readObject();
 					if (obj2 instanceof Integer) {
-						System.out.println("read in posY");
 						int x = (Integer) obj;
 						int y = (Integer) obj2;
-						System.out.println(x);
-						System.out.println(y);
-						
 						previousPos = new Position(x, y);
 						this.tellAll(previousPos);
 					}
 				} else if (obj instanceof String) {
-					System.out.println("obj: [" + obj + "]");
+
 					if (obj.equals("continue")) {
-						System.out.println("client got continue");
 						askingThisClientToContinue();
 					} else if (obj.equals("rematch")) {
-						System.out.println("or here?");
 						askingThisClientToRematch();
 					} else if (obj.equals("fill")) {
-						System.out.println("got fill");
 						option = (int) ois.readObject();
 					}
 				}
@@ -114,6 +102,7 @@ public class Client extends Player implements Runnable, MyObserver {
 		} catch (Throwable e) {
 			disconnected();
 			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -121,23 +110,17 @@ public class Client extends Player implements Runnable, MyObserver {
 	public void update(MyObservable o, Object arg) {
 		if (arg instanceof Position) {
 			Position pos = (Position) arg;
-			System.out.println("sending POSITION to server");
+
 			try {
 				oout.writeObject(pos.getX());
 				oout.writeObject(pos.getY());
-
 				oout.flush();
-//				if (!firstMove && (pos.getY() == 0 || pos.getY() == 7)) {
-//					System.out.println("Y: " + pos.getY());
-//					oout.writeObject("gameOver");
-//					oout.flush();
-//				}
 			} catch (Throwable e) {
 				disconnected();
 				e.printStackTrace();
 			}
 		}
-	}	
+	}
 
 	public boolean isMyTurn() {
 		return myTurn;
@@ -153,21 +136,15 @@ public class Client extends Player implements Runnable, MyObserver {
 
 	@Override
 	public int fillHomeRow() {
-		System.out.println("returning before : " + option);
 		try {
 			String s = (String) ois.readObject();
-			System.out.println(s + " here?");
 			option = (int) ois.readObject();
-			System.out.println("got option at client: " + option);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			disconnected();
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("returning after : " + option);
 		return option;
 	}
 
@@ -179,7 +156,6 @@ public class Client extends Player implements Runnable, MyObserver {
 		} else if (option == 0) {
 			sendOption = "left";
 		}
-		System.out.println("setting option to : " + sendOption);
 	}
 
 	@Override
@@ -197,7 +173,6 @@ public class Client extends Player implements Runnable, MyObserver {
 
 	public void askToContinue() {
 		try {
-			System.out.println("sending continue");
 			oout.writeObject("continue");
 			oout.flush();
 
@@ -209,7 +184,6 @@ public class Client extends Player implements Runnable, MyObserver {
 
 	public void askToRematch() {
 		try {
-			System.out.println("sending rematch");
 			oout.writeObject("rematch");
 			oout.flush();
 		} catch (IOException e) {
@@ -217,9 +191,15 @@ public class Client extends Player implements Runnable, MyObserver {
 			e.printStackTrace();
 		}
 	}
-	
-	public void disconnected(){
+
+	public void disconnected() {
+		try {
+			ois.close();
+			oout.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		controller.getMenuFrame().ShowPanel("New Game");
-		//JOptionPane.showMessageDialog(null, "Connection Lost");
+		JOptionPane.showMessageDialog(null, "Connection Lost");
 	}
 }

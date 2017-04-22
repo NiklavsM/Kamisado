@@ -54,7 +54,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private GeneralSettings settings;
 
 	public RunningGameView(Controller newController) {
-
 		this.controller = newController;
 		gameBoard = new GUIBoardView(newController);
 		inGameOptions = new InGameOptions(newController);
@@ -62,19 +61,14 @@ public class RunningGameView extends JPanel implements MyObserver {
 		setUpTeamLabels();
 		setUpTimer();
 		setUpSoundOptions();
-		// this.setFocusable(true);
-		// this.grabFocus();
-		// this.requestFocusInWindow();
+		this.setFocusable(false);
+
 		this.setLayout(new BorderLayout());
 		this.add(timer, BorderLayout.NORTH);
 		this.add(teamLabel, BorderLayout.EAST);
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
 		this.setBounds(100, 100, 522, 482);
-		if (this.getFocusTraversalPolicy() != null) {
-			System.out.println(this.getFocusTraversalPolicy().getFirstComponent(this));
-		}
-		// gameBoard.grabFocus();
 
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
@@ -114,13 +108,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameLog.setFocusable(false);
 		JScrollPane scroll = new JScrollPane(gameLog);
 		teamLabel = new JPanel();
+		teamLabel.setFocusable(false);
 		teamWhite = setUpLabel("");
 		teamBlack = setUpLabel("");
 		teamLabel.setLayout(new BorderLayout());
 		teamLabel.add(teamBlack, BorderLayout.NORTH);
 		teamLabel.add(scroll, BorderLayout.CENTER);
 		teamLabel.add(teamWhite, BorderLayout.SOUTH);
-		teamLabel.setFocusable(false);
 	}
 
 	private JLabel setUpLabel(String name) {
