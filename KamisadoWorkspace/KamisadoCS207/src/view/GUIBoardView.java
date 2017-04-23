@@ -85,7 +85,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	private void setupButton(int x, int y, JButton newButton) {
-		newButton.setBounds(x * 70, (7 - y) * 70, 70, 70);
+		newButton.setBounds(9+(x * 70), 2+(7 - y) * 70, 70, 70);
 		newButton.addActionListener(new ActionListener() {
 
 			@Override

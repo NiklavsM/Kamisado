@@ -30,7 +30,7 @@ public class InGameOptions extends JPanel {
 	private Color buttonColor;
 
 	public InGameOptions(Controller controller) {
-		setBackground(new Color(240, 240, 240));
+		setBackground(new Color(255, 219, 137));
 		setLayout(new FlowLayout());
 		this.setSize(400, 300);
 		this.setFocusable(false);
@@ -156,7 +156,7 @@ public class InGameOptions extends JPanel {
 		displayContinue(false);
 
 		btnRematch = new JButton("Rematch");
-		btnRematch.setBackground(Color.LIGHT_GRAY);
+		btnRematch.setBackground(buttonColor);
 		btnRematch.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnRematch.addActionListener(new ActionListener() {
 

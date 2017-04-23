@@ -52,10 +52,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 	private JLabel soundSwitch;
 	private GeneralSettingsManager settingManager;
 	private GeneralSettings settings;
+	private String fontStyle = "Sitka Text";
 
 	public RunningGameView(Controller newController) {
 		this.controller = newController;
 		gameBoard = new GUIBoardView(newController);
+		gameBoard.setBackground(Color.BLACK);
 		inGameOptions = new InGameOptions(newController);
 		inGameOptions.setPreferredSize(new Dimension(300, 50));
 		setUpTeamLabels();
@@ -68,7 +70,6 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.add(teamLabel, BorderLayout.EAST);
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
-		//this.setBounds(100, 100, 522, 482);
 
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
@@ -103,6 +104,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public void setUpTeamLabels() {
 		gameLog = new JTextArea(1, 20);
+		gameLog.setFont(new Font(fontStyle, Font.PLAIN, 12));
 		gameLog.setEditable(false);
 		gameLog.setLineWrap(true);
 		gameLog.append("Round 1:" + "\n");
@@ -122,7 +124,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		JLabel label = new JLabel(name + " : 0");
 		label.setBackground(Color.BLACK);
 		label.setForeground(Color.WHITE);
-		label.setFont(new Font("Garamond", Font.BOLD, 19));
+		label.setFont(new Font(fontStyle, Font.BOLD, 19));
 		label.setOpaque(true);
 		return label;
 	}
@@ -237,15 +239,16 @@ public class RunningGameView extends JPanel implements MyObserver {
 			this.remove(timer);
 		}
 		timer = new GameTimer();
+		timer.setBackground(new Color(255, 219, 137));
 		timer.setVisible(true);
 		timer.setFocusable(false);
 		this.add(timer, BorderLayout.NORTH);
 	}
 
 	private void addTextToGlassPane(JLabel label) {
-		label.setBounds(0, 250, 587, 50);
+		label.setBounds(18, 250, 550, 50);
 		label.setBackground(Color.BLACK);
-		label.setFont(new Font("Garamond", Font.BOLD | Font.ITALIC, 27));
+		label.setFont(new Font(fontStyle, Font.BOLD | Font.BOLD, 22));
 		label.setForeground(Color.WHITE);
 		label.setVisible(true);
 		label.setOpaque(true);
@@ -260,7 +263,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		for (Position pos : positions) {
 			JLabel label = new JLabel();
 			label.setIcon(SELECTED);
-			label.setBounds(((pos.getX()) * 70) + gameBoardPosX.intValue() + 5,
+			label.setBounds(((pos.getX()) * 70) + gameBoardPosX.intValue() + 14,
 					((7 - (pos.getY())) * 70) + gameBoardPosY.intValue() + 30, 70, 70);
 			glassPane.add(label);
 			glassPane.repaint();
