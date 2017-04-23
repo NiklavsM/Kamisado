@@ -73,8 +73,6 @@ public class Controller implements Serializable {
 			playerWhite.addObserver(game);
 		}
 		finishGameSetup();
-		System.out.println(getMenuFrame().getFocusOwner().getClass());
-		System.out.println(getMenuFrame().getFocusOwner());
 	}
 
 	public void playTwoPlayer(boolean isSpeedGame, String whiteName, String blackName, int timerTime, int gameLength,
@@ -128,7 +126,6 @@ public class Controller implements Serializable {
 		main.getGameBoard().addObserver(playerWhite);
 		playerBlack.addObserver(game);
 		playerWhite.addObserver(game);
-		System.out.println("finishing game setup");
 		finishGameSetup();
 		return true;
 	}
@@ -230,7 +227,6 @@ public class Controller implements Serializable {
 	}
 
 	public void rematchNonNetwork() {
-		System.out.println("REMATCHING");
 		playerWhite = game.getCurrentState().getPlayerWhite();
 		playerBlack = game.getCurrentState().getPlayerBlack();
 		playerWhite.setScore(0);

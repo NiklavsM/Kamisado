@@ -88,8 +88,6 @@ public class Server implements Runnable {
 							writeToOtherPlayer.writeObject(obj);
 							int x = (Integer) ob;
 							int y = (Integer) obj;
-							System.out.println(x);
-							System.out.println(y);
 							Position previousPos = new Position(x, y);
 
 							game.update(null, previousPos);
@@ -109,7 +107,6 @@ public class Server implements Runnable {
 			}
 		} catch (Throwable e) {
 			disconnect();
-			// e.printStackTrace();
 			return;
 		}
 	}
@@ -125,7 +122,6 @@ public class Server implements Runnable {
 	}
 
 	public void endOfGame() {
-		System.out.println("ENDING GAME");
 		try {
 			Object p1 = ois1.readObject();
 			Object p2 = ois2.readObject();
@@ -201,7 +197,6 @@ public class Server implements Runnable {
 
 	private void disconnect() {
 		try {
-			// game.setState(null);
 			game = null;
 			if (ois1 != null) {
 				ois1.close();

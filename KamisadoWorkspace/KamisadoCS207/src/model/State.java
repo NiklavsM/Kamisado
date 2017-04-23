@@ -205,10 +205,6 @@ public final class State implements Serializable {
 		return false;
 	}
 
-//	public Piece findPiece(Position position) {
-//		return pieces[position.getX()][position.getY()];
-//	}
-
 	public void flipPlayerToMove() {
 		if (PlayerToMove.equals(playerWhite)) {
 			PlayerToMove = playerBlack;
@@ -237,17 +233,9 @@ public final class State implements Serializable {
 		return currentBoard.gameOver(previousMove.getEndPos().getY());
 	}
 
-//	public String getColourToMove() {
-//		return colourToMove;
-//	}
-
 	public Player getPlayerToMove() {
 		return PlayerToMove;
 	}
-
-//	public Board getCurrentBoard() {
-//		return currentBoard;
-//	}
 
 	public Piece[][] getPieces() {
 		return pieces;
@@ -268,10 +256,6 @@ public final class State implements Serializable {
 	public void setColourToMove(String colour) {
 		colourToMove = colour;
 	}
-
-//	public void setValidMoves(ArrayList<Position> arrayList) {
-//		validMoves = arrayList;
-//	}
 
 	public Position getPieceToMove() {
 		return pieceToMove;

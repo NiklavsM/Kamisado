@@ -17,7 +17,7 @@ public class SaveManager {
 	public void save(GameDriver gameDriver) {
 
 		File saveFolder = new File("Saved Games");
-		if(!saveFolder.exists()){
+		if (!saveFolder.exists()) {
 			saveFolder.mkdir();
 		}
 		JFileChooser fileChooser = new JFileChooser();
@@ -39,9 +39,11 @@ public class SaveManager {
 	}
 
 	public GameDriver load() {
+
 		GameDriver gameDriver = null;
+
 		File saveFolder = new File("Saved Games");
-		if(!saveFolder.exists()){
+		if (!saveFolder.exists()) {
 			saveFolder.mkdir();
 		}
 		JFileChooser fileChooser = new JFileChooser();

@@ -93,7 +93,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	}
 
 	public int nextRound() {
-		System.out.println("next round?");
 		int optionChosen = -2;
 		currentGameNum++;
 		history = new Stack<>();
@@ -254,17 +253,12 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 						if (tryToMove((Position) arg)) {
 							currentState.setFirstMove(false);
 							nextTurn(0);
-							//currentState.getPlayerToMove().TurnEnded(null);
 						}
 					}
 				} else if (tryToMove((Position) arg)) {
-					//Player temp = currentState.getPlayerToMove();
 					if (playTurn((Position) arg)) {
 						return;
 					}
-//					if (!temp.equals(currentState.getPlayerToMove())){
-//						currentState.getPlayerToMove().TurnEnded(null);
-//					}
 				}
 				generateMove();
 			}

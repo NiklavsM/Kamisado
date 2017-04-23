@@ -162,7 +162,6 @@ public class MenuFrame extends JFrame {
 
 		if (!panelsName.equals(currentlyShownPanel)) {
 			if (currentlyShownPanel.equals("New Game")) {
-				System.out.println("set new game to false");
 				options.focusPlay(false);
 			}
 			if (panelsName.equals("New Game")) {
