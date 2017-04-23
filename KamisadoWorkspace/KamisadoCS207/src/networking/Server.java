@@ -88,8 +88,6 @@ public class Server implements Runnable {
 							writeToOtherPlayer.writeObject(obj);
 							int x = (Integer) ob;
 							int y = (Integer) obj;
-							System.out.println(x);
-							System.out.println(y);
 							Position previousPos = new Position(x, y);
 
 							game.update(null, previousPos);

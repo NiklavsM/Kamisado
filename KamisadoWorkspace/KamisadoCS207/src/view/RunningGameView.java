@@ -95,10 +95,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gridViewGlassPane.setOpaque(false);
 		inGameOptions.displayRematch(false);
 		inGameOptions.displayContinue(false);
-		inGameOptions.showUndo(false);
-		inGameOptions.displayHint(false);
-		inGameOptions.displaySave(true);
-
+		//inGameOptions.showUndo(false);
+		//inGameOptions.displayHint(false);
+		//inGameOptions.displaySave(true);
+		displayHintSaveUndo(false);
+		if(!controller.isNetworking()){
+			inGameOptions.displaySave(true);
+		}
 	}
 
 	public void setUpTeamLabels() {
@@ -151,15 +154,16 @@ public class RunningGameView extends JPanel implements MyObserver {
 			State state = (State) arg;
 			GameDriver gameDriver = (GameDriver) o;
 			if (!state.isGameOver()) {
-				//inGameOptions.displaySave(true);
 				if ((state.isFirstMove() && state.getPreviousMove() == null) || controller.isNetworking()) {
 					displayHintSaveUndo(false);
+					if(!controller.isNetworking()){
+						inGameOptions.displaySave(true);
+					}
 				} else if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
 					displayHintSaveUndo(true);
 				}
 				
 				gameBoard.redrawBoard(state.getBoard());
-				//inGameOptions.displayRematch(false);
 			}
 			if (state.getPreviousMove() != null) {
 				addToGameLog(state.getPreviousMove().toString());
