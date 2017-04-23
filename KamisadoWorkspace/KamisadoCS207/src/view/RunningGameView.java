@@ -68,7 +68,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		this.add(teamLabel, BorderLayout.EAST);
 		this.add(inGameOptions, BorderLayout.SOUTH);
 		this.add(gameBoard, BorderLayout.CENTER);
-		this.setBounds(100, 100, 522, 482);
+		//this.setBounds(100, 100, 522, 482);
 
 		this.addComponentListener(new ComponentAdapter() {
 			@Override

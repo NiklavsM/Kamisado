@@ -27,13 +27,14 @@ public class InGameOptions extends JPanel {
 	private JButton btnHint;
 	private boolean gridViewOn;
 	private String fontStyle = "Sitka Text";
+	private Color buttonColor;
 
 	public InGameOptions(Controller controller) {
 		setBackground(new Color(240, 240, 240));
 		setLayout(new FlowLayout());
 		this.setSize(400, 300);
 		this.setFocusable(false);
-
+		buttonColor = new Color(252, 251, 247);
 		initialiseButtons();
 		setUpButtons(controller);
 
@@ -51,7 +52,7 @@ public class InGameOptions extends JPanel {
 
 	public void setUpButtons(Controller controller) {
 		btnQuit.setForeground(Color.RED);
-		btnQuit.setBackground(Color.LIGHT_GRAY);
+		btnQuit.setBackground(buttonColor);
 		btnQuit.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnQuit.addActionListener(new ActionListener() {
 
@@ -65,7 +66,7 @@ public class InGameOptions extends JPanel {
 		btnQuit.setVisible(true);
 		btnQuit.setFocusable(true);
 
-		btnSave.setBackground(Color.LIGHT_GRAY);
+		btnSave.setBackground(buttonColor);
 		btnSave.setForeground(Color.BLUE);
 		btnSave.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnSave.addActionListener(new ActionListener() {
@@ -79,7 +80,7 @@ public class InGameOptions extends JPanel {
 		add(btnSave);
 		displaySave(true);
 
-		btnUndo.setBackground(Color.LIGHT_GRAY);
+		btnUndo.setBackground(buttonColor);
 		btnUndo.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnUndo.addActionListener(new ActionListener() {
 
@@ -91,7 +92,7 @@ public class InGameOptions extends JPanel {
 
 		add(btnUndo);
 		gridViewOn = false;
-		btnToggle.setBackground(Color.LIGHT_GRAY);
+		btnToggle.setBackground(buttonColor);
 		btnToggle.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnToggle.addMouseListener(new MouseListener() {
 			@Override
@@ -145,7 +146,7 @@ public class InGameOptions extends JPanel {
 		});
 		add(btnToggle);
 
-		btnContinue.setBackground(Color.LIGHT_GRAY);
+		btnContinue.setBackground(buttonColor);
 		btnContinue.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnContinue.addActionListener(new ActionListener() {
 
@@ -172,7 +173,7 @@ public class InGameOptions extends JPanel {
 		add(btnRematch);
 		displayRematch(false);
 
-		btnHint.setBackground(Color.LIGHT_GRAY);
+		btnHint.setBackground(buttonColor);
 		btnHint.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnHint.addActionListener(new ActionListener() {
 

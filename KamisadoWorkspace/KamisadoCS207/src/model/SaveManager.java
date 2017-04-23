@@ -15,9 +15,13 @@ import javax.swing.JOptionPane;
 public class SaveManager {
 
 	public void save(GameDriver gameDriver) {
-		File file = new File("");// needs fixing
+
+		File saveFolder = new File("Saved Games");
+		if(!saveFolder.exists()){
+			saveFolder.mkdir();
+		}
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(file);
+		fileChooser.setCurrentDirectory(saveFolder);
 		int fileAdded = fileChooser.showSaveDialog(null);
 		if (fileAdded == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -36,14 +40,17 @@ public class SaveManager {
 
 	public GameDriver load() {
 		GameDriver gameDriver = null;
-		File file = new File("");// needs fixing
+		File saveFolder = new File("Saved Games");
+		if(!saveFolder.exists()){
+			saveFolder.mkdir();
+		}
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(file);
+		fileChooser.setCurrentDirectory(saveFolder);
 		int result = fileChooser.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			file = fileChooser.getSelectedFile();
+			saveFolder = fileChooser.getSelectedFile();
 			try {
-				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
+				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(saveFolder.getPath()));
 				gameDriver = (GameDriver) newStateO.readObject();
 				newStateO.close();
 				return gameDriver;
