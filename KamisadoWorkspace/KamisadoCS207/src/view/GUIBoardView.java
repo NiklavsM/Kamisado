@@ -42,7 +42,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private GeneralSettingsManager manager;
 	private GeneralSettings settings;
 	private Controller controller;
-	private ImageMerger merger = new ImageMerger();
+	transient private ImageMerger merger = new ImageMerger();
 
 	public GUIBoardView(Controller controller) {
 		UIManager.put("Button.focus", Color.red);

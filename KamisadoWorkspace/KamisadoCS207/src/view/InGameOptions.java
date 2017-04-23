@@ -52,6 +52,7 @@ public class InGameOptions extends JPanel {
 	public void setUpButtons(Controller controller) {
 		btnQuit.setForeground(Color.RED);
 		btnQuit.setBackground(Color.LIGHT_GRAY);
+		btnQuit.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnQuit.addActionListener(new ActionListener() {
 
 			@Override
@@ -64,10 +65,10 @@ public class InGameOptions extends JPanel {
 		add(btnQuit);
 		btnQuit.setVisible(true);
 		btnQuit.setFocusable(true);
-		btnQuit.setFont(new Font(fontStyle, Font.BOLD, 20));
 
 		btnSave.setBackground(Color.LIGHT_GRAY);
 		btnSave.setForeground(Color.BLUE);
+		btnSave.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnSave.addActionListener(new ActionListener() {
 
 			@Override
@@ -81,6 +82,7 @@ public class InGameOptions extends JPanel {
 		displaySave(true);
 
 		btnUndo.setBackground(Color.LIGHT_GRAY);
+		btnUndo.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnUndo.addActionListener(new ActionListener() {
 
 			@Override
@@ -92,6 +94,7 @@ public class InGameOptions extends JPanel {
 		add(btnUndo);
 		gridViewOn = false;
 		btnToggle.setBackground(Color.LIGHT_GRAY);
+		btnToggle.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnToggle.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -145,6 +148,7 @@ public class InGameOptions extends JPanel {
 		add(btnToggle);
 
 		btnContinue.setBackground(Color.LIGHT_GRAY);
+		btnContinue.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnContinue.addActionListener(new ActionListener() {
 
 			@Override
@@ -159,6 +163,7 @@ public class InGameOptions extends JPanel {
 		displayContinue(false);
 
 		btnRematch.setBackground(Color.LIGHT_GRAY);
+		btnRematch.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnRematch.addActionListener(new ActionListener() {
 
 			@Override
@@ -172,6 +177,7 @@ public class InGameOptions extends JPanel {
 		displayRematch(false);
 
 		btnHint.setBackground(Color.LIGHT_GRAY);
+		btnHint.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnHint.addActionListener(new ActionListener() {
 
 			@Override

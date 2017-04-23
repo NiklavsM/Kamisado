@@ -324,7 +324,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}
 
 		soundSwitch = new JLabel(soundSwitchImage);
-		soundSwitch.setBounds(600, 603, 30, 30);
+		soundSwitch.setBounds(700, 603, 30, 30);
 		soundSwitch.addMouseListener(new MouseListener() {
 
 			@Override
@@ -370,7 +370,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}
 
 		musicSwitch = new JLabel(musicSwitchImage);
-		musicSwitch.setBounds(632, 603, 30, 30);
+		musicSwitch.setBounds(730, 603, 30, 30);
 		musicSwitch.addMouseListener(new MouseListener() {
 
 			@Override
