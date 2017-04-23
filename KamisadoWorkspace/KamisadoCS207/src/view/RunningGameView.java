@@ -151,15 +151,13 @@ public class RunningGameView extends JPanel implements MyObserver {
 			State state = (State) arg;
 			GameDriver gameDriver = (GameDriver) o;
 			if (!state.isGameOver()) {
-				//inGameOptions.displaySave(true);
 				if ((state.isFirstMove() && state.getPreviousMove() == null) || controller.isNetworking()) {
 					displayHintSaveUndo(false);
 				} else if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
 					displayHintSaveUndo(true);
 				}
-				
+
 				gameBoard.redrawBoard(state.getBoard());
-				//inGameOptions.displayRematch(false);
 			}
 			if (state.getPreviousMove() != null) {
 				addToGameLog(state.getPreviousMove().toString());
@@ -183,8 +181,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 			gameBoard.showHint((Position) arg);
 		}
 	}
-	
-	public void displayHintSaveUndo(boolean b){
+
+	public void displayHintSaveUndo(boolean b) {
 		inGameOptions.displayHint(b);
 		inGameOptions.displaySave(b);
 		inGameOptions.showUndo(b);

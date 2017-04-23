@@ -7,28 +7,28 @@ public class Position implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
-	
+
 	public Position(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public Position(Position position) {
 		this.x = position.x;
 		this.y = position.y;
 	}
 
-	public int getX(){
+	public int getX() {
 		return x;
 	}
-	
-	public int getY(){
+
+	public int getY() {
 		return y;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return new String(x + ":" + y);
 	}
-	
+
 }

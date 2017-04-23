@@ -55,11 +55,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.setLayout(null);
-//		this.grabFocus();
-//		this.grabFocus();
-		
-//		this.requestFocusInWindow();
-//		this.requestFocusInWindow();
 		displayInitialBoard();
 
 		currentx = 0;
@@ -75,10 +70,12 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		}
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
-		if(settings.getPieceImageStyle().equals("pieceStyleOne")){
-			return merger.mergeRegularStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(), piece.getPieceType().toString());
-		}else{
-			return merger.mergeAlternateStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(), piece.getPieceType().toString());
+		if (settings.getPieceImageStyle().equals("pieceStyleOne")) {
+			return merger.mergeRegularStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(),
+					piece.getPieceType().toString());
+		} else {
+			return merger.mergeAlternateStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(),
+					piece.getPieceType().toString());
 		}
 	}
 
@@ -97,7 +94,6 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 				currenty = y;
 				changedSelected(currentx, currenty);
 				tellAll(new Position(x, y));
-				//newButton.requestFocusInWindow();
 			}
 		});
 	}
@@ -108,7 +104,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
 				buttons[x][y] = new JButton();
-				buttons[x][y].setBackground(board.findColor(new Position(x,y)));
+				buttons[x][y].setBackground(board.findColor(new Position(x, y)));
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
 					buttons[x][y].setIcon(new ImageIcon(image));
@@ -132,10 +128,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 
 		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x <= 7; x++) {
-				buttons[x][y].setBackground(board.findColor(new Position(x,y)));
+				buttons[x][y].setBackground(board.findColor(new Position(x, y)));
 				BufferedImage image = imageChooser(board.findPieceAtLoc(x, y));
 				if (image != null) {
-					if(previousLocation != null && previousLocation.equals(buttons[x][y])){
+					if (previousLocation != null && previousLocation.equals(buttons[x][y])) {
 						previousLocation = null;
 					}
 					buttons[x][y].setIcon(new ImageIcon(image));
@@ -144,7 +140,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 					buttons[x][y].setIcon(DEFAULT);
 					buttons[x][y].setDisabledIcon(DEFAULT);
 				}
-				
+
 				buttons[x][y].setEnabled(true);
 			}
 		}
@@ -254,13 +250,13 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		currenty = endPos.getY();
 		changedSelected(currentx, currenty);
 	}
-	
-	public void showPreviousLocation(Position pos){
-		if(previousLocation != null){
+
+	public void showPreviousLocation(Position pos) {
+		if (previousLocation != null) {
 			previousLocation.setIcon(DEFAULT);
 			previousLocation.setDisabledIcon(DEFAULT);
 		}
-		if(controller.getGame().getCurrentState().getPieces()[pos.getX()][pos.getY()] == null){
+		if (controller.getGame().getCurrentState().getPieces()[pos.getX()][pos.getY()] == null) {
 			previousLocation = buttons[pos.getX()][pos.getY()];
 			previousLocation.setIcon(GREY);
 			previousLocation.setDisabledIcon(GREY);

@@ -103,19 +103,19 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			newBoard.setRandomBoardColours();
 		}
 		if (playerToMove.getPlayerTeam().equals("TeamWhite")) {
-			while(optionChosen == -2){
+			while (optionChosen == -2) {
 				optionChosen = nextRoundSetUp(currentState.getPlayerBlack(), currentState.getPlayerWhite());
 			}
 			currentState.getPlayerBlack().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerBlack();
-			
+
 		} else {
-			while(optionChosen == -2){
+			while (optionChosen == -2) {
 				optionChosen = nextRoundSetUp(currentState.getPlayerWhite(), currentState.getPlayerBlack());
 			}
 			currentState.getPlayerWhite().otherPersonOption(optionChosen);
 			playerToMove = currentState.getPlayerWhite();
-			
+
 		}
 		if (optionChosen == 0) {
 			currentState = new State(currentState.getPlayerWhite(), currentState.getPlayerBlack(), playerToMove,

@@ -33,9 +33,9 @@ public class MenuFrame extends JFrame {
 	private String currentlyShownPanel = "";
 
 	public MenuFrame(Controller controller) {
-		
+
 		this.controller = controller;
-		ImageIcon favicon= new ImageIcon(getClass().getResource("/images/favicon.png"));
+		ImageIcon favicon = new ImageIcon(getClass().getResource("/images/favicon.png"));
 		this.setIconImage(favicon.getImage());
 		this.setTitle("KAMISADO");
 		menuBar();
@@ -48,7 +48,7 @@ public class MenuFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 820, 710);
 		setResizable(false);
-		this.getContentPane().setBackground( new Color(239, 155, 0));
+		this.getContentPane().setBackground(new Color(239, 155, 0));
 	}
 
 	public void menuBar() {
@@ -159,23 +159,21 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void ShowPanel(String panelsName) {
-		
+
 		if (!panelsName.equals(currentlyShownPanel)) {
-			if(currentlyShownPanel.equals("New Game")){
-					System.out.println("set new game to false");
-					//options.setFocusable(false);
-					options.focusPlay(false);
+			if (currentlyShownPanel.equals("New Game")) {
+				System.out.println("set new game to false");
+				options.focusPlay(false);
 			}
-			if(panelsName.equals("New Game")){
+			if (panelsName.equals("New Game")) {
 				options.focusPlay(true);
 			}
 			CardLayout c1 = (CardLayout) contentPane.getLayout();
-			
+
 			c1.show(contentPane, panelsName);
 			currentlyShownPanel = panelsName;
-			//JPanel tempGlassPane = (JPanel) this.getGlassPane();
-			((JPanel)this.getGlassPane()).removeAll();
-			((JPanel)this.getGlassPane()).repaint();
+			((JPanel) this.getGlassPane()).removeAll();
+			((JPanel) this.getGlassPane()).repaint();
 		}
 	}
 

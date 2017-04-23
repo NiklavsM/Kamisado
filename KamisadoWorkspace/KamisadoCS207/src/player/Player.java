@@ -87,9 +87,9 @@ public abstract class Player implements MyObservable, MyObserver, Serializable, 
 	public int getScore() {
 		return score;
 	}
-	
+
 	public abstract int fillHomeRow();
-	
+
 	public abstract void setToFirstMove(boolean isGoingFirst);
 
 	public void setScore(int i) {
@@ -101,7 +101,7 @@ public abstract class Player implements MyObservable, MyObserver, Serializable, 
 	}
 
 	public void otherPersonOption(int option) {
-		
+
 	}
-	
+
 }

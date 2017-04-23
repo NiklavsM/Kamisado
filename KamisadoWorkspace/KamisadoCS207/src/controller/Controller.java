@@ -35,8 +35,6 @@ public class Controller implements Serializable {
 	private Player playerWhite;
 	private Player playerBlack;
 	transient private MusicPlayer musicPlayer;
-	// transient private GeneralSettingsManager manager;
-	/// transient private GeneralSettings settings;
 	transient private boolean networkGame = false;
 	transient private Client client;
 

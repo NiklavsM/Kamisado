@@ -139,8 +139,8 @@ public class GeneralSettings implements Serializable {
 		blue = new Color(14, 104, 243);
 		orange = new Color(250, 190, 50);
 	}
-	
-	public void setStaticColors(){
+
+	public void setStaticColors() {
 		MyColour.valueOf("brown").setColour(brown);
 		MyColour.valueOf("green").setColour(green);
 		MyColour.valueOf("red").setColour(red);

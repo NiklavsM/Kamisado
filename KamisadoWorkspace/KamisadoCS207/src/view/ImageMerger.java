@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class ImageMerger implements Serializable{
+public class ImageMerger implements Serializable {
 
 	private int width = 31;
 	private int height = 31;
@@ -42,10 +42,10 @@ public class ImageMerger implements Serializable{
 
 		return combinedImage(team, "pieceStyleTwo", level, colourImage);
 	}
-	
-	private Color colourChanger(Integer R, Integer G, Integer B, boolean brighter){
+
+	private Color colourChanger(Integer R, Integer G, Integer B, boolean brighter) {
 		int increment = 10;
-		if(brighter){
+		if (brighter) {
 			increment *= -1;
 		}
 		if (R + increment < 255 && R + increment > 0) {
@@ -77,7 +77,6 @@ public class ImageMerger implements Serializable{
 		try {
 			returnImage = ImageIO.read(getClass().getResource("/" + style + "/" + team + ".png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -91,7 +90,6 @@ public class ImageMerger implements Serializable{
 				BufferedImage pieceLevel = ImageIO.read(getClass().getResource("/images/" + team + level + ".png"));
 				g.drawImage(pieceLevel, 0, 0, null);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
