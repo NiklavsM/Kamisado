@@ -264,7 +264,7 @@ public class Controller implements Serializable {
 		if (!game.getCurrentState().isFirstMove() && !game.getCurrentState().isGameOver()) {
 			Player playerToMove = game.getCurrentState().getPlayerToMove();
 			if (!playerToMove.isAI()) {
-				if (playerToMove.getHomeRow() == 0) {
+				if (playerToMove.getHomeRow() == 7) {
 					TreeNode moveTree = new TreeNode(5, game.getCurrentState(), 1);
 					Move move = moveTree.getBestOrWorstsChild(false);
 					main.showHint(move.getEndPos());
