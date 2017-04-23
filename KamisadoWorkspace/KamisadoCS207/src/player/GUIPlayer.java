@@ -17,7 +17,7 @@ public class GUIPlayer extends Player implements MyObservable, Serializable {
 	public GUIPlayer(String playerTeam, String playerName, boolean goingFist, Controller controller) {
 		super(playerTeam, playerName, goingFist, false);
 	}
-	
+
 	public GUIPlayer(String playerTeam, String playerName, boolean goingFist, Controller controller, boolean isDud) {
 		super(playerTeam, playerName, goingFist, false);
 		this.isDud = isDud;
@@ -28,10 +28,9 @@ public class GUIPlayer extends Player implements MyObservable, Serializable {
 	}
 
 	public int fillHomeRow() {
-		if(isDud){
-			System.out.println("returning " + option);
+		if (isDud) {
 			return option;
-		}else{
+		} else {
 			Object[] options = { "Fill from the left", "Fill from the right" };
 			return JOptionPane.showOptionDialog(null, this.getPlayerName() + ", Please select an option!",
 					"Ready for next round!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
@@ -41,25 +40,22 @@ public class GUIPlayer extends Player implements MyObservable, Serializable {
 
 	@Override
 	public void setToFirstMove(boolean isGoingFirst) {
-		//option = -2;
+
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(MyObservable o, Object arg) {
-		if(arg instanceof Integer){
-			System.out.println("got num at GUI " + arg);
-			option = (int)arg;
-			System.out.println("option after = " + option);
+		if (arg instanceof Integer) {
+			option = (int) arg;
 		}
 	}
-	
-	public void setOption(int i){
+
+	public void setOption(int i) {
 		option = i;
 	}
 }

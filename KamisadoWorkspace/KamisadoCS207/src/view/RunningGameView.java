@@ -94,6 +94,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gridViewGlassPane.setVisible(true);
 		gridViewGlassPane.setOpaque(false);
 		inGameOptions.displayRematch(false);
+		inGameOptions.displayContinue(false);
 		inGameOptions.showUndo(false);
 		inGameOptions.displayHint(false);
 		inGameOptions.displaySave(true);
@@ -142,36 +143,23 @@ public class RunningGameView extends JPanel implements MyObserver {
 			Player player = ((Player) arg);
 			String displayMessage = player.getPlayerName() + " wins this round!";
 			roundOrGameOver(displayMessage);
-			inGameOptions.displayHint(false);
 			inGameOptions.displayContinue(true);
-			inGameOptions.displaySave(false);
 		} else if (arg instanceof String) {
 			roundOrGameOver((String) arg);
-			inGameOptions.displayContinue(false);
 			inGameOptions.displayRematch(true);
-			inGameOptions.displayHint(false);
-			inGameOptions.displaySave(false);
 		} else if (arg instanceof State) {
 			State state = (State) arg;
 			GameDriver gameDriver = (GameDriver) o;
 			if (!state.isGameOver()) {
-				inGameOptions.displaySave(true);
-				if (controller.isNetworking()) {
-					inGameOptions.displayHint(false);
-					inGameOptions.showUndo(false);
-					inGameOptions.displaySave(false);
+				//inGameOptions.displaySave(true);
+				if ((state.isFirstMove() && state.getPreviousMove() == null) || controller.isNetworking()) {
+					displayHintSaveUndo(false);
 				} else if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
-					inGameOptions.displayHint(true);
-					inGameOptions.showUndo(true);
+					displayHintSaveUndo(true);
 				}
-
-				if (state.isFirstMove() && state.getPreviousMove() == null) {
-					inGameOptions.displayHint(false);
-					inGameOptions.showUndo(false);
-				}
+				
 				gameBoard.redrawBoard(state.getBoard());
-				inGameOptions.displayRematch(false);
-
+				//inGameOptions.displayRematch(false);
 			}
 			if (state.getPreviousMove() != null) {
 				addToGameLog(state.getPreviousMove().toString());
@@ -195,9 +183,15 @@ public class RunningGameView extends JPanel implements MyObserver {
 			gameBoard.showHint((Position) arg);
 		}
 	}
+	
+	public void displayHintSaveUndo(boolean b){
+		inGameOptions.displayHint(b);
+		inGameOptions.displaySave(b);
+		inGameOptions.showUndo(b);
+	}
 
 	private void roundOrGameOver(String gameMessage) {
-		inGameOptions.showUndo(false);
+		displayHintSaveUndo(false);
 		JLabel label = new JLabel();
 		glassPane.removeAll();
 		label.setText(gameMessage);

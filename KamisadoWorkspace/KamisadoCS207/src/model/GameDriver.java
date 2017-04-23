@@ -59,9 +59,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 			stats.addToScores(winner, loser, false);
 		}
 		m.saveStats(stats);
-		System.out.println("Winner: " + winner.getPlayerName());
-		System.out.println("loser: " + loser.getPlayerName());
-//		winner.gameOver();
 	}
 
 	public boolean incrementScoreAtEndOfGame(Player winner) {
@@ -310,7 +307,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 		return currentGameNum;
 	}
 
-	public Stack<State> getHistory() {
+	private Stack<State> getHistory() {
 		return history;
 	}
 
