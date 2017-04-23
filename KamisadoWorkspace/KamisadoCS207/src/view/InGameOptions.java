@@ -34,22 +34,12 @@ public class InGameOptions extends JPanel {
 		this.setSize(400, 300);
 		this.setFocusable(false);
 
-		initialiseButtons();
 		setUpButtons(controller);
 
 	}
 
-	public void initialiseButtons() {
-		btnQuit = new JButton("Quit");
-		btnSave = new JButton("Save");
-		btnUndo = new JButton("Undo");
-		btnToggle = new JButton("Toggle");
-		btnContinue = new JButton("Continue");
-		btnRematch = new JButton("Rematch");
-		btnHint = new JButton("Hint");
-	}
-
 	public void setUpButtons(Controller controller) {
+		btnQuit = new JButton("Quit");
 		btnQuit.setForeground(Color.RED);
 		btnQuit.setBackground(Color.LIGHT_GRAY);
 		btnQuit.setFont(new Font(fontStyle, Font.BOLD, 20));
@@ -65,6 +55,7 @@ public class InGameOptions extends JPanel {
 		btnQuit.setVisible(true);
 		btnQuit.setFocusable(true);
 
+		btnSave = new JButton("Save");
 		btnSave.setBackground(Color.LIGHT_GRAY);
 		btnSave.setForeground(Color.BLUE);
 		btnSave.setFont(new Font(fontStyle, Font.BOLD, 20));
@@ -79,6 +70,7 @@ public class InGameOptions extends JPanel {
 		add(btnSave);
 		displaySave(true);
 
+		btnUndo = new JButton("Undo");
 		btnUndo.setBackground(Color.LIGHT_GRAY);
 		btnUndo.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnUndo.addActionListener(new ActionListener() {
@@ -91,6 +83,7 @@ public class InGameOptions extends JPanel {
 
 		add(btnUndo);
 		gridViewOn = false;
+		btnToggle = new JButton("Toggle");
 		btnToggle.setBackground(Color.LIGHT_GRAY);
 		btnToggle.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnToggle.addMouseListener(new MouseListener() {
@@ -145,6 +138,7 @@ public class InGameOptions extends JPanel {
 		});
 		add(btnToggle);
 
+		btnContinue = new JButton("Continue");
 		btnContinue.setBackground(Color.LIGHT_GRAY);
 		btnContinue.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnContinue.addActionListener(new ActionListener() {
@@ -159,6 +153,7 @@ public class InGameOptions extends JPanel {
 		add(btnContinue);
 		displayContinue(false);
 
+		btnRematch = new JButton("Rematch");
 		btnRematch.setBackground(Color.LIGHT_GRAY);
 		btnRematch.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnRematch.addActionListener(new ActionListener() {
@@ -172,6 +167,7 @@ public class InGameOptions extends JPanel {
 		add(btnRematch);
 		displayRematch(false);
 
+		btnHint = new JButton("Hint");
 		btnHint.setBackground(Color.LIGHT_GRAY);
 		btnHint.setFont(new Font(fontStyle, Font.BOLD, 20));
 		btnHint.addActionListener(new ActionListener() {

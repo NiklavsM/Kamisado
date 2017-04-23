@@ -15,7 +15,7 @@ public class StatsManager {
 
 	public StatsObject getStatsObject() {
 		StatsObject stats = null;
-		File file = new File("stats.bin");// needs fixing
+		File file = new File("stats.bin");
 		if (!file.exists()) {
 			FileWriter fileCreater;
 			try {
@@ -33,8 +33,6 @@ public class StatsManager {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException s) {
-			// s.printStackTrace();
-			// Thats fine(it has reached the end of file)
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Class not right", "Class not right", JOptionPane.ERROR_MESSAGE);
 		}
@@ -42,7 +40,7 @@ public class StatsManager {
 	}
 
 	public void saveStats(StatsObject stats) {
-		File file = new File("stats.bin");// needs fixing
+		File file = new File("stats.bin");
 		try {
 			FileWriter fileCreater = new FileWriter(file);
 			fileCreater.close();

@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class SaveManager {
 
 	public void save(GameDriver gameDriver) {
-		File file = new File("");// needs fixing
+		File file = new File("");
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int fileAdded = fileChooser.showSaveDialog(null);
@@ -36,7 +36,7 @@ public class SaveManager {
 
 	public GameDriver load() {
 		GameDriver gameDriver = null;
-		File file = new File("");// needs fixing
+		File file = new File("");
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int result = fileChooser.showOpenDialog(null);

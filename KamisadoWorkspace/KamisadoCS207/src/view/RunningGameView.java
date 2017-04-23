@@ -95,11 +95,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gridViewGlassPane.setOpaque(false);
 		inGameOptions.displayRematch(false);
 		inGameOptions.displayContinue(false);
-		//inGameOptions.showUndo(false);
-		//inGameOptions.displayHint(false);
-		//inGameOptions.displaySave(true);
 		displayHintSaveUndo(false);
-		if(!controller.isNetworking()){
+		if (!controller.isNetworking()) {
 			inGameOptions.displaySave(true);
 		}
 	}
@@ -156,7 +153,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 			if (!state.isGameOver()) {
 				if ((state.isFirstMove() && state.getPreviousMove() == null) || controller.isNetworking()) {
 					displayHintSaveUndo(false);
-					if(!controller.isNetworking()){
+					if (!controller.isNetworking()) {
 						inGameOptions.displaySave(true);
 					}
 				} else if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {

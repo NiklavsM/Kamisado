@@ -400,7 +400,6 @@ public class GameOptionsPanel extends JPanel {
 								int time;
 								try {
 									time = Integer.parseInt(timerTime.getText());
-									System.out.println(time);
 								} catch (NumberFormatException exception) {
 									JOptionPane.showMessageDialog(null, "Please Enter a Number From 5 To 60!");
 									return;

@@ -52,7 +52,6 @@ public class HardAIPlayer extends Player implements MyObservable {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (getisFirst()) {
@@ -79,7 +78,6 @@ public class HardAIPlayer extends Player implements MyObservable {
 
 	@Override
 	public void update(MyObservable o, Object arg) {
-		// TODO Auto-generated method stub
 
 	}
 }
