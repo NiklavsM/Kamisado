@@ -162,7 +162,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 				} else if ((state.getPlayerBlack().isAI() || state.getPlayerWhite().isAI())) {
 					displayHintSaveUndo(true);
 				}
-				
+
 				gameBoard.redrawBoard(state.getBoard());
 			}
 			if (state.getPreviousMove() != null) {
@@ -187,8 +187,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 			gameBoard.showHint((Position) arg);
 		}
 	}
-	
-	public void displayHintSaveUndo(boolean b){
+
+	public void displayHintSaveUndo(boolean b) {
 		inGameOptions.displayHint(b);
 		inGameOptions.displaySave(b);
 		inGameOptions.showUndo(b);

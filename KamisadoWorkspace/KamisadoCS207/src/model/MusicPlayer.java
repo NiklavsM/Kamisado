@@ -10,7 +10,8 @@ public class MusicPlayer {
 	GeneralSettingsManager manager;
 
 	public void musicOn() throws Exception {
-		AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sound/backgroundmusic.wav"));
+		AudioInputStream inputStream = AudioSystem
+				.getAudioInputStream(getClass().getResource("/sound/backgroundmusic.wav"));
 		if (clip != null) {
 			clip.stop();
 		}
@@ -25,8 +26,8 @@ public class MusicPlayer {
 			clip.stop();
 		}
 	}
-	
-	public void setVolume(int volume){
+
+	public void setVolume(int volume) {
 		FloatControl floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		floatControl.setValue(volume);
 	}

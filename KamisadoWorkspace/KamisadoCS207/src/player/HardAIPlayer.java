@@ -65,11 +65,12 @@ public class HardAIPlayer extends Player implements MyObservable {
 				tellAll(new Position(bestOpeningMoves.get(firstMove)));
 				return;
 			}
-		}if(this.getHomeRow() == 0){
+		}
+		if (this.getHomeRow() == 0) {
 			TreeNode moveTree = new TreeNode(5, workingState, 1);
 			Move move = moveTree.getBestOrWorstsChild(false);
 			tellAll(move.getEndPos());
-		}else {
+		} else {
 			TreeNode moveTree = new TreeNode(5, workingState, 0);
 			Move move = moveTree.getBestOrWorstsChild(true);
 			tellAll(move.getEndPos());
@@ -79,6 +80,6 @@ public class HardAIPlayer extends Player implements MyObservable {
 	@Override
 	public void update(MyObservable o, Object arg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

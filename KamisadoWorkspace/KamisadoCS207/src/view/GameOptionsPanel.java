@@ -48,7 +48,7 @@ public class GameOptionsPanel extends JPanel {
 	private ButtonGroup networkOption = new ButtonGroup();
 	private JComboBox<Integer> gameLength;
 	private JLabel gameRoundLabel;
-	private String fontStyle = "Sitka Text";//Rockwell Sylfaen Sitka Text
+	private String fontStyle = "Sitka Text";
 	Controller controller;
 
 	public GameOptionsPanel(Controller controller) {
@@ -58,7 +58,7 @@ public class GameOptionsPanel extends JPanel {
 		setLayout(null);
 		this.controller = controller;
 		JLabel title = new JLabel("Game options");
-		title.setBounds(300,100,200,40);
+		title.setBounds(300, 100, 200, 40);
 		title.setFont(new Font(fontStyle, Font.BOLD, 28));
 		add(title);
 		initialiseComponents();
@@ -131,7 +131,7 @@ public class GameOptionsPanel extends JPanel {
 					txtWhiteName.setText("Opponent");
 					txtWhiteName.setEditable(false);
 					txtWhiteName.setFocusable(false);
-				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 					txtWhiteName.setEditable(true);
 					txtWhiteName.setFocusable(true);
 				}
@@ -152,7 +152,7 @@ public class GameOptionsPanel extends JPanel {
 					txtBlackName.setEditable(false);
 					txtBlackName.setFocusable(false);
 					userIsHosting(false);
-				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 					txtBlackName.setEditable(false);
 					txtBlackName.setFocusable(false);
 					userIsHosting(true);
@@ -179,14 +179,14 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField = txtBlackName;
 					AiSelectedField.setFocusable(false);
 					AiSelectedField.setEditable(false);
-					
+
 					showAIOptions(true);
-					blackAiPlayer.doClick();					
-					
-				} else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+					blackAiPlayer.doClick();
+
+				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setEditable(true);
-					
+
 					showAIOptions(false);
 					aiDiff.clearSelection();
 				}
@@ -204,7 +204,7 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setText("New user");
 					networkOption.clearSelection();
-				}else if(arg0.getStateChange() == ItemEvent.DESELECTED){
+				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 				}
 			}
 		});
@@ -214,9 +214,9 @@ public class GameOptionsPanel extends JPanel {
 		rdbtnNetworkPlay.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				if (arg0.getStateChange() == ItemEvent.SELECTED) {		
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
 					chckbxSpeedMode.setSelected(false);
-					hostNetworkGame.setSelected(true);	
+					hostNetworkGame.setSelected(true);
 					showNetworkOptions(true);
 				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 					showNetworkOptions(false);
@@ -225,7 +225,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(rdbtnNetworkPlay);
 		showNetworkOptions(false);
-		
+
 		gameType.add(rdbtnNetworkPlay);
 		gameType.add(rdbtnSingleplayer);
 		gameType.add(rdbtnTwoPlayer);
@@ -364,8 +364,8 @@ public class GameOptionsPanel extends JPanel {
 		gameLength.setBounds(200, 452, 82, 20);
 		add(gameLength);
 	}
-	
-	private void setUpPlayButton(){
+
+	private void setUpPlayButton() {
 
 		btnPlay = new JButton("Play");
 		btnPlay.setBounds(510, 500, 120, 40);
@@ -432,37 +432,40 @@ public class GameOptionsPanel extends JPanel {
 	}
 
 	private void setUpGraphics() {
+
 		JLabel logo = new JLabel();
 		logo.setBounds(260, 0, 500, 100);
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
 		logo.setIcon(homeImage);
 		add(logo);
+
 		JLabel dragonLeft = new JLabel();
 		dragonLeft.setBounds(-10, 0, 300, 650);
 		homeImage = new ImageIcon(getClass().getResource("/images/dragonleft.png"));
 		dragonLeft.setIcon(homeImage);
 		add(dragonLeft);
+
 		JLabel dragonRight = new JLabel();
 		dragonRight.setBounds(555, 0, 300, 650);
 		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
 		dragonRight.setIcon(homeImage);
 		add(dragonRight);
+
 	}
-	
-	public void focusPlay(boolean b){
-		//this.transferFocus();
+
+	public void focusPlay(boolean b) {
 		this.setFocusable(false);
 		btnPlay.setFocusable(b);
 		btnPlay.transferFocus();
 	}
-	
-	private void userIsHosting(boolean b){
+
+	private void userIsHosting(boolean b) {
 		gameLength.setEnabled(b);
 		gameLength.setFocusable(b);
 	}
-	
-	private void showNetworkOptions(boolean b){
-		if(!b){
+
+	private void showNetworkOptions(boolean b) {
+		if (!b) {
 			networkOption.clearSelection();
 		}
 		hostNetworkGame.setEnabled(b);
@@ -475,9 +478,9 @@ public class GameOptionsPanel extends JPanel {
 		chckbxRandomBoard.setEnabled(!b);
 		chckbxRandomBoard.setFocusable(!b);
 	}
-	
-	private void showAIOptions(boolean b){
-		if(!b){
+
+	private void showAIOptions(boolean b) {
+		if (!b) {
 			aiDiff.clearSelection();
 			aiStartCol.clearSelection();
 		}

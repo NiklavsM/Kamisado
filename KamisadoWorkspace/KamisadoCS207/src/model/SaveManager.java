@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class SaveManager {
 
 	public void save(GameDriver gameDriver) {
-		File file = new File("");//needs fixing
+		File file = new File("");// needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int fileAdded = fileChooser.showSaveDialog(null);
@@ -36,28 +36,26 @@ public class SaveManager {
 
 	public GameDriver load() {
 		GameDriver gameDriver = null;
-		File file = new File("");//needs fixing
+		File file = new File("");// needs fixing
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(file);
 		int result = fileChooser.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
-            file = fileChooser.getSelectedFile();
+			file = fileChooser.getSelectedFile();
 			try {
 				ObjectInputStream newStateO = new ObjectInputStream(new FileInputStream(file.getPath()));
 				gameDriver = (GameDriver) newStateO.readObject();
 				newStateO.close();
 				return gameDriver;
 			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "File not found", "File not found",
-                        JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "File not found", "File not found", JOptionPane.ERROR_MESSAGE);
 				return null;
 			} catch (IOException s) {
 				JOptionPane.showMessageDialog(null, "File not right IO", "File not right IO",
-                        JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE);
 				return null;
 			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Class not right", "Class not right",
-                        JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Class not right", "Class not right", JOptionPane.ERROR_MESSAGE);
 				return null;
 			}
 		}

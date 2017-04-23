@@ -48,11 +48,11 @@ public class TreeNode {
 		if (depth == 0) {
 			calcScore();
 			return;
-		} 
+		}
 		if (playerToMove == 0 && y == 7) {
 			previousMove.setScore(-1000000000);
 			return;
-		} 
+		}
 		if (playerToMove == 1 && y == 0) {
 			previousMove.setScore(1000000000);
 			return;
