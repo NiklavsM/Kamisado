@@ -165,11 +165,11 @@ public final class Board implements Serializable {
 		return homeRowCounter;
 	}
 
-	public Board make(Position startPosition, Position endPosition) {
-		Board freshBoard = new Board(this);
-		freshBoard.move(startPosition, endPosition);
-		return freshBoard;
-	}
+	// private Board make(Position startPosition, Position endPosition) {
+	// Board freshBoard = new Board(this);
+	// freshBoard.move(startPosition, endPosition);
+	// return freshBoard;
+	// }
 
 	public void move(Position startPosition, Position endPosition) {
 		PieceType pieceType = pieces[startPosition.getX()][startPosition.getY()].getPieceType();
@@ -222,18 +222,18 @@ public final class Board implements Serializable {
 		return pieceToRemove;
 	}
 
-	public Position findPiecePos(Piece piece) {
-		Position foundPos = null;
-		for (int i = 0; i < boardSize; i++) {
-			for (int j = 0; j < boardSize; j++) {
-				if (pieces[i][j].equals(piece)) {
-					foundPos = new Position(i, j);
-					break;
-				}
-			}
-		}
-		return foundPos;
-	}
+	// private Position findPiecePos(Piece piece) {
+	// Position foundPos = null;
+	// for (int i = 0; i < boardSize; i++) {
+	// for (int j = 0; j < boardSize; j++) {
+	// if (pieces[i][j].equals(piece)) {
+	// foundPos = new Position(i, j);
+	// break;
+	// }
+	// }
+	// }
+	// return foundPos;
+	// }
 
 	public boolean gameOver(int y) {
 		return y == 0 || y == 7;
@@ -254,7 +254,7 @@ public final class Board implements Serializable {
 		return pieces;
 	}
 
-	public MyColour[][] getBoardColours() {
+	private MyColour[][] getBoardColours() {
 		return boardColours;
 	}
 

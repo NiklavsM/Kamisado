@@ -31,7 +31,6 @@ public final class State implements Serializable {
 		this.PlayerToMove = playerToMove;
 		currentBoard = new Board(random);
 		pieces = currentBoard.getPieces();
-		// colourToMove = Color.BLACK;
 		validMoves = new ArrayList<>();
 		previousMove = null;
 		pieceToMove = null;
@@ -76,13 +75,12 @@ public final class State implements Serializable {
 		previousMove = null;
 		pieceToMove = null;
 		startingPosition = null;
-		// colourToMove = Color.BLACK;
 	}
 
 	public Position calcPieceToMove() {
 		flipPlayerToMove();
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i <= boardUpperLimit; i++) {
+			for (int j = 0; j <= boardUpperLimit; j++) {
 				if (pieces[i][j] != null) {
 					if (pieces[i][j].getPieceName().equals(colourToMove)
 							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
@@ -105,21 +103,16 @@ public final class State implements Serializable {
 		int distanceCanMove = pieceToMoveType.getMaxMovement();
 		if (PlayerToMove.getPlayerTeam().equals("TeamWhite")) {
 			options(startx, startx, starty, -1, 1, distanceCanMove);// left up
-			options((7 - starty), startx, starty, 0, 1, distanceCanMove);// middle
-																			// up
-			options((7 - startx), startx, starty, 1, 1, distanceCanMove);// right
-																			// up
+			options((7 - starty), startx, starty, 0, 1, distanceCanMove);// middle up
+			options((7 - startx), startx, starty, 1, 1, distanceCanMove);// right up
 
 			if (!legal(new Position(startx, starty + 1))) {
 				checkSumoPush(startx, starty, true);
 			}
 		} else {
-			options(startx, startx, starty, -1, -1, distanceCanMove);// left
-																		// down
-			options(starty, startx, starty, 0, -1, distanceCanMove);// middle
-																	// down
-			options((7 - startx), startx, starty, 1, -1, distanceCanMove);// right
-																			// down
+			options(startx, startx, starty, -1, -1, distanceCanMove);// left down
+			options(starty, startx, starty, 0, -1, distanceCanMove);// middle down
+			options((7 - startx), startx, starty, 1, -1, distanceCanMove);// right down
 
 			if (!legal(new Position(startx, starty - 1))) {
 				checkSumoPush(startx, starty, false);
@@ -166,8 +159,7 @@ public final class State implements Serializable {
 		int tempVal;
 		for (int i = 1; i <= piecesCanMove + 1; i++) {
 			tempVal = y + (i * increment);
-			// System.out.println("temp: " + tempVal);
-			if (tempVal >= 8 || tempVal < 0) {
+			if (tempVal > boardUpperLimit || tempVal < boardLowerLimit) {
 				return false;
 			} else if (pieces[x][tempVal] == null) {
 				return true;
@@ -213,9 +205,9 @@ public final class State implements Serializable {
 		return false;
 	}
 
-	public Piece findPiece(Position position) {
-		return pieces[position.getX()][position.getY()];
-	}
+//	public Piece findPiece(Position position) {
+//		return pieces[position.getX()][position.getY()];
+//	}
 
 	public void flipPlayerToMove() {
 		if (PlayerToMove.equals(playerWhite)) {
@@ -237,7 +229,7 @@ public final class State implements Serializable {
 		return previousMove;
 	}
 
-	public void setPreviousMove(Move previousMove) {
+	private void setPreviousMove(Move previousMove) {
 		this.previousMove = previousMove;
 	}
 
@@ -245,22 +237,17 @@ public final class State implements Serializable {
 		return currentBoard.gameOver(previousMove.getEndPos().getY());
 	}
 
-	public String getColourToMove() {
-		return colourToMove;
-	}
-
-	// public Position findPositionOfColour(String teamColor, Color
-	// colourToMove) {
-	// return currentBoard.findColorPos(teamColor, colourToMove);
-	// }
+//	public String getColourToMove() {
+//		return colourToMove;
+//	}
 
 	public Player getPlayerToMove() {
 		return PlayerToMove;
 	}
 
-	public Board getCurrentBoard() {
-		return currentBoard;
-	}
+//	public Board getCurrentBoard() {
+//		return currentBoard;
+//	}
 
 	public Piece[][] getPieces() {
 		return pieces;
@@ -282,9 +269,9 @@ public final class State implements Serializable {
 		colourToMove = colour;
 	}
 
-	public void setValidMoves(ArrayList<Position> arrayList) {
-		validMoves = arrayList;
-	}
+//	public void setValidMoves(ArrayList<Position> arrayList) {
+//		validMoves = arrayList;
+//	}
 
 	public Position getPieceToMove() {
 		return pieceToMove;
