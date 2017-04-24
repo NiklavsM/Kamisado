@@ -65,7 +65,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					controller.disconnectClient();
+					controller.disconnect();
 					ShowPanel("New Game");
 				}
 			}
@@ -80,7 +80,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					controller.disconnectClient();
+					controller.disconnect();
 					ShowPanel("New Game");
 					controller.loadGame();
 				}
@@ -96,7 +96,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					controller.disconnectClient();
+					controller.disconnect();
 					StatPanel statPanel = new StatPanel();
 					addPanel(statPanel, "Stats");
 					ShowPanel("Stats");
@@ -113,7 +113,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
-					controller.disconnectClient();
+					controller.disconnect();
 					GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(controller);
 					addPanel(generalSettingsPanel, "General Settings");
 					ShowPanel("General Settings");

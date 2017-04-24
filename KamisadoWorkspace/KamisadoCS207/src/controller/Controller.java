@@ -307,15 +307,17 @@ public class Controller implements Serializable {
 		this.client = client;
 	}
 
-	public void disconnectClient() {
+	public void disconnect() {
+		
+		if (server != null) {
+			server.disconnect();
+			server = null;
+		}
 		if (client != null) {
 			client.disconnected();
 			client = null;
 		}
-		if(server !=null){
-			server.disconnect();
-			server = null;
-		}
+
 	}
 
 }
