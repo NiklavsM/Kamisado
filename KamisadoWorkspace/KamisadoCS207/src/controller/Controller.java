@@ -25,9 +25,6 @@ import view.RunningGameView;
 
 public class Controller implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private GameDriver game;
 	private RunningGameView main;
@@ -300,4 +297,20 @@ public class Controller implements Serializable {
 	public boolean isNetworking() {
 		return networkGame;
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public void disconnectClient() {
+		if (client != null) {
+			client.disconnected();
+			client = null;
+		}
+	}
+
 }

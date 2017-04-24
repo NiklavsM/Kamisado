@@ -200,11 +200,15 @@ public class Server implements Runnable {
 			game = null;
 			if (ois1 != null) {
 				ois1.close();
+			}
+			if(oout1 !=null){
 				oout1.close();
 			}
 			if (ois2 != null) {
 				ois2.close();
-				oout2.close();
+			}
+			if(oout1 !=null){
+				oout1.close();
 			}
 			if (listener != null) {
 				listener.close();
