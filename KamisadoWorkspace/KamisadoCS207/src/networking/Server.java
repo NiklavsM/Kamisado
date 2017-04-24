@@ -195,7 +195,7 @@ public class Server implements Runnable {
 		gameEnded = false;
 	}
 
-	private void disconnect() {
+	public void disconnect() {
 		try {
 			game = null;
 			if (ois1 != null) {

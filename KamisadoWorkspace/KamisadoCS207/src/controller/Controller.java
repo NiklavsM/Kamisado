@@ -34,6 +34,7 @@ public class Controller implements Serializable {
 	transient private MusicPlayer musicPlayer;
 	transient private boolean networkGame = false;
 	transient private Client client;
+	transient private Server server;
 
 	public Controller() {
 		menuFrame = new MenuFrame(this);
@@ -87,8 +88,8 @@ public class Controller implements Serializable {
 		int gameL;
 		networkGame = true;
 		if (hosting) {
-			Server host = new Server(gameLength);
-			Thread hostThread = new Thread(host);
+			server = new Server(gameLength);
+			Thread hostThread = new Thread(server);
 			hostThread.start();
 
 			playerBlack = new GUIPlayer("TeamBlack", blackName, false, this);
@@ -310,6 +311,10 @@ public class Controller implements Serializable {
 		if (client != null) {
 			client.disconnected();
 			client = null;
+		}
+		if(server !=null){
+			server.disconnect();
+			server = null;
 		}
 	}
 
