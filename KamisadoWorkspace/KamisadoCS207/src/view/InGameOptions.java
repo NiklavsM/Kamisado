@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,21 +34,20 @@ public class InGameOptions extends JPanel {
 	private Color buttonColor;
 
 	public InGameOptions(Controller controller) {
-		//setBackground(new Color(255, 219, 137));
 		setLayout(new FlowLayout());
-		//setLayout(null);
 		this.setSize(400, 300);
 		this.setFocusable(false);
 		buttonColor = new Color(252, 251, 247);
 
-
 		setUpButtons(controller);
-//		JLabel background = new JLabel();
-//		ImageIcon woodImage = new ImageIcon(getClass().getResource("/images/backgroundwood.png"));
-//		background.setIcon(woodImage);
-//		background.setBounds(0, 0, 900, 100);
-//		add(background);
+	}
+	
+	@Override
+	  protected void paintComponent(Graphics g) {
 
+	    super.paintComponent(g);
+	    ImageIcon woodImage = new ImageIcon(getClass().getResource("/images/backgroundwood.png"));
+        g.drawImage(woodImage.getImage(), 0, 0, null);
 	}
 
 	public void setUpButtons(Controller controller) {
