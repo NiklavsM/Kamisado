@@ -104,11 +104,12 @@ public class RunningGameView extends JPanel implements MyObserver {
 
 	public void setUpTeamLabels() {
 		gameLog = new JTextArea(1, 20);
-		gameLog.setFont(new Font(fontStyle, Font.PLAIN, 12));
+		gameLog.setFont(new Font("Serif", Font.PLAIN, 14));
 		gameLog.setEditable(false);
 		gameLog.setLineWrap(true);
 		gameLog.append("Round 1:" + "\n");
 		gameLog.setFocusable(false);
+		
 		JScrollPane scroll = new JScrollPane(gameLog);
 		teamLabel = new JPanel();
 		teamLabel.setFocusable(false);

@@ -61,7 +61,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 				loser = currentState.getPlayerBlack();
 			}
 			this.tellAll(winner);
-			incrementScoreAtEndOfGame(winner);
+			incrementScoreAtEndOfGame(currentState.getPreviousMove().pieceMoved(), winner);
 			updateStats(winner, loser);
 			this.tellAll(currentState);
 			timer.stop();
@@ -179,10 +179,9 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 	}
 
 	@Override
-	public boolean incrementScoreAtEndOfGame(Player winner) {
+	public boolean incrementScoreAtEndOfGame(Piece pieceToPromote, Player winner) {
 		if (!timeOut) {
-			Piece pieceThatWon = currentState.getPreviousMove().pieceMoved();
-			winner.incrementScore(pieceThatWon.getPieceType().getPointValue());
+			winner.incrementScore(pieceToPromote.getPieceType().getPointValue());
 		} else {
 			winner.incrementScore(1);
 		}

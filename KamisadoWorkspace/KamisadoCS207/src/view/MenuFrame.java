@@ -46,7 +46,7 @@ public class MenuFrame extends JFrame {
 		setContentPane(contentPane);
 		ShowPanel("New Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 200, 820, 710);
+		setBounds(500, 200, 825, 710);
 		setResizable(false);
 		this.getContentPane().setBackground(new Color(239, 155, 0));
 	}

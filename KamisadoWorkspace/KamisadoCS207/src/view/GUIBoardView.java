@@ -71,10 +71,10 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
 		if (settings.getPieceImageStyle().equals("pieceStyleOne")) {
-			return merger.mergeRegularStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(),
+			return merger.mergeRegularStyle(MyColour.valueOf(piece.getPieceColour()).getColour(), piece.getTeam(),
 					piece.getPieceType().toString());
 		} else {
-			return merger.mergeAlternateStyle(MyColour.valueOf(piece.getPieceName()).getColour(), piece.getTeam(),
+			return merger.mergeAlternateStyle(MyColour.valueOf(piece.getPieceColour()).getColour(), piece.getTeam(),
 					piece.getPieceType().toString());
 		}
 	}

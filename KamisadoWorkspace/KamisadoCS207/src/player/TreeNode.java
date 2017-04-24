@@ -81,7 +81,12 @@ public class TreeNode {
 			childNode = new TreeNode(depth - 1, boardState, (1 - playerToMove));
 			children.add(childNode);
 			childNode.generateChildren();
-			previousMove.setScore(childNode.getScore());
+			if (playerToMove == 0) {
+				previousMove.setScore(childNode.getScore()+100);
+			} else {
+				previousMove.setScore(childNode.getScore()-100);
+			}
+			
 		}
 	}
 
@@ -89,7 +94,7 @@ public class TreeNode {
 		int score = 0;
 		if (playerToMove == 1) {
 			if (validMovesForThisPlayer.isEmpty()) {
-				score += 700;
+				score += 100;
 			} else {
 				score -= validMovesForThisPlayer.size() * 15;
 				for (Position position : validMovesForThisPlayer) {
@@ -101,7 +106,7 @@ public class TreeNode {
 
 		} else {
 			if (validMovesForThisPlayer.isEmpty()) {
-				score -= 700;
+				score -= 100;
 			} else {
 				score += validMovesForThisPlayer.size() * 15;
 				for (Position position : validMovesForThisPlayer) {

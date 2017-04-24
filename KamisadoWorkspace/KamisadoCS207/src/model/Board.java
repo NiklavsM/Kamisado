@@ -243,4 +243,14 @@ public final class Board implements Serializable {
 		return colourToMove;
 	}
 
+	public Piece findPiece(String teamName, String colourName){
+		for(int i = 0; i < boardSize; i++){
+			for(int j = 0; j < boardSize; j++){
+				if(pieces[i][j] != null && (pieces[i][j].getTeam().equals(teamName) && pieces[i][j].getPieceColour().equals(colourName))){
+					return pieces[i][j];
+				}
+			}
+		}
+		return null;
+	}
 }
