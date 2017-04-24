@@ -120,6 +120,7 @@ public class GameOptionsPanel extends JPanel {
 		add(lblGameType);
 
 		hostNetworkGame.setBounds(500, 230, 120, 20);
+		hostNetworkGame.setContentAreaFilled(false);
 		hostNetworkGame.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -140,6 +141,7 @@ public class GameOptionsPanel extends JPanel {
 		add(hostNetworkGame);
 
 		joinNetworkGame.setBounds(500, 250, 120, 20);
+		joinNetworkGame.setContentAreaFilled(false);
 		joinNetworkGame.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -171,6 +173,7 @@ public class GameOptionsPanel extends JPanel {
 		add(lblGameType);
 
 		rdbtnSingleplayer.setBounds(200, 230, 109, 25);
+		rdbtnSingleplayer.setContentAreaFilled(false);
 		rdbtnSingleplayer.addItemListener(new ItemListener() {
 
 			@Override
@@ -194,6 +197,7 @@ public class GameOptionsPanel extends JPanel {
 		add(rdbtnSingleplayer);
 
 		rdbtnTwoPlayer.setBounds(200, 255, 109, 25);
+		rdbtnTwoPlayer.setContentAreaFilled(false);
 		rdbtnTwoPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -235,6 +239,7 @@ public class GameOptionsPanel extends JPanel {
 		add(lblAiDifficulty);
 
 		rdbtnEasy.setBounds(367, 230, 109, 23);
+		rdbtnEasy.setContentAreaFilled(false);
 		rdbtnEasy.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -248,6 +253,7 @@ public class GameOptionsPanel extends JPanel {
 		add(rdbtnEasy);
 
 		rdbtnHard.setBounds(367, 250, 109, 23);
+		rdbtnHard.setContentAreaFilled(false);
 		add(rdbtnHard);
 
 		aiDiff.add(rdbtnEasy);
@@ -261,12 +267,14 @@ public class GameOptionsPanel extends JPanel {
 
 	private void setUpRandomBoardMode() {
 		chckbxRandomBoard.setBounds(200, 336, 130, 23);
+		chckbxRandomBoard.setContentAreaFilled(false);
 		add(chckbxRandomBoard);
 	}
 
 	private void setUpSpeedMode() {
 
 		chckbxSpeedMode.setBounds(200, 360, 97, 23);
+		chckbxSpeedMode.setContentAreaFilled(false);
 		chckbxSpeedMode.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -296,6 +304,7 @@ public class GameOptionsPanel extends JPanel {
 		add(aiStart);
 
 		whiteAiPlayer.setBounds(600, 360, 60, 20);
+		whiteAiPlayer.setContentAreaFilled(false);
 		whiteAiPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -330,6 +339,7 @@ public class GameOptionsPanel extends JPanel {
 		aiStartCol.add(whiteAiPlayer);
 
 		blackAiPlayer.setBounds(600, 330, 60, 20);
+		blackAiPlayer.setContentAreaFilled(false);
 		add(blackAiPlayer);
 		aiStartCol.add(blackAiPlayer);
 		whiteAiPlayer.doClick();
@@ -445,8 +455,13 @@ public class GameOptionsPanel extends JPanel {
 		dragonRight.setBounds(560, 0, 300, 650);
 		ImageIcon dragonRightImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
 		dragonRight.setIcon(dragonRightImage);
-
 		add(dragonRight);
+		
+		JLabel background = new JLabel();
+		background.setBounds(0, -10, 810, 740);
+		ImageIcon backgroundImage = new ImageIcon(getClass().getResource("/images/backgroundwood3.png"));
+		background.setIcon(backgroundImage);
+		add(background);
 
 	}
 

@@ -35,7 +35,7 @@ public class StatPanel extends JPanel {
 
 	private void setLabelText() {
 		JLabel statsText = new JLabel("User stats");
-		statsText.setBounds(330, 100, 200, 40);
+		statsText.setBounds(330, 140, 200, 40);
 		statsText.setFont(new Font(fontStyle, Font.BOLD, 28));
 		add(statsText);
 	}
@@ -62,20 +62,20 @@ public class StatPanel extends JPanel {
 			table.setEnabled(false);
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 			table.setRowSorter(sorter);
-			scrollPane.setBounds(20, 150, 750, 300);
+			scrollPane.setBounds(20, 240, 750, 300);
 			scrollPane.setViewportView(table);
 			add(scrollPane);
 		}
 
 		JLabel filterLebel = new JLabel();
 		filterLebel.setText("Filter:");
-		filterLebel.setBounds(70, 460, 70, 20);
+		filterLebel.setBounds(70, 550, 70, 20);
 		filterLebel.setFont(new Font(fontStyle, Font.BOLD, 20));
 		add(filterLebel);
 
 		filter = new JTextField();
 		filter.setFocusable(true);
-		filter.setBounds(150, 460, 120, 20);
+		filter.setBounds(150, 550, 120, 20);
 		filter.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent arg0) {
 			}
@@ -104,20 +104,29 @@ public class StatPanel extends JPanel {
 		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
 		logo.setIcon(homeImage);
 		add(logo);
+		
 		JLabel dragonLeftCorner = new JLabel();
-		dragonLeftCorner.setBounds(-80, -100, 460, 310);
+		dragonLeftCorner.setBounds(-120, -40, 460, 310);
 		ImageIcon dragonLeftCornerImage = new ImageIcon(getClass().getResource("/images/dragonleftcorner.png"));
 		dragonLeftCorner.setIcon(dragonLeftCornerImage);
 		add(dragonLeftCorner);
+		
 		JLabel dragonRightCorner = new JLabel();
-		dragonRightCorner.setBounds(510, -100, 460, 310);
+		dragonRightCorner.setBounds(530, -40, 460, 310);
 		ImageIcon dragonRightCornerImage = new ImageIcon(getClass().getResource("/images/dragonrightcorner.png"));
 		dragonRightCorner.setIcon(dragonRightCornerImage);
 		add(dragonRightCorner);
-		JLabel dragonHorizontal = new JLabel();
-		dragonHorizontal.setBounds(-40, 445, 820, 240);
-		ImageIcon dragonHorizontalImage = new ImageIcon(getClass().getResource("/images/dragonhorizontal.png"));
-		dragonHorizontal.setIcon(dragonHorizontalImage);
-		add(dragonHorizontal);
+		
+//		JLabel dragonHorizontal = new JLabel();
+//		dragonHorizontal.setBounds(-40, 445, 820, 240);
+//		ImageIcon dragonHorizontalImage = new ImageIcon(getClass().getResource("/images/dragonhorizontal.png"));
+//		dragonHorizontal.setIcon(dragonHorizontalImage);
+//		add(dragonHorizontal);
+		
+		JLabel background = new JLabel();
+		background.setBounds(0, -10, 810, 740);
+		ImageIcon backgroundImage = new ImageIcon(getClass().getResource("/images/backgroundwood3.png"));
+		background.setIcon(backgroundImage);
+		add(background);
 	}
 }

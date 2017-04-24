@@ -77,6 +77,7 @@ public class GeneralSettingsPanel extends JPanel {
 		musicOn = new JCheckBox("Music On");
 		musicOn.setSelected(settings.isMusicOn());
 		musicOn.setBounds(250, 200, 80, 20);
+		musicOn.setContentAreaFilled(false);
 		musicOn.addActionListener(new ActionListener() {
 
 			@Override
@@ -89,12 +90,14 @@ public class GeneralSettingsPanel extends JPanel {
 
 		musicVolume = new JSlider(-80, 6, settings.getMusicVolume());
 		musicVolume.setBounds(330, 200, 100, 20);
+		musicVolume.setOpaque(false);
 		musicVolume.setEnabled(settings.isMusicOn());
 		add(musicVolume);
 
 		soundOn = new JCheckBox("Sound On");
 		soundOn.setSelected(settings.isSoundOn());
 		soundOn.setBounds(250, 230, 80, 20);
+		soundOn.setContentAreaFilled(false);
 		soundOn.addActionListener(new ActionListener() {
 
 			@Override
@@ -107,6 +110,7 @@ public class GeneralSettingsPanel extends JPanel {
 
 		soundVolume = new JSlider(-80, 6, settings.getSoundVolume());
 		soundVolume.setBounds(330, 230, 100, 20);
+		soundVolume.setOpaque(false);
 		soundVolume.setEnabled(settings.isSoundOn());
 		add(soundVolume);
 	}
@@ -156,6 +160,7 @@ public class GeneralSettingsPanel extends JPanel {
 		add(redLabel);
 		redSlider = new JSlider(0, 255, settings.getColoursRed(colourPicker.getSelectedItem().toString()));
 		redSlider.setBounds(250, 350, 120, 20);
+		redSlider.setOpaque(false);
 		redSlider.addChangeListener(sliderChangeListener);
 		add(redSlider);
 		
@@ -164,6 +169,7 @@ public class GeneralSettingsPanel extends JPanel {
 		add(greenLabel);
 		greenSlider = new JSlider(0, 255, settings.getColoursGreen(colourPicker.getSelectedItem().toString()));
 		greenSlider.setBounds(250, 380, 120, 20);
+		greenSlider.setOpaque(false);
 		greenSlider.addChangeListener(sliderChangeListener);
 		add(greenSlider);
 			
@@ -172,6 +178,7 @@ public class GeneralSettingsPanel extends JPanel {
 		add(blueLabel);
 		blueSlider = new JSlider(0, 255, settings.getColoursBlue(colourPicker.getSelectedItem().toString()));
 		blueSlider.setBounds(250, 410, 120, 20);
+		blueSlider.setOpaque(false);
 		blueSlider.addChangeListener(sliderChangeListener);
 		add(blueSlider);
 
@@ -216,10 +223,12 @@ public class GeneralSettingsPanel extends JPanel {
 
 		styleOne = new JCheckBox("Style One");
 		styleOne.setBounds(500, 410, 80, 20);
+		styleOne.setContentAreaFilled(false);
 		styleOne.setSelected(settings.getPieceImageStyle().equals("pieceStyleOne"));
 
 		styleTwo = new JCheckBox("Style Two");
 		styleTwo.setBounds(580, 410, 80, 20);
+		styleTwo.setContentAreaFilled(false);
 		styleTwo.setSelected(settings.getPieceImageStyle().equals("pieceStyleTwo"));
 
 		pieceTypes = new ButtonGroup();
@@ -278,5 +287,11 @@ public class GeneralSettingsPanel extends JPanel {
 		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
 		dragonRight.setIcon(homeImage);
 		add(dragonRight);
+		
+		JLabel background = new JLabel();
+		background.setBounds(0, -10, 810, 740);
+		ImageIcon backgroundImage = new ImageIcon(getClass().getResource("/images/backgroundwood3.png"));
+		background.setIcon(backgroundImage);
+		add(background);
 	}
 }
