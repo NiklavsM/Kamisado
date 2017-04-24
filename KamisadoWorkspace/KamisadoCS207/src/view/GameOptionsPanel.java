@@ -207,6 +207,7 @@ public class GameOptionsPanel extends JPanel {
 		add(rdbtnTwoPlayer);
 
 		rdbtnNetworkPlay.setBounds(200, 280, 109, 25);
+		rdbtnNetworkPlay.setContentAreaFilled(false);
 		rdbtnNetworkPlay.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -430,20 +431,20 @@ public class GameOptionsPanel extends JPanel {
 
 		JLabel logo = new JLabel();
 		logo.setBounds(260, 0, 500, 100);
-		ImageIcon homeImage = new ImageIcon(getClass().getResource("/images/logo.png"));
-		logo.setIcon(homeImage);
+		ImageIcon tempImage = new ImageIcon(getClass().getResource("/images/logo.png"));
+		logo.setIcon(tempImage);
 		add(logo);
 
 		JLabel dragonLeft = new JLabel();
 		dragonLeft.setBounds(-10, 0, 300, 650);
-		homeImage = new ImageIcon(getClass().getResource("/images/dragonleft.png"));
-		dragonLeft.setIcon(homeImage);
+		ImageIcon dragonLeftImage = new ImageIcon(getClass().getResource("/images/dragonleft.png"));
+		dragonLeft.setIcon(dragonLeftImage);
 		add(dragonLeft);
 
 		JLabel dragonRight = new JLabel();
 		dragonRight.setBounds(555, 0, 300, 650);
-		homeImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
-		dragonRight.setIcon(homeImage);
+		ImageIcon dragonRightImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
+		dragonRight.setIcon(dragonRightImage);
 		add(dragonRight);
 
 	}

@@ -10,7 +10,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.Controller;
@@ -30,13 +32,20 @@ public class InGameOptions extends JPanel {
 	private Color buttonColor;
 
 	public InGameOptions(Controller controller) {
-		setBackground(new Color(255, 219, 137));
+		//setBackground(new Color(255, 219, 137));
 		setLayout(new FlowLayout());
+		setLayout(null);
 		this.setSize(400, 300);
 		this.setFocusable(false);
 		buttonColor = new Color(252, 251, 247);
+		JLabel background = new JLabel();
 
 		setUpButtons(controller);
+		
+		ImageIcon woodImage = new ImageIcon(getClass().getResource("/images/backgroundwood.png"));
+		background.setIcon(woodImage);
+		background.setBounds(0, 0, 900, 100);
+		add(background);
 
 	}
 
