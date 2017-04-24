@@ -50,6 +50,7 @@ public class InGameOptions extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.killGame();
+				controller.disconnect();
 			}
 		});
 

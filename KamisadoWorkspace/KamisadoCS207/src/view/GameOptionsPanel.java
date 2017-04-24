@@ -170,7 +170,7 @@ public class GameOptionsPanel extends JPanel {
 		lblGameType.setBounds(200, 200, 120, 20);
 		add(lblGameType);
 
-		rdbtnSingleplayer.setBounds(200, 230, 109, 23);
+		rdbtnSingleplayer.setBounds(200, 230, 109, 25);
 		rdbtnSingleplayer.addItemListener(new ItemListener() {
 
 			@Override
@@ -193,7 +193,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(rdbtnSingleplayer);
 
-		rdbtnTwoPlayer.setBounds(200, 250, 109, 23);
+		rdbtnTwoPlayer.setBounds(200, 255, 109, 25);
 		rdbtnTwoPlayer.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -206,7 +206,7 @@ public class GameOptionsPanel extends JPanel {
 		});
 		add(rdbtnTwoPlayer);
 
-		rdbtnNetworkPlay.setBounds(200, 270, 109, 23);
+		rdbtnNetworkPlay.setBounds(200, 280, 109, 25);
 		rdbtnNetworkPlay.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
