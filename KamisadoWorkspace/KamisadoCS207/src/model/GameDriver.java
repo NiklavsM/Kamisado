@@ -260,8 +260,6 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 						if (tryToMove((Position) arg)) {
 							currentState.setFirstMove(false);
 							nextTurn(0);
-//								currentState.getPlayerToMove().incrementScore(1);
-//							}
 						}
 					}
 				} else if (tryToMove((Position) arg)) {

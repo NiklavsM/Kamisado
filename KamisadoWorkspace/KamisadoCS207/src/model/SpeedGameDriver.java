@@ -61,7 +61,7 @@ public class SpeedGameDriver extends GameDriver implements MyObserver, MyObserva
 				loser = currentState.getPlayerBlack();
 			}
 			this.tellAll(winner);
-			incrementScoreAtEndOfGame(currentState.getPreviousMove().pieceMoved(), winner);
+			incrementScoreAtEndOfGame(null, winner);
 			updateStats(winner, loser);
 			this.tellAll(currentState);
 			timer.stop();
