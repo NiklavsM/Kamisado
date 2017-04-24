@@ -307,8 +307,9 @@ public class Controller implements Serializable {
 		this.client = client;
 	}
 
-	public void disconnectClient() {
-		if(server !=null){
+	public void disconnect() {
+		
+		if (server != null) {
 			server.disconnect();
 			server = null;
 		}

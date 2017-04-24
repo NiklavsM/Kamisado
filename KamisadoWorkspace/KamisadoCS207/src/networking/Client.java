@@ -58,7 +58,8 @@ public class Client extends Player implements Runnable, MyObserver {
 			}
 			return true;
 		} catch (Throwable e) {
-			disconnected();
+			controller.disconnect();
+			JOptionPane.showMessageDialog(null, "Connection Failed");
 			return false;
 		}
 	}
@@ -98,7 +99,8 @@ public class Client extends Player implements Runnable, MyObserver {
 				}
 			}
 		} catch (Throwable e) {
-			disconnected();
+			controller.disconnect();
+			JOptionPane.showMessageDialog(null, "Connection Failed");
 			return;
 		}
 	}
@@ -113,7 +115,8 @@ public class Client extends Player implements Runnable, MyObserver {
 				oout.writeObject(pos.getY());
 				oout.flush();
 			} catch (Throwable e) {
-				disconnected();
+				controller.disconnect();
+				JOptionPane.showMessageDialog(null, "Connection Failed");
 			}
 		}
 	}
@@ -138,7 +141,8 @@ public class Client extends Player implements Runnable, MyObserver {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			disconnected();
+			controller.disconnect();
+			JOptionPane.showMessageDialog(null, "Connection Failed");
 		}
 		return option;
 	}
@@ -172,7 +176,8 @@ public class Client extends Player implements Runnable, MyObserver {
 			oout.flush();
 
 		} catch (IOException e) {
-			disconnected();
+			controller.disconnect();
+			JOptionPane.showMessageDialog(null, "Connection Failed");
 		}
 	}
 
@@ -181,7 +186,8 @@ public class Client extends Player implements Runnable, MyObserver {
 			oout.writeObject("rematch");
 			oout.flush();
 		} catch (IOException e) {
-			disconnected();
+			controller.disconnect();
+			JOptionPane.showMessageDialog(null, "Connection Failed");
 			e.printStackTrace();
 		}
 	}
@@ -198,6 +204,5 @@ public class Client extends Player implements Runnable, MyObserver {
 			e.printStackTrace();
 		}
 		controller.killGame();
-		JOptionPane.showMessageDialog(null, "Connection Failed");
 	}
 }
