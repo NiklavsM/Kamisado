@@ -19,11 +19,7 @@ public class Piece implements Serializable {
 	public Piece(Piece piece) {
 		this.team = piece.getTeam();
 		this.pieceType = piece.getPieceType();
-		this.pieceColour = piece.getPieceName();
-	}
-
-	public String getPieceName() {
-		return pieceColour;
+		this.pieceColour = piece.getPieceColour();
 	}
 
 	public PieceType getPieceType() {

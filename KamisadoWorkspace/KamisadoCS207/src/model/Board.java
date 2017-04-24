@@ -165,12 +165,6 @@ public final class Board implements Serializable {
 		return homeRowCounter;
 	}
 
-	// private Board make(Position startPosition, Position endPosition) {
-	// Board freshBoard = new Board(this);
-	// freshBoard.move(startPosition, endPosition);
-	// return freshBoard;
-	// }
-
 	public void move(Position startPosition, Position endPosition) {
 		PieceType pieceType = pieces[startPosition.getX()][startPosition.getY()].getPieceType();
 		int endx = endPosition.getX();
@@ -222,19 +216,6 @@ public final class Board implements Serializable {
 		return pieceToRemove;
 	}
 
-	// private Position findPiecePos(Piece piece) {
-	// Position foundPos = null;
-	// for (int i = 0; i < boardSize; i++) {
-	// for (int j = 0; j < boardSize; j++) {
-	// if (pieces[i][j].equals(piece)) {
-	// foundPos = new Position(i, j);
-	// break;
-	// }
-	// }
-	// }
-	// return foundPos;
-	// }
-
 	public boolean gameOver(int y) {
 		return y == 0 || y == 7;
 	}
@@ -262,4 +243,14 @@ public final class Board implements Serializable {
 		return colourToMove;
 	}
 
+	public Piece findPiece(String teamName, String colourName){
+		for(int i = 0; i < boardSize; i++){
+			for(int j = 0; j < boardSize; j++){
+				if(pieces[i][j] != null && (pieces[i][j].getTeam().equals(teamName) && pieces[i][j].getPieceColour().equals(colourName))){
+					return pieces[i][j];
+				}
+			}
+		}
+		return null;
+	}
 }

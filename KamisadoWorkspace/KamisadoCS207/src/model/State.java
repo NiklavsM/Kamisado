@@ -82,7 +82,7 @@ public final class State implements Serializable {
 		for (int i = 0; i <= boardUpperLimit; i++) {
 			for (int j = 0; j <= boardUpperLimit; j++) {
 				if (pieces[i][j] != null) {
-					if (pieces[i][j].getPieceName().equals(colourToMove)
+					if (pieces[i][j].getPieceColour().equals(colourToMove)
 							&& pieces[i][j].getTeam().equals(PlayerToMove.getPlayerTeam())) {
 						pieceToMove = new Position(i, j);
 						return pieceToMove;

@@ -2,6 +2,7 @@ package player;
 
 import java.util.ArrayList;
 
+import model.Board;
 import model.Move;
 import model.Position;
 import model.State;
@@ -17,8 +18,9 @@ public class TreeNode {
 
 	public TreeNode(int depth, State boardState, int playerToMove) {
 		this.children = new ArrayList<>();
-		this.boardState = new State(boardState, boardState.getBoard());
 		this.playerToMove = playerToMove;
+		this.boardState = new State(boardState, boardState.getBoard());
+
 		this.previousMove = new Move(boardState.getPreviousMove());
 		this.previousMove.setScore(5);
 		this.depth = depth;
@@ -49,11 +51,11 @@ public class TreeNode {
 			calcScore();
 			return;
 		}
-		if (playerToMove == 0 && y == 7) {
+		if (playerToMove == 0 && y == 0) {
 			previousMove.setScore(-1000000000);
 			return;
 		}
-		if (playerToMove == 1 && y == 0) {
+		if (playerToMove == 1 && y == 7) {
 			previousMove.setScore(1000000000);
 			return;
 		}
@@ -61,9 +63,9 @@ public class TreeNode {
 			for (Position pos : validMovesForThisPlayer) {
 				State state = boardState.make(pos);
 				if (state.isSumoPush()) {
-					childNode = new TreeNode((depth - 1), new State(state, state.getBoard()), (playerToMove));
+					childNode = new TreeNode((depth - 1), state, (playerToMove));
 				} else {
-					childNode = new TreeNode((depth - 1), new State(state, state.getBoard()), (1 - playerToMove));
+					childNode = new TreeNode((depth - 1), state, (1 - playerToMove));
 				}
 				children.add(childNode);
 				childNode.generateChildren();
@@ -74,37 +76,37 @@ public class TreeNode {
 				previousMove.setScore(minScore() + 1);
 			}
 		} else {
-			State state = new State(boardState, boardState.getBoard());
-			state.flipPlayerToMove();
-			childNode = new TreeNode(depth - 1, new State(state, state.getBoard()), (1 - playerToMove));
+			Board board = boardState.getBoard();
+			boardState.setColourToMove(board.getColourName(board.findColor(boardState.getStartingPosition())));
+			childNode = new TreeNode(depth - 1, boardState, (1 - playerToMove));
 			children.add(childNode);
 			childNode.generateChildren();
-			previousMove.setScore(childNode.getScore());
+			previousMove.setScore(childNode.getScore());			
 		}
 	}
 
 	private void calcScore() {
 		int score = 0;
-		if (playerToMove == 0) {
+		if (playerToMove == 1) {
 			if (validMovesForThisPlayer.isEmpty()) {
-				score += 400;
+				score += 100;
 			} else {
-				score -= validMovesForThisPlayer.size() * 45;
+				score -= validMovesForThisPlayer.size() * 15;
 				for (Position position : validMovesForThisPlayer) {
 					if (position.getY() == 0) {
-						score -= 700;
+						score -= 800;
 					}
 				}
 			}
 
 		} else {
 			if (validMovesForThisPlayer.isEmpty()) {
-				score -= 400;
+				score -= 100;
 			} else {
-				score += validMovesForThisPlayer.size() * 45;
+				score += validMovesForThisPlayer.size() * 15;
 				for (Position position : validMovesForThisPlayer) {
 					if (position.getY() == 7) {
-						score += 700;
+						score += 800;
 					}
 				}
 			}
