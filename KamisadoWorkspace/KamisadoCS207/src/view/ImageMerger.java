@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 public class ImageMerger implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int width = 31;
 	private int height = 31;
 

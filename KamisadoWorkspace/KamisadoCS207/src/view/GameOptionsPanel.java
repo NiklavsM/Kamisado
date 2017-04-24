@@ -23,6 +23,7 @@ import controller.Controller;
 
 public class GameOptionsPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JTextField txtBlackName;
 	private JTextField txtWhiteName;
 	private JCheckBox chckbxSpeedMode;
@@ -49,7 +50,7 @@ public class GameOptionsPanel extends JPanel {
 	private JComboBox<Integer> gameLength;
 	private JLabel gameRoundLabel;
 	private String fontStyle = "Sitka Text";
-	Controller controller;
+	private Controller controller;
 
 	public GameOptionsPanel(Controller controller) {
 		UIManager.put("Button.focus", Color.red);

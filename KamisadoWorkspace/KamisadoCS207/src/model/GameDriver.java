@@ -19,7 +19,7 @@ public class GameDriver implements MyObservable, MyObserver, Serializable {
 	private static final long serialVersionUID = 1L;
 	public Stack<State> history;
 	public State currentState;
-	ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
+	public ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
 	public int scoreToGet;
 	public int currentGameNum = 1;
 
