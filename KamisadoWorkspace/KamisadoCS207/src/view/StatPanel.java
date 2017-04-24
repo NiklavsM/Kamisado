@@ -110,7 +110,7 @@ public class StatPanel extends JPanel {
 		dragonLeftCorner.setIcon(dragonLeftCornerImage);
 		add(dragonLeftCorner);
 		JLabel dragonRightCorner = new JLabel();
-		dragonRightCorner.setBounds(500, -100, 460, 310);
+		dragonRightCorner.setBounds(510, -100, 460, 310);
 		ImageIcon dragonRightCornerImage = new ImageIcon(getClass().getResource("/images/dragonrightcorner.png"));
 		dragonRightCorner.setIcon(dragonRightCornerImage);
 		add(dragonRightCorner);

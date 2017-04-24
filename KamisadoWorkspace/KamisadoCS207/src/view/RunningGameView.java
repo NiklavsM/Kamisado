@@ -109,7 +109,7 @@ public class RunningGameView extends JPanel implements MyObserver {
 		gameLog.setLineWrap(true);
 		gameLog.append("Round 1:" + "\n");
 		gameLog.setFocusable(false);
-		
+
 		JScrollPane scroll = new JScrollPane(gameLog);
 		teamLabel = new JPanel();
 		teamLabel.setFocusable(false);
@@ -298,8 +298,8 @@ public class RunningGameView extends JPanel implements MyObserver {
 				label.setText("[" + x + ":" + y + "]");
 				label.setOpaque(true);
 				label.setVisible(true);
-				label.setBounds((x * 70) + gameBoardPosX.intValue() + 27,
-						((7 - y) * 70) + gameBoardPosY.intValue() + 30, 25, 11);
+				label.setBounds((x * 70) + gameBoardPosX.intValue() + 36,
+						((7 - y) * 70) + gameBoardPosY.intValue() + 32, 25, 11);
 				label.setPreferredSize(label.getSize());
 				gridViewGlassPane.add(label);
 				gridViewGlassPane.repaint();
@@ -439,5 +439,4 @@ public class RunningGameView extends JPanel implements MyObserver {
 		}
 		settingManager.saveGeneralSettings(settings);
 	}
-
 }

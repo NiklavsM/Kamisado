@@ -442,9 +442,10 @@ public class GameOptionsPanel extends JPanel {
 		add(dragonLeft);
 
 		JLabel dragonRight = new JLabel();
-		dragonRight.setBounds(555, 0, 300, 650);
+		dragonRight.setBounds(560, 0, 300, 650);
 		ImageIcon dragonRightImage = new ImageIcon(getClass().getResource("/images/dragonright.png"));
 		dragonRight.setIcon(dragonRightImage);
+
 		add(dragonRight);
 
 	}

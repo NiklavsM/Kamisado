@@ -34,18 +34,18 @@ public class InGameOptions extends JPanel {
 	public InGameOptions(Controller controller) {
 		//setBackground(new Color(255, 219, 137));
 		setLayout(new FlowLayout());
-		setLayout(null);
+		//setLayout(null);
 		this.setSize(400, 300);
 		this.setFocusable(false);
 		buttonColor = new Color(252, 251, 247);
-		JLabel background = new JLabel();
+
 
 		setUpButtons(controller);
-		
-		ImageIcon woodImage = new ImageIcon(getClass().getResource("/images/backgroundwood.png"));
-		background.setIcon(woodImage);
-		background.setBounds(0, 0, 900, 100);
-		add(background);
+//		JLabel background = new JLabel();
+//		ImageIcon woodImage = new ImageIcon(getClass().getResource("/images/backgroundwood.png"));
+//		background.setIcon(woodImage);
+//		background.setBounds(0, 0, 900, 100);
+//		add(background);
 
 	}
 
