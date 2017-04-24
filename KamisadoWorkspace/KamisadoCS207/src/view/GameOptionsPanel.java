@@ -188,7 +188,6 @@ public class GameOptionsPanel extends JPanel {
 					AiSelectedField.setEditable(true);
 
 					showAIOptions(false);
-					aiDiff.clearSelection();
 				}
 			}
 		});
@@ -199,12 +198,9 @@ public class GameOptionsPanel extends JPanel {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				if (arg0.getStateChange() == ItemEvent.SELECTED) {
-					aiStartCol.clearSelection();
 					AiSelectedField.setEditable(true);
 					AiSelectedField.setFocusable(true);
 					AiSelectedField.setText("New user");
-					networkOption.clearSelection();
-				} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 				}
 			}
 		});

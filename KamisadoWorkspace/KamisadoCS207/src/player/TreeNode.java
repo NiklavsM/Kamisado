@@ -81,12 +81,7 @@ public class TreeNode {
 			childNode = new TreeNode(depth - 1, boardState, (1 - playerToMove));
 			children.add(childNode);
 			childNode.generateChildren();
-			if (playerToMove == 0) {
-				previousMove.setScore(childNode.getScore()+100);
-			} else {
-				previousMove.setScore(childNode.getScore()-100);
-			}
-			
+			previousMove.setScore(childNode.getScore());			
 		}
 	}
 

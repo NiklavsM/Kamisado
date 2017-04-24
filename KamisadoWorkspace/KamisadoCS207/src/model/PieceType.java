@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 public enum PieceType implements Serializable {
 
-	Standard("Standard", 7, 0, 0), Sumo("Sumo", 5, 1, 1), DoubleSumo("Double", 3, 2, 3), TripleSumo("Triple", 1, 3,
-			7), QuadrupleSumo("Quadruple", 0, 0, 15);
+	Standard("Standard", 7, 0, 0), 
+	Sumo("Sumo", 5, 1, 1), 
+	DoubleSumo("Double", 3, 2, 2), 
+	TripleSumo("Triple", 1, 3, 4), 
+	QuadrupleSumo("Quadruple", 0, 0, 8);
 
 	private final String value;
 	private final int maxMovement;
