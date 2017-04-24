@@ -115,13 +115,7 @@ public class StatPanel extends JPanel {
 		dragonRightCorner.setBounds(530, -40, 460, 310);
 		ImageIcon dragonRightCornerImage = new ImageIcon(getClass().getResource("/images/dragonrightcorner.png"));
 		dragonRightCorner.setIcon(dragonRightCornerImage);
-		add(dragonRightCorner);
-		
-//		JLabel dragonHorizontal = new JLabel();
-//		dragonHorizontal.setBounds(-40, 445, 820, 240);
-//		ImageIcon dragonHorizontalImage = new ImageIcon(getClass().getResource("/images/dragonhorizontal.png"));
-//		dragonHorizontal.setIcon(dragonHorizontalImage);
-//		add(dragonHorizontal);
+		add(dragonRightCorner);		
 		
 		JLabel background = new JLabel();
 		background.setBounds(0, -10, 810, 740);
