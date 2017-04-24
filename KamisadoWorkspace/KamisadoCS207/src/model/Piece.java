@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Piece implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	GeneralSettingsManager settings = new GeneralSettingsManager();
 	private String team;
 	private PieceType pieceType;
 	private String pieceColour;

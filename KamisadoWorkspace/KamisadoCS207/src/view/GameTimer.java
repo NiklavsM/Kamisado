@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -15,8 +16,8 @@ import model.TimerInfo;
 public class GameTimer extends JPanel implements MyObserver {
 
 	private static final long serialVersionUID = 1L;
-	JLabel time;
-	JProgressBar timeProgressBar;
+	private JLabel time;
+	private JProgressBar timeProgressBar;
 
 	public GameTimer() {
 		time = new JLabel();
@@ -50,6 +51,7 @@ public class GameTimer extends JPanel implements MyObserver {
 					}
 
 				};
+				timeProgressBar.setForeground(Color.blue);
 				timeProgressBar.setString("Remaining time: ");
 				timeProgressBar.setStringPainted(true);
 				timeProgressBar.setValue(timeLeft);

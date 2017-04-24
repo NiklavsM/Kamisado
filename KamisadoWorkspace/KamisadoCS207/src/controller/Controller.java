@@ -2,7 +2,6 @@ package controller;
 
 import java.io.Serializable;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import model.GameDriver;
