@@ -147,9 +147,11 @@ public class RunningGameView extends JPanel implements MyObserver {
 			String displayMessage = player.getPlayerName() + " wins this round!";
 			roundOrGameOver(displayMessage);
 			inGameOptions.displayContinue(true);
+			inGameOptions.displayRematch(false);
 		} else if (arg instanceof String) {
 			roundOrGameOver((String) arg);
 			inGameOptions.displayRematch(true);
+			inGameOptions.displayContinue(false);
 		} else if (arg instanceof State) {
 			State state = (State) arg;
 			GameDriver gameDriver = (GameDriver) o;

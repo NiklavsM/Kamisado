@@ -42,7 +42,7 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	private GeneralSettingsManager manager;
 	private GeneralSettings settings;
 	private Controller controller;
-	transient private ImageMerger merger = new ImageMerger();
+	transient private ImageMerger merger;
 
 	public GUIBoardView(Controller controller) {
 		UIManager.put("Button.focus", Color.red);
@@ -65,11 +65,18 @@ public class GUIBoardView extends JPanel implements MyObservable, KeyListener {
 	}
 
 	public BufferedImage imageChooser(Piece piece) {
+		merger = new ImageMerger();
 		if (piece == null) {
 			return null;
 		}
 		manager = new GeneralSettingsManager();
 		settings = manager.getGeneralSettings();
+//		System.out.println(piece.getPieceColour());
+//		System.out.println(MyColour.valueOf(piece.getPieceColour()));
+//		System.out.println(MyColour.valueOf(piece.getPieceColour()).getColour());
+//		System.out.println(piece.getTeam());
+//		System.out.println(piece.getPieceType().toString());
+//		System.out.println();
 		if (settings.getPieceImageStyle().equals("pieceStyleOne")) {
 			return merger.mergeRegularStyle(MyColour.valueOf(piece.getPieceColour()).getColour(), piece.getTeam(),
 					piece.getPieceType().toString());

@@ -317,7 +317,6 @@ public class Controller implements Serializable {
 			client.disconnected();
 			client = null;
 		}
-
 	}
 
 }
