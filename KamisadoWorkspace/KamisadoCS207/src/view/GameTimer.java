@@ -1,7 +1,9 @@
 package view;
 
 import java.awt.Font;
+import java.awt.Graphics;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -22,6 +24,14 @@ public class GameTimer extends JPanel implements MyObserver {
 		time.setText(" ");
 		time.setFont(new Font("sherif", Font.BOLD, 18));
 		this.add(time);
+	}
+	
+	@Override
+	  protected void paintComponent(Graphics g) {
+
+	    super.paintComponent(g);
+	    ImageIcon woodImage = new ImageIcon(getClass().getResource("/images/backgroundwood.png"));
+      g.drawImage(woodImage.getImage(), 0, 0, null);
 	}
 
 	@Override
