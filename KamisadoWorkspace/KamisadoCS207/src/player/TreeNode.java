@@ -24,7 +24,7 @@ public class TreeNode {
 		this.previousMove = new Move(boardState.getPreviousMove());
 		this.previousMove.setScore(5);
 		this.depth = depth;
-		if (depth == 5) {
+		if (depth == 4) {
 			this.boardState.calcValidMoves(this.boardState.getPieceToMove());
 		} else {
 			this.boardState.calcValidMoves(this.boardState.calcPieceToMove());
@@ -89,7 +89,7 @@ public class TreeNode {
 		int score = 0;
 		if (playerToMove == 1) {
 			if (validMovesForThisPlayer.isEmpty()) {
-				score += 100;
+				score += 1000;
 			} else {
 				score -= validMovesForThisPlayer.size() * 15;
 				for (Position position : validMovesForThisPlayer) {
@@ -101,7 +101,7 @@ public class TreeNode {
 
 		} else {
 			if (validMovesForThisPlayer.isEmpty()) {
-				score -= 100;
+				score -= 1000;
 			} else {
 				score += validMovesForThisPlayer.size() * 15;
 				for (Position position : validMovesForThisPlayer) {
