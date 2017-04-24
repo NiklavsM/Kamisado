@@ -66,10 +66,6 @@ public class MenuFrame extends JFrame {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
 					controller.disconnectClient();
-					if(controller.getClient()!=null){
-						controller.getClient().disconnected();
-						controller.setClient(null);
-					}
 					ShowPanel("New Game");
 				}
 			}
@@ -117,6 +113,7 @@ public class MenuFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (displayConfirmExitMessage() == 0) {
 					controller.killGame();
+					controller.disconnectClient();
 					GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(controller);
 					addPanel(generalSettingsPanel, "General Settings");
 					ShowPanel("General Settings");
