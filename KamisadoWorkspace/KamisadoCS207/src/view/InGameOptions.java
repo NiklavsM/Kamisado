@@ -37,7 +37,7 @@ public class InGameOptions extends JPanel {
 		setLayout(new FlowLayout());
 		this.setSize(400, 300);
 		this.setFocusable(false);
-		buttonColor = new Color(252, 251, 247);
+		buttonColor = new Color(255, 237, 183);
 
 		setUpButtons(controller);
 	}
